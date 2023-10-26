@@ -7,13 +7,13 @@ startup
 	vars.Helper.LoadSceneManager = true;
 	dynamic[,] _settings =
 	{
-		{ "Splits", false, "Splits", null },
-			{ "SkillAttack", false, "Gain Tail Attack", "Splits" },
-			{ "SkillHover", false, "Gain Hover", "Splits" },
-			{ "SkillDive", false, "Gain Dive", "Splits" },
-			{ "SkillProjectile", false, "Gain Projectile", "Splits" },
-			{ "FlyUpLoop", false, "Ending Split - Fly Up Loop", "Splits" },
-		{ "SaveQuitSplit", false, "TEMPORARY - Save and Quit Split", null },
+		{ "Splits", true, "Splits", null },
+			{ "SkillAttack", true, "Gain Tail Attack", "Splits" },
+			{ "SkillHover", true, "Gain Hover", "Splits" },
+			{ "SkillDive", true, "Gain Dive", "Splits" },
+			{ "SkillProjectile", true, "Gain Projectile", "Splits" },
+			{ "FlyUpLoop", true, "Ending Split - Fly Up Loop", "Splits" },
+		{ "SaveQuitSplit", true, "TEMPORARY - Save and Quit Split", null },
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.Helper.AlertGameTime();
