@@ -5,7 +5,18 @@ startup
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
 	vars.Helper.GameName = "Cavern of Dreams";
 	vars.Helper.LoadSceneManager = true;
-	vars.Helper.AlertLoadless();
+	dynamic[,] _settings =
+	{
+		{ "Splits", false, "Splits", null },
+			{ "SkillAttack", false, "Gain Tail Attack", "Splits" },
+			{ "SkillHover", false, "Gain Hover", "Splits" },
+			{ "SkillDive", false, "Gain Dive", "Splits" },
+			{ "SkillProjectile", false, "Gain Projectile", "Splits" },
+			{ "FlyUpLoop", false, "Ending Split - Fly Up Loop", "Splits" },
+		{ "SaveQuitSplit", false, "TEMPORARY - Save and Quit Split", null },
+	};
+	vars.Helper.Settings.Create(_settings);
+	vars.Helper.AlertGameTime();
 }
 
 init
@@ -35,7 +46,14 @@ update
 
 split
 {
+	if (old.cutsceneAnim != current.cutsceneAnim && 
+		(settings["SkillAttack"] && current.cutsceneAnim == "SkillAttack" || 
+		settings["SkillHover"] && current.cutsceneAnim == "SkillHover" || 
+		settings["SkillDive"] && current.cutsceneAnim == "SkillDive" || 
+		settings["SkillProjectile"] && current.cutsceneAnim == "SkillProjectile")) return true;
+	
 	if (old.cutsceneAnim != current.cutsceneAnim && current.cutsceneAnim == "FlyUpLoop") return true;
+	if (settings["SaveQuitSplit"] && old.activeScene == "Game" && current.activeScene == "MainMenu") return true;
 }
 
 isLoading
