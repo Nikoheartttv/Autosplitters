@@ -2,9 +2,10 @@ state("Dexter Stardust"){}
 
 startup
 {
-	vars.Log = (Action<object>)(value => print(String.Concat("[Dexter Stardust] ", value)));
-	vars.Unity = Assembly.Load(File.ReadAllBytes(@"Components\UnityASL.bin")).CreateInstance("UnityASL.Unity");
-	vars.Unity.LoadSceneManager = true;
+	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
+	vars.Helper.GameName = "The Stanley Parable: Ultra Deluxe";
+	vars.Helper.LoadSceneManager = true;
+	vars.Helper.AlertLoadless();
 
 	// Episode End Scene Names
 	vars.Splits = new List<string>()
@@ -33,24 +34,12 @@ onStart
 	print("\nNew run started!\n----------------\n");
 }
 
-init
-{
-	vars.Unity.Load(game);
-}
-
 update
 {
-	if (!vars.Unity.Loaded) return false;
-	
-	vars.Unity.Update();
-	
-	if (vars.Unity.Scenes.Active.Name != "")
-	{
-		current.Scene = vars.Unity.Scenes.Active.Name;
-	}
+	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.Scene = vars.Helper.Scenes.Active.Name;
     
 	// Logging Scene Changes
-	if (old.Scene != current.Scene) vars.Log(String.Concat("Scene Change: ", vars.Unity.Scenes.Active.Index.ToString(), ": ", current.Scene));
+	if (old.Scene != current.Scene) vars.Log("Old: \"" + old.Scene + "\", Current: \"" + current.Scene + "\"");
 }
 
 start
@@ -81,14 +70,4 @@ reset
 onReset
 {
 	print("\nRESET\n-----\n");
-}
-
-exit
-{
-    vars.Unity.Reset();
-}
-
-shutdown
-{
-	vars.Unity.Reset();
 }
