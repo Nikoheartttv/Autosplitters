@@ -13,22 +13,15 @@ startup
 		"Menu_UD_MASTER",
 	};
 }
-	
+
 init
 {
 	vars.Helper.TryLoad  = (Func<dynamic, bool>)(mono =>
 	{
 		var GM = mono["GameMaster", 1];
-		var FOC = mono["FigleyOverlayController"];
-		var SC = mono["StanleyController"];
-
-		vars.Helper["PauseMenu"] = GM.Make<bool>("PAUSEMENUACTIVE");
-		vars.Helper["CollectedFigley"] = FOC.Make<int>("Instance", "count");
-		vars.Helper["Movement"] = SC.Make<Vector3f>("_instance", "movementInput");
-		vars.Helper["MouseMoved"] = GM.Make<int>("_instance", "MouseMoved");
-	
+		vars.Helper["PauseMenu"] = GM.Make<bool>("PAUSEMENUACTIVE");	
 		return true;
-	});
+	});	
 }
 
 update
@@ -40,28 +33,6 @@ update
 	if(current.loadingScene != old.loadingScene) vars.Log("loading: Old: \"" + old.loadingScene + "\", Current: \"" + current.loadingScene + "\"");
 }
 
-start
-{
-	return (current.activeScene == "map1_UD_MASTER" && ((vars.Helper["MouseMoved"].Changed) || (vars.Helper["Movement"].Changed)));
-}
-
-onStart
-{
-	print("\nNew run started!\n----------------\n");
-}
-
-split
-{
-	return ((current.activeScene == "map1_UD_MASTER" && old.activeScene == "LoadingScene_UD_MASTER") 
-			|| (current.activeScene == "MemoryzonePartTwo_UD_MASTER" && old.activeScene == "LoadingScene_UD_MASTER")
-			|| (current.activeScene == "MemoryzonePartThree_UD_MASTER" && old.activeScene == "LoadingScene_UD_MASTER"));
-}
-
-onSplit
-{
-	print("\nSplit\n-----\n");
-}
-
 isLoading
 {
 	if (!(vars.Helper["PauseMenu"].Current || vars.LoadingScenes.Contains(current.activeScene))) 
@@ -69,11 +40,6 @@ isLoading
 		return false;
 	}
 	return true;
-}
-
-onReset
-{
-	print("\nRESET\n-----\n");
 }
 
 exit
