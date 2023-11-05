@@ -5,6 +5,7 @@ startup
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
 	vars.Helper.GameName = "The Stanley Parable: Ultra Deluxe";
 	vars.Helper.LoadSceneManager = true;
+	vars.Helper.AlertGameTime();
 	
 	vars.LoadingScenes = new List<string>()
 	{
