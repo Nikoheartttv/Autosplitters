@@ -2,9 +2,9 @@ state("The Stanley Parable Ultra Deluxe"){}
 
 startup
 {
-	vars.Log = (Action<object>)(output => print("[The Stanley Parable Ultra Deluxe] " + output));
-	vars.Unity = Assembly.Load(File.ReadAllBytes(@"Components\UnityASL.bin")).CreateInstance("UnityASL.Unity");
-	vars.Unity.LoadSceneManager = true;
+	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
+	vars.Helper.GameName = "The Stanley Parable: Ultra Deluxe";
+	vars.Helper.LoadSceneManager = true;
 	
 	vars.LoadingScenes = new List<string>()
 	{
@@ -25,59 +25,49 @@ startup
 	}
 }
 	
+init
+{
+	vars.Helper.TryLoad  = (Func<dynamic, bool>)(mono =>
+	{
+		// var ST = helper.GetClass("Assembly-CSharp", "Singleton`1");
+		var GM = mono["GameMaster", 1];
+		var FOC = mono["FigleyOverlayController"];
+		var SC = mono["StanleyController"];
+
+		vars.Helper["PauseMenu"] = GM.Make<bool>("PAUSEMENUACTIVE");
+		vars.Helper["CollectedFigley"] = FOC.Make<int>("Instance", "count");
+		vars.Helper["Movement"] = SC.Make<Vector3f>("_instance", "movementInput");
+		vars.Helper["MouseMoved"] = GM.Make<int>("_instance", "MouseMoved");
+	
+		return true;
+	});
+}
+
+update
+{
+	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
+	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Loaded[0].Name))	current.loadingScene = vars.Helper.Scenes.Loaded[0].Name;
+
+	    
+	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
+	if(current.loadingScene != old.loadingScene) vars.Log("loading: Old: \"" + old.loadingScene + "\", Current: \"" + current.loadingScene + "\"");
+}
+
+start
+{
+	return (current.activeScene == "map1_UD_MASTER" && ((vars.Helper["MouseMoved"].Changed) || (vars.Helper["Movement"].Changed)));
+}
+
 onStart
 {
 	print("\nNew run started!\n----------------\n");
 }
 
-init
-{
-	vars.Unity.TryOnLoad = (Func<dynamic, bool>)(helper =>
-	{
-		var ST = helper.GetClass("Assembly-CSharp", "Singleton`1");
-		var GM = helper.GetClass("Assembly-CSharp", "GameMaster");
-		var FOC = helper.GetClass("Assembly-CSharp", "FigleyOverlayController");
-		var SC = helper.GetClass("Assembly-CSharp", "StanleyController");
-		var GMS = helper.GetParent(GM);
-						
-		vars.Unity.Make<bool>(GM.Static, GM["PAUSEMENUACTIVE"]).Name = "PauseMenu";
-		vars.Unity.Make<int>(FOC.Static, FOC["Instance"], FOC["count"]).Name = "CollectedFigley";
-		vars.Unity.Make<Vector3f>(SC.Static, SC["_instance"], SC["movementInput"]).Name = "Movement";
-		vars.Unity.Make<bool>(GMS.Static, GMS["_instance"], GM["MouseMoved"]).Name = "MouseMoved";
-		
-		// var FOC = helper.GetClass("Assembly-CSharp", "FigleyOverlayController");
-		// Variable for Figleys, array potentially needed to count figleys
-		
-		return true;
-	});
-	
-	vars.Unity.Load(game);
-}
-
-update
-{
-	if (!vars.Unity.Loaded) return false;
-	
-	vars.Unity.Update();
-	
-	if (vars.Unity.Scenes.Active.Name != "")
-	{
-		current.Scene = vars.Unity.Scenes.Active.Name;
-	}
-	    
-	if (old.Scene != current.Scene) vars.Log(String.Concat("Scene Change: ", vars.Unity.Scenes.Active.Index.ToString(), ": ", current.Scene));
-}
-
-start
-{
-	return (current.Scene == "map1_UD_MASTER" && ((vars.Unity["MouseMoved"].Changed) || (vars.Unity["Movement"].Changed)));
-}
-
 split
 {
-	return ((current.Scene == "map1_UD_MASTER" && old.Scene == "LoadingScene_UD_MASTER") 
-			|| (current.Scene == "MemoryzonePartTwo_UD_MASTER" && old.Scene == "LoadingScene_UD_MASTER")
-			|| (current.Scene == "MemoryzonePartThree_UD_MASTER" && old.Scene == "LoadingScene_UD_MASTER"));
+	return ((current.activeScene == "map1_UD_MASTER" && old.activeScene == "LoadingScene_UD_MASTER") 
+			|| (current.activeScene == "MemoryzonePartTwo_UD_MASTER" && old.activeScene == "LoadingScene_UD_MASTER")
+			|| (current.activeScene == "MemoryzonePartThree_UD_MASTER" && old.activeScene == "LoadingScene_UD_MASTER"));
 }
 
 onSplit
@@ -87,7 +77,7 @@ onSplit
 
 isLoading
 {
-	if (!(vars.Unity["PauseMenu"].Current || vars.LoadingScenes.Contains(current.Scene))) 
+	if (!(vars.Helper["PauseMenu"].Current || vars.LoadingScenes.Contains(current.activeScene))) 
 	{
 		return false;
 	}
@@ -97,15 +87,4 @@ isLoading
 onReset
 {
 	print("\nRESET\n-----\n");
-}
-
-exit
-{
-	timer.IsGameTimePaused = true;
-	vars.Unity.Reset();
-}
-
-shutdown
-{
-	vars.Unity.Reset();
 }
