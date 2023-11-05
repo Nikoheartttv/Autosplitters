@@ -60,7 +60,7 @@ startup
 		{ "AutoReset", false, "Auto Reset when going back to Menu", null },
 	};
 
-	vars.bossLevels = new List<string>() { "OrientalInsomniac", "InsomniacHard", "Boss2", "Lesmis" };
+	vars.bossLevels = new List<string>() { "OrientalInsomniac", "InsomniacHard", "Boss2", "Lesmis", "AthleteFinale" };
 
 	vars.rank = new dynamic[,]
 	{

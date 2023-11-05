@@ -5,13 +5,11 @@ state("Goosebumps_DeadOfNight")
 
 startup
 {
-	vars.Log = (Action<object>)(value => print(String.Concat("[Goosebumps_DeadOfNight] ", value)));
-	var bytes = File.ReadAllBytes(@"Components\LiveSplit.ASLHelper.bin");
-	var type = Assembly.Load(bytes).GetType("ASLHelper.Unity");
-	vars.Helper = Activator.CreateInstance(type, timer, this);
-	vars.Helper.LoadSceneManager = true;
+	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
+    vars.Helper.GameName = "Goosebumps Dead of Night";
+    vars.Helper.LoadSceneManager = true;
 		
-	dynamic[,] settingsArray =
+	dynamic[,] _settings =
 	{
 		{ "Scenes", true, "Scenes", null },
 			{ "Conservatory_Interactive", true,	"Conservatory", "Scenes" },
@@ -24,120 +22,57 @@ startup
 		{ "IL_Timer", false, "IL Runs (Start from Chapter)", null } 
 	};
 	
-	vars.settingsArray = settingsArray;
+	vars.Helper.Settings.Create(_settings);
+	vars.Helper.AlertGameTime();
 
-	for (int i = 0; i < vars.settingsArray.GetLength(0); i++)
-	{
-		var name = vars.settingsArray[i, 0];
-		var defaultSetting = vars.settingsArray[i, 1];
-		var description = vars.settingsArray[i, 2];
-		var parent = vars.settingsArray[i, 3];
-
-		settings.Add(name, defaultSetting, description, parent);
-	}
-
-	if (timer.CurrentTimingMethod == TimingMethod.RealTime)
-	{
-		var messageBox = MessageBox.Show(
-			"The game is run in IGT (Time without Loads - Game Time).\n"+
-			"LiveSplit is currently set to show Real Time (RTA).\n"+
-			"Would you like to set the timing method to Game Time?",
-			"LiveSplit | Goosebumps: Dead of Night", 
-			MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-		if (messageBox == DialogResult.Yes)
-			timer.CurrentTimingMethod = TimingMethod.GameTime;
-	}
-}
-
-init
-{
-	current.KeyScene = String.Empty;
-	vars.Helper.Load();
+    vars.VisitedLevel = new List<string>();
 }
 
 update
 {
-	if (!vars.Helper.Update()) return false;
+	current.activeScene = vars.Helper.Scenes.Active.Name ?? current.activeScene;
+	current.loadingScene = vars.Helper.Scenes.Loaded[0].Name ?? current.loadingScene;
 
-	current.Scene = vars.Helper.Scenes.Active.Name;
-	if (old.Scene != current.Scene) vars.Log(String.Concat("Scene Change: ", current.Scene));
-
-	for (var i = 0; i < vars.settingsArray.GetLength(0); i++)
-	{
-		var name = vars.settingsArray[i, 0];
-		var parent = vars.settingsArray[i, 3];
-
-		if (parent == "Scenes" && current.Scene == name) current.KeyScene = name;
-	}
+	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
+	if(current.loadingScene != old.loadingScene) vars.Log("loading: Old: \"" + old.loadingScene + "\", Current: \"" + current.loadingScene + "\"");
 }
 
 onStart
 {
 	timer.IsGameTimePaused = true;
-	print("\nSTART\n-----\n");
-	current.KeyScene = String.Empty;
-	for (var i = 0; i < vars.settingsArray.GetLength(0); i++)
-	{
-		var name = vars.settingsArray[i, 0];
-		var parent = vars.settingsArray[i, 3];
-
-		if (parent == "Scenes" && current.Scene == name)
-		{
-			current.KeyScene = name;
-			current.KeyScene = name;
-		} 
-	}
 }
 
 start
 {
 	if (settings["IL_Timer"])
 	{
-		return (old.Scene == "House_Slappy_Room_Menu" && current.Scene == "Loader");
+		return (old.activeScene == "House_Slappy_Room_Menu" && current.activeScene == "Loader");
 	}
-	else return (old.Scene == "IntroCutscene" && current.Scene == "Loader");
+	else return (old.activeScene == "IntroCutscene" && current.activeScene == "Loader");
 }
 
 split
 {
-	if (old.KeyScene != current.KeyScene)
-	{
-		vars.Log("Key Scene: " + current.KeyScene + " reached!");
-		return settings[current.KeyScene];
-	}
+	if (old.activeScene != current.activeScene) 
+    { 
+        if (!vars.VisitedLevel.Contains(current.activeScene))
+			{
+                vars.VisitedLevel.Add(current.activeScene);
+                return settings[current.activeScene];
+            }
+    }
 	if (old.IsSlappyDead == 0 && current.IsSlappyDead == 1)
 	{
-		print("\nFinal Hit!\n----------------\n");
 		return settings["Final_Hit"];
 	}
 }
 
-onSplit
-{
-	print("\nSplit\n-----\n");
-}
-
 reset
 {
-	return (current.Scene == "House_Slappy_Room_Menu");
-}
-
-onReset
-{
-	print("\nRESET\n-----\n");
+	return (current.activeScene == "House_Slappy_Room_Menu");
 }
 
 isLoading
 {
-	return (current.Scene == "Loader");
-}
-
-exit
-{
-	vars.Helper.Dispose();
-}
-
-shutdown
-{
-	vars.Helper.Dispose();
+	return (current.activeScene == "Loader");
 }
