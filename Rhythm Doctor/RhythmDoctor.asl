@@ -8,9 +8,9 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "IL_Mode", false, "IL Splitting", null },
 		{ "SRC", false, "SR.C Run Categories", null },
 			{ "Flawless", false, "100% / Flawless Category", "SRC" },
-			{ "BeansHopperMode", false, "Beans Hopper Mode", "SRC" },
 		{ "Levels", true, "Levels", null },
 			{ "Intro", true, "0-1: Intro", "Levels" },
 			{ "OrientalTechno", true, "1-1: Samurai Techno", "Levels" },
@@ -142,6 +142,7 @@ init
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
     {
         var scnGame = mono["scnGame", 1];
+		var scnGame2 = mono["scnGame"];
         var HUD = mono["HUD"];
         var MistakesManager = mono["MistakesManager"];
         var Level_Custom = mono["Level_Custom"];
@@ -160,18 +161,23 @@ init
 				vars.Helper["Level"] = mono.MakeString("SpeedrunValues", "currentLevel");
 				vars.Helper["rank"] = mono.Make<int>("SpeedrunValues", "rank");
 				// vars.Helper["score"] = mono.Make<int>("SpeedrunValues", "score");
-				// vars.Helper["GameState"] = mono.Make<int>("SpeedrunValues", "currentGameState");
-	
+				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+				vars.Helper["GameState"] = mono.Make<int>("SpeedrunValues", "currentGameState");
+				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+
 				break;
 
 			case "v0.11.6 (r26)":
 			case "v0.11.5 (r25)":
 				// Misc
 				vars.Helper["rank"] = scnGame.Make<int>("_instance", "hud", HUD["mRank"]);
-				//vars.Helper["Level"] = scnGame.MakeString("internalIdentifier");
+				//vars.Helper["Level"] = scnGame2.MakeString("internalIdentifier");
 				vars.Helper["Level"] = mono.MakeString("scnGame", "internalIdentifier");
 				vars.Helper["slotOpen"] = scnMenu.Make<bool>("_instance", "slotOpen");
 				vars.Helper["transitioningToAnotherScene"] = scnMenu.Make<bool>("_instance", "transitioningToAnotherScene");
+				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+				vars.Helper["GameState"] = scnGame.Make<int>("_instance", "_gameState");
 
 				break;
 		}
@@ -179,6 +185,7 @@ init
         vars.Helper["failedLevel"] = scnGame.Make<bool>("_instance", "failedLevel");
         vars.Helper["trueGameover"] = scnGame.Make<int>("_instance", "hud", HUD["trueGameover"]);
         vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MistakesManager["mistakesCountP1"]);
+		
 
         // Beans Values
         vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
@@ -191,6 +198,7 @@ init
 
 update
 {
+	// if (old.GameState != current.GameState) vars.Log("GameState changed from " + old.GameState.ToString() + " to " + current.GameState.ToString());
 	if (!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.Scene = vars.Helper.Scenes.Active.Name;
 
 	if (old.Scene != current.Scene) vars.Log("Scene changed from " + old.Scene + " to " + current.Scene);
@@ -217,7 +225,7 @@ update
 					vars.levelCompleted = true;
 				}
 			}
-		break;
+			break;
 
 		case "v0.11.6 (r26)":
 		case "v0.11.5 (r25)":
@@ -244,21 +252,31 @@ update
 
 start
 {
-	if (settings["BeansHopperMode"]) return (current.Scene == "scnGame" && current.Level == "BeansHopper" && current.barNumber == 3);
-	else switch(version)
+	if (!settings["IL_Mode"])
 	{
-		case "Unknown version":
-		case "v0.14.0 (r30)":
-		case "v0.13.1 (r29)":
-		case "v0.13.0 (r28)":
-		case "v0.12.0 (r27)":
-			return !old.inGame && current.inGame;
-			break;
+		switch(version)
+		{
+			case "Unknown version":
+			case "v0.14.0 (r30)":
+			case "v0.13.1 (r29)":
+			case "v0.13.0 (r28)":
+			case "v0.12.0 (r27)":
+				return !old.inGame && current.inGame;
+				break;
 
-		case "v0.11.6 (r26)":
-		case "v0.11.5 (r25)":
-			return !(old.slotOpen && old.transitioningToAnotherScene) && (current.slotOpen && current.transitioningToAnotherScene);
-			break;
+			case "v0.11.6 (r26)":
+			case "v0.11.5 (r25)":
+				return !(old.slotOpen && old.transitioningToAnotherScene) && (current.slotOpen && current.transitioningToAnotherScene);
+				break;
+		}
+	}
+	else if (current.Scene == "scnGame" && current.Level != "BeansHopper")
+	{
+		if (current.Scene == "scnGame" && current.attemptToLoadTutorial == false && !current.currentLevelPath.Contains("tutorial") && current.GameState == 1) return true;
+	}
+	else if (current.Scene == "scnGame" && current.Level == "BeansHopper")
+	{
+		if (current.barNumber == 3) return true;
 	}
 }
 
@@ -271,68 +289,94 @@ onStart
 
 split
 {
-	switch(version)
+	if (!settings["IL_Mode"])
+	{
+		switch(version)
+		{
+			case "Unknown version":
+			case "v0.14.0 (r30)":
+			case "v0.13.1 (r29)":
+			case "v0.13.0 (r28)":
+			case "v0.12.0 (r27)":
+				if (old.Level == "Intro" && current.Level == "OrientalTechno")
+					{
+						vars.VisitedLevel.Add("Intro");
+						return settings["Intro"];
+					}
+
+				if (old.Scene == "scnGame" && current.Scene != "scnGame")
+					{
+						if (!vars.VisitedLevel.Contains(current.Level))
+						{
+							bool doSplit = false;
+							if (current.Level == "BeansHopper")
+								{ if (!settings["Flawless"] || current.score >= 60) doSplit = true; }
+							else if (vars.bossLevels.Contains(current.Level))
+								{ if (vars.levelCompleted) doSplit = true; }
+							else if (current.Level == "HelpingHands")
+								{ if (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17) doSplit = true; }
+							else 
+								{ if (vars.GetLocalRank(current.rank) >= 10 && (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17)) doSplit = true; }
+
+							if (doSplit)
+							{
+								vars.VisitedLevel.Add(current.Level);
+								return settings[current.Level];
+							}
+						}
+					}
+				break;
+
+			case "v0.11.6 (r26)":
+			case "v0.11.5 (r25)":
+				if (old.Level == "Intro" && current.Level == "OrientalTechno")
+					{
+						vars.VisitedLevel.Add("Intro");
+						return settings["Intro"];
+					}
+
+				if (vars.levelCompleted && (old.Scene == "scnGame" && current.Scene != "scnGame"))
+					{
+						if (!vars.VisitedLevel.Contains(current.Level))
+						{
+							vars.VisitedLevel.Add(current.Level);
+							return settings[current.Level];
+						}
+					}
+				break;
+		}
+	}
+	else switch (version)
 	{
 		case "Unknown version":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
 		case "v0.12.0 (r27)":
-			if (settings["BeansHopperMode"]) return (!old.noGetSet && current.noGetSet);
-			else
+			if (current.Level != "BeansHopper")
 			{
-				if (old.Level == "Intro" && current.Level == "OrientalTechno")
-				{
-					vars.VisitedLevel.Add("Intro");
-					return settings["Intro"];
-				}
-
-				if (old.Scene == "scnGame" && current.Scene != "scnGame")
-				{
-					if (!vars.VisitedLevel.Contains(current.Level))
-					{
-						bool doSplit = false;
-						if (current.Level == "BeansHopper")
-							{ if (!settings["Flawless"] || current.score >= 60) doSplit = true; }
-						else if (vars.bossLevels.Contains(current.Level))
-							{ if (vars.levelCompleted) doSplit = true; }
-						else if (current.Level == "HelpingHands")
-							{ if (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17) doSplit = true; }
-						else 
-							{ if (vars.GetLocalRank(current.rank) >= 10 && (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17)) doSplit = true; }
-
-						if (doSplit)
-						{
-							vars.VisitedLevel.Add(current.Level);
-							return settings[current.Level];
-						}
-					}
-				}
+				if (old.GameState == 1 && current.GameState == 6) return true;
+			}
+			else if (current.Level == "BeansHopper")
+			{
+				return (!old.noGetSet && current.noGetSet);
 			}
 			break;
 
 		case "v0.11.6 (r26)":
 		case "v0.11.5 (r25)":
-			if (settings["BeansHopperMode"]) return (!old.noGetSet && current.noGetSet);
-			else
+			if (current.Level != "BeansHopper")
 			{
-				if (old.Level == "Intro" && current.Level == "OrientalTechno")
-				{
-					vars.VisitedLevel.Add("Intro");
-					return settings["Intro"];
-				}
-
-				if (vars.levelCompleted && (old.Scene == "scnGame" && current.Scene != "scnGame"))
-				{
-					if (!vars.VisitedLevel.Contains(current.Level))
-					{
-						vars.VisitedLevel.Add(current.Level);
-						return settings[current.Level];
-					}
-				}
+				if (current.GameState == 3 && old.rank == 0 && current.rank != 0) return true;
+			}
+			else if (current.Level == "BeansHopper")
+			{
+				return (!old.noGetSet && current.noGetSet);
 			}
 			break;
 	}
+	
+	
 }
 
 onSplit
