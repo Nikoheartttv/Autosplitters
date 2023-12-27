@@ -44,10 +44,10 @@ onStart
 	timer.IsGameTimePaused = true;
 }
 
-update
-{
-	if(current.paused != old.paused) print("paused: " + current.paused.ToString());
-}
+// update
+// {
+// 	if(current.paused != old.paused) print("paused: " + current.paused.ToString());
+// }
 
 // split
 // {
