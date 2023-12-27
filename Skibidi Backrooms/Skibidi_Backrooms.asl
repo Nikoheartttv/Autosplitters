@@ -49,13 +49,13 @@ update
 	if(current.paused != old.paused) print("paused: " + current.paused.ToString());
 }
 
-split
-{
-    if (old.ingame == 95 && current.ingame == 0)
-    {
-        return true;
-    }
-}
+// split
+// {
+//     if (old.ingame == 95 && current.ingame == 0)
+//     {
+//         return true;
+//     }
+// }
 
 isLoading
 {
