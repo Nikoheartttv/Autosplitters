@@ -1,6 +1,6 @@
 state("MultiplayerBlueprintLobby-Win64-Shipping"){
 	int paused : 0x5676B28;
-	byte gameStart : 0x57876AC;
+	byte ingame : 0x57876AC;
 	byte loading : 0x5676B2C;
 }
 
@@ -28,7 +28,6 @@ startup
 
 start
 {
-    // return old.gameStart == 0 && current.gameStart == 95;
     return old.loading != 32 && current.loading == 32;
 }
 
@@ -42,6 +41,14 @@ update
 	if(current.paused != old.paused) print("paused: " + current.paused.ToString());
 }
 
+split
+{
+    if (old.ingame == 95 && current.ingame == 0;)
+    {
+        return true;
+    }
+}
+
 isLoading
 {
 	if (current.loading == 8 || current.loading == 14 || current.loading == 18 || 
@@ -53,6 +60,4 @@ isLoading
     {
         return false;
     }
-    
-	// return current.gameStart == 0;
 }
