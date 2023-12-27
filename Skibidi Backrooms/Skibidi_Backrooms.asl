@@ -2,9 +2,17 @@ state("MultiplayerBlueprintLobby-Win64-Shipping"){
 	int paused : 0x5676B28;
 	byte ingame : 0x57876AC;
 	byte loading : 0x5676B2C;
+    //loading values
+    // Main Menu - 18 / 20 
+    // Loading into Lobby - 24
+    // Lobby - 24
+    // Lobby Menu - 28
+    // Loading - 8
+    // In Game - 32
+    // In Game Pause - 12 / 28
+    // In Game Unpause - 6
+    // don't press Esc multiple times potentially at this rate, do in one full run
 }
-
-state("MultiplayerBlueprintLobby-Win64-Shipping"){}
 
 startup
 {
@@ -43,7 +51,7 @@ update
 
 split
 {
-    if (old.ingame == 95 && current.ingame == 0;)
+    if (old.ingame == 95 && current.ingame == 0)
     {
         return true;
     }
@@ -56,7 +64,8 @@ isLoading
 	{
 		return true;
 	}
-	else if (current.loading == 12 || current.loading == 32 || current.loading == 36)
+	else if (current.loading == 6 || current.loading == 12 || 
+            current.loading == 32 || current.loading == 36)
     {
         return false;
     }
