@@ -64,9 +64,5 @@ isLoading
 	{
 		return true;
 	}
-	else if (current.loading == 6 || current.loading == 12 || 
-            current.loading == 32 || current.loading == 36)
-    {
-        return false;
-    }
+	else return false;
 }
