@@ -144,7 +144,6 @@ init
 
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
     {
-        var SV = mono["SpeedrunValues"];
 		var scnGame = mono["scnGame", 1];
 		var scnGame2 = mono["scnGame"];
         var HUD = mono["HUD"];
@@ -161,6 +160,7 @@ init
 			case "v0.13.0 (r28)":
 			case "v0.12.0 (r27)":
 				// SpeedrunValues
+				var SV = mono["SpeedrunValues"];
 				vars.Helper["inGame"] = SV.Make<bool>("inGame");
 				vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
 				vars.Helper["Level"] = SV.MakeString("currentLevel");
@@ -199,9 +199,8 @@ init
 				vars.Helper["trueGameover"] = scnGame.Make<int>("_instance", "hud", HUD["trueGameover"]);
 				break;
 		}
-        vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MistakesManager["mistakesCountP1"]);
+        vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MM["mistakesCountP1"]);
 		
-
         // Beans Values
         vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
         vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", Level_Custom["i1"]);
