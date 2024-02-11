@@ -116,6 +116,9 @@ init
     print("MD5: " + MD5Hash);
 
 	switch(MD5Hash){
+		case "698DC0773B480B5B9127112DD55A7A60" :
+			version = "v0.10.1 (r16)";
+			break;
 		case "C379A9CEB2C154815BA55821901D53D5" :
 			version = "v0.11.5 (r25)";
 			break;
@@ -169,6 +172,7 @@ init
 
 			case "v0.11.6 (r26)":
 			case "v0.11.5 (r25)":
+			case "v0.10.1 (r16)":
 				// Misc
 				vars.Helper["rank"] = scnGame.Make<int>("_instance", "hud", HUD["mRank"]);
 				//vars.Helper["Level"] = scnGame2.MakeString("internalIdentifier");
@@ -183,7 +187,16 @@ init
 		}
 
         vars.Helper["failedLevel"] = scnGame.Make<bool>("_instance", "failedLevel");
-        vars.Helper["trueGameover"] = scnGame.Make<int>("_instance", "hud", HUD["trueGameover"]);
+
+		switch(version)
+		{
+			case "v0.10.1 (r16)":
+				vars.Helper["trueGameover"] = scnGame.Make<int>("_instance", "hud", HUD["mGameover"]);
+				break;
+			default:
+				vars.Helper["trueGameover"] = scnGame.Make<int>("_instance", "hud", HUD["trueGameover"]);
+				break;
+		}
         vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MistakesManager["mistakesCountP1"]);
 		
 
@@ -229,6 +242,7 @@ update
 
 		case "v0.11.6 (r26)":
 		case "v0.11.5 (r25)":
+        case "v0.10.1 (r16)":
 			// Special Cases
 			if (current.Level == "BeansHopper" && current.noGetSet && (!settings["Flawless"] || current.score >= 60)) vars.levelCompleted = true;
 
@@ -266,6 +280,7 @@ start
 
 			case "v0.11.6 (r26)":
 			case "v0.11.5 (r25)":
+            case "v0.10.1 (r16)":
 				return !(old.slotOpen && old.transitioningToAnotherScene) && (current.slotOpen && current.transitioningToAnotherScene);
 				break;
 		}
@@ -329,6 +344,7 @@ split
 
 			case "v0.11.6 (r26)":
 			case "v0.11.5 (r25)":
+            case "v0.10.1 (r16)":
 				if (old.Level == "Intro" && current.Level == "OrientalTechno")
 					{
 						vars.VisitedLevel.Add("Intro");
@@ -365,6 +381,7 @@ split
 
 		case "v0.11.6 (r26)":
 		case "v0.11.5 (r25)":
+        case "v0.10.1 (r16)":
 			if (current.Level != "BeansHopper")
 			{
 				if (current.GameState == 3 && old.rank == 0 && current.rank != 0) return true;
@@ -398,6 +415,7 @@ isLoading
 
 		case "v0.11.6 (r26)":
 		case "v0.11.5 (r25)":
+        case "v0.10.1 (r16)":
 			return String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name);
 			break;
 	}
@@ -417,6 +435,7 @@ reset
 
 		case "v0.11.6 (r26)":
 		case "v0.11.5 (r25)":
+        case "v0.10.1 (r16)":
 			
 			return old.Scene != "scnMenu" && current.Scene == "scnMenu" && settings["AutoReset"] && current.Level != "HelpingHands";
 			break;
