@@ -144,12 +144,14 @@ init
 
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
     {
-        var scnGame = mono["scnGame", 1];
+        var SV = mono["SpeedrunValues"];
+		var scnGame = mono["scnGame", 1];
 		var scnGame2 = mono["scnGame"];
         var HUD = mono["HUD"];
-        var MistakesManager = mono["MistakesManager"];
+        var MM = mono["MistakesManager"];
         var Level_Custom = mono["Level_Custom"];
 		var scnMenu = mono["scnMenu", 1];
+		var scrC = mono["scrConductor"];
 
 		switch(version)
 		{
@@ -159,13 +161,13 @@ init
 			case "v0.13.0 (r28)":
 			case "v0.12.0 (r27)":
 				// SpeedrunValues
-				vars.Helper["inGame"] = mono.Make<bool>("SpeedrunValues", "inGame");
-				vars.Helper["isLoading"] = mono.Make<bool>("SpeedrunValues", "isLoading");
-				vars.Helper["Level"] = mono.MakeString("SpeedrunValues", "currentLevel");
-				vars.Helper["rank"] = mono.Make<int>("SpeedrunValues", "rank");
+				vars.Helper["inGame"] = SV.Make<bool>("inGame");
+				vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
+				vars.Helper["Level"] = SV.MakeString("currentLevel");
+				vars.Helper["rank"] = SV.Make<int>("rank");
 				// vars.Helper["score"] = mono.Make<int>("SpeedrunValues", "score");
 				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
-				vars.Helper["GameState"] = mono.Make<int>("SpeedrunValues", "currentGameState");
+				vars.Helper["GameState"] = SV.Make<int>("currentGameState");
 				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
 
 				break;
