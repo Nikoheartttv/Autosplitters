@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Run version="1.7.0">
   <GameIcon />
-  <GameName>testing</GameName>
-  <CategoryName>
-  </CategoryName>
+  <GameName>REVEIL</GameName>
+  <CategoryName>Any%</CategoryName>
   <LayoutPath>
   </LayoutPath>
   <Metadata>
@@ -15,52 +14,11 @@
     <Variables />
   </Metadata>
   <Offset>00:00:00</Offset>
-  <AttemptCount>11</AttemptCount>
-  <AttemptHistory>
-    <Attempt id="1" started="04/16/2023 00:46:23" isStartedSynced="True" ended="04/16/2023 02:44:02" isEndedSynced="True" />
-    <Attempt id="2" started="04/16/2023 02:44:24" isStartedSynced="True" ended="04/16/2023 02:44:30" isEndedSynced="True" />
-    <Attempt id="3" started="04/16/2023 02:46:29" isStartedSynced="True" ended="04/16/2023 02:46:33" isEndedSynced="True" />
-    <Attempt id="4" started="04/16/2023 02:46:37" isStartedSynced="True" ended="04/16/2023 02:52:11" isEndedSynced="True" />
-    <Attempt id="5" started="04/16/2023 02:52:25" isStartedSynced="True" ended="04/16/2023 03:25:06" isEndedSynced="True" />
-    <Attempt id="6" started="04/16/2023 03:25:22" isStartedSynced="True" ended="04/16/2023 03:39:31" isEndedSynced="True" />
-    <Attempt id="7" started="04/16/2023 03:39:32" isStartedSynced="True" ended="04/16/2023 03:39:33" isEndedSynced="True" />
-    <Attempt id="8" started="04/16/2023 03:42:36" isStartedSynced="True" ended="04/16/2023 03:43:35" isEndedSynced="True" />
-    <Attempt id="9" started="04/16/2023 03:43:35" isStartedSynced="True" ended="04/16/2023 03:43:36" isEndedSynced="True" />
-    <Attempt id="10" started="04/16/2023 03:44:02" isStartedSynced="True" ended="04/16/2023 03:45:20" isEndedSynced="True" />
-    <Attempt id="11" started="04/16/2023 03:45:20" isStartedSynced="True" ended="04/16/2023 03:47:33" isEndedSynced="True" />
-  </AttemptHistory>
+  <AttemptCount>0</AttemptCount>
+  <AttemptHistory />
   <Segments>
     <Segment>
-      <Name>
-      </Name>
-      <Icon />
-      <SplitTimes>
-        <SplitTime name="Personal Best" />
-      </SplitTimes>
-      <BestSegmentTime>
-        <RealTime>00:00:06.7497169</RealTime>
-      </BestSegmentTime>
-      <SegmentHistory>
-        <Time id="1">
-          <RealTime>01:28:20.8117593</RealTime>
-        </Time>
-        <Time id="4">
-          <RealTime>00:00:06.7497169</RealTime>
-        </Time>
-        <Time id="5">
-          <RealTime>00:16:41.4266569</RealTime>
-        </Time>
-        <Time id="6">
-          <RealTime>00:00:20.8674907</RealTime>
-        </Time>
-        <Time id="10">
-          <RealTime>00:00:54.9175644</RealTime>
-        </Time>
-      </SegmentHistory>
-    </Segment>
-    <Segment>
-      <Name>
-      </Name>
+      <Name>Chapter 1 - Intro</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -69,7 +27,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>a</Name>
+      <Name>Chapter 1 - House</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -78,7 +36,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>s</Name>
+      <Name>Chapter 1 - The Circus</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -87,7 +45,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>df</Name>
+      <Name>Chapter 1 - Funhouse</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -96,7 +54,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>sf</Name>
+      <Name>Chapter 1 - Strange Apartment</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -105,7 +63,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>asd</Name>
+      <Name>Chapter 2 - Home Together</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -114,7 +72,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>f</Name>
+      <Name>Chapter 2 - Another Dream</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -123,7 +81,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>asdf</Name>
+      <Name>Chapter 2 - Circus Train</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -132,7 +90,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>asdf</Name>
+      <Name>Chapter 3 - A Phone Booth</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -141,7 +99,7 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>asdfa</Name>
+      <Name>Chapter 3 - Fortune Teller</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
@@ -150,7 +108,52 @@
       <SegmentHistory />
     </Segment>
     <Segment>
-      <Name>sdaf</Name>
+      <Name>Chapter 4 - The Forest of Memories</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 4 - Ghost Train</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - The House</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - Facility</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - The Apartment Again</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - The Machine</Name>
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best" />
