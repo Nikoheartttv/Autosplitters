@@ -37,15 +37,10 @@ startup
 
 	vars.Helper.Settings.Create(_settings);
 	vars.VisitedLevel = new List<string>();
-	
 }
 
 init
 {
-	current.activeScene = "";
-	vars.facilityNo = 0;
-	vars.facilityScene = "Akt 5 - Facility";
-
 	byte[] exeMD5HashBytes = new byte[0];
 	using (var md5 = System.Security.Cryptography.MD5.Create())
     {
@@ -67,6 +62,10 @@ init
 			version = "Unknown version";
 			break;
 	}
+
+	current.activeScene = "";
+	vars.facilityNo = 0;
+	vars.facilityScene = "Akt 5 - Facility";
 }
 
 start
@@ -83,7 +82,8 @@ update
 {
 	current.activeScene = vars.Helper.Scenes.Active.Name == null ? current.activeScene : vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
-	if(current.loading != old.loading) vars.Log("Loading: " + current.loading.ToString());
+	// if(current.loading != old.loading) vars.Log("Loading: " + current.loading.ToString());
+	// if(current.loading != old.loading) vars.Log("End Split: " + current.endSplit.ToString());
 }
 
 split
@@ -107,9 +107,10 @@ split
 			}
 		}
 	}
-	if (old.activeScene == "Akt 0 - Nightmare (Endings)" && 
-		(current.activeScene == "Akt 5 - Exit Ending Facility" || 
-		current.activeScene == "Akt Repeat - House"))
+	if ((current.activeScene == "Akt 5 - Exit Ending Facility" 
+		|| current.activeScene == "Akt Repeat - House" 
+		|| current.activeScene == "Akt 5 - Facility"
+		|| current.activeScene == "Akt 5 - Ending_Cabin"))
 		{
 			return old.endSplit == 1 && current.endSplit == 2;
 		}
