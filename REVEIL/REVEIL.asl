@@ -80,7 +80,7 @@ onStart
 
 update
 {
-	current.activeScene = vars.Helper.Scenes.Active.Name == null ? current.activeScene : vars.Helper.Scenes.Active.Name;
+	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.Scene = vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
 	// if(current.loading != old.loading) vars.Log("Loading: " + current.loading.ToString());
 	// if(current.loading != old.loading) vars.Log("End Split: " + current.endSplit.ToString());
