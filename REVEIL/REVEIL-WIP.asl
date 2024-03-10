@@ -1,5 +1,6 @@
-state("REVEIL"){
+state("REVEIL", "v1.0.3f4"){
 	byte loading : "UnityPlayer.dll", 0x1C175C0, 0x220;
+	byte endSplit : "GameAssembly.dll", 0x3027B60, 0x2B0, 0x170, 0x90, 0x148;
 }
 
 startup
@@ -25,13 +26,13 @@ startup
 				{ "Akt 0 - Part 2", true, "Chapter 3  - A Phone Booth", "Chapter 3" },
 				{ "Akt 3 - Circus_Night", true, "Chapter 3 - Fortune Teller", "Chapter 3" },
 			{ "Chapter 4", true, "Chapter 4", "Levels" },
-				{ "Akt 4 - Forest", true, "Chapter 4 - Fortune Teller", "Chapter 4" },
+				{ "Akt 4 - Forest", true, "Chapter 4 - The Forest of Memories", "Chapter 4" },
 				{ "Akt 4 - Ghosttrain", true, "Chapter 4 - Ghost Train", "Chapter 4" },
 			{ "Chapter 5", true, "Chapter 5", "Levels" },
 				{ "Akt 5 - House", true, "Chapter 5 - The House", "Chapter 5" },
 				{ "Akt 5 - Facility1", true, "Chapter 5 - Facility", "Chapter 5" },
 				{ "Akt 0 - Part 3", true, "Chapter 5 - The Apartment Again", "Chapter 5" },
-				{ "Akt 5 - Facility2", true, "Chapter 5 - Facility", "Chapter 5" },
+				{ "Akt 5 - Facility2", true, "Chapter 5 - The Machine", "Chapter 5" },
 	};
 
 	vars.Helper.Settings.Create(_settings);
@@ -44,6 +45,28 @@ init
 	current.activeScene = "";
 	vars.facilityNo = 0;
 	vars.facilityScene = "Akt 5 - Facility";
+
+	byte[] exeMD5HashBytes = new byte[0];
+	using (var md5 = System.Security.Cryptography.MD5.Create())
+    {
+        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        {
+            exeMD5HashBytes = md5.ComputeHash(s);
+        }
+    }
+
+	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
+    vars.MD5Hash = MD5Hash;
+    print("MD5: " + MD5Hash);
+
+	switch(MD5Hash){
+		case "20CD9AD2DD536DF5BA0775BB17A9ABC8" :
+			version = "v1.0.3f4";
+			break;
+		default:
+			version = "Unknown version";
+			break;
+	}
 }
 
 start
@@ -74,7 +97,7 @@ split
 				vars.facilityNo++;
 				vars.facilityScene = "Akt 5 - Facility" + vars.facilityNo.ToString();
 				vars.VisitedLevel.Add(vars.facilityScene.ToString());
-				vars.Log(vars.facilityScene.ToString());
+				// vars.Log(vars.facilityScene.ToString());
 				return settings[vars.facilityScene]; 
 			}
 			else if (current.activeScene != "Akt 5 - Facility")
@@ -84,6 +107,12 @@ split
 			}
 		}
 	}
+	if (old.activeScene == "Akt 0 - Nightmare (Endings)" && 
+		(current.activeScene == "Akt 5 - Exit Ending Facility" || 
+		current.activeScene == "Akt Repeat - House"))
+		{
+			return old.endSplit == 1 && current.endSplit == 2;
+		}
 }
 
 isLoading
@@ -94,4 +123,5 @@ isLoading
 onReset
 {
 	vars.facilityNo = 0;
+	vars.VisitedLevel.Clear();
 }
