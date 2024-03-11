@@ -1,6 +1,6 @@
 state("REVEIL", "v1.0.3f4"){
 	byte loading : "UnityPlayer.dll", 0x1C175C0, 0x220;
-	byte endSplit : "GameAssembly.dll", 0x3027B60, 0x2B0, 0x170, 0x90, 0x148;
+	byte endSplit : "GameAssembly.dll", 0x2F9E580, 0xB8, 0x0, 0x80, 0xF8, 0x128;
 }
 
 startup
