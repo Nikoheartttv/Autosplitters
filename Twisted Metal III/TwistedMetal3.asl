@@ -43,13 +43,6 @@ split
 
 update
 {
-    if (old.TargetsLeft != current.TargetsLeft) print("Targets Left: " + current.TargetsLeft.ToString());
-    if (old.inGame != current.inGame) print("inGame: " + current.inGame.ToString());
-    if (old.ChosenWorld != current.ChosenWorld) print("ChosenWorld: " + current.ChosenWorld.ToString());
-    if (old.TournamentWon != current.TournamentWon) print("TournamentWon: " + current.TournamentWon.ToString());
-    if (old.LevelWin != current.LevelWin) print("LevelWin: " + current.LevelWin.ToString());
-    if (old.Map != current.Map) print("Map: " + current.Map.ToString());
-
     if(old.LevelWin == 0 && current.LevelWin == 1)
     {
         vars.mapWinCondition = true;
