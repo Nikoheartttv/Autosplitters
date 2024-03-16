@@ -3,7 +3,6 @@ state("LiveSplit") {}
 startup
 {
     Assembly.Load(File.ReadAllBytes("Components/emu-help-v2")).CreateInstance("PS1");
-
     vars.Helper.Load = (Func<dynamic, bool>)(emu => 
     {
         // emu.Make<int>("Start", 0x8018efdc);
