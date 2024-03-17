@@ -3,7 +3,10 @@ state("LiveSplit") {}
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/emu-help-v2")).CreateInstance("PS2");
+}
 
+init
+{
 	vars.Helper.Load = (Func<dynamic, bool>)(emu => 
 	{
 		emu.Make<byte>("GameState", 0x5A7730);
@@ -12,10 +15,6 @@ startup
 
 		return true;
 	});
-}
-
-init
-{
 	vars.EnemiesDefeated = false;
 }
 
