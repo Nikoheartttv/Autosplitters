@@ -7,6 +7,7 @@ startup
 	vars.Helper.Load = (Func<dynamic, bool>)(emu => 
 	{
 		emu.Make<int>("Start", 0x425E20);
+		emu.Make<int>("MenuScreen", 0x4FB144);
 		emu.Make<int>("WinScreen", 0x4fbf08);
 		emu.Make<int>("Enemies", 0x404360);
 		emu.Make<int>("Loading", 0x4061A0);
@@ -27,7 +28,7 @@ init
 
 start
 {
-	return old.Start == 1 && current.Start == 0;
+	return current.MenuScreen != 0 && old.Start == 1 && current.Start == 0;
 }
 
 split
