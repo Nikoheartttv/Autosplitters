@@ -19,12 +19,15 @@ init
 		emu.Make<int>("v1TournamentWon", 0x800D2F40);
 		emu.Make<int>("v1LevelWin", 0x800D2F44);
 		emu.Make<int>("v1VehicleSelect", 0x80089C08);
+		emu.Make<byte>("v1MenuScreens", 0x80089BE4);
 		// v1.1
 		emu.Make<int>("v11TargetsLeft", 0x800D3234);
 		emu.Make<int>("v11inGame", 0x800D2D40);
 		emu.Make<int>("v11TournamentWon", 0x800D2D68);
 		emu.Make<int>("v11LevelWin", 0x800D2D6C);
 		emu.Make<int>("v11VehicleSelect", 0x80089A30);
+		// emu.Make<int>("v11InGameMenuSetting", 0x800D274C);
+		emu.Make<byte>("v11MenuScreens", 0x80089A0C);
 
 		return true;
 	});
@@ -34,12 +37,12 @@ init
 
 start
 {
-	if (vars.Helper["v1.0"].Current == "Sony" && vars.VehicleSelect == true && old.v1inGame != current.v1inGame && current.v1inGame == 3)
+	if (vars.Helper["v1.0"].Current == "Sony" && current.v1MenuScreens == 220 && old.v1inGame != current.v1inGame && current.v1inGame == 3)
 	{
 		vars.VehicleSelect = false;
 		return true;
 	}
-	else if (vars.Helper["v1.1"].Current == "Sony" && vars.VehicleSelect == true && old.v11inGame != current.v11inGame && current.v11inGame == 3)
+	else if (vars.Helper["v1.1"].Current == "Sony" && current.v11MenuScreens == 220 && old.v11inGame != current.v11inGame && current.v11inGame == 3)
 	{
 		vars.VehicleSelect = false;
 		return true;
@@ -48,6 +51,8 @@ start
 
 update
 {
+	if (old.v11inGame != current.v11inGame) print("inGame: " + current.v11inGame.ToString());
+	if (old.v11MenuScreens != current.v11MenuScreens) print("v11MenuScreens: " + current.v11MenuScreens.ToString());
 	if (vars.Helper["v1.0"].Current == "Sony" && old.v1VehicleSelect == 0 && current.v1VehicleSelect == 1)
 	{
 		vars.VehicleSelect = true;
