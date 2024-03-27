@@ -8,7 +8,7 @@ startup
 	vars.ItemSettingFormat = "[{0}] {1} ({2})";
 	
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-	vars.Helper.Settings.CreateFromXml("Components/AITD.Settings.xml");
+	vars.Helper.Settings.CreateFromXml("Components/AITD_2024.Settings.xml");
 	vars.Helper.GameName = "Alone in the Dark";
 	//vars.Helper.StartFileLogger("AitD_Log.txt");
 	
