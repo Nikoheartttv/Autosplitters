@@ -1,10 +1,12 @@
-<Settings>
-    <Setting Id="ch" Label="Chapter Splits" State="false">
-		<Setting Id="ActWorld_2_P" Label="Finish Chapter 1" State="false"/>
-		<Setting Id="ActWorld_3_P" Label="Finish Chapter 2" State="false"/>
-		<Setting Id="ActWorld_4_P" Label="Finish Chapter 3" State="false"/>
-		<Setting Id="ActWorld_5_P" Label="Finish Chapter 4" State="false"/>
-		<Setting Id="MainMenu" Label="Finish Chapter 5 " State="false"/>
+<Settings>  
+	<Setting Id="ch" Label="Chapter Splits" State="false">
+		<Setting Id="ch1to4" Label="Chapters 1 to 4" State="false">
+			<Setting Id="ActWorld_2_P" Label="Finish Chapter 1" State="false"/>
+			<Setting Id="ActWorld_3_P" Label="Finish Chapter 2" State="false"/>
+			<Setting Id="ActWorld_4_P" Label="Finish Chapter 3" State="false"/>
+			<Setting Id="ActWorld_5_P" Label="Finish Chapter 4" State="false"/>
+			<Setting Id="end" Label="Final Split (Always Active)" State="false"/>
+		</Setting>
 	</Setting>
 	<Setting Id="itm" Label="Item Splits" State="false">
 		<Setting Id="ch1" Label="Chapter 1" State="false">
@@ -31,7 +33,7 @@
 			<Setting Id="[+] ID_Cemetery_Medallion02 (!)" Label="The Blessing" State="false"/>
 			<Setting Id="[+] ID_Cemetery_Medallion01 (!)" Label="The Omen" State="false"/>
 			<Setting Id="[+] ID_Cemetery_Medallion03 (!)" Label="The Sacrifice" State="false"/>
-			<Setting Id="[+] ID_MyEverything (!)" Label="My Everything" State="false"/>sh
+			<Setting Id="[+] ID_MyEverything (!)" Label="My Everything" State="false"/>
 			<Setting Id="[+] ID_Derceto_TelescopeLens (!)" Label="Barlow Lens" State="false"/>
 		</Setting>
 		<Setting Id="ch3" Label="Chapter 3" State="false">
@@ -93,11 +95,10 @@
 				<Setting Id="cin_190_edw_pearl_river_bridge" Label="Pearl River Bridge" State="false"/>
 				<Setting Id="cin_200_edw_into_the_abyss" Label="Into The Abyss" State="false"/>
 				<Setting Id="S_ObservatoryCollapse_Edw" Label="Observatory Collapse" State="false"/>
-				<Setting Id="LSE_Edw_JacobStab" Label="Jacob Stab" State="false"/>
+				<Setting Id="cin_500_edw_confronting_the_dark_man" Label="Confronting The Dark Man" State="false"/>
 			</Setting>
 			<Setting Id="Edw5" Label="Chapter 5" State="false">
 				<Setting Id="cin_265_edw_chaos" Label="Chaos" State="false"/>
-				<Setting Id="LS_ShubIntro" Label="Boss Fight Start" State="false"/>
 				<Setting Id="LS_EndTransition_Edw" Label="Boss Fight End" State="false"/>
 			</Setting>
 		</Setting>
@@ -110,33 +111,31 @@
 			</Setting>
 			<Setting Id="Emi2" Label="Chapter 2" State="false">
 				<Setting Id="cin_360_emi_making_friends_02" Label="Making Friends" State="false"/>
+				<Setting Id="cin_390_emi_the_voodoo_you_can_do" Label="The Voodoo You Can Do" State="false"/>
 				<Setting Id="cin_352_emi_falling_out" Label="Fall Out of Boathouse" State="false"/>
 				<Setting Id="cin_354_emi_zipline" Label="Use the Zipline" State="false"/>
 				<Setting Id="cin_350_emi_tomb_raiding" Label="Meet Lottie In the Tomb" State="false"/>
+				<Setting Id="cin_370_emi_grace_is_not_alright" Label="Meet Grace" State="false"/>
 				<Setting Id="cin_380_emi_drugstore_cowboy" Label="Drugstore Cowboy" State="false"/>
 				<Setting Id="cin_340_emi_finding_jeremy" Label="Meet Jeremy" State="false"/>
-				<Setting Id="cin_370_emi_grace_is_not_alright" Label="Meet Grace" State="false"/>
 			</Setting>
 			<Setting Id="Emi3" Label="Chapter 3" State="false">
 				<Setting Id="LS_DarkmanIntro_Eml" Label="Meet the Darkman" State="false"/>
 				<Setting Id="cin_420_emi_the_maccabean" Label="Meet Ruth In the Bar" State="false"/>
-				<Setting Id="cin_160_edw_the_black_pharaoh" Label="The Black Pharaoh" State="false"/>
-				<Setting Id="cin_165_edw_rappel" Label="Rappel" State="false"/>
-				<Setting Id="cin_170_edw_bats_in_the_belfry_PT1" Label="Bats in the Belfry" State="false"/>
+				<Setting Id="cin_430_emi_the_black_pharaoh" Label="The Black Pharaoh" State="false"/>
+				<Setting Id="cin_435_emi_rappel" Label="Rappel" State="false"/>
+				<Setting Id="cin_440_emi_bats_in_the_belfry_PT1" Label="Bats in the Belfry" State="false"/>
 			</Setting>
 			<Setting Id="Emi4" Label="Chapter 4" State="false">
-				<Setting Id="cin_210_edw_overhearing_the_orderlies" Label="Overhearing The Orderlies" State="false"/>
-				<Setting Id="cin_220_edw_babysitting" Label="Babysitting" State="false"/>
-				<Setting Id="cin_180_edw_hes_all_wet" Label="He's All Wet" State="false"/>
-				<Setting Id="cin_190_edw_pearl_river_bridge" Label="Pearl River Bridge" State="false"/>
-				<Setting Id="cin_200_edw_into_the_abyss" Label="Into The Abyss" State="false"/>
-				<Setting Id="S_ObservatoryCollapse_Edw" Label="Observatory Collapse" State="false"/>
-				<Setting Id="LSE_Edw_JacobStab" Label="Jacob Stab" State="false"/>
-			</Setting>
+				<Setting Id="cin_480_emi_overhearing_the_orderlies" Label="Overhearing The Orderlies" State="false"/>
+				<Setting Id="cin_490_emi_babysitting" Label="Babysitting" State="false"/>
+				<Setting Id="cin_450_emi_hes_all_wet" Label="He's All Wet" State="false"/>
+				<Setting Id="cin_460_emi_the_great_war" Label="The Great War" State="false"/>
+				<Setting Id="cin_470_emi_the_spanish_flu" Label="The Spanish Flu" State="false"/>
+				</Setting>
 			<Setting Id="Emi5" Label="Chapter 5" State="false">
-				<Setting Id="cin_265_edw_chaos" Label="Chaos" State="false"/>
-				<Setting Id="LS_ShubIntro" Label="Boss Fight Start" State="false"/>
-				<Setting Id="LS_EndTransition_Edw" Label="Boss Fight End" State="false"/>
+				<Setting Id="cin_535_emi_chaos" Label="Chaos" State="false"/>
+				<Setting Id="LS_EndTransition_Eml" Label="Boss Fight End" State="false"/>
 			</Setting>
 		</Setting>
 	</Setting>
