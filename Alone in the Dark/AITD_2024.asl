@@ -9,7 +9,7 @@ startup
 	
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	vars.Helper.Settings.CreateFromXml("Components/AITD_2024.Settings.xml");
-	vars.Helper.GameName = "Alone in the Dark";
+	vars.Helper.GameName = "Alone in the Dark (2024)";
 	//vars.Helper.StartFileLogger("AitD_Log.txt");
 	
 	vars.CompletedSplits = new HashSet<string>();
@@ -105,16 +105,6 @@ update
 		current.Cutscene = cutscene;
 	if (old.Cutscene != current.Cutscene)
 	vars.Log("Cutscene: " + old.Cutscene + " -> " + current.Cutscene); 
-
-	/*
-	// Debug. Comment out before release.
-	if (old.Cutscene != current.Cutscene)
-	vars.Log("Cutscene: " + old.Cutscene + " -> " + current.Cutscene); 
-
-	// Debug. Comment out before release.
-	if (old.World != current.World)
-		vars.Log("World: " + old.World + " -> " + current.World);
-	*/
 }
 
 start
@@ -158,10 +148,6 @@ split
 		}
 
 		vars.Inventory[item] = amount;
-
-		// Debug. Comment out before release.
-		// if (!string.IsNullOrEmpty(setting))
-		//     vars.Log("Items: " + setting);
 
 		// Split if the setting exists, is enabled and hasn't been added to the completed splits yet.
 		if (settings.ContainsKey(setting) && settings[setting]
