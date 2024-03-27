@@ -170,11 +170,17 @@ split
 	{
 		return true;
 	}
+
+	if (old.Cutscene != current.Cutscene && vars.Ending.Contains(current.Cutscene) && !vars.CompletedSplits.Contains(current.Cutscene) && 
+        vars.CompletedSplits.Add(old.Cutscene))
+	{
+        return true;
+    }
 }
 
 isLoading
 {
-return current.Paused || current.Loading || !string.IsNullOrEmpty(current.CutsceneName) && (current.CutsceneName != "LS_Grapple_Ceme_Start" || current.CutsceneName != "LS_Grapple_Ceme_Success");
+	return current.Paused || current.Loading || !string.IsNullOrEmpty(current.CutsceneName) && (current.CutsceneName != "LS_Grapple_Ceme_Start" || current.CutsceneName != "LS_Grapple_Ceme_Success");
 }
 
 reset
