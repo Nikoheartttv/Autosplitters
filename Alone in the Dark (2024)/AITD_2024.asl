@@ -31,7 +31,7 @@ init
 	IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 05 ???????? 48 3B C? 48 0F 44 C? 48 89 05 ???????? E8");
 	IntPtr gEngine = vars.Helper.ScanRel(3, "48 39 35 ?? ?? ?? ?? 0F 85 ?? ?? ?? ?? 48 8B 0D");
 	IntPtr fNames = vars.Helper.ScanRel(13, "89 5C 24 ?? 89 44 24 ?? 74 ?? 48 8D 15");
-	var cutscenename = vars.Helper.ScanRel(3, "48 8B 05 ?? ?? ?? ?? F6 87");
+	var cutscenename = vars.Helper.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 8b fa 48 8b d9 4a 8b 34 d0");
 
 	if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
 	{
