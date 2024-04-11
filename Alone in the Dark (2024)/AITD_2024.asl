@@ -106,7 +106,7 @@ init
 			byte[] foundBytes = memory.ReadBytes((IntPtr)vars.sequencePlayerFunction, 0x0F);
 			byte[] foundBytesInjected = memory.ReadBytes((IntPtr)vars.sequencePlayerFunction, 0x06);
 
-			if (gutBytes.SequenceEqual(foundBytes) || gutBytesInjected.SequenceEqual(foundBytesInjected))
+			if (gutBytes.SequenceEqual(foundBytes))
 			{
 				byte[] s1 = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
 				byte[] s2 = BitConverter.GetBytes((ulong)vars.allocatedMemory);
@@ -123,6 +123,8 @@ init
 				memory.WriteBytes((IntPtr)vars.allocatedMemory, end);
 				memory.WriteBytes((IntPtr)vars.sequencePlayerFunction, start);
 			}
+			else if (gutBytesInjected.SequenceEqual(foundBytesInjected))
+				vars.piecesLevelSequencePlayer = memory.ReadValue<ulong>((IntPtr)(vars.sequencePlayerFunction + 0x6)) + 0x100;
 		}
 	}
 }
@@ -137,16 +139,16 @@ update
 	ulong resolveHookPointer = memory.ReadValue<ulong>((IntPtr)(vars.piecesLevelSequencePlayer));
 
 	if (resolveHookPointer != 0)
-    {
+	{
 		vars.cutsceneStatus = memory.ReadValue<byte>((IntPtr)(resolveHookPointer + 0x2B0));
 
 		ulong sequence = memory.ReadValue<ulong>((IntPtr)(resolveHookPointer + 0x2B8));
 		if (sequence != 0)
-        {
+		{
 			ulong sequencePrivate = memory.ReadValue<ulong>((IntPtr)(sequence + 0x18));
-			if (sequencePrivate != 0 && vars.cutsceneStatus == 1) vars.currentCutscene = vars.FNameToShortString((ulong)(sequencePrivate));
+			if (sequencePrivate != 0 && vars.cutsceneStatus == 1) vars.currentCutscene = vars.FNameToString((ulong)(sequencePrivate));
 		}
-    }
+	}
 
 	// -----------------------------------
 
@@ -155,10 +157,7 @@ update
 	if (!string.IsNullOrEmpty(world) && world != "None")
 		current.World = world;
 
-
-	if (!string.IsNullOrEmpty(cutscene))
-		vars.currentCutscene = cutscene;
-	if (vars.oldCutscene != vars.currentCutscene)
+	// if (vars.oldCutscene != vars.currentCutscene && vars.oldCutscene != "")
 		vars.Log("Cutscene: " + vars.oldCutscene + " -> " + vars.currentCutscene);
 }
 
@@ -239,7 +238,16 @@ split
 
 isLoading
 {
-	return current.Paused || current.Loading || vars.cutsceneStatus == 1 && (vars.currentCutscene != "LS_Grapple_Ceme_Start" || vars.currentCutscene != "LS_Grapple_Ceme_Success" || vars.currentCutscene != "LS_DSS_Wing_PureIntroduction");
+    bool isPausedOrLoading = current.Paused || current.Loading;
+    bool isInCutscene = vars.cutsceneStatus == 1;
+
+    bool excludedCutscenePlaying =
+        vars.currentCutscene == "LS_Grapple_Ceme_Start" ||
+        vars.currentCutscene == "LS_Grapple_Ceme_Success" ||
+        vars.currentCutscene == "LS_DSS_Wing_PureIntroduction";
+
+    // TRUE = GAME TIME STOPS
+    return isPausedOrLoading || (isInCutscene && !excludedCutscenePlaying);
 }
 
 reset
