@@ -104,7 +104,7 @@ init
 		{
 			vars.allocatedMemory = memory.AllocateMemory(0x200);
 
-			if (vars.allocatedMemory != 0)
+			if (vars.allocatedMemory != IntPtr.Zero)
             {
 				vars.piecesLevelSequencePlayer = vars.allocatedMemory + 0x100;
 
