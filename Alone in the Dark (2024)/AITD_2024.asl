@@ -239,7 +239,7 @@ split
 
 isLoading
 {
-	return current.Paused || current.Loading || vars.cutsceneStatus == 1 && (vars.currentCutscene != "LS_Grapple_Ceme_Start" || vars.currentCutscene != "LS_Grapple_Ceme_Success");
+	return current.Paused || current.Loading || vars.cutsceneStatus == 1 && (vars.currentCutscene != "LS_Grapple_Ceme_Start" || vars.currentCutscene != "LS_Grapple_Ceme_Success" || vars.currentCutscene != "LS_DSS_Wing_PureIntroduction");
 }
 
 reset
