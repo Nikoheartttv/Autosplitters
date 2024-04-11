@@ -157,7 +157,7 @@ update
 	if (!string.IsNullOrEmpty(world) && world != "None")
 		current.World = world;
 
-	// if (vars.oldCutscene != vars.currentCutscene && vars.oldCutscene != "")
+	if (vars.oldCutscene != vars.currentCutscene && vars.oldCutscene != "")
 		vars.Log("Cutscene: " + vars.oldCutscene + " -> " + vars.currentCutscene);
 }
 
