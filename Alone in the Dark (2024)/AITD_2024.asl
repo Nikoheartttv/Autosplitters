@@ -94,20 +94,20 @@ init
 
 	if (vars.sequencePlayerFunction != IntPtr.Zero)
 	{
-		vars.allocatedMemory = memory.AllocateMemory(0x200);
+		byte[] gutBytes = { 0x49, 0x8B, 0x06, 0x4C, 0x8D, 0x4D, 0x77, 0x0F, 0x10, 0x4D, 0xE7, 0x48, 0x8D, 0x55, 0xA7 };
+		byte[] gutBytesInjected = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
 
-		if (vars.allocatedMemory != IntPtr.Zero)
+		byte[] foundBytes = memory.ReadBytes((IntPtr)vars.sequencePlayerFunction, 0x0F);
+		byte[] foundBytesInjected = memory.ReadBytes((IntPtr)vars.sequencePlayerFunction, 0x06);
+
+		if (gutBytes.SequenceEqual(foundBytes))
 		{
-			vars.piecesLevelSequencePlayer = vars.allocatedMemory + 0x100;
+			vars.allocatedMemory = memory.AllocateMemory(0x200);
 
-			byte[] gutBytes = { 0x49, 0x8B, 0x06, 0x4C, 0x8D, 0x4D, 0x77, 0x0F, 0x10, 0x4D, 0xE7, 0x48, 0x8D, 0x55, 0xA7 };
-			byte[] gutBytesInjected = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
+			if (vars.allocatedMemory != 0)
+            {
+				vars.piecesLevelSequencePlayer = vars.allocatedMemory + 0x100;
 
-			byte[] foundBytes = memory.ReadBytes((IntPtr)vars.sequencePlayerFunction, 0x0F);
-			byte[] foundBytesInjected = memory.ReadBytes((IntPtr)vars.sequencePlayerFunction, 0x06);
-
-			if (gutBytes.SequenceEqual(foundBytes))
-			{
 				byte[] s1 = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
 				byte[] s2 = BitConverter.GetBytes((ulong)vars.allocatedMemory);
 				byte[] s3 = { 0x90 };
@@ -118,14 +118,14 @@ init
 				byte[] e3 = gutBytes;
 				byte[] e4 = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
 				byte[] e5 = BitConverter.GetBytes((ulong)vars.sequencePlayerFunction + 0x0F);
-				byte[] end = e1.Concat(e2).Concat(e3).Concat(e4).Concat(e5).ToArray();
+				byte[] end = e1.Concat(e2).Concat(e3).Concat(e4).Concat(e5).ToArray(); ;
 
 				memory.WriteBytes((IntPtr)vars.allocatedMemory, end);
 				memory.WriteBytes((IntPtr)vars.sequencePlayerFunction, start);
 			}
-			else if (gutBytesInjected.SequenceEqual(foundBytesInjected))
-				vars.piecesLevelSequencePlayer = memory.ReadValue<ulong>((IntPtr)(vars.sequencePlayerFunction + 0x6)) + 0x100;
 		}
+		else if (gutBytesInjected.SequenceEqual(foundBytesInjected))
+			vars.piecesLevelSequencePlayer = memory.ReadValue<ulong>((IntPtr)(vars.sequencePlayerFunction + 0x6)) + 0x100;
 	}
 }
 
@@ -238,16 +238,16 @@ split
 
 isLoading
 {
-    bool isPausedOrLoading = current.Paused || current.Loading;
-    bool isInCutscene = vars.cutsceneStatus == 1;
+	bool isPausedOrLoading = current.Paused || current.Loading;
+	bool isInCutscene = vars.cutsceneStatus == 1;
 
-    bool excludedCutscenePlaying =
-        vars.currentCutscene == "LS_Grapple_Ceme_Start" ||
-        vars.currentCutscene == "LS_Grapple_Ceme_Success" ||
-        vars.currentCutscene == "LS_DSS_Wing_PureIntroduction";
+	bool excludedCutscenePlaying =
+		vars.currentCutscene == "LS_Grapple_Ceme_Start" ||
+		vars.currentCutscene == "LS_Grapple_Ceme_Success" ||
+		vars.currentCutscene == "LS_DSS_Wing_PureIntroduction";
 
-    // TRUE = GAME TIME STOPS
-    return isPausedOrLoading || (isInCutscene && !excludedCutscenePlaying);
+	// TRUE = GAME TIME STOPS
+	return isPausedOrLoading || (isInCutscene && !excludedCutscenePlaying);
 }
 
 reset
