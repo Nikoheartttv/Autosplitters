@@ -144,7 +144,7 @@ update
 		if (sequence != 0)
         {
 			ulong sequencePrivate = memory.ReadValue<ulong>((IntPtr)(sequence + 0x18));
-			if (sequencePrivate != 0) vars.currentCutscene = vars.FNameToShortString((ulong)(sequencePrivate));
+			if (sequencePrivate != 0 && vars.cutsceneStatus == 1) vars.currentCutscene = vars.FNameToShortString((ulong)(sequencePrivate));
 		}
     }
 
