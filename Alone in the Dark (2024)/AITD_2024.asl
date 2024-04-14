@@ -54,6 +54,39 @@ init
 	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Inventory.InventoryItems.ArrayNum
 	vars.Helper["ItemCount"] = vars.Helper.Make<int>(gEngine, 0xD30, 0x38, 0x0 * 0x8, 0x30, 0x660, 0x1A0 + 0x8);
 
+	// 
+	vars.Helper["PlayerWaiting"] = vars.Helper.Make<byte>(gEngine, 0xD30, 0x38, 0x0, 0x30, 0x2D0, 0x238, 0x3F8);
+
+	vars.GetCutsceneName = (Func<ulong, string>)(sequencePlayer =>
+	{
+		if (sequencePlayer != 0)
+		{
+			ulong resolveHookPointer = memory.ReadValue<ulong>((IntPtr)(sequencePlayer));
+
+			if (resolveHookPointer != 0)
+			{
+				bool cutscenePlaying = memory.ReadValue<bool>((IntPtr)(resolveHookPointer + 0x2B0));
+
+				if (cutscenePlaying)
+				{
+					ulong sequence = memory.ReadValue<ulong>((IntPtr)(resolveHookPointer + 0x2B8));
+					if (sequence != 0)
+					{
+						ulong sequencePrivate = memory.ReadValue<ulong>((IntPtr)(sequence + 0x18));
+						if (sequencePrivate != 0)
+						{
+							vars.cutscenePlaying = cutscenePlaying;
+							return (vars.FNameToString((ulong)(sequencePrivate)));
+						}
+					}
+				}
+			}
+		}
+
+		vars.cutscenePlaying = false;
+		return "";
+	});
+
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
 		var nameIdx = (fName & 0x000000000000FFFF) >> 0x00;
@@ -80,7 +113,6 @@ init
 	});
 
 	current.World = "";
-	current.Cutscene = "";
 
 	vars.Ending = new List<string>()
 	{"LS_EndTransition_Edw", "LS_EndTransition_Eml", "cin_600_silly_ending",
@@ -88,8 +120,8 @@ init
 
 	// -----------------------------------
 
-	vars.piecesLevelSequencePlayer = 0; vars.cutsceneStatus = 0;
-	vars.currentCutscene = ""; vars.oldCutscene = "";
+	current.Cutscene = ""; old.Cutscene = "";
+	vars.sequencePlayer = 0; vars.cutscenePlaying = false;
 	vars.sequencePlayerFunction = vars.Helper.Scan("AloneInTheDark-Win64-Shipping.exe", 0xC, "48 8B C8 E8 ?? ?? ?? ?? 0F 10 45 D7");
 
 	if (vars.sequencePlayerFunction != IntPtr.Zero)
@@ -105,8 +137,8 @@ init
 			vars.allocatedMemory = memory.AllocateMemory(0x200);
 
 			if (vars.allocatedMemory != IntPtr.Zero)
-            {
-				vars.piecesLevelSequencePlayer = vars.allocatedMemory + 0x100;
+			{
+				vars.sequencePlayer = vars.allocatedMemory + 0x100;
 
 				byte[] s1 = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00 };
 				byte[] s2 = BitConverter.GetBytes((ulong)vars.allocatedMemory);
@@ -125,7 +157,7 @@ init
 			}
 		}
 		else if (gutBytesInjected.SequenceEqual(foundBytesInjected))
-			vars.piecesLevelSequencePlayer = memory.ReadValue<ulong>((IntPtr)(vars.sequencePlayerFunction + 0x6)) + 0x100;
+			vars.sequencePlayer = memory.ReadValue<ulong>((IntPtr)(vars.sequencePlayerFunction + 0x6)) + 0x100;
 	}
 }
 
@@ -134,31 +166,15 @@ update
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
 
-	// -----------------------------------
-
-	ulong resolveHookPointer = memory.ReadValue<ulong>((IntPtr)(vars.piecesLevelSequencePlayer));
-
-	if (resolveHookPointer != 0)
-	{
-		vars.cutsceneStatus = memory.ReadValue<byte>((IntPtr)(resolveHookPointer + 0x2B0));
-
-		ulong sequence = memory.ReadValue<ulong>((IntPtr)(resolveHookPointer + 0x2B8));
-		if (sequence != 0)
-		{
-			ulong sequencePrivate = memory.ReadValue<ulong>((IntPtr)(sequence + 0x18));
-			if (sequencePrivate != 0 && vars.cutsceneStatus == 1) vars.currentCutscene = vars.FNameToString((ulong)(sequencePrivate));
-		}
-	}
-
-	// -----------------------------------
-
 	var world = vars.FNameToString(current.GWorldName);
-	var cutscene = vars.currentCutscene;
 	if (!string.IsNullOrEmpty(world) && world != "None")
 		current.World = world;
 
-	if (vars.oldCutscene != vars.currentCutscene && vars.oldCutscene != "")
-		vars.Log("Cutscene: " + vars.oldCutscene + " -> " + vars.currentCutscene);
+	string checkName = vars.GetCutsceneName((ulong)(vars.sequencePlayer));
+	if (checkName != "") current.Cutscene = checkName;
+
+	if (old.Cutscene != current.Cutscene)
+		vars.Log("Cutscene: " + old.Cutscene + " -> " + current.Cutscene);
 }
 
 start
@@ -204,50 +220,36 @@ split
 		vars.Inventory[item] = amount;
 
 		// Split if the setting exists, is enabled and hasn't been added to the completed splits yet.
-		if (settings.ContainsKey(setting) && settings[setting]
-			&& vars.CompletedSplits.Add(setting))
+		if (settings.ContainsKey(setting) && settings[setting] && vars.CompletedSplits.Add(setting))
 		{
 			return true;
 		}
 	}
 
-	if (old.World != current.World
-		&& settings.ContainsKey(current.World) && settings[current.World]
-		&& vars.CompletedSplits.Add(old.World))
+	if (old.World != current.World && settings.ContainsKey(current.World) && settings[current.World]
+		&& vars.CompletedSplits.Add(current.World))
 	{
 		return true;
 	}
 
-	if (vars.oldCutscene != vars.currentCutscene
-		&& settings.ContainsKey(vars.currentCutscene) && settings[vars.currentCutscene]
-		&& vars.CompletedSplits.Add(vars.oldCutscene))
-	{
-		return true;
+	if (old.Cutscene != current.Cutscene)
+    {
+		if (settings.ContainsKey(current.Cutscene) && settings[current.Cutscene]
+		&& vars.CompletedSplits.Add(current.Cutscene))
+		{
+			return true;
+		}
+
+		if (vars.Ending.Contains(current.Cutscene) && vars.CompletedSplits.Add(current.Cutscene))
+		{
+			return true;
+		}
 	}
-
-	if (vars.oldCutscene != vars.currentCutscene && vars.Ending.Contains(vars.currentCutscene) && !vars.CompletedSplits.Contains(vars.currentCutscene) &&
-		vars.CompletedSplits.Add(vars.oldCutscene))
-	{
-		return true;
-	}
-
-	// -----------------------------------
-
-	vars.oldCutscene = vars.currentCutscene;
 }
 
 isLoading
 {
-	bool isPausedOrLoading = current.Paused || current.Loading;
-	bool isInCutscene = vars.cutsceneStatus == 1;
-
-	bool excludedCutscenePlaying =
-		vars.currentCutscene == "LS_Grapple_Ceme_Start" ||
-		vars.currentCutscene == "LS_Grapple_Ceme_Success" ||
-		vars.currentCutscene == "LS_DSS_Wing_PureIntroduction";
-
-	// TRUE = GAME TIME STOPS
-	return isPausedOrLoading || (isInCutscene && !excludedCutscenePlaying);
+	return current.Paused || current.Loading || (vars.cutscenePlaying && current.PlayerWaiting != 9);
 }
 
 reset
