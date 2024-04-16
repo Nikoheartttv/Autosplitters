@@ -1,4 +1,4 @@
-// Made by Nikoehart & TheDementedSalad
+// Made by Nikoheart & TheDementedSalad
 // Big shoutouts to the Ero for assistance within the Items logic and splitting
 // Shoutouts to Rumii & Hntd for their assistance within for all the efforts of finding some of the values needed
 // Extra shoutout to Rumii for adding code to finally fix the cutscene issues
