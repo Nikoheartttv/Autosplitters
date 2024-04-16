@@ -42,19 +42,19 @@ init
 	// GWorld.Name
 	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
 
-	// GWorld.OwningGameInstance.SubsystemCollection.SubsystemMap[12].Item2.? (PiecesSaveSubsystem + 0xA0)
+	// GEngine.GameInstance.SubsystemCollection.SubsystemMap[12].Item2.? (PiecesSaveSubsystem + 0xA0)
 	vars.Helper["Paused"] = vars.Helper.Make<bool>(gEngine, 0xD30, 0xE8 + 0x8, 0x18 * 12 + 0x8, 0xA0);
 
-	// GWorld.OwningGameInstance.SubsystemCollection.SubsystemMap[24].Item2.? (UPiecesWorldTransition_Subsystem + 0x50)
+	// GEngine.GameInstance.SubsystemCollection.SubsystemMap[24].Item2.? (UPiecesWorldTransition_Subsystem + 0x50)
 	vars.Helper["Loading"] = vars.Helper.Make<bool>(gEngine, 0xD30, 0xE8 + 0x8, 0x18 * 24 + 0x8, 0x50);
 
-	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Inventory.InventoryItems.AllocatorInstance
+	// GEngine.GameInstance.LocalPlayers[0].PlayerController.Inventory.InventoryItems.AllocatorInstance
 	vars.Helper["Items"] = vars.Helper.Make<IntPtr>(gEngine, 0xD30, 0x38, 0x0 * 0x8, 0x30, 0x660, 0x1A0 + 0x0);
 
-	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Inventory.InventoryItems.ArrayNum
+	// GEngine.GameInstance.LocalPlayers[0].PlayerController.Inventory.InventoryItems.ArrayNum
 	vars.Helper["ItemCount"] = vars.Helper.Make<int>(gEngine, 0xD30, 0x38, 0x0 * 0x8, 0x30, 0x660, 0x1A0 + 0x8);
 
-	// 
+	// GEngine.GameInstance.LocalPlayers[0].PlayerController.PlayerCameraManager.PCOwner.bIsPlayerWaiting
 	vars.Helper["PlayerWaiting"] = vars.Helper.Make<byte>(gEngine, 0xD30, 0x38, 0x0, 0x30, 0x2D0, 0x238, 0x3F8);
 
 	vars.GetCutsceneName = (Func<ulong, string>)(sequencePlayer =>
