@@ -1,7 +1,7 @@
-state("REVEIL", "v1.0.3f4"){
-	byte loading : "UnityPlayer.dll", 0x1C175C0, 0x220;
-	byte endSplit : "GameAssembly.dll", 0x2F9E580, 0xB8, 0x0, 0x80, 0xF8, 0x128;
-}
+// Thanks to PixelSplit for adding in some custom Autosplitting Data into their game!
+// Autosplitter by Nikoheart
+
+state("REVEIL"){}
 
 startup
 {
@@ -14,25 +14,30 @@ startup
 	{
 		{ "Levels", true, "Levels", null },
 			{ "Chapter 1", true, "Chapter 1", "Levels" },
-				{ "Akt 1 - House", true, "Chapter 1 - House", "Chapter 1" },
-				{ "Akt 1 - Circus_Day", true, "Chapter 1 - The Circus", "Chapter 1" },
-				{ "Akt 1 - Circus_Funhouse", true, "Chapter 1 - Funhouse", "Chapter 1" },
-				{ "Akt 0 - Part 1", true, "Chapter 1 - Strange Apartment", "Chapter 1" },
+				{ "1", true, "Chapter 1 - House", "Chapter 1" },
+                { "2", true, "Chapter 1 - Dorie's Room", "Chapter 1" },
+				{ "3", true, "Chapter 1 - The Circus", "Chapter 1" },
+				{ "4", true, "Chapter 1 - Funhouse", "Chapter 1" },
+				{ "5", true, "Chapter 1 - Strange Apartment", "Chapter 1" },
 			{ "Chapter 2", true, "Chapter 2", "Levels" },
-				{ "Akt 2 - House 1", true, "Chapter 2 - Home Together", "Chapter 2" },
-				{ "Akt 2 - House 2", true, "Chapter 2 - Another Dream", "Chapter 2" },
-				{ "Akt 2 - Train", true, "Chapter 2 - Circus Train", "Chapter 2" },
+				{ "6", true, "Chapter 2 - Home Together", "Chapter 2" },
+                { "7", true, "Chapter 2 - The Studio", "Chapter 2" },
+                { "8", true, "Chapter 2 - Another Dream", "Chapter 2" },
+                { "9", true, "Chapter 2 - The Garage", "Chapter 2" },
+				{ "10", true, "Chapter 2 - Circus Train", "Chapter 2" },
 			{ "Chapter 3", true, "Chapter 3", "Levels" },
-				{ "Akt 0 - Part 2", true, "Chapter 3  - A Phone Booth", "Chapter 3" },
-				{ "Akt 3 - Circus_Night", true, "Chapter 3 - Fortune Teller", "Chapter 3" },
+				{ "11", true, "Chapter 3  - A Phone Booth", "Chapter 3" },
+				{ "12", true, "Chapter 3 - Fortune Teller", "Chapter 3" },
+                { "13", true, "Chapter 3 - Sideshow", "Chapter 3" },
+                { "14", true, "Chapter 3 - The Big Top", "Chapter 3" },
 			{ "Chapter 4", true, "Chapter 4", "Levels" },
-				{ "Akt 4 - Forest", true, "Chapter 4 - The Forest of Memories", "Chapter 4" },
-				{ "Akt 4 - Ghosttrain", true, "Chapter 4 - Ghost Train", "Chapter 4" },
+				{ "15", true, "Chapter 4 - The Forest of Memories", "Chapter 4" },
+				{ "16", true, "Chapter 4 - Ghost Train", "Chapter 4" },
 			{ "Chapter 5", true, "Chapter 5", "Levels" },
-				{ "Akt 5 - House", true, "Chapter 5 - The House", "Chapter 5" },
-				{ "Akt 5 - Facility1", true, "Chapter 5 - Facility", "Chapter 5" },
-				{ "Akt 0 - Part 3", true, "Chapter 5 - The Apartment Again", "Chapter 5" },
-				{ "Akt 5 - Facility2", true, "Chapter 5 - The Machine", "Chapter 5" },
+				{ "17", true, "Chapter 5 - The House", "Chapter 5" },
+				{ "18", true, "Chapter 5 - Facility", "Chapter 5" },
+				{ "19", true, "Chapter 5 - The Apartment Again", "Chapter 5" },
+				{ "20", true, "Chapter 5 - The Machine", "Chapter 5" },
 	};
 
 	vars.Helper.Settings.Create(_settings);
@@ -41,36 +46,25 @@ startup
 
 init
 {
-	byte[] exeMD5HashBytes = new byte[0];
-	using (var md5 = System.Security.Cryptography.MD5.Create())
-    {
-        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        {
-            exeMD5HashBytes = md5.ComputeHash(s);
-        }
-    }
+	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
+	{
+		var lv = mono["LiveSplit", "ReveilAutoSplitData"];
 
-	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
-    vars.MD5Hash = MD5Hash;
-    print("MD5: " + MD5Hash);
+		vars.Helper["GameHasStarted"] = lv.Make<int>("GameHasStarted");
+        vars.Helper["GameIsLoading"] = lv.Make<int>("GameIsLoading");
+		vars.Helper["GameIsFinished"] = lv.Make<int>("GameIsFinished");
+        vars.Helper["OverallChapterNum"] = lv.Make<int>("OverallChapterNum");
+        vars.Helper["Act"] = lv.Make<int>("Act");
 
-	switch(MD5Hash){
-		case "20CD9AD2DD536DF5BA0775BB17A9ABC8" :
-			version = "v1.0.3f4";
-			break;
-		default:
-			version = "Unknown version";
-			break;
-	}
+		return true;
+	});
 
 	current.activeScene = "";
-	vars.facilityNo = 0;
-	vars.facilityScene = "Akt 5 - Facility";
 }
 
 start
 {
-	return old.activeScene == "Main_Menu" && current.activeScene == "Akt 0 - Nightmare START";
+    return old.GameHasStarted == 0 && current.GameHasStarted == 1;
 }
 
 onStart
@@ -82,47 +76,35 @@ update
 {
 	current.activeScene = vars.Helper.Scenes.Active.Name == null ? current.activeScene : vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
-	// if(current.loading != old.loading) vars.Log("Loading: " + current.loading.ToString());
-	// if(current.loading != old.loading) vars.Log("End Split: " + current.endSplit.ToString());
 }
 
 split
 {
-	if (old.activeScene != current.activeScene)
+    if (current.OverallChapterNum > old.OverallChapterNum && settings[current.OverallChapterNum.ToString()] && !vars.VisitedLevel.Contains(current.OverallChapterNum.ToString()))
+    {
+        vars.VisitedLevel.Add(current.OverallChapterNum.ToString());
+        return settings[current.OverallChapterNum.ToString()];
+    }
+
+	if (current.OverallChapterNum == 2 && !vars.VisitedLevel.Contains("3") && old.activeScene == "Akt 1 - House" && current.activeScene == "Akt 1 - Circus_Day")
 	{
-		if (!vars.VisitedLevel.Contains(current.activeScene))
-		{
-			if (current.activeScene == "Akt 5 - Facility")
-			{ 	
-				vars.facilityNo++;
-				vars.facilityScene = "Akt 5 - Facility" + vars.facilityNo.ToString();
-				vars.VisitedLevel.Add(vars.facilityScene.ToString());
-				// vars.Log(vars.facilityScene.ToString());
-				return settings[vars.facilityScene]; 
-			}
-			else if (current.activeScene != "Akt 5 - Facility")
-			{
-				vars.VisitedLevel.Add(current.activeScene);
-				return settings[current.activeScene];
-			}
-		}
+		vars.VisitedLevel.Add("3");
+        return true;
 	}
-	if ((current.activeScene == "Akt 5 - Exit Ending Facility" 
-		|| current.activeScene == "Akt Repeat - House" 
-		|| current.activeScene == "Akt 5 - Facility"
-		|| current.activeScene == "Akt 5 - Ending_Cabin"))
-		{
-			return old.endSplit == 1 && current.endSplit == 2;
-		}
+
+    if (current.Act == 5 && current.OverallChapterNum == 20 
+        && old.GameIsFinished == 0 & current.GameIsFinished == 1)
+        {
+            return true;
+        }
 }
 
 isLoading
 {
-	return current.loading == 2;
+    return current.GameIsLoading == 1;
 }
 
 onReset
 {
-	vars.facilityNo = 0;
 	vars.VisitedLevel.Clear();
 }
