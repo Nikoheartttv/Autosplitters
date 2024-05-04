@@ -86,7 +86,7 @@ split
         return settings[current.OverallChapterNum.ToString()];
     }
 
-	if (current.OverallChapterNum == 2 && !vars.VisitedLevel.Contains("3") && old.activeScene == "Akt 1 - House" && current.activeScene == "Akt 1 - Circus_Day")
+    if (current.OverallChapterNum == 2 && !vars.VisitedLevel.Contains("3") && old.activeScene == "Akt 1 - House" && current.activeScene == "Akt 1 - Circus_Day")
 	{
 		vars.VisitedLevel.Add("3");
         return true;
