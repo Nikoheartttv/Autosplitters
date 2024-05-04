@@ -52,13 +52,7 @@ init
 	// GWorld.Name
 	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
 
-	vars.Helper["Points"] = vars.Helper.Make<int>(gEngine, 0xD28, 0x310);
-
-	vars.Helper["LevelUpWidget"] = vars.Helper.Make<long>(gEngine, 0xD28, 0x440);
-
 	vars.Helper["CutScenePlaying"] = vars.Helper.Make<bool>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x63C);
-
-	vars.Helper["MouseControl"] = vars.Helper.Make<bool>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x63E);
 
 	vars.Helper["Loading"] = vars.Helper.Make<byte>(gEngine, 0xD28, 0x448, 0xD8);
 
@@ -80,7 +74,6 @@ init
 	});
 
 	current.World = "";
-	vars.PawnShopLevelUpWidget = 0;
 }
 
 update
