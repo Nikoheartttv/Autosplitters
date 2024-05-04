@@ -104,7 +104,7 @@ start
 
 isLoading
 {
-	return current.CutScenePlaying || current.Loading == 0;
+	return current.CutScenePlaying || current.Loading == 0 || current.World == "Menu_Lamp";
 }
 
 split
