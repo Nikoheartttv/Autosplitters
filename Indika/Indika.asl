@@ -54,7 +54,9 @@ init
 
 	vars.Helper["CutScenePlaying"] = vars.Helper.Make<bool>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x63C);
 
-	vars.Helper["Loading"] = vars.Helper.Make<byte>(gEngine, 0xD28, 0x448, 0xD8);
+	// vars.Helper["Loading"] = vars.Helper.Make<byte>(gEngine, 0xD28, 0x448, 0xD8);
+    // temp
+    vars.Helper["Loading"] = vars.Helper.Make<byte>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x618);
 
 	vars.Helper["FinalEnabled"] = vars.Helper.Make<bool>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x2B8, 0xE90, 0x2D4);
 
@@ -104,7 +106,7 @@ start
 
 isLoading
 {
-	return current.CutScenePlaying || current.Loading == 0 || current.World == "Menu_Lamp";
+	return current.CutScenePlaying || current.Loading != 0 || current.World == "Menu_Lamp";
 }
 
 split
