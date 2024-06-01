@@ -76,17 +76,27 @@ start
 split
 {
 	// split on collecting item
-	if (current.activeScene == "Spranklewater")
+	if (settings["Pipe"] && old.itemPipe == 0 && current.itemPipe == 1)
 	{
-		if ((settings["Pipe"] && old.itemPipe == 0 && current.itemPipe == 1 )
-			|| (settings["Shovel"] && old.itemShovel == 0 && current.itemShovel == 1)
-			|| (settings["BugNet"] && old.itemBugNet == 0 && current.itemBugNet == 1)
-			|| (settings["Paraglider"] && old.itemParaGlider == 0 && current.itemParaGlider == 1)
-			|| (settings["Wrench"] && old.itemWrench == 0 && current.itemWrench == 1))
-			{
-				return true;
-			}
+		return true;
 	}
+	if (settings["Shovel"] && old.itemShovel == 0 && current.itemShovel == 1)
+	{
+		return true;
+	}
+	if (settings["BugNet"] && old.itemBugNet == 0 && current.itemBugNet == 1)
+	{
+		return true;
+	}
+	if (settings["Paraglider"] && old.itemParaGlider == 0 && current.itemParaGlider == 1)
+	{
+		return true;
+	}
+	if (settings["Wrench"] && old.itemWrench == 0 && current.itemWrench == 1)
+	{
+		return true;
+	}
+
 	// split on finished Turbo Trash Can
 	if (settings["TurboTrashcan"] && old.TurboTrashCan == true && current.TurboTrashCan == false)
 	{
