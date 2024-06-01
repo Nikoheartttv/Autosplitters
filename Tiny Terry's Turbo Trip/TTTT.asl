@@ -16,6 +16,7 @@ startup
 				{ "BugNet", true, "Get Bug Net", "Items" },
 				{ "Paraglider", true, "Get Bug Net", "Items" },
 				{ "Wrench", true, "Get Wrench", "Items" },
+			{ "TurboTrashcan", true, "Split on Turbo Trash Can collection", "Splits" },
 			{ "Space", true, "End Split - Ride into Space", "Splits" },
 	};
 	
@@ -32,6 +33,7 @@ init
 		var pr = mono["TTTT", "TTTT.PlayerReferences"];
 		var so = mono["TTTT", "TTTT.SOItem"];
 		var sl = mono["TTTT", "TTTT.SceneLoader"];
+		var ls = mono["TTTT", "TTTT.LiminalSpace"];
 		vars.Helper["isTransitioning"] = g.Make<bool>("_id", "_sceneLoader", sl["isTransitioning"]);
 		vars.Helper["holeTransitionRoutineBusy"] = g.Make<bool>("_id", "_sceneLoader", sl["holeTransitionRoutineBusy"]);
 		vars.Helper["itemTurboJunk"] = g.Make<byte>("_id", "_playerReferences", pr["itemTurboJunk"], so["playerOwned"]);
@@ -42,6 +44,7 @@ init
 		vars.Helper["itemBugNet"] = g.Make<byte>("_id", "_playerReferences", pr["itemBugNet"], so["playerOwned"]);
 		vars.Helper["itemParaGlider"] = g.Make<byte>("_id", "_playerReferences", pr["itemParaGlider"], so["playerOwned"]);
 		vars.Helper["itemWrench"] = g.Make<byte>("_id", "_playerReferences", pr["itemWrench"], so["playerOwned"]);
+		vars.Helper["TurboTrashCan"] = ls.Make<bool>("active");
 		return true;
 	});
 
@@ -72,6 +75,7 @@ start
 
 split
 {
+	// split on collecting item
 	if (current.activeScene == "Spranklewater")
 	{
 		if ((settings["Pipe"] && old.itemPipe == 0 && current.itemPipe == 1 )
@@ -83,6 +87,11 @@ split
 				return true;
 			}
 	}
+	// split on finished Turbo Trash Can
+	if (settings["TurboTrashcan"] && old.TurboTrashCan == true && current.TurboTrashCan == false)
+	{
+		return true;
+	}
 	// Final Split
 	if (settings["Space"] && old.activeScene == "Spranklewater" && current.activeScene == "Sky Tower Ending Scene")
 	{
@@ -92,5 +101,5 @@ split
 
 isLoading
 {
-	return current.isTransitioning || current.holeTransitionRoutineBusy;
+	return current.isTransitioning;
 }
