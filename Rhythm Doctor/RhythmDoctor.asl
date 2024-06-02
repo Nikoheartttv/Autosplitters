@@ -57,6 +57,7 @@ startup
 			{ "ArtExercise", true, "X-1: Art Exercise", "Levels" },
 			{ "Unbeatable", true, "X-WOT: Worn Out Tapes", "Levels" },
 			{ "MeetAndTweet", true, "X-MAT: Meet And Tweet", "Levels" },
+			{ "VividStasis", true, "X-FTS: Fixations Towards the Stars", "Levels" },
 		{ "AutoReset", false, "Auto Reset when going back to Menu", null },
 	};
 
@@ -137,6 +138,9 @@ init
 		case "6DB3C6A773E02712E541D4F0F47FD41E" :
 			version = "v0.14.0 (r30)";
 			break;
+		case "89A9039F6D8583885E6178B7CCC93AFF" :
+			version = "v0.15.0";
+			break;
 		default:
 			version = "Unknown version";
 			break;
@@ -155,6 +159,7 @@ init
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.15.0":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
 			case "v0.13.0 (r28)":
@@ -208,6 +213,10 @@ init
 
         return true;
     });
+
+	current.Scene = "";
+	current.Level = "";
+	current.inGame = false;
 }
 
 update
@@ -226,6 +235,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
+		case "v0.15.0":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
@@ -272,6 +282,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.15.0":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
 			case "v0.13.0 (r28)":
@@ -310,6 +321,7 @@ split
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.15.0":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
 			case "v0.13.0 (r28)":
@@ -366,6 +378,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
+		case "v0.15.0":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
@@ -407,6 +420,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.15.0":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
@@ -427,6 +441,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.15.0":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
