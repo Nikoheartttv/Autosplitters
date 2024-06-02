@@ -18,15 +18,15 @@ startup
 				{ "Paraglider", true, "Get Bug Net", "Items" },
 				{ "Wrench", true, "Get Wrench", "Items" },
 			{ "TurboTrashcan", true, "Turbo Trash Cans", "Splits" },
-				{ "jatkleuter", true, "Jatkleuter Trashcan", "TurboTrashcan" },
-				{ "snekfret", true, "Snekfret Trashcan", "TurboTrashcan" },
-				{ "pert", true, "Pert Trashcan", "TurboTrashcan" },
-				{ "yoga", true, "Yoga Trashcan", "TurboTrashcan" },
-				{ "soccer", true, "Soccer Trashcan", "TurboTrashcan" },
-				{ "steelkees", true, "Steelkees Trashcan", "TurboTrashcan" },
-				{ "griatta", true, "Griatta Trashcan", "TurboTrashcan" },
-				{ "spepely", true, "Spepely Trashcan", "TurboTrashcan" },
-				{ "olger", true, "Olger Trashcan", "TurboTrashcan" },
+				{ "ttc_jatkleuter", true, "Jatkleuter Trashcan", "TurboTrashcan" },
+				{ "ttc_snekfret", true, "Snekfret Trashcan", "TurboTrashcan" },
+				{ "ttc_pert", true, "Pert Trashcan", "TurboTrashcan" },
+				{ "ttc_yoga", true, "Yoga Trashcan", "TurboTrashcan" },
+				{ "ttc_soccer", true, "Soccer Trashcan", "TurboTrashcan" },
+				{ "ttc_steelkees", true, "Steelkees Trashcan", "TurboTrashcan" },
+				{ "ttc_griatta", true, "Griatta Trashcan", "TurboTrashcan" },
+				{ "ttc_spepely", true, "Spepely Trashcan", "TurboTrashcan" },
+				{ "ttc_olger", true, "Olger Trashcan", "TurboTrashcan" },
 			{ "Space", true, "End Split - Ride into Space", "Splits" },
 	};
 	
@@ -59,6 +59,8 @@ startup
 
         throw new Exception("ReadIntVariable: Variable not found!");
 	});
+
+	vars.CompletedSplits = new HashSet<string>();
 }
 
 init
@@ -178,6 +180,7 @@ onStart
 	current.TTC_griatta = false;
 	current.TTC_spepely = false;
 	current.TTC_olger = false;
+	vars.CompletedSplits.Clear();
 }
 
 start
@@ -188,27 +191,102 @@ start
 split
 {
 	// Split after leaving Job centre
-	if (settings["JobGet"] && old.activeScene == "Job Application Center" && current.activeScene == "Sprankelwater") return true;
+	if (settings["JobGet"] && old.activeScene == "Job Application Center" 
+		&& current.activeScene == "Sprankelwater" && !vars.CompletedSplits.Contains("JobGet")) 
+	{
+		vars.CompletedSplits.Add("JobGet");
+		return true;
+	}
 	// split on collecting item
-	if (settings["Pipe"] && old.itemPipe == 0 && current.itemPipe == 1) return true;
-	if (settings["Shovel"] && old.itemShovel == 0 && current.itemShovel == 1) return true;
-	if (settings["BugNet"] && old.itemBugNet == 0 && current.itemBugNet == 1) return true;
-	if (settings["Paraglider"] && old.itemParaGlider == 0 && current.itemParaGlider == 1) return true;
-	if (settings["Wrench"] && old.itemWrench == 0 && current.itemWrench == 1) return true;
+	if (settings["Pipe"] && old.itemPipe == 0 && current.itemPipe == 1 && !vars.CompletedSplits.Contains("Pipe"))
+		{
+			vars.CompletedSplits.Add("Pipe");
+			return true;
+		}
+	if (settings["Shovel"] && old.itemShovel == 0 && current.itemShovel == 1 && !vars.CompletedSplits.Contains("Pipe")) 
+		{
+			vars.CompletedSplits.Add("Shovel");
+			return true;
+		}
+	if (settings["BugNet"] && old.itemBugNet == 0 && current.itemBugNet == 1 && !vars.CompletedSplits.Contains("BugNet")) 
+		{
+			vars.CompletedSplits.Add("BugNet");
+			return true;
+		}
+	if (settings["Paraglider"] && old.itemParaGlider == 0 && current.itemParaGlider == 1 && !vars.CompletedSplits.Contains("Paraglider"))
+		{
+			vars.CompletedSplits.Add("Paraglider");
+			return true;
+		}
+	if (settings["Wrench"] && old.itemWrench == 0 && current.itemWrench == 1 && !vars.CompletedSplits.Contains("Wrench"))
+		{
+			vars.CompletedSplits.Add("Wrench");
+			return true;
+		}
 
 	// Final Split
-	if (settings["Space"] && old.activeScene == "Sprankelwater" && current.activeScene == "Sky Tower Ending Scene")	return true;
+	if (settings["Space"] && old.activeScene == "Sprankelwater" 
+		&& current.activeScene == "Sky Tower Ending Scene" && !vars.CompletedSplits.Contains("Space"))	
+		{
+			vars.CompletedSplits.Add("Space");
+			return true;
+		}
 
 	// Turbo Trash Can Splits
-	if (settings["jatkleuter"] && !old.TTC_jatkleuter && current.TTC_jatkleuter) return true;
-	if (settings["snekfret"] && !old.TTC_snekfret && current.TTC_snekfret) return true;
-	if (settings["pert"] && !old.TTC_pert && current.TTC_pert) return true;
-	if (settings["yoga"] && !old.TTC_yoga && current.TTC_yoga) return true;
-	if (settings["soccer"] && !old.TTC_soccer && current.TTC_soccer) return true;
-	if (settings["steelkees"] && !old.TTC_steelkees && current.TTC_steelkees) return true;
-	if (settings["griatta"] && !old.TTC_griatta && current.TTC_griatta) return true;
-	if (settings["spepely"] && !old.TTC_spepely && current.TTC_spepely) return true;
-	if (settings["olger"] && !old.TTC_olger && current.TTC_olger) return true;
+	if (settings["ttc_jatkleuter"] && !old.TTC_jatkleuter 
+		&& current.TTC_jatkleuter && !vars.CompletedSplits.Contains("ttc_jatkleuter")) 
+		{
+			vars.CompletedSplits.Add("ttc_jatkleuter");
+			return true;
+		}
+	if (settings["ttc_snekfret"] && !old.TTC_snekfret 
+		&& current.TTC_snekfret && !vars.CompletedSplits.Contains("ttc_snekfret"))
+		{
+			vars.CompletedSplits.Add("ttc_snekfret");
+			return true;
+		}
+	if (settings["ttc_pert"] && !old.TTC_pert 
+		&& current.TTC_pert && !vars.CompletedSplits.Contains("ttc_pert"))
+		{
+			vars.CompletedSplits.Add("ttc_pert");
+			return true;
+		}
+	if (settings["ttc_yoga"] && !old.TTC_yoga 
+		&& current.TTC_yoga && !vars.CompletedSplits.Contains("ttc_yoga"))
+		{
+			vars.CompletedSplits.Add("ttc_yoga");
+			return true;
+		}
+	if (settings["ttc_soccer"] && !old.TTC_soccer 
+		&& current.TTC_soccer && !vars.CompletedSplits.Contains("ttc_soccer"))
+		{
+			vars.CompletedSplits.Add("ttc_soccer");
+			return true;
+		}
+	if (settings["ttc_steelkees"] && !old.TTC_steelkees 
+		&& current.TTC_steelkees && !vars.CompletedSplits.Contains("ttc_steelkees"))
+		{
+			vars.CompletedSplits.Add("ttc_steelkees");
+			return true;
+		}
+	if (settings["ttc_griatta"] && !old.TTC_griatta 
+		&& current.TTC_griatta && !vars.CompletedSplits.Contains("ttc_griatta"))
+		{
+			vars.CompletedSplits.Add("ttc_griatta");
+			return true;
+		}
+	if (settings["ttc_spepely"] && !old.TTC_spepely 
+		&& current.TTC_spepely && !vars.CompletedSplits.Contains("ttc_spepely"))
+		{
+			vars.CompletedSplits.Add("ttc_spepely");
+			return true;
+		}
+	if (settings["ttc_olger"] && !old.TTC_olger 
+		&& current.TTC_olger && !vars.CompletedSplits.Contains("ttc_olger"))
+		{
+			vars.CompletedSplits.Add("ttc_olger");
+			return true;
+		}
 }
 
 onSplit

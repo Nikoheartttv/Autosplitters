@@ -19,9 +19,6 @@ startup
 
 	dynamic[,] _settings =
 	{
-		{ "Splitting", true, "Splitting", null },
-			{ "SplitLvl", false, "Split upon Level change", "Splitting" },
-			{ "SplitResults", true, "Split on Results Screen", "Splitting"},
 		{ "Levels", true, "Levels", null },
 			{ "Stage 1", true, "Stage 1", "Levels" },
 				{ "Level_1_2", true, "Stage 1 - Urban Rampart", "Stage 1" },
@@ -116,18 +113,15 @@ init
 	IntPtr fNames = vars.Helper.ScanRel(13, "89 5C 24 ?? 89 44 24 ?? 74 ?? 48 8D 15");
 
 	// if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
-    if (gEngine == IntPtr.Zero)
+    if (gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
 	{
 		const string Msg = "Not all required addresses could be found by scanning.";
 		throw new Exception(Msg);
 	}
 
 	// GWorld.Name
-	// vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
 	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gEngine, 0x780, 0x78, 0x18);
-	// vars.Helper["ResultsScreen"] = vars.Helper.Make<byte>(gEngine, 0x38, 0x0, 0xA8, 0x8, 0x4E8);
-	// vars.Helper["Loading"] = vars.Helper.Make<byte>(gEngine, 0xD28, 0x230, 0x278, 0x6F8);
-
+	
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
 		var nameIdx = (fName & 0x000000000000FFFF) >> 0x00;
@@ -155,7 +149,6 @@ update
 	if (!string.IsNullOrEmpty(world) && world != "None")
 		current.World = world;
 	if (old.World != current.World) vars.Log("GWorldName: " + current.World.ToString());
-
 	if (old.World != current.World) vars.stopwatch = Stopwatch.StartNew();
 }
 
@@ -163,7 +156,6 @@ onStart
 {
 	vars.stopwatch = Stopwatch.StartNew();
 	vars.CompletedSplits.Clear();
-	// vars.Inventory.Clear();
 
 	// This makes sure the timer always starts at 0.00
 	timer.IsGameTimePaused = true;
@@ -176,31 +168,17 @@ start
 
 split
 {	
-	if (settings["SplitLvl"])
+	if (current.World != "Level_7_6")
 	{
-		if (current.World != "Level_7_6")
+		if (old.World != current.World && (current.World != "MainMenu" || current.World != "Hideout") && settings.ContainsKey(current.World)
+		&& (!vars.CompletedSplits.Contains(current.World)))
 		{
-			if (old.World != current.World && (current.World != "MainMenu" || current.World != "Hideout") && settings.ContainsKey(current.World)
-			&& (!vars.CompletedSplits.Contains(current.World)))
-			{
-				vars.stopwatch = Stopwatch.StartNew();
-				vars.CompletedSplits.Add(current.World);
-				return true;
-			}
+			vars.stopwatch = Stopwatch.StartNew();
+			vars.CompletedSplits.Add(current.World);
+			return true;
 		}
-		else if (current.World == "Level_7_6")
-		{
-			if (settings.ContainsKey(current.World) && (!vars.CompletedSplits.Contains(current.World))
-				&& old.results == 0 && current.results == 1 && vars.stopwatch.ElapsedMilliseconds >= 30000)
-			{
-				vars.stopwatch = Stopwatch.StartNew();
-				vars.CompletedSplits.Add(current.World);
-				return true;
-			}
-		}
-		
 	}
-	if (settings["SplitResults"])
+	else if (current.World == "Level_7_6")
 	{
 		if (settings.ContainsKey(current.World) && (!vars.CompletedSplits.Contains(current.World))
 			&& old.results == 0 && current.results == 1 && vars.stopwatch.ElapsedMilliseconds >= 30000)
