@@ -139,7 +139,7 @@ init
 			version = "v0.14.0 (r30)";
 			break;
 		case "89A9039F6D8583885E6178B7CCC93AFF" :
-			version = "v0.15.0";
+			version = "v0.15.0 (r31)";
 			break;
 		default:
 			version = "Unknown version";
@@ -159,7 +159,7 @@ init
 		switch(version)
 		{
 			case "Unknown version":
-			case "v0.15.0":
+			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
 			case "v0.13.0 (r28)":
@@ -235,7 +235,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
-		case "v0.15.0":
+		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
@@ -282,7 +282,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
-			case "v0.15.0":
+			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
 			case "v0.13.0 (r28)":
@@ -321,7 +321,7 @@ split
 		switch(version)
 		{
 			case "Unknown version":
-			case "v0.15.0":
+			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
 			case "v0.13.0 (r28)":
@@ -378,7 +378,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
-		case "v0.15.0":
+		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
@@ -420,7 +420,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
-		case "v0.15.0":
+		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
@@ -441,7 +441,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
-		case "v0.15.0":
+		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
 		case "v0.13.0 (r28)":
