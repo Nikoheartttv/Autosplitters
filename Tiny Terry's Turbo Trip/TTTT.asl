@@ -27,7 +27,6 @@ startup
 				{ "griatta", true, "Griatta Trashcan", "TurboTrashcan" },
 				{ "spepely", true, "Spepely Trashcan", "TurboTrashcan" },
 				{ "olger", true, "Olger Trashcan", "TurboTrashcan" },
-			{ }
 			{ "Space", true, "End Split - Ride into Space", "Splits" },
 	};
 	
