@@ -11,7 +11,7 @@ startup
 	{
 		{ "Splits", true, "Splits (MANUAL FINAL SPLIT)", null },
 			{ "ch01s01_Jacks_Apartment", true, "Prologue", "Splits" },
-            { "ch02s01_Jacks_Apartment", true, "Chapter 1", "Splits" },
+			{ "ch02s01_Jacks_Apartment", true, "Chapter 1", "Splits" },
 			{ "ch03s01_Jacks_Apartment", true, "Chapter 2", "Splits" },
 			{ "ch05s02_Autopsy_Complex", true, "Chapter 3", "Splits" },
 			{ "ch06s01_Autopsy_Complex", true, "Chapter 4", "Splits" },
@@ -28,7 +28,7 @@ init
 
 update
 {
-    current.activeScene = vars.Helper.Scenes.Active.Name == null ? current.activeScene : vars.Helper.Scenes.Active.Name;
+	current.activeScene = vars.Helper.Scenes.Active.Name == null ? current.activeScene : vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
 }
 
@@ -40,23 +40,23 @@ onStart
 }
 start
 {
-    return old.activeScene == "Base_Scene_MainMenu" && current.activeScene == "Base_Scene_Loading";
+	return old.activeScene == "Base_Scene_MainMenu" && current.activeScene == "Base_Scene_Loading";
 }
 
 split
 {
-    if ((old.activeScene != current.activeScene) && settings.ContainsKey(current.activeScene) && !vars.CompletedSplits.Contains(current.activeScene))
-            {
-                vars.CompletedSplits.Add(current.activeScene);
-                return true;
-            }
+	if ((old.activeScene != current.activeScene) && settings.ContainsKey(current.activeScene) && !vars.CompletedSplits.Contains(current.activeScene))
+			{
+				vars.CompletedSplits.Add(current.activeScene);
+				return true;
+			}
 }
 
 isLoading
 {
-    return current.activeScene == "Base_Scene_Loading"
-            || current.activeScene == "ch0s02_Autopsy_Complex"
-            || current.activeScene == "ch0s03_Autopsy_Nightmare"
+	return current.activeScene == "Base_Scene_Loading"
+			|| current.activeScene == "ch0s02_Autopsy_Complex"
+			|| current.activeScene == "ch0s03_Autopsy_Nightmare"
 			|| current.activeScene == "ch01s01_Jacks_Apartment"
 			|| current.activeScene == "ch01s02_Autopsy_Complex"
 			|| current.activeScene == "ch01s03_Jacks_Apartment"
