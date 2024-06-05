@@ -45,8 +45,7 @@ start
 
 split
 {
-    if ((old.activeScene != current.activeScene) && settings.ContainsKey(current.activeScene) && !vars.CompletedSplits.Contains(current.activeScene)
-	    && (current.activeScene == "ch01s01_Apartment_Interactables" || current.activeScene == "ch0s04_Autopsy_Nightmare_Interactables"))
+    if ((old.activeScene != current.activeScene) && settings.ContainsKey(current.activeScene) && !vars.CompletedSplits.Contains(current.activeScene))
             {
                 vars.CompletedSplits.Add(current.activeScene);
                 return true;
