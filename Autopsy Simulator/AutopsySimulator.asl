@@ -46,27 +46,27 @@ start
 split
 {
 	if ((old.activeScene != current.activeScene) && settings.ContainsKey(current.activeScene) && !vars.CompletedSplits.Contains(current.activeScene))
-			{
-				vars.CompletedSplits.Add(current.activeScene);
-				return true;
-			}
+		{
+			vars.CompletedSplits.Add(current.activeScene);
+			return true;
+		}
 }
 
 isLoading
 {
 	return current.activeScene == "Base_Scene_Loading"
-			|| current.activeScene == "ch0s02_Autopsy_Complex"
-			|| current.activeScene == "ch0s03_Autopsy_Nightmare"
-			|| current.activeScene == "ch01s01_Jacks_Apartment"
-			|| current.activeScene == "ch01s02_Autopsy_Complex"
-			|| current.activeScene == "ch01s03_Jacks_Apartment"
-			|| current.activeScene == "ch02s01_Jacks_Apartment"
-			|| current.activeScene == "ch02s02_Jacks_Apartment"
-			|| current.activeScene == "ch02s03_Autopsy_Complex"
-			|| current.activeScene == "ch02s04_Jacks_Apartment"
-			|| current.activeScene == "ch03s01_Jacks_Apartment"
-			|| current.activeScene == "ch03s02_Autopsy_Complex"
-			|| current.activeScene == "ch05s02_Autopsy_Complex"
-			|| current.activeScene == "ch0s04_Autopsy_Nightmare_2"
-			|| current.activeScene == "ch06s01_Autopsy_Complex";
+		|| current.activeScene == "ch0s02_Autopsy_Complex"
+		|| current.activeScene == "ch0s03_Autopsy_Nightmare"
+		|| current.activeScene == "ch01s01_Jacks_Apartment"
+		|| current.activeScene == "ch01s02_Autopsy_Complex"
+		|| current.activeScene == "ch01s03_Jacks_Apartment"
+		|| current.activeScene == "ch02s01_Jacks_Apartment"
+		|| current.activeScene == "ch02s02_Jacks_Apartment"
+		|| current.activeScene == "ch02s03_Autopsy_Complex"
+		|| current.activeScene == "ch02s04_Jacks_Apartment"
+		|| current.activeScene == "ch03s01_Jacks_Apartment"
+		|| current.activeScene == "ch03s02_Autopsy_Complex"
+		|| current.activeScene == "ch05s02_Autopsy_Complex"
+		|| current.activeScene == "ch0s04_Autopsy_Nightmare_2"
+		|| current.activeScene == "ch06s01_Autopsy_Complex";
 }
