@@ -49,6 +49,7 @@ startup
 			{ "Freezeshot", true, "5-2: Lo-fi Beats For Patients To Chill To", "Levels" },
 			{ "FreezeshotH", true, "5-2N: Unsustainable Inconsolable", "Levels" },
 			{ "AthleteTherapy", true, "5-3: Seventh-Inning Stretch", "Levels" },
+			{ "RhythmWeightlifter", false, "5-B1: Rhythm Weightlifter", "Levels" },
 			{ "AthleteFinale", true, "5-X: Dreams Don't Stop", "Levels" },
 			{ "BlackestLuxuryCar", true, "MD-1: Blackest Luxury Car", "Levels" },
 			{ "TapeStopNight", true, "MD-2: tape/stop/night", "Levels" },
@@ -58,6 +59,7 @@ startup
 			{ "Unbeatable", true, "X-WOT: Worn Out Tapes", "Levels" },
 			{ "MeetAndTweet", true, "X-MAT: Meet And Tweet", "Levels" },
 			{ "VividStasis", true, "X-FTS: Fixations Towards the Stars", "Levels" },
+			{ "SparkLine", true, "X-KOB: Kindom of Balloons", "Levels" },
 		{ "AutoReset", false, "Auto Reset when going back to Menu", null },
 	};
 
@@ -141,6 +143,9 @@ init
 		case "89A9039F6D8583885E6178B7CCC93AFF" :
 			version = "v0.15.0 (r31)";
 			break;
+		case "E41A7BCFDA01F513D60EAAE1F8056A1E" :
+			version = "v0.16.0 (r32)";
+			break;
 		default:
 			version = "Unknown version";
 			break;
@@ -148,6 +153,9 @@ init
 
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
     {
+        vars.Mono = mono;
+        vars.Assembly = mono.Images["Assembly-CSharp"];
+        
 		var scnGame = mono["scnGame", 1];
 		var scnGame2 = mono["scnGame"];
         var HUD = mono["HUD"];
@@ -159,6 +167,17 @@ init
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.16.0 (r32)":
+				var SV2 = mono["SpeedrunValues"];
+				vars.Helper["inGame"] = SV2.Make<bool>("inGame");
+				vars.Helper["isLoading"] = SV2.Make<bool>("isLoading");
+				vars.Helper["Level"] = SV2.MakeString("currentLevel");
+				vars.Helper["rank"] = SV2.Make<int>("rank");
+				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+				vars.Helper["GameState"] = SV2.Make<int>("currentGameState");
+				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+
+				break;
 			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
@@ -170,7 +189,6 @@ init
 				vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
 				vars.Helper["Level"] = SV.MakeString("currentLevel");
 				vars.Helper["rank"] = SV.Make<int>("rank");
-				// vars.Helper["score"] = mono.Make<int>("SpeedrunValues", "score");
 				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
 				vars.Helper["GameState"] = SV.Make<int>("currentGameState");
 				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
@@ -214,6 +232,10 @@ init
         return true;
     });
 
+    vars.WLClassFound = false;
+	vars.WLHasShownEnding = false;
+	vars.WLScore = 0;
+
 	current.Scene = "";
 	current.Level = "";
 	current.inGame = false;
@@ -221,6 +243,33 @@ init
 
 update
 {
+    if (!vars.WLClassFound && current.Scene == "scnRhythmWeightlifter")
+	{
+		var WL = vars.Assembly["RhythmWeightlifter.scnRhythmWeightlifter"];
+		vars.Level = vars.Assembly["RhythmWeightlifter.Level"];
+		if (WL.Static != IntPtr.Zero)
+		{
+			vars.WLClassFound = true;
+			vars.Helper["shouldShowEnding"] = WL.Make<bool>("gameInstance", "shouldShowEnding");
+			vars.Helper["lastLevelPlayed"] = WL.Make<bool>("gameInstance", "lastLevelPlayed");
+			vars.Helper["rwpaused"] = WL.Make<bool>("gameInstance", "paused");
+			vars.Helper["WLlevels"] = WL.MakeArray<IntPtr>("gameInstance", "levels");
+		}
+	}
+
+	if (vars.WLClassFound && current.Scene == "scnRhythmWeightlifter" && current.shouldShowEnding) vars.WLHasShownEnding = true;
+
+	if (vars.WLClassFound && current.Scene == "scnRhythmWeightlifter" && vars.WLScore < 2000)
+	{
+		int totalScore = 0;
+		for (var i = 0; i < vars.Helper["WLlevels"].Current.Length; i++)
+		{
+			totalScore += vars.Helper.Read<int>(vars.Helper["WLlevels"].Current[i] + vars.Level["score"]);
+		}
+
+		vars.WLScore = totalScore;
+	}
+
 	// if (old.GameState != current.GameState) vars.Log("GameState changed from " + old.GameState.ToString() + " to " + current.GameState.ToString());
 	if (!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.Scene = vars.Helper.Scenes.Active.Name;
 
@@ -235,6 +284,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
+		case "v0.16.0 (r32)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
@@ -282,6 +332,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.16.0 (r32)":
 			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
@@ -312,6 +363,9 @@ onStart
 	vars.levelCompleted = false;
 	vars.Log("START");
 	vars.VisitedLevel.Clear();
+	vars.WLClassFound = false;
+	vars.WLHasShownEnding = false;
+	vars.WLScore = 0;
 }
 
 split
@@ -321,6 +375,48 @@ split
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.16.0 (r32)":
+				if (old.Level == "Intro" && current.Level == "OrientalTechno")
+					{
+						vars.VisitedLevel.Add("Intro");
+						return settings["Intro"];
+					}
+
+				if (old.Scene == "scnGame" && current.Scene != "scnGame")
+					{
+						if (!vars.VisitedLevel.Contains(current.Level))
+						{
+							bool doSplit = false;
+							if (current.Level == "BeansHopper")
+								{ if (!settings["Flawless"] || current.score >= 60) doSplit = true; }
+							else if (vars.bossLevels.Contains(current.Level))
+								{ if (vars.levelCompleted) doSplit = true; }
+							else if (current.Level == "HelpingHands")
+								{ if (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17) doSplit = true; }
+							else 
+								{ if (vars.GetLocalRank(current.rank) >= 10 && (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17)) doSplit = true; }
+
+							if (doSplit)
+							{
+								vars.VisitedLevel.Add(current.Level);
+								return settings[current.Level];
+							}
+						}
+					}
+
+                if (!vars.VisitedLevel.Contains("RhythmWeightlifter"))
+                {
+					if (old.Scene == "scnRhythmWeightlifter" && current.Scene == "scnLevelSelect")
+					{
+						if (vars.WLScore >= 2400 || (vars.WLHasShownEnding && !settings["Flawless"]))
+						{
+							vars.VisitedLevel.Add("RhythmWeightlifter");
+                            return settings["RhythmWeightlifter"];
+						}
+					}
+                }
+	
+				break;
 			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
@@ -378,6 +474,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
+		case "v0.16.0 (r32)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
@@ -406,8 +503,6 @@ split
 			}
 			break;
 	}
-	
-	
 }
 
 onSplit
@@ -420,6 +515,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.16.0 (r32)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
@@ -441,6 +537,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.16.0 (r32)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
