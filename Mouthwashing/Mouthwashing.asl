@@ -76,7 +76,6 @@ update
 	if (old.CInstance != current.CInstance)
 	{
 		current.CInstancePrint = current.CInstance.ToString("X");
-		// print(current.CInstance.ToString("X"));
 	}
 }
 
