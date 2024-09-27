@@ -59,7 +59,7 @@ init
 
 	current.activeScene = "";
 	current.loadingScene = "";
-	current.CInstancePrint = "";
+	current.CInstancePrint = "0";
 	current.debugDescription = "";
 }
 
@@ -104,9 +104,4 @@ split
 isLoading
 {
     return current.inSceneTransition || current.datamoshIsPaused;
-}
-
-reset
-{
-
 }
