@@ -71,6 +71,7 @@ start
 onStart
 {
 	vars.VisitedLevel.Clear();
+	timer.IsGameTimePaused = true;
 }
 
 update
@@ -104,4 +105,9 @@ split
 isLoading
 {
     return current.inSceneTransition || current.datamoshIsPaused;
+}
+
+exit
+{
+	timer.IsGameTimePaused = true;
 }
