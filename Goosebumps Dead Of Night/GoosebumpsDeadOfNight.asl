@@ -6,13 +6,13 @@ state("Goosebumps_DeadOfNight")
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
-    vars.Helper.GameName = "Goosebumps Dead of Night";
-    vars.Helper.LoadSceneManager = true;
+	vars.Helper.GameName = "Goosebumps Dead of Night";
+	vars.Helper.LoadSceneManager = true;
 		
 	dynamic[,] _settings =
 	{
 		{ "Scenes", true, "Scenes", null },
-			{ "Conservatory_Interactive", true,	"Conservatory", "Scenes" },
+			{ "Conservatory_Interactive", true, "Conservatory", "Scenes" },
 			{ "TeslaTowerExt_Interactive", true, "Telsa Tower (Outside)", "Scenes" },
 			{ "Tesla_Tower_Interactive", false, "Telsa Tower (Inside)", "Scenes" },
 			{ "Tesla_Tower_Basement_Interactive", false, "Telsa Tower (Basement)", "Scenes" },
@@ -25,7 +25,7 @@ startup
 	vars.Helper.Settings.Create(_settings);
 	vars.Helper.AlertGameTime();
 
-    vars.VisitedLevel = new List<string>();
+	vars.VisitedLevel = new List<string>();
 }
 
 update
@@ -54,13 +54,13 @@ start
 split
 {
 	if (old.activeScene != current.activeScene) 
-    { 
-        if (!vars.VisitedLevel.Contains(current.activeScene))
-			{
-                vars.VisitedLevel.Add(current.activeScene);
-                return settings[current.activeScene];
-            }
-    }
+	{ 
+        	if (!vars.VisitedLevel.Contains(current.activeScene))
+		{
+			vars.VisitedLevel.Add(current.activeScene);
+			return settings[current.activeScene];
+		}
+	}
 	if (old.IsSlappyDead == 0 && current.IsSlappyDead == 1)
 	{
 		return settings["Final_Hit"];
