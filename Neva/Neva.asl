@@ -19,14 +19,12 @@ startup
 				{ "70", true, "Summer Part 3", "Chapter1" },
 				{ "100", true, "Summer Part 4", "Chapter1" },
 			{ "Chapter2", true, "Chapter 2 - Fall", "Splits" },
-				{ "120", true, "Fall 2A - 1", "Chapter2" },
-				{ "150", true, "Fall 2A - 2", "Chapter2" },
-				{ "170", true, "Fall 2B - 1", "Chapter2" },
-				{ "200", true, "Fall 2B - 2", "Chapter2" },
-				{ "210", true, "Fall 2C - 0", "Chapter2" },
-				{ "220", true, "Fall 2C - 1", "Chapter2" },
-				{ "230", true, "Fall 2C - 2", "Chapter2" },
-				{ "250", true, "Fall 2C - 3", "Chapter2" },
+				{ "120", true, "Fall Part 1", "Chapter2" },
+				{ "150", true, "Fall Part 2", "Chapter2" },
+				{ "170", true, "Fall Part 3", "Chapter2" },
+				{ "210", true, "Fall Part 4", "Chapter2" },
+				{ "220", true, "Fall Part 5", "Chapter2" },
+				{ "250", true, "Fall Part 6", "Chapter2" },
 			{ "Chapter3", true, "Chapter 3 - Winter", "Splits" },
 				{ "270", true, "Winter Part 1", "Chapter3" },
 				{ "290", true, "Winter Part 2", "Chapter3" },
@@ -48,11 +46,13 @@ init
 		var cm = mono["Home.ChapterManager"];
 		var pm = mono["Home.ProgressionManager"];
 		var guic = mono["Home.GUICamera"];
+		var cim = mono["Home.CustomInputManager"];
 
 		vars.Helper["IsInGame"] = mm.Make<bool>("_instance", "m_IsInGame");
 		vars.Helper["ChapterScenesLoading"] = mm.Make<bool>("_instance", "m_ChapterManager", cm["m_ChapterScenesLoading"]);
 		vars.Helper["LastChapterUnlocked"] = mm.Make<int>("_instance", "m_ProgressionManager", pm["LastChapterUnlocked"]);
 		vars.Helper["SkipVideoIsEnabled"] = mm.Make<bool>("_instance", "m_GUICamera", guic["m_SkipVideoIsEnabled"]);
+		vars.Helper["ForceKeepPrevousParenting"] = mm.Make<bool>("_instance", 0xf8, 0x0d8, 0x028, 0x129);
 
 		return true;
 	});
@@ -69,7 +69,7 @@ onStart
 
 start
 {
-	return current.loadingScene == "Chapter_1A_Gameplay" && old.IsInGame == false && current.IsInGame == true;
+	return current.LastChapterUnlocked == 10 && old.ForceKeepPrevousParenting == true && current.ForceKeepPrevousParenting == false;
 }
 
 update
@@ -83,6 +83,7 @@ update
         {
             vars.EndingCutscenes++;
         } 
+	if (old.ForceKeepPrevousParenting != current.ForceKeepPrevousParenting) vars.Log("ForceKeepPrevousParenting: " + current.ForceKeepPrevousParenting);
 }
 
 split
@@ -96,8 +97,7 @@ split
 	{
 		vars.CompletedSplits.Contains("Ending");
 		return true;
-	}
-		
+	}	
 }
 
 isLoading
