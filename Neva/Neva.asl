@@ -52,7 +52,7 @@ init
 		vars.Helper["ChapterScenesLoading"] = mm.Make<bool>("_instance", "m_ChapterManager", cm["m_ChapterScenesLoading"]);
 		vars.Helper["LastChapterUnlocked"] = mm.Make<int>("_instance", "m_ProgressionManager", pm["LastChapterUnlocked"]);
 		vars.Helper["SkipVideoIsEnabled"] = mm.Make<bool>("_instance", "m_GUICamera", guic["m_SkipVideoIsEnabled"]);
-		vars.Helper["ForceKeepPrevousParenting"] = mm.Make<bool>("_instance", 0xf8, 0x0d8, 0x028, 0x129);
+		vars.Helper["ForceKeepPrevousParenting"] = mm.Make<bool>("_instance", 0xf8, 0xd8, 0x28, 0x129);
 
 		return true;
 	});
