@@ -25,6 +25,8 @@ init
 		vars.Helper["runStartTime"] = rm.Make<float>("_instance", "runStartTime");
 		vars.Helper["Level"] = rm.MakeString("_instance", "CurrentLevel", lvl["Name"]);
 		vars.Helper["ControlState"] = rm.Make<int>("_instance", "Player", p["State"]);
+		vars.Helper["pausers"] = gm.MakeList<IntPtr>("_instance", "pausers");
+		vars.Helper["instance"] = gm.Make<IntPtr>("_instance");
 
 		return true;
 	});
@@ -35,6 +37,10 @@ init
 
 update
 {
+	current.Paused = vars.Helper["pausers"].Current.Count > 0;
+	if (old.Paused != current.Paused) vars.Log(current.Paused);
+	// current.Count = memory.ReadValue<int>((IntPtr)current.pausers[0] + 0x20);
+	// vars.Log(current.instance.ToString("X"));
 	current.Scene = vars.Helper.Scenes.Active.Name;
 	if (old.Scene != current.Scene) print("Scene Change: " + current.Scene);
 	if (old.runStartTime != current.runStartTime) vars.Log("runStartTime change: " + current.runStartTime.ToString());
@@ -97,7 +103,7 @@ onReset
 
 isLoading
 {
-    return current.ControlState == 1;
+    return current.ControlState == 1 || current.Paused;
 }
 
 exit
