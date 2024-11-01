@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Run version="1.7.0">
+  <GameIcon />
+  <GameName>REVEIL</GameName>
+  <CategoryName>Any%</CategoryName>
+  <LayoutPath>
+  </LayoutPath>
+  <Metadata>
+    <Run id="" />
+    <Platform usesEmulator="False">
+    </Platform>
+    <Region>
+    </Region>
+    <Variables />
+  </Metadata>
+  <Offset>00:00:00</Offset>
+  <AttemptCount>0</AttemptCount>
+  <AttemptHistory />
+  <Segments>
+    <Segment>
+      <Name>Chapter 1 - Intro</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 1 - House</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 1 - The Circus</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 1 - Funhouse</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 1 - Strange Apartment</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 2 - Home Together</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 2 - Another Dream</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 2 - Circus Train</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 3 - A Phone Booth</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 3 - Fortune Teller</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 4 - The Forest of Memories</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 4 - Ghost Train</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - The House</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - Facility</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - The Apartment Again</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Chapter 5 - The Machine</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+  </Segments>
+  <AutoSplitterSettings />
+</Run>

@@ -82,15 +82,16 @@ update
 
 split
 {
-	if (old.activeScene != current.activeScene && settings[current.activeScene.ToString()] && !vars.VisitedLevel.Contains(current.activeScene.ToString()))
-	{
-        	vars.VisitedLevel.Add(current.activeScene.ToString());
-        	return settings[current.activeScene.ToString()];
-    	}
-	if (settings["Ending"] && current.activeScene == "Ch22 Scene" && old.CInstancePrint == "0" && current.CInstancePrint != "0")
-	{
-		return true;
-	}
+    if (old.activeScene != current.activeScene && settings[current.activeScene.ToString()] && !vars.VisitedLevel.Contains(current.activeScene.ToString()))
+    {
+            vars.VisitedLevel.Add(current.activeScene.ToString());
+            return true;
+    }
+
+    if (settings["Ending"] && current.activeScene == "Ch22 Scene" && old.CInstancePrint == "0" && current.CInstancePrint != "0")
+    {
+        return true;
+    }
 }
 
 isLoading

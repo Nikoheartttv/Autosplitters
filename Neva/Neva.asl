@@ -12,6 +12,7 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "ILMode", false, "ChapterIL Splitting", null },
 		{ "Splits", true, "Splits", null },
 			{ "Chapter1", true, "Chapter 1 - Summer", "Splits" },
 				{ "20", true, "Summer Part 1", "Chapter1" },
@@ -52,7 +53,9 @@ init
 		vars.Helper["ChapterScenesLoading"] = mm.Make<bool>("_instance", "m_ChapterManager", cm["m_ChapterScenesLoading"]);
 		vars.Helper["LastChapterUnlocked"] = mm.Make<int>("_instance", "m_ProgressionManager", pm["LastChapterUnlocked"]);
 		vars.Helper["SkipVideoIsEnabled"] = mm.Make<bool>("_instance", "m_GUICamera", guic["m_SkipVideoIsEnabled"]);
-		vars.Helper["ForceKeepPrevousParenting"] = mm.Make<bool>("_instance", 0xf8, 0xd8, 0x28, 0x129);
+		// vars.Helper["ForceKeepPrevousParenting"] = mm.Make<bool>("_instance", 0xf8, 0xd8, 0x28, 0x129);
+		// Home.MainManager, m_InputManager, m_CurrentInputMap
+		vars.Helper["CurrentInputMap"] = mm.Make<byte>("_instance", 0x68, 0x84);
 
 		return true;
 	});
@@ -69,7 +72,15 @@ onStart
 
 start
 {
-	return current.LastChapterUnlocked == 10 && old.ForceKeepPrevousParenting == true && current.ForceKeepPrevousParenting == false;
+	if (!settings["ILMode"])
+	{
+		return current.LastChapterUnlocked == 10 && old.CurrentInputMap != 0 && current.CurrentInputMap == 0;
+
+	}
+	else if (settings["ILMode"])
+	{
+	return old.loadingScene == "MainMenu" && current.loadingScene != "MainMenu" && old.CurrentInputMap != 0 && current.CurrentInputMap == 0;
+	}
 }
 
 update
@@ -83,7 +94,7 @@ update
         {
             vars.EndingCutscenes++;
         } 
-	if (old.ForceKeepPrevousParenting != current.ForceKeepPrevousParenting) vars.Log("ForceKeepPrevousParenting: " + current.ForceKeepPrevousParenting);
+	if (old.CurrentInputMap != current.CurrentInputMap) vars.Log("CurrentInputMap: " + current.CurrentInputMap);
 }
 
 split
@@ -102,5 +113,13 @@ split
 
 isLoading
 {
-	return current.ChapterScenesLoading == true || current.IsInGame == false;
+	if (current.loadingScene != "MainMenu" && (current.ChapterScenesLoading == true || current.IsInGame == false))
+	{
+		return true;
+	}
+	else if (current.loadingScene == "MainMenu")
+	{
+		return false;
+	}
 }
+

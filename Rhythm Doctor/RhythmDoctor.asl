@@ -60,6 +60,7 @@ startup
 			{ "MeetAndTweet", true, "X-MAT: Meet And Tweet", "Levels" },
 			{ "VividStasis", true, "X-FTS: Fixations Towards the Stars", "Levels" },
 			{ "SparkLine", true, "X-KOB: Kindom of Balloons", "Levels" },
+			{ "Halloween", true, "1-BOO: theme of really spooky bird", "Levels" },
 		{ "AutoReset", false, "Auto Reset when going back to Menu", null },
 	};
 
@@ -144,7 +145,7 @@ init
 			version = "v0.15.0 (r31)";
 			break;
 		case "E41A7BCFDA01F513D60EAAE1F8056A1E" :
-			version = "v0.16.0 (r32)";
+			version = "v0.16.0 / v0.17.0 (r32/r33)";
 			break;
 		default:
 			version = "Unknown version";
@@ -167,7 +168,7 @@ init
 		switch(version)
 		{
 			case "Unknown version":
-			case "v0.16.0 (r32)":
+			case "v0.16.0 / v0.17.0 (r32/r33)":
 				var SV2 = mono["SpeedrunValues"];
 				vars.Helper["inGame"] = SV2.Make<bool>("inGame");
 				vars.Helper["isLoading"] = SV2.Make<bool>("isLoading");
@@ -284,7 +285,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
-		case "v0.16.0 (r32)":
+		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
@@ -332,7 +333,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
-			case "v0.16.0 (r32)":
+			case "v0.16.0 / v0.17.0 (r32/r33)":
 			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
 			case "v0.13.1 (r29)":
@@ -375,7 +376,7 @@ split
 		switch(version)
 		{
 			case "Unknown version":
-			case "v0.16.0 (r32)":
+			case "v0.16.0 / v0.17.0 (r32/r33)":
 				if (old.Level == "Intro" && current.Level == "OrientalTechno")
 					{
 						vars.VisitedLevel.Add("Intro");
@@ -474,7 +475,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
-		case "v0.16.0 (r32)":
+		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
@@ -515,7 +516,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
-		case "v0.16.0 (r32)":
+		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
@@ -537,7 +538,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
-		case "v0.16.0 (r32)":
+		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
 		case "v0.13.1 (r29)":
