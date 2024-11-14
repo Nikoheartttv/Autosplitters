@@ -40,7 +40,7 @@ init
 		var AD = mono["AutosplitData"];
 		vars.Helper["state"] = AD.Make<int>("state");
 		vars.Helper["levelName"] = AD.MakeString("levelName");
-		vars.Helper["levelID"] = AD.MakeString("levelID");	
+		vars.Helper["levelID"] = AD.Make<int>("levelID");	
 		return true;
 	});
 }
