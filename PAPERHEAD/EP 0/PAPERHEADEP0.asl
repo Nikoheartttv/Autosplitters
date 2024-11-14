@@ -13,19 +13,19 @@ startup
 			{ "onLevelSwap", true, "On Level Swap", "SplitActioning" },
 			{ "onRankScreen", false, "On Rank Screen", "SplitActioning" },
 		{ "SplitsLevels", true, "Level Splits", null },
-			{ "ht_prologue_1_1", true, "Level 1", "SplitsLevels" },
-			{ "ht_prologue_1_2", true, "Level 2", "SplitsLevels" },
-			{ "ht_prologue_2_cut", true, "Level 3", "SplitsLevels" },
-			{ "ht_prologue_3", true, "Level 4", "SplitsLevels" },
-			{ "ht_prologue_4", true, "Level 5", "SplitsLevels" },
-			{ "40_sl", true, "Level 6", "SplitsLevels"},
+			{ "2", true, "Level 1", "SplitsLevels" },
+			{ "3", true, "Level 2", "SplitsLevels" },
+			{ "4", true, "Level 3", "SplitsLevels" },
+			{ "5", true, "Level 4", "SplitsLevels" },
+			{ "6", true, "Level 5", "SplitsLevels" },
+			{ "6_end", true, "Level 6", "SplitsLevels"},
 		{ "SplitsRankScreen", false, "Rank Screen Splits", null },
 			{ "W4ke Up", true, "Level 1 - W4ke Up", "SplitsRankScreen" },
 			{ "Volunt33r", true, "Level 2 - Volunt33r", "SplitsRankScreen" },
 			{ "0bject 808", true, "Level 3 - 0bject 808", "SplitsRankScreen" },
 			{ "Church", true, "Level 4 - Church", "SplitsRankScreen" },
 			{ "Drone", true, "Level 5 - Drone", "SplitsRankScreen" },
-			{ "40_srs", true, "Level 6 - Host", "SplitsRankScreen" },
+			{ "Host", true, "Level 6 - Host", "SplitsRankScreen" },
 	};
 
 	vars.Helper.Settings.Create(_settings);
@@ -37,68 +37,49 @@ init
 {
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
-		var GG = mono["GameGlobal"];
-		var CGI = mono["Controls.GameInput"];
-		vars.Helper["MovementInputTime"] = GG.Make<float>("Instance", "_input", CGI["_movementInputTime"]);
-		vars.Helper["hasText"] = mono.Make<bool>("PPRHD_Game", 1, "Instance", "_levelEndScreen", "LevelName", "hasText");
-		vars.Helper["latestText"] = mono.MakeString("PPRHD_Game", 1, "Instance", "_levelEndScreen", "LevelName", "latestText");
-		vars.Helper["GameUIState"] = mono.Make<int>("PPRHD_UI", 1, "Instance", "GameUIState");
-		
+		var AD = mono["AutosplitData"];
+		vars.Helper["state"] = AD.Make<int>("state");
+		vars.Helper["levelName"] = AD.MakeString("levelName");
+		vars.Helper["levelID"] = AD.MakeString("levelID");	
 		return true;
 	});
-
-	current.activeScene = "";
-	current.endScreen = "";
 }
 
 start
 {
-	return current.activeScene == "ht_prologue_0" && current.MovementInputTime > 0;
+	return old.state == 6 && current.state == 2;
 }
 
 onStart
 {
 	vars.VisitedLevel.Clear();
-	current.endScreen = "";
-}
-
-update
-{
-	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
-	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
-	if (old.GameUIState != current.GameUIState) vars.Log("GameUIState: " + current.GameUIState);
-
-	if (settings["SplitsLevels"] && old.GameUIState == 0 && current.GameUIState == 40) 
-	{
-		current.endScreen = "40_sl";
-	}
-	else if (settings["SplitsRankScreen"] && old.GameUIState == 0 && current.GameUIState == 40) 
-	{
-		current.endScreen = "40_srs";
-	}
 }
 
 split
 {
-	if (settings["SplitsLevels"] && old.activeScene != current.activeScene && settings[current.activeScene.ToString()] && !vars.VisitedLevel.Contains(current.activeScene.ToString()))
+	if (settings["SplitsLevels"] && old.levelID != current.levelID && settings[current.levelID.ToString()] && !vars.VisitedLevel.Contains(current.levelID.ToString()))
 	{
-		vars.VisitedLevel.Add(current.activeScene.ToString());
+		vars.VisitedLevel.Add(current.levelID.ToString());
 		return true;
 	}
-	if (settings["SplitsRankScreen"] && old.latestText != current.latestText && settings[current.latestText.ToString()] && !vars.VisitedLevel.Contains(current.latestText.ToString()))
+	if (settings["SplitsLevels"] && current.levelID == 6 && old.state == 2 && current.state == 6 && settings["6_end"] && !vars.VisitedLevel.Contains("6_end"))
 	{
-		vars.VisitedLevel.Add(current.latestText.ToString());
+		vars.VisitedLevel.Add("6_end");
 		return true;
 	}
-
-	if (old.endScreen != current.endScreen && settings[current.endScreen.ToString()] && !vars.VisitedLevel.Contains(current.endScreen.ToString()))
+	if (settings["SplitsRankScreen"] && old.state == 2 && current.state == 4 && settings[current.levelName.ToString()] && !vars.VisitedLevel.Contains(current.levelName.ToString()))
 	{
-		vars.VisitedLevel.Add(current.endScreen.ToString());
+		vars.VisitedLevel.Add(current.levelName.ToString());
+		return true;
+	}
+	if (settings["SplitsRankScreen"] && current.levelName == "Host" && old.state == 2 && current.state == 6 && settings[current.levelName.ToString()] && !vars.VisitedLevel.Contains(current.levelName.ToString()))
+	{
+		vars.VisitedLevel.Add(current.levelName.ToString());
 		return true;
 	}
 }
 
 isLoading
 {
-	return current.hasText || current.GameUIState == 10;
+	return current.state == 1 || current.state == 3 || current.state == 4 || current.state == 7 || current.state == 8;
 }
