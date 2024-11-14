@@ -81,5 +81,5 @@ split
 
 isLoading
 {
-	return current.state == 1 || current.state == 3 || current.state == 4 || current.state == 7 || current.state == 8;
+	return current.state == 1 || current.state >= 3;
 }
