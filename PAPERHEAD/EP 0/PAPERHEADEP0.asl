@@ -9,6 +9,7 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "ILMode", false, "Individual Level Splitting - Mode Toggle", null },
 		{ "SplitActioning", true, "Split Actioning", null },
 			{ "onLevelSwap", true, "On Level Swap", "SplitActioning" },
 			{ "onRankScreen", false, "On Rank Screen", "SplitActioning" },
@@ -39,15 +40,23 @@ init
 	{
 		var AD = mono["AutosplitData"];
 		vars.Helper["state"] = AD.Make<int>("state");
+        vars.Helper["stateName"] = AD.MakeString("stateName");
+        vars.Helper["stateID"] = AD.Make<int>("stateId");
 		vars.Helper["levelName"] = AD.MakeString("levelName");
 		vars.Helper["levelID"] = AD.Make<int>("levelID");	
+        vars.Helper["isRunning"] = AD.Make<int>("isRunning");
 		return true;
 	});
 }
 
 start
 {
-	return old.state == 6 && current.state == 2;
+	if (settings["ILMode"])
+	{
+		if (current.levelID == 1 && old.stateName == "Cinematic" && current.stateName == "Play") return true;
+		if (current.levelID != 1 && old.stateName == "Loading" && current.stateName == "Play") return true;
+	}
+	return !settings["ILMode"] && old.state == 6 && current.state == 2;
 }
 
 onStart
@@ -57,25 +66,33 @@ onStart
 
 split
 {
-	if (settings["SplitsLevels"] && old.levelID != current.levelID && settings[current.levelID.ToString()] && !vars.VisitedLevel.Contains(current.levelID.ToString()))
+	if (settings["ILMode"])
 	{
-		vars.VisitedLevel.Add(current.levelID.ToString());
-		return true;
+		return old.stateName == "Play" && current.stateName == "Victory" 
+		|| current.levelID == 6 && old.stateName == "Play" && current.stateName == "Cinematic";
 	}
-	if (settings["SplitsLevels"] && current.levelID == 6 && old.state == 2 && current.state == 6 && settings["6_end"] && !vars.VisitedLevel.Contains("6_end"))
+	else if (!settings["ILMode"])
 	{
-		vars.VisitedLevel.Add("6_end");
-		return true;
-	}
-	if (settings["SplitsRankScreen"] && old.state == 2 && current.state == 4 && settings[current.levelName.ToString()] && !vars.VisitedLevel.Contains(current.levelName.ToString()))
-	{
-		vars.VisitedLevel.Add(current.levelName.ToString());
-		return true;
-	}
-	if (settings["SplitsRankScreen"] && current.levelName == "Host" && old.state == 2 && current.state == 6 && settings[current.levelName.ToString()] && !vars.VisitedLevel.Contains(current.levelName.ToString()))
-	{
-		vars.VisitedLevel.Add(current.levelName.ToString());
-		return true;
+		if (settings["SplitsLevels"] && old.levelID != current.levelID && settings[current.levelID.ToString()] && !vars.VisitedLevel.Contains(current.levelID.ToString()))
+		{
+			vars.VisitedLevel.Add(current.levelID.ToString());
+			return true;
+		}
+		if (settings["SplitsLevels"] && current.levelID == 6 && old.state == 2 && current.state == 6 && settings["6_end"] && !vars.VisitedLevel.Contains("6_end"))
+		{
+			vars.VisitedLevel.Add("6_end");
+			return true;
+		}
+		if (settings["SplitsRankScreen"] && old.state == 2 && current.state == 4 && settings[current.levelName.ToString()] && !vars.VisitedLevel.Contains(current.levelName.ToString()))
+		{
+			vars.VisitedLevel.Add(current.levelName.ToString());
+			return true;
+		}
+		if (settings["SplitsRankScreen"] && current.levelName == "Host" && old.state == 2 && current.state == 6 && settings[current.levelName.ToString()] && !vars.VisitedLevel.Contains(current.levelName.ToString()))
+		{
+			vars.VisitedLevel.Add(current.levelName.ToString());
+			return true;
+		}
 	}
 }
 
