@@ -27,6 +27,7 @@ startup
 			{ "Church", true, "Level 4 - Church", "SplitsRankScreen" },
 			{ "Drone", true, "Level 5 - Drone", "SplitsRankScreen" },
 			{ "Host", true, "Level 6 - Host", "SplitsRankScreen" },
+		{ "AutoReset", false, "Auto Reset on New Game or Load Last Checkpoint (IL Mode Only)", null },
 	};
 
 	vars.Helper.Settings.Create(_settings);
@@ -99,4 +100,17 @@ split
 isLoading
 {
 	return current.state == 1 || current.state >= 3;
+}
+
+reset
+{
+	if (settings["ILMode"])
+	{
+		if (old.stateName == "Pause" && current.stateName == "Loading") return true;
+	}
+	else if (!settings["ILMode"]) 
+	{
+		if (old.stateName != "Menu" && current.stateName == "Menu") return true;
+		if (current.levelID == 1 && old.stateName == "Pause" && current.stateName == "Loading") return true;
+	}
 }
