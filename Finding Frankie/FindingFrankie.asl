@@ -22,7 +22,6 @@ startup
 			{ "water_section_warp", true, "Water Section Warp", "Inbounds" },
 			{ "lever_trampoline", true, "Hitting Level in Trampoline Park", "Inbounds" },
 			{ "key_trampoline", true, "Collecting Key in Trampoline Park", "Inbounds" },
-			{ "start_bossfight", true, "Start Hexa Havoc Bossfight", "Inbounds" },
 			{ "end_bossfight_inb", true, "End Hexa Havoc Bossfight", "Inbounds" },
         { "OutOfBounds", false, "Speedrun Category - Out of Bounds", null },
             { "ElevatorPressed", true, "Elevator Button Pressed", "OutOfBounds" },
@@ -62,7 +61,6 @@ init
 	vars.Helper["TransitionType"] = vars.Helper.Make<byte>(gEngine, 0xBBB);
 	vars.Helper["Incutscene"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x2E0, 0xA28);
 	vars.Helper["has_deputy_duck"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x791);
-	vars.Helper["bossbegun"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x2E0, 0xA58);
 	vars.Helper["Curbreaker"] = vars.Helper.Make<int>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x2E0, 0xA0C);
 	vars.Helper["Curbreaker"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 	vars.Helper["TrampolineLever"] = vars.Helper.Make<bool>(gWorld, 0x30, 0x158, 0x60, 0x160, 0x60, 0x2EC);
@@ -92,7 +90,6 @@ init
 	vars.StartFlag = false;
 	vars.FallingDownFrankiePipe = false;
 	vars.IncutsceneAfterCurbreaker8 = false;
-	vars.StartBossfight = 0;
 	vars.BossFlippedLever = false;
 	vars.BossReadyToPull = false;
 	vars.TrampolineWon = false;
@@ -102,7 +99,6 @@ onStart
 {
 	vars.FallingDownFrankiePipe = false;
 	vars.IncutsceneAfterCurbreaker8 = false;
-	vars.StartBossfight = 0;
 	vars.BossFlippedLever = false;
 	vars.BossReadyToPull = false;
 	vars.TrampolineWon = false;
@@ -130,29 +126,12 @@ update
 
 	if (current.POVY < -5300 && current.POVZ < -2400 && !vars.CompletedSplits.Contains("frankie_pipe")) vars.FallingDownFrankiePipe = true;
 	if (vars.CompletedSplits.Contains("henry_hotline_chase_end") && old.Incutscene == true && current.Incutscene == false) vars.IncutsceneAfterCurbreaker8 = true;
-	if (old.bossbegun == false && current.bossbegun == true) vars.StartBossfight++;
+	if (settings["Inbounds"] || settings["OutOfBounds"] && old.bossabletopull == false && current.bossabletopull == true)
+	{
+		vars.BossReadyToPull = true;
+	}
 	if (old.TrampolineLever == false && current.TrampolineLever == true) vars.CerealBoxKey = false;
 	if (settings["key_trampoline"] && old.TrampolineWonga == false && current.TrampolineWonga == true) vars.TrampolineWon = true;
-	if (settings["start_bossfight"] && old.bossflipped == false && current.bossflipped == true && vars.CompletedSplits.Contains("start_bossfight"))
-	{
-		vars.BossFlippedLever = true;
-	} 
-    else if (!settings["start_bossfight"] && old.bossflipped == false && current.bossflipped == true && vars.StartBossFight >= 2)
-	{
-		vars.BossFlippedLever = true;
-	}
-    if (!settings["OutOfBounds"])
-    {
-        if (settings["start_bossfight"] && old.bossabletopull == false && current.bossabletopull == true && vars.CompletedSplits.Contains("start_bossfight"))
-        {
-            vars.BossReadyToPull = true;
-        } 
-        else if (!settings["start_bossfight"] && old.bossabletopull == false && current.bossabletopull == true && vars.StartBossFight >= 2)
-        {
-            vars.BossFlippedLever = true;
-        }
-    }
-    else if (settings["OutOfBounds"] && old.bossabletopull == false && current.bossabletopull == true && vars.StartBossFight >= 2) vars.BossFlippedLever = true;
 }
 
 split
@@ -193,20 +172,22 @@ split
 		return true;
 	}
 
-	if (settings["Inbounds"] && settings["start_bossfight"] && !vars.CompletedSplits.Contains("start_bossfight") && vars.StartBossfight >= 2)
-	{
-		vars.CompletedSplits.Add("start_bossfight");
-		return true;
-	}
-
-	if (settings["ElevatorPressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
+	if (settings["OutOfBounds"] && settings["ElevatorPressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
 	{
 		vars.CompletedSplits.Add("ElevatorPressed");
 		return true;
 	}
 
-	if ((settings["Inbounds"] || settings["OutOfBounds"]) && (settings["end_bossfight_inb"] || settings["end_bossfight_oob"]) && !vars.CompletedSplits.Contains("end_bossfight")
-		&& vars.BossFlippedLever == true && vars.BossReadyToPull == true)
+	// End Splits for Inbounds & OutOfBounds
+	if (settings["Inbounds"] && settings["end_bossfight_inb"] && !vars.CompletedSplits.Contains("end_bossfight") 
+		&& vars.BossReadyToPull == true && old.bossflipped == false && current.bossflipped == true)
+	{
+		vars.CompletedSplits.Add("end_bossfight");
+		return true;
+	}
+
+	if (settings["OutOfBounds"] && settings["end_bossfight_oob"] && !vars.CompletedSplits.Contains("end_bossfight")
+		&& vars.BossReadyToPull  == true && old.bossflipped == false && current.bossflipped == true)
 	{
 		vars.CompletedSplits.Add("end_bossfight");
 		return true;
