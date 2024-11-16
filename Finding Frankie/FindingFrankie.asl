@@ -24,7 +24,7 @@ startup
 			{ "key_trampoline", true, "Collecting Key in Trampoline Park", "Inbounds" },
 			{ "end_bossfight_inb", true, "End Hexa Havoc Bossfight", "Inbounds" },
         { "OutOfBounds", false, "Speedrun Category - Out of Bounds", null },
-            { "ElevatorPressed", true, "Elevator Button Pressed", "OutOfBounds" },
+            { "elevator_pressed", true, "Elevator Button Pressed", "OutOfBounds" },
             { "end_bossfight_oob", true, "End Hexa Havoc Bossfight", "OutOfBounds" },
         { "AutoReset", true, "Auto-Reset when returning to Main Menu", null },
 	};
@@ -172,9 +172,9 @@ split
 		return true;
 	}
 
-	if (settings["OutOfBounds"] && settings["ElevatorPressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
+	if (settings["OutOfBounds"] && settings["elevato_pressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
 	{
-		vars.CompletedSplits.Add("ElevatorPressed");
+		vars.CompletedSplits.Add("elevator_pressed");
 		return true;
 	}
 
