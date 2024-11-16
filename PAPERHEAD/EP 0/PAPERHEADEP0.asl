@@ -10,9 +10,6 @@ startup
 	dynamic[,] _settings =
 	{
 		{ "ILMode", false, "Individual Level Splitting - Mode Toggle", null },
-		{ "SplitActioning", true, "Split Actioning", null },
-			{ "onLevelSwap", true, "On Level Swap", "SplitActioning" },
-			{ "onRankScreen", false, "On Rank Screen", "SplitActioning" },
 		{ "SplitsLevels", true, "Level Splits", null },
 			{ "2", true, "Level 1", "SplitsLevels" },
 			{ "3", true, "Level 2", "SplitsLevels" },
