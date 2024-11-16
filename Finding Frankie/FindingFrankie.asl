@@ -126,7 +126,7 @@ update
 
 	if (current.POVY < -5300 && current.POVZ < -2400 && !vars.CompletedSplits.Contains("frankie_pipe")) vars.FallingDownFrankiePipe = true;
 	if (vars.CompletedSplits.Contains("henry_hotline_chase_end") && old.Incutscene == true && current.Incutscene == false) vars.IncutsceneAfterCurbreaker8 = true;
-	if (settings["Inbounds"] || settings["OutOfBounds"] && old.bossabletopull == false && current.bossabletopull == true)
+	if ((settings["Inbounds"] || settings["OutOfBounds"]) && old.bossabletopull == false && current.bossabletopull == true)
 	{
 		vars.BossReadyToPull = true;
 	}
