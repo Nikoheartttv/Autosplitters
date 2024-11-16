@@ -172,7 +172,7 @@ split
 		return true;
 	}
 
-	if (settings["OutOfBounds"] && settings["elevato_pressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
+	if (settings["OutOfBounds"] && settings["elevator_pressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
 	{
 		vars.CompletedSplits.Add("elevator_pressed");
 		return true;
