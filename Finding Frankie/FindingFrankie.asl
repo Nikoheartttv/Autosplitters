@@ -21,8 +21,7 @@ startup
 			{ "henry_hotline_chase_end", true, "Henry Hotline Chase End", "Inbounds" },
 			{ "water_section_warp", true, "Water Section Warp", "Inbounds" },
 			{ "lever_trampoline", true, "Hitting Level in Trampoline Park", "Inbounds" },
-			{ "key_trampoline_yeskeyskip", false, "[W/ KEY SKIP] Collecting Key in Trampoline Park", "Inbounds" },
-			{ "key_trampoline_nokeyskip", true, "[NO KEY SKIP] Collecting Key in Trampoline Park", "Inbounds" },
+			{ "key_trampoline", true, "Collecting Key in Trampoline Park", "Inbounds" },
 			{ "start_bossfight", true, "Start Hexa Havoc Bossfight", "Inbounds" },
 			{ "end_bossfight_inb", true, "End Hexa Havoc Bossfight", "Inbounds" },
         { "OutOfBounds", false, "Speedrun Category - Out of Bounds", null },
@@ -131,8 +130,9 @@ update
 
 	if (current.POVY < -5300 && current.POVZ < -2400 && !vars.CompletedSplits.Contains("frankie_pipe")) vars.FallingDownFrankiePipe = true;
 	if (vars.CompletedSplits.Contains("henry_hotline_chase_end") && old.Incutscene == true && current.Incutscene == false) vars.IncutsceneAfterCurbreaker8 = true;
-	if (old.TrampolineLever == false && current.TrampolineLever == true && current.TrampolineWonga == false) vars.CerealBoxKey = false;
 	if (old.bossbegun == false && current.bossbegun == true) vars.StartBossfight++;
+	if (old.TrampolineLever == false && current.TrampolineLever == true) vars.CerealBoxKey = false;
+	if (settings["key_trampoline"] && old.TrampolineWonga == false && current.TrampolineWonga == true) vars.TrampolineWon = true;
 	if (settings["start_bossfight"] && old.bossflipped == false && current.bossflipped == true && vars.CompletedSplits.Contains("start_bossfight"))
 	{
 		vars.BossFlippedLever = true;
@@ -153,8 +153,6 @@ update
         }
     }
     else if (settings["OutOfBounds"] && old.bossabletopull == false && current.bossabletopull == true && vars.StartBossFight >= 2) vars.BossFlippedLever = true;
-	if (old.TrampolineLever == false && current.TrampolineLever == true) vars.CerealBoxKey = false;
-	if (settings["key_trampoline_nokeyskip"] && old.TrampolineWonga == false && current.TrampolineWonga == true) vars.TrampolineWon = true;
 }
 
 split
@@ -189,15 +187,9 @@ split
 		return true;
 	}
 
-	if (settings["Inbounds"] && settings["key_trampoline_yeskeyskip"] && !vars.CompletedSplits.Contains("key_trampoline_yeskeyskip") && current.TrampolineLever == true && vars.CerealBoxKey == true)
+	if (settings["Inbounds"] && settings["key_trampoline"] && !vars.CompletedSplits.Contains("key_trampoline") && vars.TrampolineWon == true && vars.CerealBoxKey == true)
 	{
-		vars.CompletedSplits.Add("key_trampoline_yeskeyskip");
-		return true;
-	}
-
-	if (settings["Inbounds"] && settings["key_trampoline_nokeyskip"] && !vars.CompletedSplits.Contains("key_trampoline_nokeyskip") && vars.TrampolineWon == true && vars.CerealBoxKey == true)
-	{
-		vars.CompletedSplits.Add("key_trampoline_nokeyskip");
+		vars.CompletedSplits.Add("key_trampoline");
 		return true;
 	}
 
