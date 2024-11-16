@@ -21,7 +21,7 @@ startup
 			{ "6", true, "Level 5", "SplitsLevels" },
 			{ "6_end", true, "Level 6", "SplitsLevels"},
 		{ "SplitsRankScreen", false, "Rank Screen Splits", null },
-			{ "W4ke Up", true, "Level 1 - W4ke Up", "SplitsRankScreen" },
+			{ "W4ke up", true, "Level 1 - W4ke Up", "SplitsRankScreen" },
 			{ "Volunt33r", true, "Level 2 - Volunt33r", "SplitsRankScreen" },
 			{ "0bject 808", true, "Level 3 - 0bject 808", "SplitsRankScreen" },
 			{ "Church", true, "Level 4 - Church", "SplitsRankScreen" },
@@ -64,6 +64,12 @@ onStart
 {
 	vars.VisitedLevel.Clear();
 }
+
+update
+{
+	if (old.levelName != current.levelName) vars.Log("Level Name: " + current.levelName);	
+}
+
 
 split
 {
