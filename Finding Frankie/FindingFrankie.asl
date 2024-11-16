@@ -199,6 +199,12 @@ split
 		return true;
 	}
 
+	if (settings["ElevatorPressed"] && old.ElevatorButtonPress == false && current.ElevatorButtonPress == true)
+	{
+		vars.CompletedSplits.Add("ElevatorPressed");
+		return true;
+	}
+
 	if ((settings["Inbounds"] || settings["OutOfBounds"]) && (settings["end_bossfight_inb"] || settings["end_bossfight_oob"]) && !vars.CompletedSplits.Contains("end_bossfight")
 		&& vars.BossFlippedLever == true && vars.BossReadyToPull == true)
 	{
