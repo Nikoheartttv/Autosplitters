@@ -213,7 +213,7 @@ isLoading
 	{
 		return true;
 	}
-	else return current.MovementMode == 0 || current.TransitionType == 1 || current.Incutscene;
+	else if (!current.Incutscene) return current.MovementMode == 0 || current.TransitionType == 1;
 }
 
 reset
