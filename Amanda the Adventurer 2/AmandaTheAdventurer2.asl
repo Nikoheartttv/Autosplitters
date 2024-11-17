@@ -91,7 +91,7 @@ update
 	}
 
 	// Fake Ending Tapes List Reset
-	if (current.CurrentPuzzle == "" && vars.PlayedTapes.Current.Contains("4") && !vars.PlayedTapes.Current.Contains("8"))
+	if (current.CurrentPuzzle == "" && vars.PlayedTapes.Contains("4") && !vars.PlayedTapes.Contains("8"))
     {
         vars.PlayedTapes.Clear();
     }
