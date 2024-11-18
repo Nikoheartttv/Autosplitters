@@ -115,7 +115,7 @@ split
         vars.PlayedTapes.Add(current.VideoID.ToString());
         return true;
     } 
-	else if ((current.VideoID == "1" || current.VideoID == "4") && old.TVCanClick == true && current.TVCanClick == false && settings[current.VideoID.ToString()] && !vars.PlayedTapes.Contains(current.VideoID.ToString()) && settings["TapesSplits"])
+	else if (vars.PlayedTapes.Count == 0 && old.TVCanClick == true && current.TVCanClick == false && settings[current.VideoID.ToString()] && settings["TapesSplits"])
 	{
         vars.PlayedTapes.Add(current.VideoID.ToString());
         return true;
