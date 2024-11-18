@@ -55,6 +55,8 @@ init
 		vars.Helper["CurrentPuzzle"] = mono.MakeString("SaveManager", 1, "_instance", "Data", "CurrentPuzzle");
 		vars.Helper["CurrentPuzzleSolved"] = mono.Make<bool>("SaveManager", 1, "_instance", "Data", "CurrentPuzzleSolved");
 		vars.Helper["TVCanClick"] = mono.Make<bool>("TV", "_instance", "InteractClickable", "CanClick");
+		vars.Helper["interactionInitalized"] = mono.Make<bool>("TV", "_instance", "CurrentTape", "interactionInitalized");
+		vars.Helper["VideoCheck"] = mono.Make<int>("TV", "_instance", "CurrentTape");
 
 		return true;
 	});
@@ -97,6 +99,12 @@ update
     {
         vars.PlayedTapes.Clear();
     }
+
+	// if (old.onZoomInStart != current.onZoomInStart) 
+	// vars.Log("onZoomInStart: " + current.onZoomInStart.ToString("X"));
+	// if (old.onZoomInStartOneShot != current.onZoomInStartOneShot) vars.Log("onZoomInStartOneShot: " + current.onZoomInStartOneShot.ToString("X"));
+	if (old.interactionInitalized != current.interactionInitalized) vars.Log("interactionInitalized: " + current.interactionInitalized);
+
 }
 
 split
@@ -109,16 +117,16 @@ split
 	}
 
 	// Tapes Splitting
-	if (current.VideoID != old.VideoID && settings[current.VideoID.ToString()] && !vars.PlayedTapes.Contains(current.VideoID.ToString()) && settings["TapesSplits"])
+	if (current.VideoCheck != old.VideoCheck && old.VideoCheck == 0 && settings[current.VideoID.ToString()] && !vars.PlayedTapes.Contains(current.VideoID.ToString()) && settings["TapesSplits"])
     {
         vars.PlayedTapes.Add(current.VideoID.ToString());
         return true;
     } 
-	else if (vars.PlayedTapes.Count == 0 && old.TVCanClick == true && current.TVCanClick == false && settings[current.VideoID.ToString()] && settings["TapesSplits"])
-	{
-        vars.PlayedTapes.Add(current.VideoID.ToString());
-        return true;
-    } 
+	// else if (vars.PlayedTapes.Count == 0 && old.TVCanClick == true && current.TVCanClick == false && settings[current.VideoID.ToString()] && settings["TapesSplits"])
+	// {
+    //     vars.PlayedTapes.Add(current.VideoID.ToString());
+    //     return true;
+    // } 
 
 	// Ending Splits
 	// False Ending
