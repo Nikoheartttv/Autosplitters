@@ -54,6 +54,8 @@ init
 		vars.Helper["SolvedPuzzles"] = mono.MakeList<IntPtr>("SaveManager", 1, "_instance", "Data", "SolvedPuzzles");
 		vars.Helper["CurrentPuzzle"] = mono.MakeString("SaveManager", 1, "_instance", "Data", "CurrentPuzzle");
 		vars.Helper["CurrentPuzzleSolved"] = mono.Make<bool>("SaveManager", 1, "_instance", "Data", "CurrentPuzzleSolved");
+		vars.Helper["TVCursorOver"] = mono.Make<bool>("TV", "_instance", "InteractClickable", "cursorIsOver");
+		vars.Helper["TVCanClick"] = mono.Make<bool>("TV", "_instance", "InteractClickable", "CanClick");
 
 		return true;
 	});
@@ -70,6 +72,7 @@ start
 
 onStart
 {
+	vars.PlayedTapes.Clear();
 }
 
 update
@@ -111,7 +114,12 @@ split
     {
         vars.PlayedTapes.Add(current.VideoID.ToString());
         return true;
-    }
+    } 
+	else if ((current.VideoID == "1" || current.VideoID == "4") && old.TVCanClick == true && current.TVCanClick == false && settings[current.VideoID.ToString()] && !vars.PlayedTapes.Contains(current.VideoID.ToString()) && settings["TapesSplits"])
+	{
+        vars.PlayedTapes.Add(current.VideoID.ToString());
+        return true;
+    } 
 
 	// Ending Splits
 	// False Ending
@@ -129,5 +137,5 @@ split
 
 isLoading
 {
-	return current.activeScene == "Title" || current.Paused || current.LoadingText || current.CreditsVisible;
+	return current.activeScene == "Title" || current.LoadingText || current.CreditsVisible;
 }
