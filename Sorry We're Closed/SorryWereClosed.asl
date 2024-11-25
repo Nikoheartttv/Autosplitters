@@ -16,6 +16,8 @@ startup
 	 		{ "D3Combat_Palace_Boss", true, "Day 3 - Dream Eater", "Splits" },
 	 		{ "D4Combat_Hotel_Boss_Outro", false, "Day 4? - The Duchess", "Splits" },
 			{ "End_Credits", true, "Day X - Go To Work", "Splits" },
+			{ "Artifacts", false, "All 16 Artifacts Collected", "Splits" },
+			{ "Critters", false, "All 26 Critters Crushed", "Splits" },
 	 	{ "AutoReset", false, "Auto Reset when return to Main Menu", null },
 	};
 
@@ -34,8 +36,12 @@ init
         vars.Helper["changingLevel"] = GM.Make<bool>("inst","changingLevel");
         vars.Helper["loading"] = AD.Make<bool>("loadingScene");
 		vars.Helper["complete"] = mono.Make<bool>("StatsManager", "inst", "sceneStats", "complete");
+		vars.Helper["artifactsCollected"] = mono.Make<int>("StatsManager", "inst", "sceneStats", "artifactsCollected");
+		vars.Helper["crittersCrushed"] = mono.Make<int>("StatsManager", "inst", "sceneStats", "crittersCrushed");
 		return true;
 	});
+
+	vars.DayAnnounce = false;
 }
 
 start
@@ -66,6 +72,17 @@ split
 		vars.CompletedSplits.Add(current.activeScene.ToString());
 		return settings[current.activeScene.ToString()];
 	}
+	if (settings["Artifacts"] && current.artifactsCollected == 16 && !vars.CompletedSplits.Contains("Artifacts"))
+	{
+		vars.CompletedSplits.Add("Artifacts");
+		return true;
+	}
+	if (settings["Critters"] && current.crittersCrushed == 26 && !vars.CompletedSplits.Contains("Critters"))
+	{
+		vars.CompletedSplits.Add("Critters");
+		return true;
+	}
+
 }
 
 isLoading
@@ -73,7 +90,8 @@ isLoading
 	if (current.loadingScene != "End_Credits")
 	{
 		return current.changingLevel || current.loading || current.complete
-		|| current.activeScene == "D1_Announce" || current.activeScene == "D2_Announce" || current.activeScene == "D3_Announce" || current.activeScene == "D4_Announce" || current.activeScene == "DX_Announce";
+		|| current.activeScene == "D1_Announce" || current.activeScene == "D2_Announce" || current.activeScene == "D3_Announce" || current.activeScene == "D4_Announce" || current.activeScene == "DX_Announce"
+		|| current.loadingScene == "D1_Announce" || current.loadingScene == "D2_Announce" || current.loadingScene == "D3_Announce" || current.loadingScene == "D4_Announce" || current.loadingScene == "DX_Announce";
 	}
 	else if (current.loadingScene == "End_Credits") return true;
 }
