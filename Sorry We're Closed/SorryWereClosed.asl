@@ -30,11 +30,9 @@ init
 {
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
-		var GM = mono["GameManager"];
-        var AD = mono["AddressablesManager"];	
-		vars.Helper["isMainMenu"] = GM.Make<bool>("inst", "isMainMenu");
-        vars.Helper["changingLevel"] = GM.Make<bool>("inst","changingLevel");
-        vars.Helper["loading"] = AD.Make<bool>("loadingScene");
+		vars.Helper["isMainMenu"] = mono.Make<bool>("GameManager", "inst", "isMainMenu");
+        vars.Helper["changingLevel"] = mono.Make<bool>("GameManager", "inst", "changingLevel");
+        vars.Helper["loading"] = mono.Make<bool>("AddressablesManager", "loadingScene");
 		vars.Helper["complete"] = mono.Make<bool>("StatsManager", "inst", "sceneStats", "complete");
 		vars.Helper["artifactsCollected"] = mono.Make<int>("StatsManager", "inst", "sceneStats", "artifactsCollected");
 		vars.Helper["crittersCrushed"] = mono.Make<int>("StatsManager", "inst", "sceneStats", "crittersCrushed");
