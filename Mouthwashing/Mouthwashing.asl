@@ -32,6 +32,7 @@ startup
 			{ "BizCh3 Scene", true, "Chapter 20", "Splits" },
 			{ "Ch22 Scene", true, "Chapter 21", "Splits" },
 			{ "Ending", true, "Chapter 22", "Splits" },
+		{ "IL", false, "IL Splitting", null }
 	};
 
 	vars.Helper.Settings.Create(_settings);
@@ -60,7 +61,8 @@ init
 
 start
 {
-	return old.activeScene == "Start Menu Scene" && current.activeScene == "Ch1 Scene";
+	if (!settings["IL"]) return old.activeScene == "Start Menu Scene" && current.activeScene == "Ch1 Scene";
+	if (settings["IL"]) return old.activeScene == "Start Menu Scene" && current.activeScene != "Start Menu Scene";
 }
 
 onStart
