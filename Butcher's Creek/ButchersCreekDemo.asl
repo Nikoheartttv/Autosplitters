@@ -12,6 +12,7 @@ startup
         { "MAP_Barn", true, "Exit Barn", null },
         { "MAP02_Demo", true, "In Cage", null },
         { "DemoEndScene", true, "Demo End", null },
+		{ "AutoReset", false, "Auto Reset upon return to Menu", null },
     };
 
     vars.Helper.Settings.Create(_settings);
@@ -40,7 +41,7 @@ start
 
 split
 {
-    if (old.activeScene != current.activeScene && !vars.CompletedSplits.Contains(current.activeScene.ToString()))
+    if (settings[current.activeScene.ToString()] && old.activeScene != current.activeScene && !vars.CompletedSplits.Contains(current.activeScene.ToString()))
     {
 	    vars.CompletedSplits.Add(current.activeScene);
 	    return true;
@@ -50,4 +51,9 @@ split
 isLoading
 {
     return current.loadingScene != current.activeScene;
+}
+
+reset
+{
+	return settings["AutoReset"] && old.activeScene != "TitleScene" && current.activeScene == "TitleScene";
 }
