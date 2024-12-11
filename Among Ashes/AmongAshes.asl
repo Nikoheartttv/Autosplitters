@@ -54,9 +54,7 @@ startup
 			{ "Item_Key_Black_0", true, "Pick up Black Key", "Splits" },
 			{ "FinalBossDead", true, "Final Boss Dead", "Splits" }, 
 			{ "MSE_61", true, "End Credits", "Splits" },
-			{ "MSE_43", true, "WHAT IS THIS SPLIT? 1", "Splits" },
-			{ "MSE_45", true, "WHAT IS THIS SPLIT? 2", "Splits" },
-		};
+	};
 	vars.Helper.Settings.Create(_settings);
 
 	vars.Helper.AlertLoadless();
@@ -78,7 +76,6 @@ init
 	vars.MainMenuTransition = false;
 	vars.NoInCutsene = false;
 	current.activeScene = "";
-	current.ItemSize = 0;
 }
 
 onStart
@@ -114,9 +111,6 @@ update
 	
 	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
-	if (old.currentMainStoryEvent != current.currentMainStoryEvent) vars.Log("Current Main Story Event: " + current.currentMainStoryEvent);
-	if (old.RealWorldInCutscene != current.RealWorldInCutscene) vars.Log("RealWorldInCutscene: " + current.RealWorldInCutscene);
-	if (old.NightCallInCutscene != current.NightCallInCutscene) vars.Log("NightCallInCutscene: " + current.NightCallInCutscene);
 	if (current.MainMenuState == 7 && old.RealWorldInCutscene == false && current.RealWorldInCutscene == true) vars.MainMenuTransition = true;
 	if (vars.NoInCutsene == false && current.currentMainStoryEvent == 17)
 	{
