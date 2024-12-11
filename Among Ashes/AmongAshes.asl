@@ -76,6 +76,7 @@ init
 	vars.MainMenuTransition = false;
 	vars.NoInCutsene = false;
 	current.activeScene = "";
+	vars.AfterFinalBossCutsceneFix = false;
 }
 
 onStart
@@ -112,6 +113,8 @@ update
 	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
 	if (current.MainMenuState == 7 && old.RealWorldInCutscene == false && current.RealWorldInCutscene == true) vars.MainMenuTransition = true;
+	if (old.RealWorldInCutscene != current.RealWorldInCutscene) vars.Log("RealWorldInCutscene: " + current.RealWorldInCutscene);
+	if (old.NightCallInCutscene != current.NightCallInCutscene) vars.Log("NightCallInCutscene: " + "Old: " + old.NightCallInCutscene + " , Current: " + current.NightCallInCutscene);
 	if (vars.NoInCutsene == false && current.currentMainStoryEvent == 17)
 	{
 		if (current.RealWorldInCutscene == true) vars.NoInCutsene = true;
@@ -122,6 +125,11 @@ update
 		if (current.RealWorldInCutscene == true) vars.NoInCutsene = true;
 	}
 	if (vars.NoInCutsene == true && old.RealWorldInCutscene == true && current.RealWorldInCutscene == false) vars.NoInCutsene = false;
+	if (vars.CompletedSplits.Contains("FinalBossDead") && current.NightCallInCutscene == true && old.RealWorldInCutscene == true && current.RealWorldInCutscene == false) 
+	{
+		vars.AfterFinalBossCutsceneFix = true;
+		vars.Log("End Cutscene Fix is active");
+	}
 }
 
 split
@@ -179,7 +187,7 @@ split
 		}
 	
 	// Final Boss Split
-	if (settings["FinalBossDead"] && old.FinalBossWeakspots >= 1 && current.FinalBossWeakspots <= 1 
+	if (settings["FinalBossDead"] && old.FinalBossWeakspots <= 2 && current.FinalBossWeakspots <= 1
 		&& old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
 		{
 			vars.CompletedSplits.Add("FinalBossDead");
@@ -191,5 +199,6 @@ split
 isLoading
 {
 	if (vars.NoInCutsene == true) return false;
+	else if (vars.AfterFinalBossCutsceneFix == true) return current.RealWorldInCutscene;
 	else return current.activeScene == "LoadingScreen" || current.RealWorldInCutscene || current.NightCallInCutscene;
 }
