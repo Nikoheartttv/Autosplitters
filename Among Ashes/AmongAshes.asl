@@ -153,8 +153,7 @@ update
 split
 {
 	// Main Splits
-	if (current.currentMainStoryEvent == 3 || current.currentMainStoryEvent == 10 || current.currentMainStoryEvent == 11 
-		|| current.currentMainStoryEvent == 43 || current.currentMainStoryEvent == 61)
+	if (current.currentMainStoryEvent == 3 || current.currentMainStoryEvent == 10 || current.currentMainStoryEvent == 43 || current.currentMainStoryEvent == 61)
 	{
 		if (settings["MSE_" + current.currentMainStoryEvent.ToString()] && old.currentMainStoryEvent != current.currentMainStoryEvent && !vars.CompletedSplits.Contains("MSE_" + current.currentMainStoryEvent.ToString()))
 		{
