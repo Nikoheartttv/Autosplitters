@@ -18,6 +18,16 @@ state("Among Ashes", "v1.0.2b") {
 	int FinalBossWeakspots : "GameAssembly.dll", 0x24C4E38, 0xB8, 0x0, 0x40;
 }
 
+state("Among Ashes", "v1.0.2c") { 
+	bool gameStarted : "GameAssembly.dll", 0x24DA218, 0xB8, 0x0, 0x54;
+	int currentMainStoryEvent : "GameAssembly.dll", 0x24C7868, 0xB8, 0x0, 0x28;
+	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E4880, 0xB8, 0x0, 0x42;
+	bool NightCallInCutscene : "GameAssembly.dll", 0x24E4808, 0xB8, 0x0, 0x42;
+	int MainMenuState : "GameAssembly.dll", 0x24DA218, 0xB8, 0x0, 0xE8;
+	int TLGameState : "GameAssembly.dll", 0x24A6480, 0xB8, 0x0, 0x20;
+	int FinalBossWeakspots : "GameAssembly.dll", 0x24C4E38, 0xB8, 0x0, 0x40;
+}
+
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
@@ -71,6 +81,7 @@ init
 	    case "v1.0.1h": version = "v1.0.1h / v1.0.2"; break;
 		case "v1.0.2": version = "v1.0.1h / v1.0.2"; break;
 		case "v1.0.2b": version = "v1.0.2b"; break;
+		case "v1.0.2c": version = "v1.0.2c"; break;
     }
 
 	vars.MainMenuTransition = false;
