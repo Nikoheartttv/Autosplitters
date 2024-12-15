@@ -68,6 +68,8 @@ init
 	vars.Helper["bIsPlayerWaiting"] = vars.Helper.Make<byte>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x3D0);
 	vars.Helper["ZepherExpandersCollected"] = vars.Helper.Make<int>(gEngine, 0xD28, 0x38, 0x0, 0x30, 0x590, 0x113C);
 
+	vars.Helper["bAllowFocusLost"] = vars.Helper.Make<bool>(gEngine, 0xD28, 0xD0, 0x170, 0x3E0, 0x310, 0x360, 0x688, 0x678, 0x678);
+
 	current.LevelName = "";
 	current.World = "";
 }
@@ -99,6 +101,8 @@ update
 	var levelname = vars.FNameToString(current.StreamingLevelName);
 	if (!string.IsNullOrEmpty(levelname) && levelname != "None") current.LevelName = levelname;
 	if (old.LevelName != current.LevelName) vars.Log("LevelName: " + current.LevelName);
+
+	if (old.bAllowFocusLost != current.bAllowFocusLost) vars.Log("bAllowFocusLost: " + current.bAllowFocusLost);
 }
 
 isLoading
@@ -124,7 +128,7 @@ split
 		vars.CompletedSplits.Add("Ending");
 		return true;
 	}
-	if (old.ZepherExpandersCollected != current.ZepherExpandersCollected && !vars.CompletedSplits.Contains(current.ZepherExpandersCollected.ToString()))
+	if (settings["ZepherExpander"] && old.ZepherExpandersCollected != current.ZepherExpandersCollected && !vars.CompletedSplits.Contains(current.ZepherExpandersCollected.ToString()))
 	{
 		vars.CompletedSplits.Add(current.ZepherExpandersCollected.ToString());
 		return true;
