@@ -32,8 +32,8 @@ state("Among Ashes", "v1.0.2c") {
 
 state("Among Ashes", "v1.0.2d") { 
 	bool gameStarted : "GameAssembly.dll", 0x24DB218, 0xB8, 0x0, 0x54;
-	int currentMainStoryEvent : "GameAssembly.dll", 0x24C8D88, 0xB8, 0x0, 0x28;
-	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E4880, 0xB8, 0x0, 0x42;
+	int currentMainStoryEvent : "GameAssembly.dll", 0x24C8868, 0xB8, 0x0, 0x28;
+	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E5880, 0xB8, 0x0, 0x42;
 	bool NightCallInCutscene : "GameAssembly.dll", 0x250A978, 0xB8, 0x0, 0x42;
 	int MainMenuState : "GameAssembly.dll", 0x24DB218, 0xB8, 0x0, 0xE8;
 	int TLGameState : "GameAssembly.dll", 0x24A7480, 0xB8, 0x0, 0x20;
@@ -141,9 +141,6 @@ update
 		default:
 			break;
 	}
-
-	current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0798, 0xB8, 0x0, 0x68);
-	current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0798, 0xB8, 0x0, 0x38);
 	
 	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
