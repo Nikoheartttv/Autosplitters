@@ -107,8 +107,9 @@ init
 onStart
 {
 	vars.CompletedSplits.Clear();
-	vars.MainMenuState = false;
 	vars.BossFightActive = false;
+	vars.NoInCutsene = false;
+	vars.AfterFinalBossCutsceneFix = false;
 	timer.IsGameTimePaused = true;
 }
 
