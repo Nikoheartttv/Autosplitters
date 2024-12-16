@@ -170,6 +170,7 @@ split
 		if (settings["MSE_" + current.currentMainStoryEvent.ToString()] && old.currentMainStoryEvent != current.currentMainStoryEvent && !vars.CompletedSplits.Contains("MSE_" + current.currentMainStoryEvent.ToString()))
 		{
 			vars.CompletedSplits.Add("MSE_" + current.currentMainStoryEvent.ToString());
+			vars.Log("---SPLIT 1");
 			return true;
 		}
 	}
@@ -183,6 +184,7 @@ split
 		if (!vars.CompletedSplits.Contains("Item_" + name)) 
 		{
 			vars.CompletedSplits.Add("Item_" + name);
+			vars.Log("---SPLIT 2");
 			return settings["Item_" + name];
 		}
 	}
@@ -196,6 +198,7 @@ split
 		if (!vars.CompletedSplits.Contains("Enemy_" + name) && name == "FRANCIS_BOSS") 
 		{
 			vars.CompletedSplits.Add("Enemy_" + name);
+			vars.Log("---SPLIT 3");
 			return settings["Enemy_" + name];
 		}
 	}
@@ -204,6 +207,7 @@ split
 	if (settings["TLGameDone"] && old.TLGameState != 4 && current.TLGameState == 4 && !vars.CompletedSplits.Contains("TLGameDone"))
 		{
 			vars.CompletedSplits.Add("TLGameDone");
+			vars.Log("---SPLIT 4");
 			return true;
 		}
 	
@@ -212,6 +216,7 @@ split
 		old.RealWorldInCutscene == false && current.RealWorldInCutscene == true && !vars.CompletedSplits.Contains("LookingAtFingermanFNC"))
 		{
 			vars.CompletedSplits.Add("LookingAtFingermanFNC");
+			vars.Log("---SPLIT 5");
 			return true;
 		}
 	
@@ -219,31 +224,35 @@ split
 	switch(version)
 	{
 		case "v1.0.1h / v1.0.2": 
-			if (settings["FinalBossDead"] && vars.BossFightActive == true && old.FinalBossWeakspots <= 2 && current.FinalBossWeakspots <= 1
+			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && vars.BossFightActive == true && old.FinalBossWeakspots <= 2 && current.FinalBossWeakspots <= 1
 			&& old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
 			{
 				vars.CompletedSplits.Add("FinalBossDead");
+				vars.Log("---SPLIT 6");
 				return true;
 			}
 			break;
 		case "v1.0.2b":
-			if (settings["FinalBossDead"] && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
+			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
 			{
 				vars.CompletedSplits.Add("FinalBossDead");
+				vars.Log("---SPLIT 6");
 				return true;
 			}
 			break;
 		case "v1.0.2c":
-			if (settings["FinalBossDead"] && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
+			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
 			{
 				vars.CompletedSplits.Add("FinalBossDead");
+				vars.Log("---SPLIT 6");
 				return true;
 			}
 			break;
 		case "v1.0.2d":
-			if (settings["FinalBossDead"] && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
+			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
 			{
 				vars.CompletedSplits.Add("FinalBossDead");
+				vars.Log("---SPLIT 6");
 				return true;
 			}
 			break;
