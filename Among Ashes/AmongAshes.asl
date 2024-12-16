@@ -34,10 +34,10 @@ state("Among Ashes", "v1.0.2d") {
 	bool gameStarted : "GameAssembly.dll", 0x24DB218, 0xB8, 0x0, 0x54;
 	int currentMainStoryEvent : "GameAssembly.dll", 0x24C8868, 0xB8, 0x0, 0x28;
 	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E5880, 0xB8, 0x0, 0x42;
-	bool NightCallInCutscene : "GameAssembly.dll", 0x250A978, 0xB8, 0x0, 0x42;
+	bool NightCallInCutscene : "GameAssembly.dll", 0x24E5808, 0xB8, 0x0, 0x42;
 	int MainMenuState : "GameAssembly.dll", 0x24DB218, 0xB8, 0x0, 0xE8;
 	int TLGameState : "GameAssembly.dll", 0x24A7480, 0xB8, 0x0, 0x20;
-	int FinalBossWeakspots : "GameAssembly.dll", 0x24C5E38, 0xB8, 0x0, 0x40;
+	byte FinalBossWeakspots : "GameAssembly.dll", 0x24C5E38, 0xB8, 0x0, 0x40;
 	bool invokedEnd : "GameAssembly.dll", 0x24C5E38, 0xB8, 0x0, 0xD8;
 }
 
@@ -98,7 +98,6 @@ init
 		case "v1.0.2d": version = "v1.0.2d"; break;
     }
 
-	vars.MainMenuTransition = false;
 	vars.NoInCutsene = false;
 	current.activeScene = "";
 	vars.BossFightActive = false;
@@ -144,7 +143,6 @@ update
 	
 	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
-	if (current.MainMenuState == 7 && old.RealWorldInCutscene == false && current.RealWorldInCutscene == true) vars.MainMenuTransition = true;
 	if (vars.NoInCutsene == false && current.currentMainStoryEvent == 17)
 	{
 		if (current.RealWorldInCutscene == true) vars.NoInCutsene = true;
