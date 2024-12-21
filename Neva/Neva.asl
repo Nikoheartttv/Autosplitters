@@ -42,17 +42,25 @@ init
 {
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => 
 	{
-		var mm = mono["Home.MainManager"];
-		var cm = mono["Home.ChapterManager"];
-		var pm = mono["Home.ProgressionManager"];
-		var guic = mono["Home.GUICamera"];
-		var cim = mono["Home.CustomInputManager"];
+		// var mm = mono["Home.MainManager"];
+		// var cm = mono["Home.ChapterManager"];
+		// var pm = mono["Home.ProgressionManager"];
+		// var guic = mono["Home.GUICamera"];
+		// var cim = mono["Home.CustomInputManager"];
 
-		vars.Helper["IsInGame"] = mm.Make<bool>("_instance", "m_IsInGame");
-		vars.Helper["ChapterScenesLoading"] = mm.Make<bool>("_instance", "m_ChapterManager", cm["m_ChapterScenesLoading"]);
-		vars.Helper["LastChapterUnlocked"] = mm.Make<int>("_instance", "m_ProgressionManager", pm["LastChapterUnlocked"]);
-		vars.Helper["SkipVideoIsEnabled"] = mm.Make<bool>("_instance", "m_GUICamera", guic["m_SkipVideoIsEnabled"]);
-		vars.Helper["ForceKeepPreviousParenting"] = mm.Make<bool>("_instance", 0xf8, 0xd8, 0x28, 0x129);
+		// vars.Helper["IsInGame"] = mm.Make<bool>("_instance", "m_IsInGame");
+		// vars.Helper["ChapterScenesLoading"] = mm.Make<bool>("_instance", "m_ChapterManager", cm["m_ChapterScenesLoading"]);
+		// vars.Helper["LastChapterUnlocked"] = mm.Make<int>("_instance", "m_ProgressionManager", pm["LastChapterUnlocked"]);
+		// vars.Helper["SkipVideoIsEnabled"] = mm.Make<bool>("_instance", "m_GUICamera", guic["m_SkipVideoIsEnabled"]);
+		// vars.Helper["ForceKeepPreviousParenting"] = mm.Make<bool>("_instance", 0xf8, 0xd8, 0x28, 0x129);
+
+		vars.Helper["IsInGame"] = mono.Make<bool>("Home.MainManager", "Instance", "m_IsInGame");
+		vars.Helper["ChapterScenesLoading"] = mono.Make<bool>("Home.MainManager", "Instance", "m_ChapterManager", "m_ChapterScenesLoading");
+		vars.Helper["LastChapterUnlocked"] = mono.Make<int>("Home.MainManager", "Instance", "m_ProgressionManager", "LastChapterUnlocked");
+		vars.Helper["SkipVideoIsEnabled"] = mono.Make<bool>("Home.MainManager", "Instance", "m_GUICamera", "m_SkipVideoIsEnabled");
+		vars.Helper["ForceKeepPreviousParenting"] = mono.Make<bool>("Home.MainManager", "Instance", "m_Player", "Controller", "m_CharacterControllerState", "ForceKeepPreviousParenting");
+		
+
 
 		return true;
 	});
