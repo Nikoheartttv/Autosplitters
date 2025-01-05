@@ -41,6 +41,17 @@ state("Among Ashes", "v1.0.2d") {
 	bool invokedEnd : "GameAssembly.dll", 0x24C5E38, 0xB8, 0x0, 0xD8;
 }
 
+state("Among Ashes", "v1.0.3c") { 
+	bool gameStarted : "GameAssembly.dll", 0x24DC268, 0xB8, 0x0, 0x54;
+	int currentMainStoryEvent : "GameAssembly.dll", 0x24C9898, 0xB8, 0x0, 0x28;
+	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E68B0, 0xB8, 0x0, 0x42;
+	bool NightCallInCutscene : "GameAssembly.dll", 0x24E6840, 0xB8, 0x0, 0x42;
+	int MainMenuState : "GameAssembly.dll", 0x24DC268, 0xB8, 0x0, 0xE8;
+	int TLGameState : "GameAssembly.dll", 0x24A84B0, 0xB8, 0x0, 0x20;
+	byte FinalBossWeakspots : "GameAssembly.dll", 0x24C6E68, 0xB8, 0x0, 0x40;
+	bool invokedEnd : "GameAssembly.dll", 0x24C6E68, 0xB8, 0x0, 0xD8;
+}
+
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
@@ -96,6 +107,7 @@ init
 		case "v1.0.2b": version = "v1.0.2b"; break;
 		case "v1.0.2c": version = "v1.0.2c"; break;
 		case "v1.0.2d": version = "v1.0.2d"; break;
+		case "v1.0.3c": version = "v1.0.3c"; break;
     }
 
 	vars.NoInCutsene = false;
@@ -137,6 +149,10 @@ update
 		case "v1.0.2d":
 			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E1798, 0xB8, 0x0, 0x68);
 			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E1798, 0xB8, 0x0, 0x38);
+			break;
+		case "v1.0.3c":
+			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E27E8, 0xB8, 0x0, 0x68);
+			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E27E8, 0xB8, 0x0, 0x38);
 			break;
 		default:
 			break;
@@ -249,6 +265,14 @@ split
 			}
 			break;
 		case "v1.0.2d":
+			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
+			{
+				vars.CompletedSplits.Add("FinalBossDead");
+				vars.Log("---SPLIT 6");
+				return true;
+			}
+			break;
+		case "v1.0.3c":
 			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
 			{
 				vars.CompletedSplits.Add("FinalBossDead");
