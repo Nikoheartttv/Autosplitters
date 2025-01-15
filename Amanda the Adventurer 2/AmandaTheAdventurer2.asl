@@ -78,16 +78,6 @@ onStart
 
 update
 {
-	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
-	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
-
-	// Used as a fix for Main Menu load removal?
-	if (current.activeScene == "Title" && old.LoadingText == true && current.LoadingText == false)
-	{
-		current.activeScene = "Game";
-		vars.GameActive++;
-	}
-
 	if (vars.Helper["SolvedPuzzles"].Current.Count > vars.Helper["SolvedPuzzles"].Old.Count)
 	{
 		string s = vars.Helper.ReadString(false, vars.Helper["SolvedPuzzles"].Current[vars.Helper["SolvedPuzzles"].Current.Count - 1]);
@@ -144,5 +134,5 @@ split
 
 isLoading
 {
-	return current.activeScene == "Title" || current.LoadingText || current.CreditsVisible;
+	return vars.Helper.Scenes.Active.Index == 0 || current.LoadingText || current.CreditsVisible;
 }
