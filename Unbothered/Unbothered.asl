@@ -16,6 +16,7 @@ startup
     };
 
     vars.Helper.Settings.Create(_settings);
+    vars.Helper.AlertLoadless();
     vars.VisitedLevel = new List<string>();
 }
 
