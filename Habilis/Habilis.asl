@@ -30,7 +30,6 @@ init
 	{
 		var ASD = mono["Assembly-CSharp-firstpass", "AutoSplitData"];
 		vars.Helper["gameStarted"] = mono.Make<bool>(ASD, "Instance", "gameStarted");
-		vars.Helper["loading"] = mono.Make<bool>(ASD, "Instance", "isLoading");
 		vars.Helper["finalText"] = mono.Make<bool>(ASD, "Instance", "finalText");
 		vars.Helper["gameEnded"] = mono.Make<bool>(ASD, "Instance", "gameEnded");
 		vars.Helper["levelIndex"] = mono.Make<int>(ASD, "Instance", "levelIndex");
@@ -39,7 +38,6 @@ init
 	});
 
 	current.activeScene = "";
-	current.loadingScene = "";
 	current.levelIndex = -1;
 }
 
@@ -56,6 +54,9 @@ onStart
 update
 {
 	if(current.levelIndex != old.levelIndex) vars.Log("levelIndex: " + current.levelIndex);
+	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
+	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
+
 }
 
 split
@@ -74,7 +75,7 @@ split
 
 isLoading
 {
-	return current.loading || current.activeScene == "loading";
+	return current.activeScene == "loading";
 }
 
 reset
