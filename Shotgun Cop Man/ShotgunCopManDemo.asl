@@ -36,7 +36,7 @@ startup
 			{ "143", true, "Level 1-15", "Splits" },
 			{ "145", true, "Level 1-16", "Splits" },
 			{ "36", true, "Level 1-17 (Boss)", "Splits" },
-		{ "Autoreset", false, "Auto-Reset when going into Main Menu", null },
+		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.Helper.AlertGameTime();
@@ -89,6 +89,7 @@ init
 		vars.Helper["IGTpaused"] = mono.Make<bool>("RootScript", "rootInstance", "paused");
 		vars.Helper["totalTime"] = mono.MakeString("InGameTimerScript", "instance", "totalTimeText", "m_text");
 		vars.Helper["lvlBuiltAtTime"] = mono.Make<float>("LvlBuilderScript", "instance", "lvlBuiltAtTime");
+		vars.Helper["isGeneralOptionsMenu"] = mono.Make<bool>("GameOptionsHandler", "instance", "isGeneralOptionsMenu");
 		return true;
 	});
 }
@@ -185,4 +186,9 @@ gameTime
 	}
 	totalTime += vars.deadTime;
 	return TimeSpan.FromSeconds(totalTime);
+}
+
+reset
+{
+	return settings["Autoreset"] && !old.isGeneralOptionsMenu && current.isGeneralOptionsMenu;
 }
