@@ -36,6 +36,7 @@ startup
 			{ "143", true, "Level 1-15", "Splits" },
 			{ "145", true, "Level 1-16", "Splits" },
 			{ "36", true, "Level 1-17 (Boss)", "Splits" },
+		{ "Autoreset", false, "Auto-Reset when going into Main Menu", null },
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.Helper.AlertGameTime();
@@ -84,7 +85,7 @@ init
 		vars.Helper["lvlName"] = mono.MakeString("LvlBuilderScript", "lvlName");
 		vars.Helper["beenTriggered"] = mono.Make<bool>("RatingScreenScript", "instance", "beenTriggered");
 		vars.Helper["dead"] = mono.Make<bool>("PlayerScript", "instance", "dead");
-		// vars.Helper["time"] = mono.Make<float>("RootScript", "rootInstance", "time");
+		vars.Helper["time"] = mono.Make<float>("RootScript", "rootInstance", "time");
 		vars.Helper["IGTpaused"] = mono.Make<bool>("RootScript", "rootInstance", "paused");
 		vars.Helper["totalTime"] = mono.MakeString("InGameTimerScript", "instance", "totalTimeText", "m_text");
 		vars.Helper["lvlBuiltAtTime"] = mono.Make<float>("LvlBuilderScript", "instance", "lvlBuiltAtTime");
