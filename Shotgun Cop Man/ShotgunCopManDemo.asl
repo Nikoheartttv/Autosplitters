@@ -82,11 +82,9 @@ init
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => 
 	{
 		vars.Helper["lvlName"] = mono.MakeString("LvlBuilderScript", "lvlName");
+        vars.Helper["time"] = mono.Make<float>("RootScript", "rootInstance", "time");
+        vars.Helper["totalTime"] = mono.MakeString("InGameTimerScript", "instance", "totalTimeText", "m_text");
 		vars.Helper["beenTriggered"] = mono.Make<bool>("RatingScreenScript", "instance", "beenTriggered");
-		vars.Helper["dead"] = mono.Make<bool>("PlayerScript", "instance", "dead");
-		vars.Helper["time"] = mono.Make<float>("RootScript", "rootInstance", "time");
-		vars.Helper["IGTpaused"] = mono.Make<bool>("RootScript", "rootInstance", "paused");
-		vars.Helper["totalTime"] = mono.MakeString("InGameTimerScript", "instance", "totalTimeText", "m_text");
 		vars.Helper["lvlBuiltAtTime"] = mono.Make<float>("LvlBuilderScript", "instance", "lvlBuiltAtTime");
 		vars.Helper["isGeneralOptionsMenu"] = mono.Make<bool>("GameOptionsHandler", "instance", "isGeneralOptionsMenu");
 		return true;
@@ -95,59 +93,14 @@ init
 
 onStart
 {
+	vars.StartTime = TimeSpan.Parse(current.totalTime);
 	timer.IsGameTimePaused = true;
 	vars.VisitedLevel.Clear();
-	vars.deadTime = (float)0;
-	vars.ILTimes = new Dictionary<string, float>
-	{
-		{ "10", 0 },
-		{ "11", 0 },
-		{ "12", 0 },
-		{ "8", 0 },
-		{ "13", 0 },
-		{ "14", 0 },
-		{ "15", 0 },
-		{ "188", 0 },
-		{ "16", 0 },
-		{ "3", 0 },
-		{ "17", 0 },
-		{ "22", 0 },
-		{ "51", 0 },
-		{ "20", 0 },
-		{ "52", 0 },
-		{ "53", 0 },
-		{ "54", 0 },
-		{ "55", 0 },
-		{ "50", 0 },
-		{ "23", 0 },
-		{ "146", 0 },
-		{ "144", 0 },
-		{ "141", 0 },
-		{ "142", 0 },
-		{ "143", 0 },
-		{ "145", 0 },
-		{ "36", 0 }
-	};
 }
 
 start
 {
 	return current.lvlName == "10" && old.lvlBuiltAtTime != current.lvlBuiltAtTime;
-}
-
-update
-{
-	if (vars.ILTimes.ContainsKey(current.lvlName) && 
-		current.time > vars.ILTimes[current.lvlName] && current.time < vars.ILTimes[current.lvlName] + 3)
-	{
-		vars.ILTimes[current.lvlName] = current.time;
-	}
-	
-	if (current.dead)
-	{
-		vars.deadTime += vars.ILTimes[current.lvlName];
-		vars.ILTimes[current.lvlName] = 0;
-	}
 }
 
 split
@@ -157,7 +110,6 @@ split
 		&& settings[old.lvlName.ToString()] && !vars.VisitedLevel.Contains(old.lvlName.ToString()))
 		{
 			vars.VisitedLevel.Add(old.lvlName.ToString());
-			vars.Log("INTRO SPLIT DONE");
 			return settings[old.lvlName.ToString()];
 		}
 
@@ -165,7 +117,6 @@ split
 	if (!old.beenTriggered && current.beenTriggered && settings[current.lvlName.ToString()] && !vars.VisitedLevel.Contains(current.lvlName.ToString()))
 	{
 		vars.VisitedLevel.Add(current.lvlName.ToString());
-		vars.Log("MAIN SPLIT DONE");
 		return settings[current.lvlName.ToString()];
 	}
 }
@@ -177,14 +128,7 @@ isLoading
 
 gameTime
 {
-	return TimeSpan.Parse(current.totalTime);
-	float totalTime = 0;
-	foreach (var key in vars.ILTimes.Keys)
-	{
-		totalTime += vars.ILTimes[key];
-	}
-	totalTime += vars.deadTime;
-	return TimeSpan.FromSeconds(totalTime);
+	return TimeSpan.Parse(current.totalTime) - vars.StartTime;
 }
 
 reset
