@@ -43,7 +43,6 @@ startup
 	vars.Helper.AlertGameTime();
 	vars.VisitedLevel = new List<string>();
 
-	vars.deadTime = (float)0;
 	vars.ILTimes = new Dictionary<string, float>
 	{
 		{ "10", 0 },
@@ -84,6 +83,7 @@ init
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => 
 	{
 		vars.Helper["lvlName"] = mono.MakeString("LvlBuilderScript", "lvlName");
+		vars.Helper["worldLvlName"] = mono.MakeString("WorldMapScript", "instance", "levelText", "m_text");
         vars.Helper["time"] = mono.Make<float>("RootScript", "rootInstance", "time");
         vars.Helper["totalTime"] = mono.MakeString("InGameTimerScript", "instance", "totalTimeText", "m_text");
 		vars.Helper["beenTriggered"] = mono.Make<bool>("RatingScreenScript", "instance", "beenTriggered");
@@ -91,18 +91,28 @@ init
 		vars.Helper["isGeneralOptionsMenu"] = mono.Make<bool>("GameOptionsHandler", "instance", "isGeneralOptionsMenu");
 		return true;
 	});
+	vars.FullRun = false;
+	current.Lvl0Start = "00:00:00.00";
 }
 
 onStart
 {
-	vars.StartTime = TimeSpan.Parse(current.totalTime);
+	if (vars.FullRun == true)
+	{
+		vars.StartTime = TimeSpan.Parse(current.Lvl0Start);
+	}
+	else if (vars.FullRun == false)
+	{
+		vars.StartTime = TimeSpan.Parse(current.totalTime);
+	}
 	timer.IsGameTimePaused = true;
 	vars.VisitedLevel.Clear();
 }
 
 start
 {
-	return current.lvlName == "10" && old.lvlBuiltAtTime != current.lvlBuiltAtTime;
+	// return old.lvlBuiltAtTime != current.lvlBuiltAtTime;
+	return TimeSpan.Parse(old.totalTime) < TimeSpan.Parse(current.totalTime);
 }
 
 split
@@ -123,6 +133,14 @@ split
 	}
 }
 
+update
+{
+	if (old.isGeneralOptionsMenu != current.isGeneralOptionsMenu && current.isGeneralOptionsMenu == false)
+	{
+		vars.FullRun = true;
+	}
+}
+
 isLoading
 {
 	return true;
@@ -130,15 +148,15 @@ isLoading
 
 gameTime
 {
-	if (current.lvlName != "10")
-	{
-		return TimeSpan.Parse(current.totalTime) - vars.StartTime;
-	}
-	else return TimeSpan.Parse(current.totalTime);
-	
+	return TimeSpan.Parse(current.totalTime) - vars.StartTime;
 }
 
 reset
 {
-	return settings["Autoreset"] && !old.isGeneralOptionsMenu && current.isGeneralOptionsMenu;
+	return settings["Autoreset"] && old.isGeneralOptionsMenu && !current.isGeneralOptionsMenu;
+}
+
+onReset
+{
+	vars.FullRun = false;
 }
