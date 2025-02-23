@@ -1,4 +1,3 @@
-
 state("Shotgun Cop Man Demo"){}
 
 startup
@@ -10,15 +9,15 @@ startup
 	dynamic[,] _settings =
 	{
 		{ "Splits", true, "Splits", null },
-			{ "11", true, "Level 0-1", "Splits" },
-			{ "12", true, "Level 0-2", "Splits" },
-			{ "8", true, "Level 0-3", "Splits" },
-			{ "13", true, "Level 0-4", "Splits" },
-			{ "14", true, "Level 0-5", "Splits" },
-			{ "15", true, "Level 0-6", "Splits" },
-			{ "188", true, "Level 0-7", "Splits" },
-			{ "16", true, "Level 0-8", "Splits" },
-			{ "3", true, "Level 0-9", "Splits" },
+			{ "10", true, "Level 0-1", "Splits" },
+			{ "11", true, "Level 0-2", "Splits" },
+			{ "12", true, "Level 0-3", "Splits" },
+			{ "8", true, "Level 0-4", "Splits" },
+			{ "13", true, "Level 0-5", "Splits" },
+			{ "14", true, "Level 0-6", "Splits" },
+			{ "15", true, "Level 0-7", "Splits" },
+			{ "188", true, "Level 0-8", "Splits" },
+			{ "16", true, "Level 0-9", "Splits" },
 			{ "17", true, "Level 1-1", "Splits" },
 			{ "22", true, "Level 1-2", "Splits" },
 			{ "51", true, "Level 1-3", "Splits" },
