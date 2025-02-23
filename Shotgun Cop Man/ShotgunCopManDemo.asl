@@ -130,7 +130,12 @@ isLoading
 
 gameTime
 {
-	return TimeSpan.Parse(current.totalTime) - vars.StartTime;
+	if (current.lvlName != "10")
+	{
+		return TimeSpan.Parse(current.totalTime) - vars.StartTime;
+	}
+	else return TimeSpan.Parse(current.totalTime);
+	
 }
 
 reset
