@@ -37,6 +37,12 @@ startup
 				{ "143", true, "Level 1-15", "Level1" },
 				{ "145", true, "Level 1-16", "Level1" },
 				{ "36", true, "Level 1-17 (Boss)", "Level1" },
+			{ "SteamNextFest1", true, "Steam Next Fest 1", "Splits"},
+				{ "1", true, "Steam Next Fest 1-1", "Level1" },
+				{ "2", true, "Steam Next Fest 1-2", "Level1" },
+				{ "3", true, "Steam Next Fest 1-3", "Level1" },
+				{ "4", true, "Steam Next Fest 1-4", "Level1" },
+				{ "5", true, "Steam Next Fest 1-5", "Level1" },
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
 	};
 	vars.Helper.Settings.Create(_settings);
@@ -139,6 +145,7 @@ update
 	{
 		vars.FullRun = true;
 	}
+	if (old.lvlName != current.lvlName) vars.Log("lvlName: " + current.lvlName);
 }
 
 isLoading
