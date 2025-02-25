@@ -38,11 +38,17 @@ startup
 				{ "145", true, "Level 1-16", "Level1" },
 				{ "36", true, "Level 1-17 (Boss)", "Level1" },
 			{ "SteamNextFest1", true, "Steam Next Fest 1", "Splits"},
-				{ "1", true, "Steam Next Fest 1-1", "Level1" },
-				{ "2", true, "Steam Next Fest 1-2", "Level1" },
-				{ "3", true, "Steam Next Fest 1-3", "Level1" },
-				{ "4", true, "Steam Next Fest 1-4", "Level1" },
-				{ "5", true, "Steam Next Fest 1-5", "Level1" },
+				{ "Steam Next Fest 11", true, "Steam Next Fest 1-1", "Level1" },
+				{ "Steam Next Fest 12", true, "Steam Next Fest 1-2", "Level1" },
+				{ "Steam Next Fest 13", true, "Steam Next Fest 1-3", "Level1" },
+				{ "Steam Next Fest 14", true, "Steam Next Fest 1-4", "Level1" },
+				{ "Steam Next Fest 15", true, "Steam Next Fest 1-5", "Level1" },
+			{ "SteamNextFest2", true, "Steam Next Fest 2", "Splits"},
+				{ "Steam Next Fest 21", true, "Steam Next Fest 1-1", "Level1" },
+				{ "Steam Next Fest 22", true, "Steam Next Fest 1-2", "Level1" },
+				{ "Steam Next Fest 23", true, "Steam Next Fest 1-3", "Level1" },
+				{ "Steam Next Fest 24", true, "Steam Next Fest 1-4", "Level1" },
+				{ "Steam Next Fest 25", true, "Steam Next Fest 1-5", "Level1" },
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
 	};
 	vars.Helper.Settings.Create(_settings);
@@ -95,6 +101,7 @@ init
 		vars.Helper["beenTriggered"] = mono.Make<bool>("RatingScreenScript", "instance", "beenTriggered");
 		vars.Helper["lvlBuiltAtTime"] = mono.Make<float>("LvlBuilderScript", "instance", "lvlBuiltAtTime");
 		vars.Helper["isGeneralOptionsMenu"] = mono.Make<bool>("GameOptionsHandler", "instance", "isGeneralOptionsMenu");
+		vars.Helper["activeCampaignName"] = mono.MakeString("CampaignHandler", "activeCampaign", "name");
 		return true;
 	});
 	vars.FullRun = false;
@@ -124,7 +131,7 @@ start
 split
 {
 	// Intro Levels
-	if (old.lvlName != current.lvlName && vars.IntroLevels.Contains(old.lvlName)
+	if (current.activeCampaignName == "" && old.lvlName != current.lvlName && vars.IntroLevels.Contains(old.lvlName)
 		&& settings[old.lvlName.ToString()] && !vars.VisitedLevel.Contains(old.lvlName.ToString()))
 		{
 			vars.VisitedLevel.Add(old.lvlName.ToString());
@@ -132,10 +139,17 @@ split
 		}
 
 	// World 1 Levels
-	if (!old.beenTriggered && current.beenTriggered && settings[current.lvlName.ToString()] && !vars.VisitedLevel.Contains(current.lvlName.ToString()))
+	if (current.activeCampaignName == "" && !old.beenTriggered && current.beenTriggered && settings[current.lvlName.ToString()] && !vars.VisitedLevel.Contains(current.lvlName.ToString()))
 	{
 		vars.VisitedLevel.Add(current.lvlName.ToString());
 		return settings[current.lvlName.ToString()];
+	}
+
+	// Bonus Campaigns
+	if ((current.activeCampaignName == "Steam Next Fest 1" || current.activeCampaignName == "Steam Next Fest 1") && !old.beenTriggered && current.beenTriggered && settings[current.activeCampaignName + current.lvlName.ToString()] && !vars.VisitedLevel.Contains(current.activeCampaignName + current.lvlName.ToString()))
+	{
+		vars.VisitedLevel.Add(current.activeCampaignName + current.lvlName.ToString());
+		return settings[current.activeCampaignName + current.lvlName.ToString()];
 	}
 }
 
@@ -146,6 +160,7 @@ update
 		vars.FullRun = true;
 	}
 	if (old.lvlName != current.lvlName) vars.Log("lvlName: " + current.lvlName);
+	if (old.activeCampaignName != current.activeCampaignName) vars.Log("Active Campaign: " + current.activeCampaignName);
 }
 
 isLoading
