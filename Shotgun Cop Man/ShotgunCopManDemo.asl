@@ -44,11 +44,29 @@ startup
 				{ "Steam Next Fest 14", true, "Steam Next Fest 1-4", "Level1" },
 				{ "Steam Next Fest 15", true, "Steam Next Fest 1-5", "Level1" },
 			{ "SteamNextFest2", true, "Steam Next Fest 2", "Splits"},
-				{ "Steam Next Fest 21", true, "Steam Next Fest 1-1", "Level1" },
-				{ "Steam Next Fest 22", true, "Steam Next Fest 1-2", "Level1" },
-				{ "Steam Next Fest 23", true, "Steam Next Fest 1-3", "Level1" },
-				{ "Steam Next Fest 24", true, "Steam Next Fest 1-4", "Level1" },
-				{ "Steam Next Fest 25", true, "Steam Next Fest 1-5", "Level1" },
+				{ "Steam Next Fest 21", true, "Steam Next Fest 2-1", "Level1" },
+				{ "Steam Next Fest 22", true, "Steam Next Fest 2-2", "Level1" },
+				{ "Steam Next Fest 23", true, "Steam Next Fest 2-3", "Level1" },
+				{ "Steam Next Fest 24", true, "Steam Next Fest 2-4", "Level1" },
+				{ "Steam Next Fest 25", true, "Steam Next Fest 2-5", "Level1" },
+			{ "SteamNextFest3", true, "Steam Next Fest 3", "Splits"},
+				{ "Steam Next Fest 31", true, "Steam Next Fest 3-1", "Level1" },
+				{ "Steam Next Fest 32", true, "Steam Next Fest 3-2", "Level1" },
+				{ "Steam Next Fest 33", true, "Steam Next Fest 3-3", "Level1" },
+				{ "Steam Next Fest 34", true, "Steam Next Fest 3-4", "Level1" },
+				{ "Steam Next Fest 35", true, "Steam Next Fest 3-5", "Level1" },
+			{ "SteamNextFest4", true, "Steam Next Fest 4", "Splits"},
+				{ "Steam Next Fest 41", true, "Steam Next Fest 4-1", "Level1" },
+				{ "Steam Next Fest 42", true, "Steam Next Fest 4-2", "Level1" },
+				{ "Steam Next Fest 43", true, "Steam Next Fest 4-3", "Level1" },
+				{ "Steam Next Fest 44", true, "Steam Next Fest 4-4", "Level1" },
+				{ "Steam Next Fest 45", true, "Steam Next Fest 4-5", "Level1" },
+			{ "SteamNextFest5", true, "Steam Next Fest 5", "Splits"},
+				{ "Steam Next Fest 51", true, "Steam Next Fest 5-1", "Level1" },
+				{ "Steam Next Fest 52", true, "Steam Next Fest 5-2", "Level1" },
+				{ "Steam Next Fest 53", true, "Steam Next Fest 5-3", "Level1" },
+				{ "Steam Next Fest 54", true, "Steam Next Fest 5-4", "Level1" },
+				{ "Steam Next Fest 55", true, "Steam Next Fest 5-5", "Level1" },
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
 	};
 	vars.Helper.Settings.Create(_settings);
@@ -146,7 +164,7 @@ split
 	}
 
 	// Bonus Campaigns
-	if ((current.activeCampaignName == "Steam Next Fest 1" || current.activeCampaignName == "Steam Next Fest 1") && !old.beenTriggered && current.beenTriggered && settings[current.activeCampaignName + current.lvlName.ToString()] && !vars.VisitedLevel.Contains(current.activeCampaignName + current.lvlName.ToString()))
+	if (current.activeCampaignName.Contains("Steam Next Fest") && !old.beenTriggered && current.beenTriggered && settings[current.activeCampaignName + current.lvlName.ToString()] && !vars.VisitedLevel.Contains(current.activeCampaignName + current.lvlName.ToString()))
 	{
 		vars.VisitedLevel.Add(current.activeCampaignName + current.lvlName.ToString());
 		return settings[current.activeCampaignName + current.lvlName.ToString()];
