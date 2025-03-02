@@ -67,6 +67,18 @@ startup
 				{ "Steam Next Fest 53", true, "Steam Next Fest 5-3", "Level1" },
 				{ "Steam Next Fest 54", true, "Steam Next Fest 5-4", "Level1" },
 				{ "Steam Next Fest 55", true, "Steam Next Fest 5-5", "Level1" },
+			{ "SteamNextFest6", true, "Steam Next Fest 6", "Splits"},
+				{ "Steam Next Fest 61", true, "Steam Next Fest 6-1", "Level1" },
+				{ "Steam Next Fest 62", true, "Steam Next Fest 6-2", "Level1" },
+				{ "Steam Next Fest 63", true, "Steam Next Fest 6-3", "Level1" },
+				{ "Steam Next Fest 64", true, "Steam Next Fest 6-4", "Level1" },
+				{ "Steam Next Fest 65", true, "Steam Next Fest 6-5", "Level1" },
+			{ "SteamNextFest7", true, "Steam Next Fest 7", "Splits"},
+				{ "Steam Next Fest 71", true, "Steam Next Fest 7-1", "Level1" },
+				{ "Steam Next Fest 72", true, "Steam Next Fest 7-2", "Level1" },
+				{ "Steam Next Fest 73", true, "Steam Next Fest 7-3", "Level1" },
+				{ "Steam Next Fest 74", true, "Steam Next Fest 7-4", "Level1" },
+				{ "Steam Next Fest 75", true, "Steam Next Fest 7-5", "Level1" },
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
 	};
 	vars.Helper.Settings.Create(_settings);
