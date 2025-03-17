@@ -42,6 +42,7 @@ startup
 	settings.Add("Current HP", false, "Current HP", "Variable Information");
 	settings.Add("Enemy HP", false, "Enemy HP", "Variable Information");
 	vars.LevelVisited = new List<string>();
+	timer.Run.Offset = TimeSpan.FromSeconds(9);
 }
 
 init
@@ -65,6 +66,7 @@ onStart
 	vars.CurrentIGT = 0f;
 	vars.StartOffset = current.TimePlayed;
 	vars.LevelVisited.Clear();
+	timer.Run.Offset = TimeSpan.FromSeconds(9);
 }
 
 start
