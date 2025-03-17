@@ -1,0 +1,207 @@
+<Settings>  
+	<Setting Id="MajorBosses" Label="Major Bosses" State="true">
+		<Setting Id="E-DragonPart1-Battle" Label="Dragon (Phase 1)" State="true"/>
+		<Setting Id="E-DragonPart2-Battle" Label="Dragon (Phase 2)" State="true"/>
+		<Setting Id="E-DragonPart3-Battle" Label="Dragon (Phase 3 - Mind Dragon)" State="true"/>
+		<Setting Id="E-Dmitri-Battle" Label="DMITRI" State="true"/>
+		<Setting Id="E-JudgeCreation-Battle" Label="Judge Creation" State="true"/>
+		<Setting Id="E-Bobo-Battle" Label="Bobo" State="true"/>
+		<Setting Id="E-ShadeDemon-Battle" Label="Scary Shade" State="true"/>
+		<Setting Id="E-Pink-Battle" Label="Light Being (Lime)" State="true"/>
+		<Setting Id="E-Evren2-Battle" Label="Evren" State="true"/>
+		<Setting Id="E-Sun-Battle" Label="End of Time (Singularity)" State="true"/>
+		<Setting Id="E-VoidRaven-RileyFortress-Battle" Label="Void Harpy" State="false"/>
+		<Setting Id="E-RileyCredits" Label="Credits (After Riley Kill)" State="false"/>
+		<Setting Id="E-ShadePostCredits-Battle" Label="Party Shade" State="false"/>		
+	</Setting>
+	<Setting Id="CosmicHubMajorEnemies" Label="Major Enemies from Cosmic Hub Doors" State="false">
+		<Setting Id="E-RavenTutorialFight" Label="End of Raven Tutorial" State="true"/>
+		<Setting Id="E-Homonculus-Battle" Label="Homonculus" State="true"/>
+		<Setting Id="E-HomonculusCowboy-Battle" Label="Homonculus Cowgirl" State="true"/>
+		<Setting Id="E-ShamanTunnel-Battle" Label="The Abyss" State="true"/>
+		<Setting Id="E-LaTigre-Battle" Label="Fuego" State="true"/>
+		<Setting Id="E-AntMachine-Battle" Label="Insect Amalgamation" State="true"/>
+		<Setting Id="E-ChameleonBad-Battle" Label="Chase (Bad)" State="true"/>
+		<Setting Id="E-Gorilla-Battle" Label="The Dimension Master" State="true"/>
+		<Setting Id="E-Chili-Battle" Label="Chili" State="true"/>
+		<Setting Id="E-Melon-Battle" Label="Big Boss Melon" State="true"/>
+		<Setting Id="E-Capsicum-Battle" Label="Capsicum" State="true"/>
+		<Setting Id="E-Carrot-Battle" Label="Carrot Mage" State="true"/>
+		<Setting Id="E-SamFake-Battle" Label="[FAKE] Sam" State="false"/>
+		<Setting Id="E-JuiceMaster-Battle" Label="Juice Master Tomato No. 4671" State="true"/>
+	</Setting>
+	<Setting Id="InfinityMajorEnemies" Label="Major Enemies from Infinity Hub Doors" State="false">
+		<Setting Id="E-BrownSlowMushroom-Battle" Label="Brown Slow Mushroom" State="true"/>
+        <Setting Id="E-SmellyGasMushroom-Battle" Label="Smelly Gas Mushroom" State="true"/>
+        <Setting Id="E-JudgeMushroom-Battle" Label="Divine Mushroom" State="true"/>
+        <Setting Id="E-MB_SunKnight-Battle" Label="Sun Knight" State="true"/>
+		<Setting Id="E-Vanguard3D-Battle" Label="Portal Protector" State="true"/>
+		<Setting Id="E-ProcessorGate-Battle" Label="PROCESSOR GATE" State="false"/>
+		<Setting Id="E-IrvineCorrupt-Battle" Label="Virus Irvine" State="true"/>
+		<Setting Id="E-Squirrel-Battle" Label="A lot of Squirrels" State="true"/>
+		<Setting Id="E-CrabMachine-Battle" Label="M8 Machine" State="true"/>
+        <Setting Id="E-Yellow-Battle" Label="Yellow" State="true"/>
+		<Setting Id="E-CursedCastle-Battle" Label="The Cursed Castle" State="true"/>
+		<Setting Id="E-SlotMachine-Battle" Label="Toilet Slot Machine" State="true"/>
+		<Setting Id="E-WorldEater-Battle" Label= "World Eater" State="true"/>
+	</Setting>
+	<Setting Id="OptionalBosses" Label="Optional Bosses" State="false">
+		<Setting Id="E-ShadeIntro-Battle" Label="Root of All Evil" State="false"/>
+		<Setting Id="E-WizardOfColor-Battle" Label="Frog" State="true"/>
+		<Setting Id="E-Rasputin-Battle" Label="Rasputin" State="true"/>
+		<Setting Id="E-Bobo_Toxicated-Battle" Label="Intoxicated Bobo" State="true"/>
+		<Setting Id="E-Lucy-Battle" Label="Lucy" State="true"/>
+		<Setting Id="E-Cazok-Battle" Label="Cazok Doll" State="true"/>
+	</Setting>
+	<Setting Id="BossesDragonFails" Label="Bosses after Dragon Fight Losses" State="false">
+		<Setting Id="E-Portal-Battle" Label="Year 1000 - Portal" State="true"/>
+		<Setting Id="E-TheLab_DoorOfTheDead-Battle" Label="The Lab - Door of the Dead" State="true"/>
+        <Setting Id="E-TheLab_Ghost_Chunky-Battle" Label="The Lab - Chunky" State="true"/>
+        <Setting Id="E-TheLab_Ghost_Junkie-Battle" Label="The Lab - Junkie" State="true"/>
+        <Setting Id="E-TheLab_Ghost_Frankie-Battle" Label="The Lab - Frankie" State="true"/>
+		<Setting Id="E-StoneguardGrunt-Battle" Label="Year 2000 - Stonegrunt" State="true"/>
+		<Setting Id="E-GodMachine" Label="Year 2000 - GOD MACHINE" State="true"/>
+	</Setting>
+	<Setting Id="DDArenaFights" Label="Double D's Arena Gauntlet" State="false">
+		<Setting Id="DD-JeanDArc-Battle" Label="Joan of Arc" State="true"/>
+		<Setting Id="DD-Molly-Battle" Label="Molly" State="true"/>
+		<Setting Id="DD-RAM_ForLoop-Battle" Label="For Loop" State="true"/>
+		<Setting Id="DD-DragonPart3-Battle" Label="Mind Dragon Rematch" State="true"/>
+	</Setting>
+	<Setting Id="Enemies" Label="General Enemies" State="false">
+		<Setting Id="E-Tutorial-Movement-Battle" Label="Shade Tutorial - Movement Battle" State="false"/>
+		<Setting Id="E-Tutorial1-Battle" Label="Raven Tutorial Battle 1" State="false"/>
+		<Setting Id="E-Tutorial2-Battle" Label="Raven Tutorial Battle 2" State="false"/>
+		<Setting Id="E-SpringHead-Battle" Label="SpringHead" State="false"/>
+		<Setting Id="E-DarkPiranha-Battle" Label="Dark Piranha" State="false"/>
+		<Setting Id="E-Tomato-Battle" Label="Tomato" State="false"/>
+		<Setting Id="E-Leek-Battle" Label="Leek" State="false"/>
+		<Setting Id="E-Brocoli-Battle" Label="Brocoli" State="false"/>
+		<Setting Id="E-Paprika-Battle" Label="Bell Pepper" State="false"/>
+		<Setting Id="E-TomatoRush-Battle" Label="Tomatoes" State="false"/>
+		<Setting Id="E-Hyena-Battle" Label="Hyena" State="false"/>
+        <Setting Id="E-SharkJailor-Battle" Label="Shark Mutant" State="false"/>
+		<Setting Id="E-Jest3D-Battle" Label="Manifested Naughty Thought" State="false"/>
+		<Setting Id="E-DoopyDragon3D-Battle" Label="Doopy Dragon" State="false"/>
+		<Setting Id="E-Motherboard_INT-Battle" Label="Motherboard INT" State="false"/>
+        <Setting Id="E-Motherboard_Char-Battle" Label="Motherboard CHaR" State="false"/>
+        <Setting Id="E-Motherboard_BOOL-Battle" Label="Motherboard BOOL" State="false"/>
+        <Setting Id="E-Motherboard_While-Battle" Label="Motherboard While()" State="false"/>
+		<Setting Id="E-RAM_INT-Battle" Label="RAM INT" State="false"/>
+        <Setting Id="E-RAM_BOOL-Battle" Label="RAM BOOL" State="false"/>
+        <Setting Id="E-RAM_Char-Battle" Label="RAM CHaR" State="false"/>
+        <Setting Id="E-RAM_While-Battle" Label="RAM While()" State="false"/>
+        <Setting Id="E-RAM_Float-Battle" Label="RAM float" State="false"/>
+        <Setting Id="E-Matrix-Battle" Label="Strange Pocket Dimension" State="false"/>
+        <Setting Id="E-Processor_INT-Battle" Label="Processor INT" State="false"/>
+        <Setting Id="E-Processor_Char-Battle" Label="Processor CHaR" State="false"/>
+        <Setting Id="E-Processor_float-Battle" Label="Processor float" State="false"/>
+        <Setting Id="E-Processor_BOOL-Battle" Label="Processor BOOL" State="false"/>
+        <Setting Id="E-Processor_While-Battle" Label="Processor While()" State="false"/>
+        <Setting Id="E-Barrage_INT-Battle" Label="Processor Barrage INT" State="false"/>
+        <Setting Id="E-Barrage_BOOL-Battle" Label="Proceesor Barrage BOOL" State="false"/>
+		<Setting Id="E-Rock-Battle" Label="Small Rock" State="false"/>
+    	<Setting Id="E-MimicChest-Battle" Label="Mimic Chest" State="false"/>
+        <Setting Id="E-MimicApple-Battle" Label="Mimic Apple" State="false"/>
+        <Setting Id="E-Harpy-Battle" Label="Harpy" State="false"/>
+        <Setting Id="E-Zombie-Battle" Label="Zombie" State="false"/>
+		<Setting Id="E-CarrotCazok-Battle" Label="Carrot Mage?" State="false"/>
+        <Setting Id="E-GhostCazok-Battle" Label="Vapour Entity?" State="false"/>
+        <Setting Id="E-Vanguard3DCazok-Battle" Label="OMEGA Vanguard" State="false"/>
+		<Setting Id="E-IS_VoidZombie-Battle" Label="Tutorial Void Zombie" State="false"/>
+        <Setting Id="E-IS_JesterFace-Battle" Label="Tutorial Primordial Jester" State="false"/>
+        <Setting Id="E-IS_Gnome_Red-Battle" Label="Gnome" State="false"/>
+        <Setting Id="E-IS_VoidZombieClimax-Battle" Label="Tutorial Void Zombie Stress" State="false"/>
+		<Setting Id="E-FS_VoidZombie-Battle" Label="Final Spaceship Void Zombie" State="false"/>
+        <Setting Id="E-FS_VoidJellyfish-Battle" Label="Final Spaceship Void Jellyfish" State="false"/>
+        <Setting Id="E-Chameleon-Battle" Label="Final Spaceship Chase" State="false"/>
+        <Setting Id="E-Thriller-Battle" Label="Final Spaceship Thriller" State="false"/>
+        <Setting Id="E-Wheeler-Battle" Label="Final Spaceship Wheeler" State="false"/>
+		<Setting Id="E-FS_LostSpirit_CopeMech-Battle" Label="Final Spaceship Lost Spirit - Coping Mechanism" State="false"/>
+        <Setting Id="E-FS_JesterFace-Battle" Label="Final Spaceship Primordial Jester" State="false"/>
+	</Setting>
+	<Setting Id="Levels" Label="Main Levels" State="true">
+		<Setting Id="L-IntroLevel" Label="Intro Level (temp)" State="false"/>
+		<Setting Id="L-Neon_NeonDistrict" Label="Neon District" State="false"/>
+		<Setting Id="L-Neon_NeonJungle" Label="Neon Jungle" State="false"/>
+		<Setting Id="L-Neon_TempleInJungle" Label="Neon Temple In Jungle" State="false"/>
+		<Setting Id="L-Neon_HotelEntrance" Label="Hillbert Hotel Entrance" State="true"/>
+		<Setting Id="L-WizardOfColor-Level" Label="SMEGA Spectrum Warlock" State="false"/>
+		<Setting Id="L-SMEGA_Audio-Processor" Label="SMEGA Audio Processor" State="false"/>
+		<Setting Id="L-CosmicHubInfinity" Label="Cosmic Hub Infinity" State="false"/>
+		<Setting Id="L-EternalWar_Battlefield" Label="Vegetable Kingdom - Outskirts" State="false"/>
+		<Setting Id="L-EternalWar_BriefingRoom" Label="Vegetable Kingdom - Briefing Room" State="false"/>
+		<Setting Id="L-EternalWar_Dungeon" Label="Dungeon of the Vegetable Kingdom" State="false"/>
+		<Setting Id="L-EternalWar_CastleDojo" Label="Royal Hallways of the Vegetable Kingdom" State="false"/>
+		<Setting Id="L-Marzian_Part1Hero_Mines" Label="Year 0 - Age of Liberation" State="false"/>
+		<Setting Id="L-Marzian_Part1Hero_MinesHallway" Label="Year 0 - Age of Liberation - Hallway" State="false"/>
+		<Setting Id="L-Marzian_Part1Hero_GorillaChamber" Label="Year 0 - Age of Liberation - Dimension Master" State="false"/>
+		<Setting Id="L-Hometown_Mountain" Label="Hometown - Mountain" State="false"/>
+		<Setting Id="L-Hometown_Forest" Label="Hometown - Forest" State="false"/>
+		<Setting Id="L-Hometown_Festival" Label="Hometown - Festival" State="false"/>
+		<Setting Id="L-TheLab" Label="The Lab" State="false"/>
+		<Setting Id="L-Marzian_Part2Return" Label="Year 1000 - The Age of Discovery" State="false"/>
+		<Setting Id="L-SMEGA_Motherboard-Hub" Label="SMEGA Station - Microscopic Realm" State="false"/>
+		<Setting Id="L-SMEGA_RAM" Label="SMEGA RAM - Random Access Memory" State="false"/>
+		<Setting Id="L-SMEGA_CorruptROMHorror" Label="SMEGA Corrupt ROM" State="false"/>
+		<Setting Id="L-SMEGA_Processor" Label="SMEGA Processor" State="false"/>
+		<Setting Id="L-SMEGA_Processor_Survival" Label="SMEGA Processor - Survival" State="false"/>
+		<Setting Id="L-TimeHubInfinity" Label="The Hangout - Visitors Lounge" State="false"/>
+		<Setting Id="L-MushroomForest_Entrance" Label="Mushroom Forest - The Maze" State="false"/>
+		<Setting Id="L-MushroomBureau_Hallway" Label="Mushroom Bureau - The Duality Hallway" State="false"/>
+		<Setting Id="L-MushroomBureau_SunRoom" Label="Mushroom Bureau - Sun Room" State="false"/>
+		<Setting Id="L-MushroomBureau_MoonRoom" Label="Mushroom Bureau - Moon Room" State="false"/>
+		<Setting Id="L-Neon_Hillbert_RoomLucy" Label="Lucy's Room - What have you gotten yourself into?" State="false"/>
+		<Setting Id="L-3DDimension_Game" Label="Krvine's Pocket Dimension - 4D in a 3D space" State="false"/>
+		<Setting Id="L-TimeGuard2-StonegruntEncounter" Label="Time Guard - Stonegrunt Encounter" State="false"/>
+		<Setting Id="L-Marzian_Part3Bear_Temple" Label="Year 2000 - The Singularity" State="false"/>
+		<Setting Id="L-HallOfConsciousness" Label="Hall Of Consciousness" State="false"/>
+		<Setting Id="L-BirdIsland_Hub" Label="Bird Island - Hub" State="false"/>
+		<Setting Id="L-BirdIsland_CaveLevel1" Label="Bird Island - Cave Level 1" State="false"/>
+		<Setting Id="L-BoatmanDock" Label="Boatman Dock" State="false"/>
+		<Setting Id="L-Tutorial_Spaceship" Label="Spaceship Tutorial" State="false"/>
+		<Setting Id="L-Tutorial_Spaceship-Intermission" Label="Gravity Chamber - A failed experiment" State="false"/>
+		<Setting Id="L-DarkEverhood_MushroomForest" Label="Dark Everhood - Mushroom Forest" State="false"/>
+		<Setting Id="L-DarkEverhood_MidnightTown" Label="Dark Everhood - Midnight Town" State="false"/>
+		<Setting Id="L-DarkEverhood_PeacefulForest" Label="Dark Everhood - Peaceful Forest" State="false"/>
+		<Setting Id="L-DarkEverhood_DanceClub" Label="Dark Everhood - Dance Club" State="false"/>
+		<Setting Id="L-DarkEverhood_VIPRoom" Label="Dark Everhood - VIP Room" State="false"/>
+		<Setting Id="L-DarkEverhood_HubScene" Label="Dark Everhood - Hub Scene" State="false"/>
+		<Setting Id="L-DarkEverhood_Tunnels" Label="Dark Everhood - Tunnels" State="false"/>
+		<Setting Id="L-DarkEverhood_CursedCastle" Label="Dark Everhood - Cursed Castle" State="false"/>
+		<Setting Id="L-DarkEverhood_Maze" Label="Dark Everhood - Maze" State="false"/>
+		<Setting Id="L-BirdIsland_CaveLevel2" Label="Bird Island - Cave Level 2" State="false"/>
+		<Setting Id="L-PandemoniumEntrance" Label="Pandemonium Entrance" State="false"/>
+		<Setting Id="L-Pandemonium" Label="Pandemonium - The end of all times" State="false"/>
+		<Setting Id="L-BoatmanDock-Final" Label="Boatman Dock - Final" State="false"/>
+		<Setting Id="L-Final_Spaceship" Label="Final Spaceship" State="false"/>
+		<Setting Id="L-ShadeEnding-0-BoboRoom" Label="Shade Ending - Bobo's Room" State="false"/>
+		<Setting Id="L-ShadeEnding-1-LostHillbertRoom" Label="Shade Ending - Lost Hillbert Room" State="false"/>
+		<Setting Id="L-ShadeEnding-3-White-room" Label="Shade Ending - White Room" State="false"/>
+		<Setting Id="L-FarmingGame" Label="Farming Game - needs to rename" State="false"/>
+		<Setting Id="L-Credits" Label="Fake Credits" State="false"/>
+		<Setting Id="L-LiminalSpace_1" Label="Liminal Space" State="false"/>
+		<Setting Id="L-ShadeEnding-4+Newgame" Label="Shade Ending'" State="false"/>
+		<Setting Id="L-ShadeEnding-5-RileySpaceship+Newgame" Label="Shade Ending - Riley Spaceship" State="false"/>
+		<Setting Id="L-ShadeEnding-6-RileySpaceship-Fortress+Newgame" Label="Shade Ending - Riley Spaceship Fortress " State="false"/>
+		<Setting Id="L-ShadeEnding-7-Credits+Newgame" Label="Real Credits Room" State="false"/>
+		<Setting Id="L-ReplayBattleRoom" Label="Arena Hub" State="false"/>
+        <Setting Id="L-DoubleDsArenaBattle" Label="Double D's Arena Battle" State="false"/>
+	</Setting>
+	<Setting Id="HillbertHotelLevels" Label="Hillbert Hotel Levels" State="false">
+		<Setting Id="L-Neon_Hillbert_Room1_1" Label="Floor 23 - The human party" State="false"/>
+		<Setting Id="L-Neon_Hillbert_Room2Bobo" Label="Floor Gold - The VIP Area (Bobo's Harem)" State="false"/>
+		<Setting Id="L-Neon_Hillbert_Room1_2" Label="Floor Green - An exhibition of the weight of massive talents or disllusions" State="false"/>
+		<Setting Id="L-Neon_Hillbert_Room4_Winter" Label="Floor Pinecone - The Simple Life" State="false"/>
+		<Setting Id="L-Neon_Hillbert_Room5Spiral" Label="Spiral to Cazok" State="false"/>
+		<Setting Id="L-Neon_Hillbert_Room5DeathCorridor" Label="Omega Room - The Beginning of the End" State="false"/>
+		<Setting Id="L-Neon_Hillbert_Room5CazoksPlayroom" Label="Cazok's Playroom" State="false"/>
+	</Setting>
+	<Setting Id="MiscLevels" Label="Misc Levels" State="false">
+        <Setting Id="L-SamsRoom" Label="Sam's Room" State="false"/>
+        <Setting Id="L-DunkeyChallengeBoat" Label="Dunkey Challenge - Boat" State="false"/>
+        <Setting Id="L-DunkeyChallengeSmegaSpeed" Label="Dunkey Challenge - Blaze Rush" State="false"/>
+        <Setting Id="L-LostHillbertRoom" Label="Liminal Rooms - Still in Hillbert Hotel" State="false"/>
+        <Setting Id="L-LostRoom" Label="Lost Room" State="false"/>
+	</Setting>
+</Settings>
