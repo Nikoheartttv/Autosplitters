@@ -5,12 +5,13 @@
 		<Setting Id="E-DragonPart3-Battle" Label="Dragon (Phase 3 - Mind Dragon)" State="true"/>
 		<Setting Id="E-Dmitri-Battle" Label="DMITRI" State="true"/>
 		<Setting Id="E-JudgeCreation-Battle" Label="Judge Creation" State="true"/>
+		<Setting Id="E-Yellow-Battle" Label="Yellow" State="true"/>
+		<Setting Id="E-Pink-Battle" Label="Light Being" State="true"/>
 		<Setting Id="E-Bobo-Battle" Label="Bobo" State="true"/>
 		<Setting Id="E-ShadeDemon-Battle" Label="Scary Shade" State="true"/>
-		<Setting Id="E-Pink-Battle" Label="Light Being (Lime)" State="true"/>
-		<Setting Id="E-Evren2-Battle" Label="Evren" State="true"/>
 		<Setting Id="E-Sun-Battle" Label="End of Time (Singularity)" State="true"/>
 		<Setting Id="E-VoidRaven-RileyFortress-Battle" Label="Void Harpy" State="false"/>
+		<Setting Id="E-Evren2-Battle" Label="Evren" State="true"/>
 		<Setting Id="E-RileyCredits" Label="Credits (After Riley Kill)" State="false"/>
 		<Setting Id="E-ShadePostCredits-Battle" Label="Party Shade" State="false"/>		
 	</Setting>
@@ -40,7 +41,6 @@
 		<Setting Id="E-IrvineCorrupt-Battle" Label="Virus Irvine" State="true"/>
 		<Setting Id="E-Squirrel-Battle" Label="A lot of Squirrels" State="true"/>
 		<Setting Id="E-CrabMachine-Battle" Label="M8 Machine" State="true"/>
-        <Setting Id="E-Yellow-Battle" Label="Yellow" State="true"/>
 		<Setting Id="E-CursedCastle-Battle" Label="The Cursed Castle" State="true"/>
 		<Setting Id="E-SlotMachine-Battle" Label="Toilet Slot Machine" State="true"/>
 		<Setting Id="E-WorldEater-Battle" Label= "World Eater" State="true"/>
@@ -177,11 +177,12 @@
 		<Setting Id="L-Final_Spaceship" Label="Final Spaceship" State="false"/>
 		<Setting Id="L-ShadeEnding-0-BoboRoom" Label="Shade Ending - Bobo's Room" State="false"/>
 		<Setting Id="L-ShadeEnding-1-LostHillbertRoom" Label="Shade Ending - Lost Hillbert Room" State="false"/>
+		<Setting Id="L-ShadeEnding-2-Tormentrealm" Label="117 859 - Torment Realm" State="false"/>
 		<Setting Id="L-ShadeEnding-3-White-room" Label="Shade Ending - White Room" State="false"/>
-		<Setting Id="L-FarmingGame" Label="Farming Game - needs to rename" State="false"/>
+		<Setting Id="L-FarmingGame" Label="Farming Game" State="false"/>
 		<Setting Id="L-Credits" Label="Fake Credits" State="false"/>
 		<Setting Id="L-LiminalSpace_1" Label="Liminal Space" State="false"/>
-		<Setting Id="L-ShadeEnding-4+Newgame" Label="Shade Ending'" State="false"/>
+		<Setting Id="L-ShadeEnding-4+Newgame" Label="Become God? up to Riley's Kingdom - A new order" State="false"/>
 		<Setting Id="L-ShadeEnding-5-RileySpaceship+Newgame" Label="Shade Ending - Riley Spaceship" State="false"/>
 		<Setting Id="L-ShadeEnding-6-RileySpaceship-Fortress+Newgame" Label="Shade Ending - Riley Spaceship Fortress " State="false"/>
 		<Setting Id="L-ShadeEnding-7-Credits+Newgame" Label="Real Credits Room" State="false"/>
