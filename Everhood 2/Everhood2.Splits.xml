@@ -184,6 +184,7 @@
 		<Setting Id="L-Final_Spaceship" Label="Final Spaceship" State="false"/>
 		<Setting Id="L-ShadeEnding-0-BoboRoom" Label="Shade Ending - Bobo's Room" State="false"/>
 		<Setting Id="L-ShadeEnding-1-LostHillbertRoom" Label="Shade Ending - Lost Hillbert Room" State="false"/>
+		<Setting Id="L-ShadeEnding-2-Tormentrealm" Label="117 859 - Torment Realm" State="false"/>
 		<Setting Id="L-ShadeEnding-3-White-room" Label="Shade Ending - White Room" State="false"/>
 		<Setting Id="L-FarmingGame" Label="Farming Game - needs to rename" State="false"/>
 		<Setting Id="L-Credits" Label="Fake Credits" State="false"/>
