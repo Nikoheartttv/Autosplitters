@@ -11,7 +11,7 @@ state("Everhood 2")
 	bool TD_enemyActive : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x28, 0xB8, 0x10, 0x70, 0x1A8, 0xE0, 0x60, 0x140, 0x18, 0x98, 0x8C;
 	int TD_WaveUI_wave : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x28, 0xB8, 0x38, 0x60, 0x28;
 	int TD_CurrentEnemiesCount : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x28, 0xB8, 0x10, 0x70, 0x1A8, 0xE0, 0x60, 0x140, 0x18, 0xA8, 0x18;
-	string250 SLB_Dialog : "UnityPlayer.dll", 0x1B3E998, 0x8, 0x20, 0x30, 0xA38, 0xE0, 0x60, 0x160, 0xC0, 0x14;
+	string250 SLB_Dialog : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x20, 0xB8, 0x38, 0x0, 0x38, 0x58, 0xC0, 0x14;
 	bool TopDownPlayerHPBar_init : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x20, 0xB0, 0x0, 0x48, 0x60, 0xA8, 0x30, 0x144;
 }
 
@@ -22,6 +22,7 @@ startup
 	vars.Helper.Settings.CreateFromXml("Components/Everhood2.Splits.xml");
 	vars.Helper.LoadSceneManager = true;
 	vars.Helper.AlertLoadless();
+	vars.Stopwatch = new Stopwatch();
 
 	//creates text components for variable information
 	vars.SetTextComponent = (Action<string, string>)((id, text) =>
@@ -61,6 +62,7 @@ init
 	vars.Spaceship_Exiting = false;
 	vars.Spaceship_Loading = false;
 	vars.TormentRealm = false;
+	vars.StartedStopwatch = false;
 
 	vars.GetSettingSafe = (Func<string, bool>)(name =>
 	{
@@ -80,7 +82,8 @@ onStart
 	vars.Spaceship_Exiting = false;
 	vars.Spaceship_Loading = false;
 	vars.TormentRealm = false;
-	vars.RileySpaceship_SongName = "";
+	vars.StartedStopwatch = false;
+	vars.Stopwatch.Reset();
 	timer.Run.Offset = TimeSpan.FromSeconds(9);
 }
 
@@ -196,6 +199,7 @@ update
 	if(settings["Current HP"]){vars.SetTextComponent("Current HP",current.currentHP.ToString());}
     if(settings["Enemy HP"]){vars.SetTextComponent("Enemy HP: ",current.enemyHP.ToString());}
 	if(current.loadingScene != old.loadingScene) vars.Log("loading: Old: \"" + old.loadingScene + "\", Current: \"" + current.loadingScene + "\"");
+	if (old.SLB_Dialog != current.SLB_Dialog) vars.Log(current.SLB_Dialog);
 }
 
 split
@@ -247,11 +251,17 @@ split
 		}
 
 	// Final split
-	if (settings["E-RileyCredits"] && current.loadingScene == "ShadeEnding-7-Credits+Newgame" 
-		&& !old.CreditsCanvas && current.CreditsCanvas)
-		{
-			return true;
-		}
+	if (!vars.StartedStopwatch && current.loadingScene == "ShadeEnding-7-Credits+Newgame" && current.SLB_Dialog.Contains("W"))
+	{
+		vars.StartedStopwatch = true;
+		vars.Stopwatch.Start();
+		vars.Log("Stopwatch Started");
+	}
+	if (vars.Stopwatch.Elapsed.TotalSeconds >= 10 && current.loadingScene == "ShadeEnding-7-Credits+Newgame")
+	{ 
+		vars.Stopwatch.Reset();
+		if (vars.GetSettingSafe("E-RileyCredits")) return true;
+	}
 
 	// Double D's Arena Gauntlet
 	if (vars.InBattle && old.loadingScene != current.loadingScene 
