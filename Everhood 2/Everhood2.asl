@@ -6,7 +6,6 @@ state("Everhood 2")
 	bool GameplayEnemyInitiated : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x18, 0xB8, 0x48, 0x60, 0x148, 0x146;
 	string250 playerScene : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x18, 0xB8, 0x48, 0x60, 0x178, 0x60, 0x68, 0x10, 0x14;
 	bool CreditsCanvas : "UnityPlayer.dll", 0x1AF48F8, 0x1A0, 0xD0, 0x8, 0x1C8, 0x268, 0x0, 0x28; // to fix
-	// bool SceneManagerRoot_transitionPlaying : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x10, 0xB0, 0x48, 0x60, 0x150;
 	bool SceneManagerRoot_transitionPlaying : "UnityPlayer.dll", 0x1B3F238, 0x8, 0x20, 0x10, 0xB0, 0x48, 0x60, 0x150;
 	bool TD_enemyActive : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x28, 0xB8, 0x10, 0x70, 0x1A8, 0xE0, 0x60, 0x140, 0x18, 0x98, 0x8C;
 	int TD_WaveUI_wave : "UnityPlayer.dll", 0x1B3B040, 0x8, 0x28, 0xB8, 0x38, 0x60, 0x28;
@@ -164,7 +163,8 @@ update
 				}
 			}
 		}
-		if (!vars.TormentRealm)	vars.isLoading = game.ReadValue<int>((IntPtr)vars.Helper.Scenes.Loaded[0].Address + 0x9C) != 2;
+		if (!vars.TormentRealm && (current.loadingScene == "Evren2-Battle" || old.loadingScene == "Evren2-Battle"))	vars.isLoading = false;
+		else if (!vars.TormentRealm)	vars.isLoading = game.ReadValue<int>((IntPtr)vars.Helper.Scenes.Loaded[0].Address + 0x9C) != 2;
 	}
 
 	// Load Removal workaround for Spaceship Sections
@@ -199,7 +199,7 @@ update
 	if(settings["Current HP"]){vars.SetTextComponent("Current HP",current.currentHP.ToString());}
     if(settings["Enemy HP"]){vars.SetTextComponent("Enemy HP: ",current.enemyHP.ToString());}
 	if(current.loadingScene != old.loadingScene) vars.Log("loading: Old: \"" + old.loadingScene + "\", Current: \"" + current.loadingScene + "\"");
-	if (old.SLB_Dialog != current.SLB_Dialog) vars.Log(current.SLB_Dialog);
+	// if (old.SLB_Dialog != current.SLB_Dialog) vars.Log(current.SLB_Dialog);
 }
 
 split
