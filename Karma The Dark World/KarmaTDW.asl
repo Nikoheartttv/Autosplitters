@@ -54,6 +54,7 @@ onStart
 init
 {
 	IntPtr gWorld = vars.Helper.ScanRel(10, "80 7C 24 ?? 00 ?? ?? 48 8B 3D ???????? 48");
+	IntPtr gEngine = vars.Helper.ScanRel(3, "48 89 05 ???????? 48 85 c9 74 ?? e8 ???????? 48 8d 4d");
 	IntPtr fNames = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ?? ?? ?? ?? EB");
 
 	if (gWorld == IntPtr.Zero || fNames == IntPtr.Zero)
@@ -81,6 +82,7 @@ init
 	vars.Helper["stopParam"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x378);
 	// GWorld.OwningGameInstance.inMainMenu
 	vars.Helper["inMainMenu"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x37A);
+	vars.Helper["bPlayerIsWaiting"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x4B0);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -128,6 +130,7 @@ update
 	// if (old.LockMovement != current.LockMovement) vars.Log("LockMovement:" + current.LockMovement);
 	// if (old.ISBack != current.ISBack) vars.Log("ISBack:" + current.ISBack);
 	// if (old.IsDie != current.IsDie) vars.Log("IsDie:" + current.IsDie);
+	if (old.bPlayerIsWaiting != current.bPlayerIsWaiting) vars.Log("bPlayerIsWaiting:" + current.bPlayerIsWaiting);
 }
 
 split
@@ -141,5 +144,5 @@ split
 
 isLoading
 {
-	return current.stopParam || current.NoControl || current.IsDie || current.inMainMenu;
+	return current.stopParam || current.NoControl || current.IsDie || current.inMainMenu || current.World.Contains("MenuRoot");
 }
