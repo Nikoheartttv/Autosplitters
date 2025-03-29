@@ -9,10 +9,11 @@
 		<Setting Id="E-Pink-Battle" Label="Light Being" State="true"/>
 		<Setting Id="E-Bobo-Battle" Label="Bobo" State="true"/>
 		<Setting Id="E-ShadeDemon-Battle" Label="Scary Shade" State="true"/>
+		<Setting Id="E-ShadeScaryDie" Label="Scary Shade (Die into White Room)" State="true"/>
 		<Setting Id="E-Sun-Battle" Label="End of Time (Singularity)" State="true"/>
 		<Setting Id="E-VoidRaven-RileyFortress-Battle" Label="Void Harpy" State="false"/>
 		<Setting Id="E-Evren2-Battle" Label="Evren" State="true"/>
-		<Setting Id="E-RileyCredits" Label="Credits (After Riley Kill)" State="false"/>
+		<Setting Id="E-RileyCredits" Label="Credits (After Riley Kill)" State="true"/>
 		<Setting Id="E-ShadePostCredits-Battle" Label="Party Shade" State="false"/>	
 	</Setting>
 	<Setting Id="CosmicHubMajorEnemies" Label="Major Enemies from Cosmic Hub Doors" State="false">

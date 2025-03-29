@@ -62,6 +62,7 @@ init
 	vars.Spaceship_Loading = false;
 	vars.TormentRealm = false;
 	vars.StartedStopwatch = false;
+	vars.ScaryShadeWhiteRoomReady = false;
 
 	vars.GetSettingSafe = (Func<string, bool>)(name =>
 	{
@@ -82,6 +83,7 @@ onStart
 	vars.Spaceship_Loading = false;
 	vars.TormentRealm = false;
 	vars.StartedStopwatch = false;
+	vars.ScaryShadeWhiteRoomReady = false;
 	vars.Stopwatch.Reset();
 	timer.Run.Offset = TimeSpan.FromSeconds(9);
 }
@@ -194,6 +196,8 @@ update
 			if (old.SceneManagerRoot_transitionPlaying && !current.SceneManagerRoot_transitionPlaying) vars.Spaceship_Loading = true;
 		} 
 	}
+ 
+	if (old.loadingScene == "ShadeEnding-3-White-room" && current.loadingScene == "ShadeDemon-Battle") vars.ScaryShadeWhiteRoomReady = true;
 
 	// logging
 	if(settings["Current HP"]){vars.SetTextComponent("Current HP",current.currentHP.ToString());}
@@ -228,7 +232,15 @@ split
 		vars.InBattle = false;
 		if (vars.GetSettingSafe("E-RavenTutorialFight")) return true;
 	}
-	
+
+	// Scary Shade (Die Into White Room - For Any% No Battle Replay Warp)
+
+	if (settings["E-ScaryShadeDie"] && current.loadingScene == "ShadeDemon-Battle" && vars.ScaryShadeDie && old.currentHP >= 1 && current.currentHP == 0)
+	{
+		vars.InBattle = false;
+		if (vars.GetSettingSafe("E-ScaryShadeDie")) return true;
+	}
+
 	// 2 times going into Hillbert Room 1
 	if (old.loadingScene == "Neon_HotelEntrance" && current.loadingScene == "Neon_Hillbert_Room1")
 	{
