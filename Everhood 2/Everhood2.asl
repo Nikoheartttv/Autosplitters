@@ -219,6 +219,12 @@ split
 			if (vars.GetSettingSafe("E-" + old.loadingScene)) return true;
 		}
 
+	// dragon 1 & 2 splits
+	if ((old.loadingScene == "DragonPart1-Battle" && current.loadingScene == "DragonPart2-Battle") || (old.loadingScene == "DragonPart2-Battle" && current.loadingScene == "DragonPart3-Battle"))
+		{
+			if (vars.GetSettingSafe("E-" + old.loadingScene)) return true;
+		}
+
 	//  helps for spaceship splitting
 	if ((vars.Spaceship == "Tutorial_Spaceship" || vars.Spaceship == "Final_Spaceship" || vars.Spaceship == "ShadeEnding-5-RileySpaceship+Newgame") && vars.InBattle && current.GameplayEnemyDefeated) 
 	{
