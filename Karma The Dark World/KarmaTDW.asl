@@ -78,7 +78,7 @@ init
 	vars.Helper["inMainMenu"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x37A);
 	vars.Helper["bPlayerIsWaiting"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x4B0);
 	//GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.AcknowledgedPawn.CameraGun.
-	 vars.Helper["FinalCameraShot"] = vars.Helper.Make<float>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x1168, 0x318);
+	vars.Helper["FinalCameraShot"] = vars.Helper.Make<float>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x1168, 0x318);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
