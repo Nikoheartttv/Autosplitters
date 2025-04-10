@@ -37,7 +37,7 @@ startup
 				{ "SC302_DivingRoom", true, "Act 3 - Amber Blood", "ActThree" },
 				{ "SC302_Father_Chasing", true, "Act 3 - Truth", "ActThree" },
 				{ "SC302_Lisa_Tunnel", true, "Act 3 - Virus", "ActThree" },
-				{ "SC303_FullEnding", true, "Act 3 - Siblings", "ActThree" },
+				{ "End", true, "Act 3 - Siblings", "ActThree" },
 	};
 
 	vars.Helper.Settings.Create(_settings);
@@ -66,23 +66,19 @@ init
 	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
     // GWorld.OwningGameInstance.AcknowledgedPawn.GameProgress
     vars.Helper["GameProgress"] = vars.Helper.Make<byte>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x996);
-	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Pawn.NoControl
+	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.AcknowledgedPawn.NoControl
 	vars.Helper["NoControl"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x900);
-	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Pawn.LockMovement
-	// vars.Helper["LockMovement"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x901);
-	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Pawn.ISBack
-	// vars.Helper["ISBack"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x902);
-	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Pawn.IsDie
+	// GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.AcknowledgedPawn.IsDie
 	vars.Helper["IsDie"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x995);
-	// // GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.Pawn.CurrentPlayStartID
-    // vars.Helper["PassingLevel"] = vars.Helper.Make<ulong>(gWorld, 0x1D8, 0x2A4);
-	// GWorld.OwningGameInstance.PassingLevel
-    vars.Helper["CurrentStartPlayID"] = vars.Helper.Make<ulong>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0xA0C);
+	// // GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.AcknowledgedPawn.CurrentPlayStartID
+    vars.Helper["CurrentPlayStartID"] = vars.Helper.Make<ulong>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0xA0C);
 	// GWorld.OwningGameInstance.stopParam
 	vars.Helper["stopParam"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x378);
 	// GWorld.OwningGameInstance.inMainMenu
 	vars.Helper["inMainMenu"] = vars.Helper.Make<bool>(gWorld, 0x1D8, 0x37A);
 	vars.Helper["bPlayerIsWaiting"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x4B0);
+	//GWorld.OwningGameInstance.LocalPlayers[0].PlayerController.AcknowledgedPawn.CameraGun.
+	 vars.Helper["FinalCameraShot"] = vars.Helper.Make<float>(gWorld, 0x1D8, 0x38, 0x0, 0x30, 0x338, 0x1168, 0x318);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -120,17 +116,12 @@ update
 	if (!string.IsNullOrEmpty(world) && world != "None")
 		current.World = world;
 		if (old.World != current.World) vars.Log("World: " + old.World + " -> " + current.World);
-	var level = vars.FNameToString(current.CurrentStartPlayID);
+	var level = vars.FNameToString(current.CurrentPlayStartID);
 	if (!string.IsNullOrEmpty(level) && level != "None")
 		current.Level = level;
 		if (old.Level != current.Level) vars.Log("Level: " + old.Level + " -> " + current.Level);
-	// if (old.inMainMenu != current.inMainMenu) vars.Log("inMainMenu:" + current.inMainMenu);
-	// if (old.stopParam != current.stopParam) vars.Log("stopParam:" + current.stopParam);
-	// if (old.NoControl != current.NoControl) vars.Log("NoControl:" + current.NoControl);
-	// if (old.LockMovement != current.LockMovement) vars.Log("LockMovement:" + current.LockMovement);
-	// if (old.ISBack != current.ISBack) vars.Log("ISBack:" + current.ISBack);
-	// if (old.IsDie != current.IsDie) vars.Log("IsDie:" + current.IsDie);
-	if (old.bPlayerIsWaiting != current.bPlayerIsWaiting) vars.Log("bPlayerIsWaiting:" + current.bPlayerIsWaiting);
+	// if (old.bPlayerIsWaiting != current.bPlayerIsWaiting) vars.Log("bPlayerIsWaiting:" + current.bPlayerIsWaiting);
+	// if (old.FinalCameraShot != current.FinalCameraShot) vars.Log("FinalCameraShot:" + current.FinalCameraShot);
 }
 
 split
@@ -138,6 +129,11 @@ split
 	if (old.Level != current.Level && settings[current.Level] && !vars.CompletedSplits.Contains(current.Level))
 	{
 		vars.CompletedSplits.Add(current.Level);
+		return true;
+	}
+	if (settings["End"] && current.Level == "SC303_Daniel_BackHome" && old.FinalCameraShot == 0 && current.FinalCameraShot != 0 & !vars.CompletedSplits.Contains("End"))
+	{
+		vars.CompletedSplits.Add("End");
 		return true;
 	}
 }
