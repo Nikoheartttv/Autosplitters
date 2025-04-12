@@ -104,7 +104,7 @@ init
 
 start
 {
-	return (old.World == "MenuRoot_CH0" || old.World == "MenuRoot_CH1") && current.World == "PrefaceRoot";
+	return current.World.Contains("MenuRoot") && current.World == "PrefaceRoot";
 }
 
 update
