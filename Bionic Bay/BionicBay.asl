@@ -46,7 +46,8 @@ init
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => 
 	{
 		// vars.Helper["TotalGameTime"] = mono.Make<float>("Psychoflow.GameManager", "s_Instance", "m_GameProgress", "m_SaveCache", "totalGameTime");
-		vars.Helper["PlayerTime"] = mono.Make<float>("Psychoflow.GameTime", "PlayerTime");
+		// vars.Helper["PlayerTime"] = mono.Make<float>("Psychoflow.GameTime", "PlayerTime");
+		vars.Helper["StageInit"] = mono.Make<int>("Psychoflow.GameManager", "s_Stage");
 		vars.Helper["SceneName"] = mono.MakeString("Psychoflow.LevelMaker.LMManager", "currentSceneData", "sceneName");
 		vars.Helper["activeCheckpoint"] = mono.Make<int>("Psychoflow.LevelMaker.LMManager", "currentSceneData", "activeCheckpoint");
 		vars.Helper["Credits"] = mono.Make<float>("Psychoflow.Game.UI", "CreditUI", "m_Progress");
@@ -62,6 +63,7 @@ init
 		vars.Helper["LetterboxExist"] = mono.Make<bool>("Psychoflow.Game.UI", "LetterboxingUI", "m_AspectRatioFitter", "m_DoesParentExist");
 		vars.Helper["LetterboxAspectRatio"] = mono.Make<float>("Psychoflow.Game.UI", "LetterboxingUI", "m_AspectRatioFitter", "m_AspectRatio");
 		vars.Helper["CurrentTimeScale"] = mono.Make<float>("Psychoflow.GameManager", "s_Instance", "m_TimeScaleController", "m_CurrentTimeScale");
+		vars.Helper["FadeState"] = mono.Make<int>("Psychoflow.Game.UI", "FaderUI", "CurrentState");
 
 		return true;
 	});
@@ -69,6 +71,7 @@ init
 	current.SceneName = "";
 	current.activeCheckpoint = 0;
 	vars.timeStoppedTicks = 0;
+	vars.LevelTransitionToFade = false;
 }
 
 onStart
@@ -90,6 +93,9 @@ update
 	if (old.IsPaused != current.IsPaused) vars.Log("IsPaused: " + current.IsPaused);
 	if (old.IsSwapping != current.IsSwapping) vars.Log("IsSwapping: " + current.IsSwapping);
 	if (old.IsInLevelTransition != current.IsInLevelTransition) vars.Log("IsInLevelTransition: " + current.IsInLevelTransition);
+	if (current.IsInLevelTransition) vars.LevelTransitionToFade = true;
+	if (vars.LevelTransitionToFade && !current.IsInLevelTransition && old.FadeState == 3 && current.FadeState != 3) vars.LevelTransitionToFade = false;
+
 	// if (current.PlayerTime == old.PlayerTime) vars.timeStoppedTicks++;
 	// else vars.timeStoppedTicks = 0;
 }
@@ -115,7 +121,13 @@ split
 
 isLoading
 {
-	return true;
+	if (current.StageInit != 9 
+		|| current.IsPaused
+		|| current.IsInLevelTransition
+		|| current.CreditsCoroutine != 0
+		|| current.IsRestarting
+		|| vars.LevelTransitionToFade) return true;
+	else return false;
 	// if ((current.SceneName == null || current.SceneName == "_Title_")
 	// 	|| current.IsSwapping 
 	// 	|| current.IsRestarting 
@@ -136,7 +148,7 @@ isLoading
 	// 	LMManager.Instance.SwitchLevelInPlaymode(levelIdentifier, checkpoint, allowWorldTransitionAnimation, onLoadFinish: onLoadFinish);??
 }
 
-gameTime
-{
-	return TimeSpan.FromSeconds(current.PlayerTime - vars.StartOffset);
-}
+// gameTime
+// {
+// 	return TimeSpan.FromSeconds(current.PlayerTime - vars.StartOffset);
+// }
