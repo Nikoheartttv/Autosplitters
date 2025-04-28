@@ -37,7 +37,7 @@ startup
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
 	};
 	vars.Helper.Settings.Create(_settings);
-	vars.Helper.AlertGameTime();
+	vars.Helper.AlertLoadless();
 	vars.VisitedLevel = new List<string>();
 }
 
