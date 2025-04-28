@@ -108,7 +108,7 @@ update
 
 split
 {
-	if (current.SceneName != old.SceneName && settings[old.SceneName] && !vars.VisitedLevel.Contains(old.SceneName)) 
+	if (current.SceneName != old.SceneName && current.SceneName != "_Title_" && settings[old.SceneName] && !vars.VisitedLevel.Contains(old.SceneName)) 
 	{
 		vars.VisitedLevel.Add(old.SceneName);
 		return true;
