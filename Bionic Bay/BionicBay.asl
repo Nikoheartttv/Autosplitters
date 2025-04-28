@@ -45,21 +45,36 @@ init
 {
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => 
 	{
-		vars.Helper["LevelName"] = mono.MakeString("Psychoflow.GameManager", "s_Instance", "m_GameProgress", "m_SaveCache", "levelName");
-		vars.Helper["TotalGameTime"] = mono.Make<float>("Psychoflow.GameManager", "s_Instance", "m_GameProgress", "m_SaveCache", "totalGameTime");
+		// vars.Helper["TotalGameTime"] = mono.Make<float>("Psychoflow.GameManager", "s_Instance", "m_GameProgress", "m_SaveCache", "totalGameTime");
+		vars.Helper["PlayerTime"] = mono.Make<float>("Psychoflow.GameTime", "PlayerTime");
 		vars.Helper["SceneName"] = mono.MakeString("Psychoflow.LevelMaker.LMManager", "currentSceneData", "sceneName");
 		vars.Helper["activeCheckpoint"] = mono.Make<int>("Psychoflow.LevelMaker.LMManager", "currentSceneData", "activeCheckpoint");
 		vars.Helper["Credits"] = mono.Make<float>("Psychoflow.Game.UI", "CreditUI", "m_Progress");
+		vars.Helper["CreditsCoroutine"] = mono.Make<int>("Psychoflow.Game.UI", "CreditUI", "m_CreditCoroutine", "m_Coroutine"); // PauseGame
+		vars.Helper["IsSwapping"] = mono.Make<bool>("Psychoflow.Game.GameStatus", "IsSwapping"); // PauseGame
+		vars.Helper["IsRestarting"] = mono.Make<bool>("Psychoflow.Game.GameStatus", "IsRestarting"); // PauseGame
+		vars.Helper["IsInLevelTransition"] = mono.Make<bool>("Psychoflow.Game.GameStatus", "IsInLevelTransition"); // IsTitleSceneOrLoading()
+		vars.Helper["VideoShouldPlay"] = mono.Make<bool>("Psychoflow.Game.UI", "VideoUI", "m_VideoShouldPlay"); // PauseGame
+		vars.Helper["FadeStateCurrentTime"] = mono.Make<float>("Psychoflow.Game.UI", "FaderUI", "m_StateCurrentTime"); // PauseGame
+		vars.Helper["DetailLeaderboard"] = mono.Make<int>("Psychoflow.Game.UI", "OnlineModeUIManager", "m_DetailLeaderBoard", "m_CurrentlyActiveFrom"); // ?????? PauseGame
+		vars.Helper["IsOnlineModeStartWaiting"] = mono.Make<bool>("Psychoflow.Game.GameStatus", "IsOnlineModeStartWaiting");
+		vars.Helper["IsPaused"] = mono.Make<bool>("Psychoflow.Game.GameStatus", "IsPaused");
+		vars.Helper["LetterboxExist"] = mono.Make<bool>("Psychoflow.Game.UI", "LetterboxingUI", "m_AspectRatioFitter", "m_DoesParentExist");
+		vars.Helper["LetterboxAspectRatio"] = mono.Make<float>("Psychoflow.Game.UI", "LetterboxingUI", "m_AspectRatioFitter", "m_AspectRatio");
+		vars.Helper["CurrentTimeScale"] = mono.Make<float>("Psychoflow.GameManager", "s_Instance", "m_TimeScaleController", "m_CurrentTimeScale");
+
 		return true;
 	});
 	vars.StartOffset = 0f;
 	current.SceneName = "";
-	current.activeCheckpoint = "";
+	current.activeCheckpoint = 0;
+	vars.timeStoppedTicks = 0;
 }
 
 onStart
 {
 	timer.IsGameTimePaused = true;
+	vars.StartOffset = current.PlayerTime;
 	vars.VisitedLevel.Clear();
 }
 
@@ -68,26 +83,30 @@ start
 	return old.SceneName != "Inception" && current.SceneName == "Inception";
 }
 
-onStart
-{
-	vars.StartOffset = current.TotalGameTime;
-}
-
 update
 {
 	if (old.SceneName != current.SceneName) vars.Log("Scene Name: " + current.SceneName);
 	if (old.activeCheckpoint != current.activeCheckpoint) vars.Log("Active Checkpoint: " + current.activeCheckpoint);
+	if (old.IsPaused != current.IsPaused) vars.Log("IsPaused: " + current.IsPaused);
+	if (old.IsSwapping != current.IsSwapping) vars.Log("IsSwapping: " + current.IsSwapping);
+	if (old.IsInLevelTransition != current.IsInLevelTransition) vars.Log("IsInLevelTransition: " + current.IsInLevelTransition);
+	// if (current.PlayerTime == old.PlayerTime) vars.timeStoppedTicks++;
+	// else vars.timeStoppedTicks = 0;
 }
 
 split
 {
-
 	if (current.SceneName != old.SceneName && settings[old.SceneName] && !vars.VisitedLevel.Contains(old.SceneName)) 
 	{
 		vars.VisitedLevel.Add(old.SceneName);
 		return true;
 	}
-	if (settings["End"] && current.SceneName == "Monumental" && current.activeCheckpoint == 26 && old.Credits == 0 && current.Credits != 0) 
+	// if (settings["End"] && current.SceneName == "Monumental" && current.activeCheckpoint == 26 && old.Credits == 0 && current.Credits != 0) 
+	// {
+	// 	vars.VisitedLevel.Add("End");
+	// 	return true;
+	// }
+	if (settings["End"] && current.SceneName == "Monumental" && current.activeCheckpoint == 26 && current.LetterboxExist && !current.IsPaused && current.CurrentTimeScale < 1.0)
 	{
 		vars.VisitedLevel.Add("End");
 		return true;
@@ -97,9 +116,27 @@ split
 isLoading
 {
 	return true;
+	// if ((current.SceneName == null || current.SceneName == "_Title_")
+	// 	|| current.IsSwapping 
+	// 	|| current.IsRestarting 
+	// 	|| current.VideoShouldPlay 
+	// 	|| current.FadeStateCurrentTime != 0 
+	// 	|| current.CreditsCoroutine != 0
+	// 	|| current.IsOnlineModeStartWaiting
+	// 	|| current.IsPaused
+	// 	|| current.IsInLevelTransition
+	// 	|| current.DetailLeaderboard != 0
+	// 	|| current.CurrentTimeScale != 1.0) return true;
+	// else return false;
+
+	// more thoughts
+	// if (fadeTime.HasValue)
+	// 	LMManager.Instance.SwitchLevelInPlaymode(levelIdentifier, checkpoint, allowWorldTransitionAnimation, fadeTime.Value, onLoadFinish);
+	// else
+	// 	LMManager.Instance.SwitchLevelInPlaymode(levelIdentifier, checkpoint, allowWorldTransitionAnimation, onLoadFinish: onLoadFinish);??
 }
 
 gameTime
 {
-	return TimeSpan.FromSeconds(current.TotalGameTime - vars.StartOffset);
+	return TimeSpan.FromSeconds(current.PlayerTime - vars.StartOffset);
 }
