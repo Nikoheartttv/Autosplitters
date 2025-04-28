@@ -64,6 +64,8 @@ init
 		vars.Helper["LetterboxAspectRatio"] = mono.Make<float>("Psychoflow.Game.UI", "LetterboxingUI", "m_AspectRatioFitter", "m_AspectRatio");
 		vars.Helper["CurrentTimeScale"] = mono.Make<float>("Psychoflow.GameManager", "s_Instance", "m_TimeScaleController", "m_CurrentTimeScale");
 		vars.Helper["FadeState"] = mono.Make<int>("Psychoflow.Game.UI", "FaderUI", "CurrentState");
+		vars.Helper["IsDead"] = mono.Make<bool>("Psychoflow.Game.Characters", "Hero", "m_Status", "DeathState", "IsDead");
+		vars.Helper["HasStarted"] = mono.Make<bool>("Psychoflow.Game.Characters", "Hero", "m_Status", "HasStarted");
 
 		return true;
 	});
@@ -77,7 +79,7 @@ init
 onStart
 {
 	timer.IsGameTimePaused = true;
-	vars.StartOffset = current.PlayerTime;
+	// vars.StartOffset = current.PlayerTime;
 	vars.VisitedLevel.Clear();
 }
 
@@ -94,7 +96,11 @@ update
 	if (old.IsSwapping != current.IsSwapping) vars.Log("IsSwapping: " + current.IsSwapping);
 	if (old.IsInLevelTransition != current.IsInLevelTransition) vars.Log("IsInLevelTransition: " + current.IsInLevelTransition);
 	if (current.IsInLevelTransition) vars.LevelTransitionToFade = true;
-	if (vars.LevelTransitionToFade && !current.IsInLevelTransition && old.FadeState == 3 && current.FadeState != 3) vars.LevelTransitionToFade = false;
+	if (vars.LevelTransitionToFade && !current.IsInLevelTransition && old.HasStarted == false && current.HasStarted == true) vars.LevelTransitionToFade = false;
+
+
+	// if (old.IsDead != current.IsDead) vars.Log("Is Dead: " + current.IsDead);
+	// if (old.HasStarted != current.HasStarted) vars.Log("HasStarted: " + current.HasStarted);
 
 	// if (current.PlayerTime == old.PlayerTime) vars.timeStoppedTicks++;
 	// else vars.timeStoppedTicks = 0;
@@ -102,7 +108,7 @@ update
 
 split
 {
-	if (current.SceneName != old.SceneName && settings[old.SceneName] && !vars.VisitedLevel.Contains(old.SceneName)) 
+	if (current.SceneName != old.SceneName && current.SceneName != "_Title_" && settings[old.SceneName] && !vars.VisitedLevel.Contains(old.SceneName)) 
 	{
 		vars.VisitedLevel.Add(old.SceneName);
 		return true;
@@ -121,13 +127,16 @@ split
 
 isLoading
 {
-	if (current.StageInit != 9 
+	if ((current.SceneName == null || current.SceneName == "_Title_")
+		|| current.StageInit != 9 
 		|| current.IsPaused
 		|| current.IsInLevelTransition
 		|| current.CreditsCoroutine != 0
 		|| current.IsRestarting
 		|| vars.LevelTransitionToFade) return true;
+		// || current.IsDead) return true;
 	else return false;
+	
 	// if ((current.SceneName == null || current.SceneName == "_Title_")
 	// 	|| current.IsSwapping 
 	// 	|| current.IsRestarting 
