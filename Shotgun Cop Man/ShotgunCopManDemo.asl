@@ -9,7 +9,7 @@ startup
 	dynamic[,] _settings =
 	{
 		{ "TotalTime", true, "Total Time Tracker", null },
-		{ "TotalTimeAnywhere", true, "Total Time Tracker from Any Level/Stage", null },
+		{ "TotalTimeAnywhere", false, "Total Time Tracker from Any Level/Stage", null },
 		{ "LevelTime", false, "Level Time Tracker - For IL Splitting", null},
 		{ "AllInOne", false, "100% Run - All In One Achievements on each level", null }, 
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
