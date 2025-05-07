@@ -9,6 +9,7 @@ startup
 	dynamic[,] _settings =
 	{
 		{ "TotalTime", true, "Total Time Tracker", null },
+		{ "TotalTimeAnywhere", true, "Total Time Tracker from Any Level/Stage", null },
 		{ "LevelTime", false, "Level Time Tracker - For IL Splitting", null},
 		{ "AllInOne", false, "100% Run - All In One Achievements on each level", null }, 
 		{ "Autoreset", false, "Auto-Reset when going into Main Menu -> Options", null },
@@ -233,6 +234,7 @@ start
 {
 	// Main Campaign Start
 	if (settings["TotalTime"] && old.currentActiveMode == "WorldMap" && current.currentActiveMode == "Game" && current.lvlDisplayName == "0-1") return true;
+	else if (settings["TotalTimeAnywhere"] && old.currentActiveMode == "WorldMap" && current.currentActiveMode == "Game") return true;
 	else if (settings["LevelTime"] && old.currentActiveMode == "WorldMap" && current.currentActiveMode == "Game") return true;
 }
 
@@ -274,6 +276,10 @@ isLoading
 gameTime
 {
 	if (settings["TotalTime"])
+	{
+		return TimeSpan.FromSeconds(current.totalTime);
+	}
+	if (settings["TotalTimeAnywhere"])
 	{
 		return TimeSpan.FromSeconds(current.totalTime);
 	}
