@@ -24,36 +24,24 @@ init
 		throw new Exception(Msg);
 	}
 
+    // GWorld.FName
     vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
-    // GEngine.TransitionType
-    vars.Helper["TransitionType"] = vars.Helper.Make<byte>(gEngine, 0xBBB);
     // GEngine.GameInstance.IsChangingMap
     vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
-    // GEngine.GameInstance.SpawningAfterBattle?
-    vars.Helper["SpawningAfterBattle"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x36C);
-    // GEngine.GameInstance.CinematicAfterBattle
-    vars.Helper["CinematicAfterBattle"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x738);
     // GEngine.GameInstance.IsLoadingMapFromLoadGame
     vars.Helper["IsLoadingMapFromLoadGame"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xCC9);
     // GEngine.GameInstance.LocalPlayers[0].IsChangingArea
     vars.Helper["IsChangingArea"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
+    // GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
+	vars.Helper["IsPauseMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
+    // GEngine.GameInstance.LocalPlayers[0].BattleFlowState
+	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
     // GEngine.GameInstance.LocalPlayers[0].AcknowledgedPawn.IsTeleporting?
     vars.Helper["IsTeleporting"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x338, 0xDC0);
-    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.IsCinematicPlaying
-    vars.Helper["CS_IsCinematicPlaying"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x238);
-    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.CinematicPaused
-    vars.Helper["CS_CinematicPaused"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x239);
     // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.IsInTransition
     vars.Helper["CS_IsInTransition"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x358);
-    // GEngine.GameInstance.Loading_Screen_Widget.Visibility
-    vars.Helper["LSW_Visibility"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0xB08, 0xDC);
-    // GEngine.GameInstance.Loading_Screen_Widget.bIsFocusable
-    vars.Helper["LSW_bIsFocusable"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x21C);
     // GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
     vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
-
-
-    // vars.Helper["?"] = vars.Helper<???>(gEngine, 0x10A8)
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -97,8 +85,10 @@ update
 
 isLoading
 {
-    return current.IsLoadingMapFromLoadGame || current.IsChangingMap || current.IsChangingArea
-    || current.LSW_HasAppeared || current.World == "Map_Game_Bootstrap";
+    return current.IsChangingMap || current.IsLoadingMapFromLoadGame || current.IsChangingArea || 
+    current.IsPauseMenuVisible || current.BattleFlowState == 1 || 
+    current.LSW_HasAppeared || current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
+    // current.CS_IsInTransition
 }
 
 exit
