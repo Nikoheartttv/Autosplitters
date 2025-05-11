@@ -1,4 +1,4 @@
-// Load Removal made by Nikoheart
+// Auto-Start, Load Removal & Auto-Split (temporary) made by Nikoheart
 // Any queries/edits/changes needed, please contact at @hellonikoheart on X (Twitter) or @nikoheart.com on Bluesky
 // or reach out within the #lrt-autosplitter-dev channel in the speedrunning Discord
 
@@ -10,6 +10,13 @@ startup
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	vars.Helper.GameName = "Clair Obscur: Expedition 33";
 	vars.Helper.AlertLoadless();
+
+	dynamic[,] _settings =
+	{
+		{ "FinalBossVerso", true, "Temporary End Boss Split", null },
+	};
+	vars.Helper.Settings.Create(_settings);
+	vars.EncounterWon = new List<string>();
 }
 
 init
@@ -38,6 +45,12 @@ init
 	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
     // GEngine.GameInstance.LocalPlayers[0].AcknowledgedPawn.IsTeleporting?
     vars.Helper["IsTeleporting"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x338, 0xDC0);
+    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.LevelSequenceActor.Sequence
+	vars.Helper["CS_CinematicName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x290, 0x18);
+    // GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.EncounterName
+	vars.Helper["BattleManagerEncounterName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
+    // GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
+	vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
     // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.IsInTransition
     vars.Helper["CS_IsInTransition"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x358);
     // GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
@@ -60,7 +73,9 @@ init
 	});
 
 	current.World = "";
-    current.MapName = "";
+	current.EncounterName = "";
+    current.CurrentCinematic = "";
+	vars.BattleWon = false;
 }
 
 start
@@ -71,6 +86,8 @@ start
 onStart
 {
     timer.IsGameTimePaused = true;
+	vars.BattleWon = false;
+	vars.EncounterWon.Clear();
 }
 
 update
@@ -78,9 +95,20 @@ update
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
 
+	if (old.BattleEndState == 0 && current.BattleEndState == 1) vars.BattleWon = true;
+
 	var world = vars.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+
+    var encounter = vars.FNameToString(current.BattleManagerEncounterName);
+	if (!string.IsNullOrEmpty(encounter) && world != "None") current.EncounterName = encounter;
+
+    var cinematic = vars.FNameToString(current.CS_CinematicName);
+	if (!string.IsNullOrEmpty(cinematic) && world != "None") current.CurrentCinematic = cinematic;
+
 	if (old.World != current.World) vars.Log("World: " + old.World + " -> " + current.World);
+    if (old.CurrentCinematic != current.CurrentCinematic) vars.Log("Current Cinematic: " + current.CurrentCinematic);
+    if (old.EncounterName != current.EncounterName) vars.Log("Encounter Name: " + current.EncounterName);
 }
 
 isLoading
@@ -89,6 +117,17 @@ isLoading
     current.IsPauseMenuVisible || current.BattleFlowState == 1 || 
     current.LSW_HasAppeared || current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
     // current.CS_IsInTransition
+}
+
+split
+{
+	if (current.World != "Level_MainMenu" && vars.BattleWon &&
+		old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
+		{
+			vars.EncounterWon.Add(old.EncounterName);
+			vars.BattleWon = false;
+			return settings[old.EncounterName];
+		}
 }
 
 exit
