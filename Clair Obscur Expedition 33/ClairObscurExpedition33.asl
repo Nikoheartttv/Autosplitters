@@ -103,35 +103,9 @@ init
 	// GEngine.GameInstance.IsChangingMap
 	vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
 	// GEngine.GameInstance.LocalPlayers[0].TimePlayed
-    vars.Helper["TimePlayed"] = vars.Helper.Make<double>(gEngine, 0x10A8, 0x1F0);
+	vars.Helper["TimePlayed"] = vars.Helper.Make<double>(gEngine, 0x10A8, 0x1F0);
 	// GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
 	vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
-=======
-    // GWorld.FName
-    vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
-    // GEngine.GameInstance.IsChangingMap
-    vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
-    // GEngine.GameInstance.IsLoadingMapFromLoadGame
-    vars.Helper["IsLoadingMapFromLoadGame"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xCC9);
-    // GEngine.GameInstance.LocalPlayers[0].IsChangingArea
-    vars.Helper["IsChangingArea"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
-    // GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
-    vars.Helper["IsPauseMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBC8);
-    // GEngine.GameInstance.LocalPlayers[0].BattleFlowState
-    vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
-    // GEngine.GameInstance.LocalPlayers[0].AcknowledgedPawn.IsTeleporting?
-    vars.Helper["IsTeleporting"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x338, 0xDC0);
-    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.LevelSequenceActor.Sequence
-    vars.Helper["CS_CinematicName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x290, 0x18);
-    // GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.EncounterName
-    vars.Helper["BattleManagerEncounterName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
-    // GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
-    vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
-    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.IsInTransition
-    vars.Helper["CS_IsInTransition"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x358);
-    // GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
-    vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
->>>>>>> f248d99a5a07197c1831e771b2765535b3de1830
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
