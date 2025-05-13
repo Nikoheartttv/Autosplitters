@@ -83,7 +83,6 @@ init
 		throw new Exception(Msg);
 	}
 
-<<<<<<< HEAD
 	// GWorld.FName
 	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
 	// GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
