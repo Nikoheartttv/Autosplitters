@@ -1,4 +1,4 @@
-// Auto-Start, Load Removal & Auto-Split (temporary) made by Nikoheart
+// Load Removal made by Nikoheart
 // Any queries/edits/changes needed, please contact at @hellonikoheart on X (Twitter) or @nikoheart.com on Bluesky
 // or reach out within the #lrt-autosplitter-dev channel in the speedrunning Discord
 
@@ -13,7 +13,59 @@ startup
 
 	dynamic[,] _settings =
 	{
-		{ "FinalBossVerso", true, "Temporary End Boss Split", null },
+		{ "ActSplits", true, "Act Splits", null },
+			{ "LS_Title_Act1", true, "Act 1", "ActSplits" },
+			{ "LS_Title_Act2", true, "Act 2", "ActSplits" },
+			{ "LS_Title_Act3", true, "Act 3", "ActSplits" },
+		{ "EncounterSplits", true, "Major Encounters Splits", null },
+			{ "Prologue", true, "Prologue", "EncounterSplits" },
+				{ "Lumiere", true, "Lumière", "Prologue" },
+					{ "LU_Act1_MaelleNoTutorialCivilian", false, "Maelle Fight", "Lumiere" },
+			{ "Act1", true, "Act 1", "EncounterSplits" },
+				{ "SpringMeadows", true, "Spring Meadows", "Act1" },
+					{ "SM_FirstLancelierNoTuto*1", false, "First Lancelier", "SpringMeadows" },
+					{ "SM_FirstPortier_NoTuto*1", false, "First Portier", "SpringMeadows" },
+					{ "SM_Volester_TutoFlying*1", false, "First Volesters", "SpringMeadows" },
+					{ "SM_Eveque_ShieldTutorial*1", true, "Évêque", "SpringMeadows" },
+				{ "FlyingWaters", true, "Flying Waters", "Act1" },
+					{ "GO_Curator_JumpTutorial*1", false, "Curator", "FlyingWaters" },
+					{ "GO_Goblu", true, "Goblu", "FlyingWaters" },
+				{ "AncientSanctuary", true, "Ancient Sanctuary", "Act1" },
+					{ "AS_PotatoBagTank*1_IntroFight", false, "Robust Sakapatate", "AncientSanctuary" },
+					{ "AS_PotatoBag_Boss", true, "Ultimate Sakapatate", "AncientSanctuary" },
+				{ "GestralVillage", true, "Gestral Village", "Act1" },
+					{ "QUEST_BertrandBigHands*1", false, "Bertrand Big Hands", "GestralVillage" },
+					{ "QUEST_DominiqueGiantFeet*1", false, "Domique Giant Feet", "GestralVillage" },
+					{ "QUEST_MatthieuTheColossus*1", false, "Matthieu The Colossus", "GestralVillage" },
+					{ "GV_Sciel*1", true, "Sciel", "GestralVillage" },
+				{ "EsquiesNest", true, "Esquie's Nest", "Act1" },
+					{ "EN_Francois", true, "François", "EsquiesNest" },
+				{ "StoneWaveCliffs", true, "Stone Wave Cliffs", "Act1" },
+					{ "SC_LampMaster", true, "Lampmaster", "StoneWaveCliffs" },
+			{ "Act2", true, "Act 2", "EncounterSplits" },
+				{ "ForgottenBattleField", true, "Forgotten Battlefield", "Act2" },
+					{ "FB_Chalier_GradientCounterTutorial*1", false, "Chalier", "ForgottenBattleField" },
+					{ "FB_DuallisteLR", true, "Dualliste", "ForgottenBattleField" },
+				{ "MonocosStation", true, "Monoco's Station", "Act2" },
+					{ "MS_Monoco", true, "Monoco", "MonocosStation" },
+					{ "MM_Stalact_GradientAttackTutorial*1", true, "Stalact", "MonocosStation" },
+				{ "OldLumiere", true, "Old Lumière", "Act2" },
+					{ "OL_VersoDisappears_Chevaliere*2", false, "Ceramic & Steel Chevalière", "OldLumiere" },
+					{ "OL_MirrorRenoir_FirstFight", true, "Renoir", "OldLumiere" },
+				{ "Visages", true, "Visages", "Act2" },
+					{ "MF_Axon_Visages", true, "Mask Keeper", "Visages" },
+				{ "Sirene", true, "Sirène", "Act2" },
+					{ "SI_Glissando*1", false, "Glissando", "Sirene" },
+					{ "SI_Axon_Sirene", true, "Sirène", "Sirene" },
+				{ "TheMonolith", true, "The Monolith", "Act2" },
+					{ "ML_PaintressIntro", false, "The Paintress 1", "TheMonolith" },
+					{ "MM_MirrorRenoir", true, "Renoir", "TheMonolith" },
+					{ "L_Boss_Paintress_P1", true, "The Paintress 2", "TheMonolith" },
+			{ "Act3", true, "Act 3", "EncounterSplits" },
+				{ "ReturnToLumiere", true, "Return To Lumière", "Act3" },
+					{ "L_Boss_Curator_P1", true, "Renoir", "ReturnToLumiere" },
+					{ "FinalBossVerso", true, "Verso", "ReturnToLumiere" },
+					{ "FinalBossMaelle", true, "Maelle", "ReturnToLumiere" },
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.EncounterWon = new List<string>();
@@ -31,30 +83,28 @@ init
 		throw new Exception(Msg);
 	}
 
-    // GWorld.FName
-    vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
-    // GEngine.GameInstance.IsChangingMap
-    vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
-    // GEngine.GameInstance.IsLoadingMapFromLoadGame
-    vars.Helper["IsLoadingMapFromLoadGame"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xCC9);
-    // GEngine.GameInstance.LocalPlayers[0].IsChangingArea
-    vars.Helper["IsChangingArea"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
-    // GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
-	vars.Helper["IsPauseMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
-    // GEngine.GameInstance.LocalPlayers[0].BattleFlowState
-	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
-    // GEngine.GameInstance.LocalPlayers[0].AcknowledgedPawn.IsTeleporting?
-    vars.Helper["IsTeleporting"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x338, 0xDC0);
-    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.LevelSequenceActor.Sequence
+	// GWorld.FName
+	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
+	// GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
+	vars.Helper["IsPauseMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBC8);
+	// GEngine.GameInstance.LocalPlayers[0].IsChangingArea
+	vars.Helper["IsChangingArea"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
+	// GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.LevelSequenceActor.Sequence
 	vars.Helper["CS_CinematicName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x290, 0x18);
-    // GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.EncounterName
+	// GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.CinematicPaused
+	vars.Helper["CS_CinematicPaused"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x239);
+	// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.EncounterName
 	vars.Helper["BattleManagerEncounterName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
-    // GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
+	// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
 	vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
-    // GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.IsInTransition
-    vars.Helper["CS_IsInTransition"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x358);
-    // GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
-    vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
+	// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
+	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
+	// GEngine.GameInstance.IsChangingMap
+	vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
+	// GEngine.GameInstance.LocalPlayers[0].TimePlayed
+    vars.Helper["TimePlayed"] = vars.Helper.Make<double>(gEngine, 0x10A8, 0x1F0);
+	// GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
+	vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -74,18 +124,21 @@ init
 
 	current.World = "";
 	current.EncounterName = "";
-    current.CurrentCinematic = "";
+	current.CurrentCinematic = "";
+	current.BattleEndState = 0;
+	vars.HitCount = 0;
 	vars.BattleWon = false;
 }
 
 start
 {
-    return old.World == "Level_MainMenu" && current.World != "Level_MainMenu";
+	if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) 
+		|| current.World == "Level_MainMenu" && current.World != "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) return true;
 }
 
 onStart
 {
-    timer.IsGameTimePaused = true;
+	timer.IsGameTimePaused = true;
 	vars.BattleWon = false;
 	vars.EncounterWon.Clear();
 }
@@ -100,27 +153,24 @@ update
 	var world = vars.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 
-    var encounter = vars.FNameToString(current.BattleManagerEncounterName);
+	var encounter = vars.FNameToString(current.BattleManagerEncounterName);
 	if (!string.IsNullOrEmpty(encounter) && world != "None") current.EncounterName = encounter;
 
-    var cinematic = vars.FNameToString(current.CS_CinematicName);
+	var cinematic = vars.FNameToString(current.CS_CinematicName);
 	if (!string.IsNullOrEmpty(cinematic) && world != "None") current.CurrentCinematic = cinematic;
-
-	if (old.World != current.World) vars.Log("World: " + old.World + " -> " + current.World);
-    if (old.CurrentCinematic != current.CurrentCinematic) vars.Log("Current Cinematic: " + current.CurrentCinematic);
-    if (old.EncounterName != current.EncounterName) vars.Log("Encounter Name: " + current.EncounterName);
 }
 
 isLoading
 {
-    return current.IsChangingMap || current.IsLoadingMapFromLoadGame || current.IsChangingArea || 
-    current.IsPauseMenuVisible || current.BattleFlowState == 1 || 
-    current.LSW_HasAppeared || current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
-    // current.CS_IsInTransition
+    return current.IsChangingMap || current.IsChangingArea || current.CS_CinematicPaused ||
+   			current.IsPauseMenuVisible || current.BattleFlowState == 1 || current.LSW_HasAppeared || 
+			current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
 }
+
 
 split
 {
+	// Encounter Splits
 	if (current.World != "Level_MainMenu" && vars.BattleWon &&
 		old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
 		{
@@ -128,9 +178,15 @@ split
 			vars.BattleWon = false;
 			return settings[old.EncounterName];
 		}
+	
+	// Act Splits
+	if (old.CurrentCinematic != current.CurrentCinematic)
+		{
+			return settings[current.CurrentCinematic];
+		}
 }
 
 exit
 {
-    timer.IsGameTimePaused = true;
+	timer.IsGameTimePaused = true;
 }
