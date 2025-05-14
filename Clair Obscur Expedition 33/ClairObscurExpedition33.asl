@@ -13,6 +13,9 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "NG", true, "NG/NG+", null},
+			{ "NewGame", true, "New Game", "NG" },
+			{ "NewGamePlus", false, "New Game +", "NG" },
 		{ "ActSplits", true, "Act Splits", null },
 			{ "LS_Title_Act1", true, "Act 1", "ActSplits" },
 			{ "LS_Title_Act2", true, "Act 2", "ActSplits" },
@@ -99,12 +102,16 @@ init
 	vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
 	// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
 	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
+	// GEngine.GameInstance.LocalPlayers[0].IsSavePointMenuVisible
+    vars.Helper["IsSavePointMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBE0);
 	// GEngine.GameInstance.IsChangingMap
 	vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
 	// GEngine.GameInstance.LocalPlayers[0].TimePlayed
 	vars.Helper["TimePlayed"] = vars.Helper.Make<double>(gEngine, 0x10A8, 0x1F0);
 	// GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
 	vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
+	// GEngine.GameInstance.FinishedGameCount
+	vars.Helper["FinishedGameCount"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0xE4C);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -128,18 +135,27 @@ init
 	current.BattleEndState = 0;
 	vars.HitCount = 0;
 	vars.BattleWon = false;
+	vars.NewGamePlus = false;
 }
 
 start
 {
-	if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) 
-		|| current.World == "Level_MainMenu" && current.World != "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) return true;
+	if (settings["NewGame"])
+	{
+		if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) 
+		|| current.World == "Level_MainMenu" && current.World != "Level_MainMenu" 
+		&& old.TimePlayed == 0 && current.TimePlayed != 0) return true;
+	}
+	if (settings["NewGamePlus"] && vars.NewGamePlus == true && current.CurrentCinematic == "MCS_MyFlower_P1") return true;
+
 }
+
 
 onStart
 {
 	timer.IsGameTimePaused = true;
 	vars.BattleWon = false;
+	vars.NewGamePlus = false;
 	vars.EncounterWon.Clear();
 }
 
@@ -147,6 +163,9 @@ update
 {
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
+
+	if (current.IsSavePointMenuVisible && old.FinishedGameCount < current.FinishedGameCount) vars.NewGamePlus = true;
+
 
 	if (old.BattleEndState == 0 && current.BattleEndState == 1) vars.BattleWon = true;
 
@@ -189,4 +208,9 @@ split
 exit
 {
 	timer.IsGameTimePaused = true;
+}
+
+onReset
+{
+	vars.NewGamePlus = false;
 }
