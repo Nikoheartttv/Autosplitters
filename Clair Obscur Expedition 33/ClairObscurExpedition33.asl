@@ -69,6 +69,8 @@ startup
 					{ "L_Boss_Curator_P1", true, "Renoir", "ReturnToLumiere" },
 					{ "FinalBossVerso", true, "Verso", "ReturnToLumiere" },
 					{ "FinalBossMaelle", true, "Maelle", "ReturnToLumiere" },
+		{ "AnySkips", false, "Any% Skip Splits", null },
+			{ "MCS_MaelleThePyro", true, "Goblu Skip", "AnySkips"}
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.EncounterWon = new List<string>();
@@ -100,10 +102,12 @@ init
 	vars.Helper["BattleManagerEncounterName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
 	// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
 	vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
+	// GEngine.GameInstance.LocalPlayers[0].ExplorationHUDWidget.MiniMapWidget.bIsActive
+	vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
 	// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
 	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
 	// GEngine.GameInstance.LocalPlayers[0].IsSavePointMenuVisible
-    vars.Helper["IsSavePointMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBE0);
+	vars.Helper["IsSavePointMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBE0);
 	// GEngine.GameInstance.IsChangingMap
 	vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
 	// GEngine.GameInstance.LocalPlayers[0].TimePlayed
@@ -166,7 +170,6 @@ update
 
 	if (current.IsSavePointMenuVisible && old.FinishedGameCount < current.FinishedGameCount) vars.NewGamePlus = true;
 
-
 	if (old.BattleEndState == 0 && current.BattleEndState == 1) vars.BattleWon = true;
 
 	var world = vars.FNameToString(current.GWorldName);
@@ -181,9 +184,9 @@ update
 
 isLoading
 {
-    return current.IsChangingMap || current.IsChangingArea || current.CS_CinematicPaused ||
-   			current.IsPauseMenuVisible || current.BattleFlowState == 1 || current.LSW_HasAppeared || 
-			current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
+	return current.IsChangingMap || current.IsChangingArea || current.CS_CinematicPaused ||
+			current.IsPauseMenuVisible || current.BattleFlowState == 1 || current.LSW_HasAppeared || 
+			current.MiniMapActive || current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
 }
 
 
