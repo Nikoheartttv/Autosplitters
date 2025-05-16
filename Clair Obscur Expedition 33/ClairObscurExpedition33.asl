@@ -194,25 +194,6 @@ isLoading
 
 split
 {
-	// Encounter Splits
-	if (old.EncounterName != "SM_Eveque_ShieldTutorial*1" || old.EncounterName != "SM_Eveque*1" ||
-		old.EncounterName != "GO_Curator_JumpTutorial*1" || old.EncounterName != "GO_Curator_JumpTutorial_NoTuto*1" )
-	{
-		if (current.World != "Level_MainMenu" && vars.BattleWon &&
-			old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
-			{
-				vars.EncounterWon.Add(old.EncounterName);
-				vars.BattleWon = false;
-				return settings[old.EncounterName];
-			}
-	}
-
-	// Act Splits
-	if (old.CurrentCinematic != current.CurrentCinematic)
-		{
-			return settings[current.CurrentCinematic];
-		}
-
 	// Eveque Split
 	if (settings["NewGame"] && settings["Eveque"] && vars.BattleWon && old.EncounterName == "SM_Eveque_ShieldTutorial*1" 
 		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NG"))
@@ -259,6 +240,25 @@ split
 		{
 			vars.EncounterWon.Add(old.EncounterName + "_Phase1");
 			return settings[old.EncounterName + "_Phase1"];
+		}
+
+	// Encounter Splits
+	if (old.EncounterName != "SM_Eveque_ShieldTutorial*1" || old.EncounterName != "SM_Eveque*1" ||
+		old.EncounterName != "GO_Curator_JumpTutorial*1" || old.EncounterName != "GO_Curator_JumpTutorial_NoTuto*1" )
+	{
+		if (current.World != "Level_MainMenu" && vars.BattleWon &&
+			old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
+			{
+				vars.EncounterWon.Add(old.EncounterName);
+				vars.BattleWon = false;
+				return settings[old.EncounterName];
+			}
+	}
+
+	// Act Splits
+	if (old.CurrentCinematic != current.CurrentCinematic)
+		{
+			return settings[current.CurrentCinematic];
 		}
 }
 
