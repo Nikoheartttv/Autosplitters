@@ -13,10 +13,10 @@ startup
 
 	dynamic[,] _settings =
 	{
-		{ "NG", true, "NG/NG+", null},
+	{ "NG", true, "[REQUIRED] NG/NG+", null},
 			{ "NewGame", true, "New Game", "NG" },
 			{ "NewGamePlus", false, "New Game +", "NG" },
-		{ "ActSplits", true, "Act Splits", null },
+		{ "ActSplits", true, "Start of Act Splits", null },
 			{ "LS_Title_Act1", true, "Act 1", "ActSplits" },
 			{ "LS_Title_Act2", true, "Act 2", "ActSplits" },
 			{ "LS_Title_Act3", true, "Act 3", "ActSplits" },
@@ -29,9 +29,9 @@ startup
 					{ "SM_FirstLancelierNoTuto*1", false, "First Lancelier", "SpringMeadows" },
 					{ "SM_FirstPortier_NoTuto*1", false, "First Portier", "SpringMeadows" },
 					{ "SM_Volester_TutoFlying*1", false, "First Volesters", "SpringMeadows" },
-					{ "SM_Eveque_ShieldTutorial*1", true, "Évêque", "SpringMeadows" },
+					{ "Eveque", true, "Évêque", "SpringMeadows" },
 				{ "FlyingWaters", true, "Flying Waters", "Act1" },
-					{ "GO_Curator_JumpTutorial*1", false, "Curator", "FlyingWaters" },
+					{ "Curator", false, "Curator", "FlyingWaters" },
 					{ "GO_Goblu", true, "Goblu", "FlyingWaters" },
 				{ "AncientSanctuary", true, "Ancient Sanctuary", "Act1" },
 					{ "AS_PotatoBagTank*1_IntroFight", false, "Robust Sakapatate", "AncientSanctuary" },
@@ -61,16 +61,16 @@ startup
 					{ "SI_Glissando*1", false, "Glissando", "Sirene" },
 					{ "SI_Axon_Sirene", true, "Sirène", "Sirene" },
 				{ "TheMonolith", true, "The Monolith", "Act2" },
-					{ "ML_PaintressIntro", false, "The Paintress 1", "TheMonolith" },
+					{ "ML_PaintressIntro", false, "Fake Paintress", "TheMonolith" },
 					{ "MM_MirrorRenoir", true, "Renoir", "TheMonolith" },
-					{ "L_Boss_Paintress_P1", true, "The Paintress 2", "TheMonolith" },
+					{ "L_Boss_Paintress_P1_Phase1", false, "The Paintress Phase 1", "TheMonolith" },
+					{ "L_Boss_Paintress_P1", true, "The Paintress Phase 2", "TheMonolith" },
 			{ "Act3", true, "Act 3", "EncounterSplits" },
 				{ "ReturnToLumiere", true, "Return To Lumière", "Act3" },
-					{ "L_Boss_Curator_P1", true, "Renoir", "ReturnToLumiere" },
+					{ "L_Boss_Curator_P1_Phase1", false, "Renoir Phase 1", "ReturnToLumiere" },
+					{ "L_Boss_Curator_P1", true, "Renoir Phase 2", "ReturnToLumiere" },
 					{ "FinalBossVerso", true, "Verso", "ReturnToLumiere" },
 					{ "FinalBossMaelle", true, "Maelle", "ReturnToLumiere" },
-		{ "AnySkips", false, "Any% Skip Splits", null },
-			{ "MCS_MaelleThePyro", true, "Goblu Skip", "AnySkips"}
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.EncounterWon = new List<string>();
@@ -137,6 +137,8 @@ init
 	current.EncounterName = "";
 	current.CurrentCinematic = "";
 	current.BattleEndState = 0;
+	current.FinishedGameCount = 0;
+	current.IsSavePointMenuVisible = false;
 	vars.HitCount = 0;
 	vars.BattleWon = false;
 	vars.NewGamePlus = false;
@@ -193,18 +195,70 @@ isLoading
 split
 {
 	// Encounter Splits
-	if (current.World != "Level_MainMenu" && vars.BattleWon &&
-		old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
-		{
-			vars.EncounterWon.Add(old.EncounterName);
-			vars.BattleWon = false;
-			return settings[old.EncounterName];
-		}
-	
+	if (old.EncounterName != "SM_Eveque_ShieldTutorial*1" || old.EncounterName != "SM_Eveque*1" ||
+		old.EncounterName != "GO_Curator_JumpTutorial*1" || old.EncounterName != "GO_Curator_JumpTutorial_NoTuto*1" )
+	{
+		if (current.World != "Level_MainMenu" && vars.BattleWon &&
+			old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
+			{
+				vars.EncounterWon.Add(old.EncounterName);
+				vars.BattleWon = false;
+				return settings[old.EncounterName];
+			}
+	}
+
 	// Act Splits
 	if (old.CurrentCinematic != current.CurrentCinematic)
 		{
 			return settings[current.CurrentCinematic];
+		}
+
+	// Eveque Split
+	if (settings["NewGame"] && settings["Eveque"] && vars.BattleWon && old.EncounterName == "SM_Eveque_ShieldTutorial*1" 
+		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NG"))
+		{
+			vars.EncounterWon.Add(old.EncounterName + "_NG");
+			vars.BattleWon = false;
+			return settings["Eveque"];
+		}
+	if (settings["NewGamePlus"] && settings["Eveque"] && vars.BattleWon && old.EncounterName == "SM_Eveque*1"
+		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NGPlus"))
+		{
+			vars.EncounterWon.Add(old.EncounterName + "_NGPlus");
+			vars.BattleWon = false;
+			return settings["Eveque"];
+		}
+
+	// Curator Split
+	if (settings["NewGame"] && settings["Curator"] && vars.BattleWon && old.EncounterName == "GO_Curator_JumpTutorial*1" 
+		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NG"))
+		{
+			vars.EncounterWon.Add(old.EncounterName + "_NG");
+			vars.BattleWon = false;
+			return settings["Curator"];
+		}
+	if (settings["NewGamePlus"] && settings["Curator"] && vars.BattleWon && old.EncounterName == "GO_Curator_JumpTutorial_NoTuto*1"
+		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NGPlus"))
+		{
+			vars.EncounterWon.Add(old.EncounterName + "_NGPlus");
+			vars.BattleWon = false;
+			return settings["Curator"];
+		}
+	
+	// Paintress First Phase Split
+	if (current.EncounterName == "L_Boss_Paintress_P1" && current.CurrentCinematic == "MCS_PaintressTransitionToPhase2" 
+		&& !vars.EncounterWon.Contains(old.EncounterName + "_Phase1"))
+		{
+			vars.EncounterWon.Add(old.EncounterName + "_Phase1");
+			return settings[old.EncounterName + "_Phase1"];
+		}
+
+	// Final Renoir First Phase Split
+	if (current.EncounterName == "L_Boss_Curator_P1" && current.CurrentCinematic == "MCS_RenoirFightPhase2to3_PartLumiere" 
+		& !vars.EncounterWon.Contains(old.EncounterName + "_Phase1"))
+		{
+			vars.EncounterWon.Add(old.EncounterName + "_Phase1");
+			return settings[old.EncounterName + "_Phase1"];
 		}
 }
 
