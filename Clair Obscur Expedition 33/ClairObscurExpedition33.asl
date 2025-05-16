@@ -139,9 +139,10 @@ init
 	current.BattleEndState = 0;
 	current.FinishedGameCount = 0;
 	current.IsSavePointMenuVisible = false;
-	vars.HitCount = 0;
+	current.WorldMapMiniMap = false;
 	vars.BattleWon = false;
 	vars.NewGamePlus = false;
+	vars.HasEnteredWorldMap = false;
 }
 
 start
@@ -162,6 +163,7 @@ onStart
 	timer.IsGameTimePaused = true;
 	vars.BattleWon = false;
 	vars.NewGamePlus = false;
+	vars.HasEnteredWorldMap = false;
 	vars.EncounterWon.Clear();
 }
 
@@ -171,6 +173,11 @@ update
 	vars.Helper.MapPointers();
 
 	if (current.IsSavePointMenuVisible && old.FinishedGameCount < current.FinishedGameCount) vars.NewGamePlus = true;
+	if (!vars.HasEnteredWorldMap && current.World == "Level_WorldMap_Main_V2") 
+	{
+		vars.HasEnteredWorldMap = true;
+		vars.Log("yeppers !!!");
+	}
 
 	if (old.BattleEndState == 0 && current.BattleEndState == 1) vars.BattleWon = true;
 
@@ -187,8 +194,9 @@ update
 isLoading
 {
 	return current.IsChangingMap || current.IsChangingArea || current.CS_CinematicPaused ||
-			current.IsPauseMenuVisible || current.BattleFlowState == 1 || current.LSW_HasAppeared || 
-			current.MiniMapActive || current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
+			current.IsPauseMenuVisible || current.BattleFlowState == 1 || 
+			current.LSW_HasAppeared || (vars.HasEnteredWorldMap && current.MiniMapActive) || 
+			current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
 }
 
 
