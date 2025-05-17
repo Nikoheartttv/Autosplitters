@@ -13,9 +13,7 @@ startup
 
 	dynamic[,] _settings =
 	{
-	{ "NG", true, "[REQUIRED] NG/NG+", null},
-			{ "NewGame", true, "New Game", "NG" },
-			{ "NewGamePlus", false, "New Game +", "NG" },
+		{ "NewGamePlus", false, "Turn On NG+ Run", null},
 		{ "ActSplits", true, "Start of Act Splits", null },
 			{ "LS_Title_Act1", true, "Act 1", "ActSplits" },
 			{ "LS_Title_Act2", true, "Act 2", "ActSplits" },
@@ -61,7 +59,7 @@ startup
 					{ "SI_Glissando*1", false, "Glissando", "Sirene" },
 					{ "SI_Axon_Sirene", true, "Sirène", "Sirene" },
 				{ "TheMonolith", true, "The Monolith", "Act2" },
-					{ "ML_PaintressIntro", false, "Fake Paintress", "TheMonolith" },
+					{ "FakePaintress", false, "Fake Paintress", "TheMonolith" },
 					{ "MM_MirrorRenoir", true, "Renoir", "TheMonolith" },
 					{ "L_Boss_Paintress_P1_Phase1", false, "The Paintress Phase 1", "TheMonolith" },
 					{ "L_Boss_Paintress_P1", true, "The Paintress Phase 2", "TheMonolith" },
@@ -143,17 +141,23 @@ init
 	vars.BattleWon = false;
 	vars.NewGamePlus = false;
 	vars.HasEnteredWorldMap = false;
+
+	vars.EvequeEncounters = new HashSet<string>() { "SM_Eveque_ShieldTutorial*1", "SM_Eveque*1" };
+	vars.CuratorEncounters = new HashSet<string>() { "GO_Curator_JumpTutorial*1", "GO_Curator_JumpTutorial_NoTuto*1" };
 }
 
 start
 {
-	if (settings["NewGame"])
+	if (!settings["NewGamePlus"])
 	{
 		if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) 
 		|| current.World == "Level_MainMenu" && current.World != "Level_MainMenu" 
 		&& old.TimePlayed == 0 && current.TimePlayed != 0) return true;
 	}
-	if (settings["NewGamePlus"] && vars.NewGamePlus == true && current.CurrentCinematic == "MCS_MyFlower_P1") return true;
+	else if (settings["NewGamePlus"])
+	{
+		if (old.CurrentCinematic != current.CurrentCinematic && current.CurrentCinematic == "MCS_MyFlower_P1") return true;
+	}
 
 }
 
@@ -172,13 +176,10 @@ update
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
 
+	// Touched Flag, pressed NG+, NG+ realised and turns vars.NetGamePlus to true
 	if (current.IsSavePointMenuVisible && old.FinishedGameCount < current.FinishedGameCount) vars.NewGamePlus = true;
-	if (!vars.HasEnteredWorldMap && current.World == "Level_WorldMap_Main_V2") 
-	{
-		vars.HasEnteredWorldMap = true;
-		vars.Log("yeppers !!!");
-	}
-
+	if (!vars.HasEnteredWorldMap && current.World == "Level_WorldMap_Main_V2") vars.HasEnteredWorldMap = true;
+	
 	if (old.BattleEndState == 0 && current.BattleEndState == 1) vars.BattleWon = true;
 
 	var world = vars.FNameToString(current.GWorldName);
@@ -202,44 +203,36 @@ isLoading
 
 split
 {
+
 	// Eveque Split
-	if (settings["NewGame"] && settings["Eveque"] && vars.BattleWon && old.EncounterName == "SM_Eveque_ShieldTutorial*1" 
-		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NG"))
-		{
-			vars.EncounterWon.Add(old.EncounterName + "_NG");
-			vars.BattleWon = false;
-			return settings["Eveque"];
-		}
-	if (settings["NewGamePlus"] && settings["Eveque"] && vars.BattleWon && old.EncounterName == "SM_Eveque*1"
-		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NGPlus"))
-		{
-			vars.EncounterWon.Add(old.EncounterName + "_NGPlus");
-			vars.BattleWon = false;
-			return settings["Eveque"];
-		}
+	if (settings["Eveque"] && vars.BattleWon && vars.EvequeEncounters.Contains(old.EncounterName) && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
+	{
+		vars.EncounterWon.Add(old.EncounterName);
+		vars.BattleWon = false;
+		if (settings["Eveque"]) return true;
+	}
 
 	// Curator Split
-	if (settings["NewGame"] && settings["Curator"] && vars.BattleWon && old.EncounterName == "GO_Curator_JumpTutorial*1" 
-		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NG"))
-		{
-			vars.EncounterWon.Add(old.EncounterName + "_NG");
-			vars.BattleWon = false;
-			return settings["Curator"];
-		}
-	if (settings["NewGamePlus"] && settings["Curator"] && vars.BattleWon && old.EncounterName == "GO_Curator_JumpTutorial_NoTuto*1"
-		&& current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName + "_NGPlus"))
-		{
-			vars.EncounterWon.Add(old.EncounterName + "_NGPlus");
-			vars.BattleWon = false;
-			return settings["Curator"];
-		}
-	
+	if (settings["Curator"] && vars.BattleWon && vars.CuratorEncounters.Contains(old.EncounterName) && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
+	{
+		vars.EncounterWon.Add(old.EncounterName);
+		vars.BattleWon = false;
+		if (settings["Curator"]) return true;
+	}
+
+	// Fake Paintress Split
+	if (settings["FakePaintress"] && current.CurrentCinematic == "MCS_GoingInsideTheMonolith" && !vars.EncounterWon.Contains("FakePaintress"))
+	{
+		vars.EncounterWon.Add("FakePaintress");
+		if (settings["FakePaintress"]) return true;
+	}
+
 	// Paintress First Phase Split
 	if (current.EncounterName == "L_Boss_Paintress_P1" && current.CurrentCinematic == "MCS_PaintressTransitionToPhase2" 
 		&& !vars.EncounterWon.Contains(old.EncounterName + "_Phase1"))
 		{
 			vars.EncounterWon.Add(old.EncounterName + "_Phase1");
-			return settings[old.EncounterName + "_Phase1"];
+			if (settings[old.EncounterName + "_Phase1"]) return true;
 		}
 
 	// Final Renoir First Phase Split
@@ -247,20 +240,16 @@ split
 		& !vars.EncounterWon.Contains(old.EncounterName + "_Phase1"))
 		{
 			vars.EncounterWon.Add(old.EncounterName + "_Phase1");
-			return settings[old.EncounterName + "_Phase1"];
+			if (settings[old.EncounterName + "_Phase1"]) return true;
 		}
 
-	// Encounter Splits
-	if (old.EncounterName != "SM_Eveque_ShieldTutorial*1" || old.EncounterName != "SM_Eveque*1" ||
-		old.EncounterName != "GO_Curator_JumpTutorial*1" || old.EncounterName != "GO_Curator_JumpTutorial_NoTuto*1" )
+	// Encounter splits
+	if (current.World != "Level_MainMenu" && vars.BattleWon &&
+		old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
 	{
-		if (current.World != "Level_MainMenu" && vars.BattleWon &&
-			old.EncounterName != "None" && current.EncounterName == "None" && !vars.EncounterWon.Contains(old.EncounterName))
-			{
-				vars.EncounterWon.Add(old.EncounterName);
-				vars.BattleWon = false;
-				return settings[old.EncounterName];
-			}
+		vars.EncounterWon.Add(old.EncounterName);
+		vars.BattleWon = false;
+		if (settings[old.EncounterName]) return true;
 	}
 
 	// Act Splits
