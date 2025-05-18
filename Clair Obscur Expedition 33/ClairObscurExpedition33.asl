@@ -156,7 +156,7 @@ start
 	}
 	else if (settings["NewGamePlus"])
 	{
-		if (old.CurrentCinematic != current.CurrentCinematic && current.CurrentCinematic == "MCS_MyFlower_P1") return true;
+		if (old.CurrentCinematic != current.CurrentCinematic && current.CurrentCinematic.Contains("MCS_MyFlower")) return true;
 	}
 
 }
