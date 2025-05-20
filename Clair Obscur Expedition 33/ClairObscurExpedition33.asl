@@ -10,7 +10,6 @@ startup
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	vars.Helper.GameName = "Clair Obscur: Expedition 33";
 	vars.Helper.AlertLoadless();
-	vars.TimerModel = new TimerModel { CurrentState = timer };
 
 	dynamic[,] _settings =
 	{
@@ -77,31 +76,6 @@ startup
 
 init
 {
-	vars.ModsDetected = false;
-	vars.gameModule = modules.First();
-	vars.sandfallLocation = Path.GetFullPath(Path.Combine(vars.gameModule.FileName, @"../../../"));
-	vars.paksFolder = Path.GetFullPath(Path.Combine(vars.sandfallLocation, @"Content\Paks\"));
-	if (Directory.Exists(vars.paksFolder + @"~mods"))
-	{
-		var modsMessage = MessageBox.Show (
-			"Clair Obscur: Expedition 33 speedruns requires no mods to be in use.\n"+
-				"If you are seeing this message, it means that the '~mods' folder has been detected.\n"+
-				"Make sure to remove this folder to stop seeing this message and ensure the validity of a legitimate speedrun.\n",
-				"Mods Folder Detected",
-			MessageBoxButtons.OK,MessageBoxIcon.Question
-			);
-		
-			if (modsMessage == DialogResult.OK)
-			{
-				Application.Exit();
-			}
-	}
-	if (Directory.Exists(vars.paksFolder + @"~mods"))
-	{
-		const string Msg = "Mods detected. Stopping ASL.";
-		throw new Exception(Msg);
-	}
-
 	IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 1D ???????? 48 85 DB 74 ?? 41 B0 01");
 	IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 66 0F 5A C9 E8");
 	IntPtr fNames = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ???????? EB");
@@ -190,27 +164,6 @@ start
 
 onStart
 {
-	if (Directory.Exists(vars.paksFolder + @"~mods"))
-	{
-		var modsMessage = MessageBox.Show (
-			"Clair Obscur: Expedition 33 speedruns requires no mods to be in use.\n"+
-				"If you are seeing this message, it means that the '~mods' folder has been detected.\n"+
-				"Make sure to remove the~mods folder to stop seeing this message and ensure the validity of a legitimate speedrun.\n",
-				"Mods Folder Detected",
-			MessageBoxButtons.OK,MessageBoxIcon.Question
-			);
-		
-			if (modsMessage == DialogResult.OK)
-			{
-				Application.Exit();
-			}
-	}
-	if (Directory.Exists(vars.paksFolder + @"~mods"))
-	{
-		vars.ModsDetected = true;
-		const string Msg = "Mods detected. Stopping ASL.";
-		throw new Exception(Msg);
-	}
 	timer.IsGameTimePaused = true;
 	vars.BattleWon = false;
 	vars.NewGamePlus = false;
@@ -222,8 +175,6 @@ update
 {
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
-	
-	if (vars.ModsDetected) vars.TimerModel.Reset();
 
 	// Touched Flag, pressed NG+, NG+ realised and turns vars.NetGamePlus to true
 	if (current.IsSavePointMenuVisible && old.FinishedGameCount < current.FinishedGameCount) vars.NewGamePlus = true;
@@ -235,10 +186,10 @@ update
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 
 	var encounter = vars.FNameToString(current.BattleManagerEncounterName);
-	if (!string.IsNullOrEmpty(encounter) && encounter != "None") current.EncounterName = encounter;
+	if (!string.IsNullOrEmpty(encounter) && world != "None") current.EncounterName = encounter;
 
 	var cinematic = vars.FNameToString(current.CS_CinematicName);
-	if (!string.IsNullOrEmpty(cinematic) && cinematic != "None") current.CurrentCinematic = cinematic;
+	if (!string.IsNullOrEmpty(cinematic) && world != "None") current.CurrentCinematic = cinematic;
 }
 
 isLoading
