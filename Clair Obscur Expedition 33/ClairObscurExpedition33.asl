@@ -235,10 +235,10 @@ update
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 
 	var encounter = vars.FNameToString(current.BattleManagerEncounterName);
-	if (!string.IsNullOrEmpty(encounter) && encounter != "None") current.EncounterName = encounter;
+	if (!string.IsNullOrEmpty(encounter)) current.EncounterName = encounter;
 
 	var cinematic = vars.FNameToString(current.CS_CinematicName);
-	if (!string.IsNullOrEmpty(cinematic) && cinematic != "None") current.CurrentCinematic = cinematic;
+	if (!string.IsNullOrEmpty(cinematic)) current.CurrentCinematic = cinematic;
 }
 
 isLoading
