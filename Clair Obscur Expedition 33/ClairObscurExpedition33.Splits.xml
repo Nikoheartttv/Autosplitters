@@ -1,0 +1,95 @@
+<Settings>
+    <Setting Id="NewGamePlus" Label="Turn On NG+ Run" State="false" />
+    <Setting Id="ActSplits" Label="Start of Act Splits" State="true">
+        <Setting Id="LS_Title_Act1" Label="Act 1" State="true" />
+        <Setting Id="LS_Title_Act2" Label="Act 2" State="true" />
+        <Setting Id="LS_Title_Act3" Label="Act 3" State="true" />
+    </Setting>
+    <Setting Id="EncounterSplits" Label="Major Encounters Splits" State="true">
+        <Setting Id="Prologue" Label="Prologue" State="true">
+            <Setting Id="Level_Lumiere_Main_V2" Label="Lumière" State="true">
+                <Setting Id="Level_Lumiere_Main_V2-LU_Act1_MaelleNoTutorialCivilian" Label="Maelle Fight" State="false" />
+            </Setting>
+        </Setting>
+        <Setting Id="Act1" Label="Act 1" State="true">
+            <Setting Id="Level_SpringMeadows_Main_V2-Act1" Label="Spring Meadows" State="true">
+                <Setting Id="Level_SpringMeadows_Main_V2-SM_FirstLancelierNoTuto*1" Label="First Lancelier" State="false" />
+                <Setting Id="Level_SpringMeadows_Main_V2-SM_FirstPortier_NoTuto*1" Label="First Portier" State="false" />
+                <Setting Id="Level_SpringMeadows_Main_V2-SM_Volester_TutoFlying*1" Label="First Volesters" State="false" />
+                <Setting Id="Eveque" Label="Évêque" State="true" />
+            </Setting>
+            <Setting Id="Level_Goblu_Main_V5" Label="Flying Waters" State="true">
+                <Setting Id="Curator" Label="Curator" State="false" />
+                <Setting Id="Level_Goblu_Main_V5-GO_Goblu" Label="Goblu" State="true" />
+            </Setting>
+            <Setting Id="Level_AncientSanctuary_Main_V2" Label="Ancient Sanctuary" State="true">
+                <Setting Id="Level_AncientSanctuary_Main_V2-AS_PotatoBagTank*1_IntroFight" Label="Robust Sakapatate" State="false" />
+                <Setting Id="Level_AncientSanctuary_Main_V2-AS_PotatoBag_Boss" Label="Ultimate Sakapatate" State="true" />
+            </Setting>
+            <Setting Id="Level_Main_GestralVillage_V2" Label="Gestral Village" State="true">
+                <Setting Id="Level_Main_GestralVillage_V2-QUEST_BertrandBigHands*1" Label="Bertrand Big Hands" State="false" />
+                <Setting Id="Level_Main_GestralVillage_V2-QUEST_DominiqueGiantFeet*1" Label="Domique Giant Feet" State="false" />
+                <Setting Id="Level_Main_GestralVillage_V2-QUEST_MatthieuTheColossus*1" Label="Matthieu The Colossus" State="false" />
+                <Setting Id="Level_Main_GestralVillage_V2-GV_Sciel*1" Label="Sciel" State="true" />
+            </Setting>
+            <Setting Id="LevelMain_EsquieNest" Label="Esquie's Nest" State="true">
+                <Setting Id="LevelMain_EsquieNest-EN_Francois" Label="François" State="true" />
+            </Setting>
+            <Setting Id="Level_SeaCliff_Main_V2-StoneWaveCliffs" Label="Stone Wave Cliffs" State="true">
+                <Setting Id="Level_SeaCliff_Main_V2-SC_LampMaster" Label="Lampmaster" State="true" />
+            </Setting>
+        </Setting>
+        <Setting Id="Act2" Label="Act 2" State="true">
+            <Setting Id="Level_Main_ForgottenBattlefield_V2" Label="Forgotten Battlefield" State="true">
+                <Setting Id="Level_Main_ForgottenBattlefield_V2-FB_Chalier_GradientCounterTutorial*1" Label="Chalier" State="false" />
+                <Setting Id="Level_Main_ForgottenBattlefield_V2-FB_DuallisteLR" Label="Dualliste" State="true" />
+            </Setting>
+            <Setting Id="Level_MonocoStation" Label="Monoco's Station" State="true">
+                <Setting Id="Level_MonocoStation-MS_Monoco" Label="Monoco" State="true" />
+                <Setting Id="Level_MonocoStation-MM_Stalact_GradientAttackTutorial*1" Label="Stalact" State="true" />
+            </Setting>
+            <Setting Id="Level_OldLumiere_Main" Label="Old Lumière" State="true">
+                <Setting Id="Level_OldLumiere_Main-OL_VersoDisappears_Chevaliere*2" Label="Ceramic &amp; Steel Chevalière" State="false" />
+                <Setting Id="Level_OldLumiere_Main-OL_MirrorRenoir_FirstFight" Label="Renoir" State="true" />
+            </Setting>
+            <Setting Id="Level_Visages_Main_V1-Visages" Label="Visages" State="true">
+                <Setting Id="Level_Visages_Main_V1-MF_Axon_Visages" Label="Mask Keeper" State="true" />
+            </Setting>
+            <Setting Id="Level_Sirene_Main_V2" Label="Sirène" State="true">
+                <Setting Id="Level_Sirene_Main_V2-SI_Glissando*1" Label="Glissando" State="false" />
+                <Setting Id="Level_Sirene_Main_V2-SI_Axon_Sirene" Label="Sirène" State="true" />
+            </Setting>
+            <Setting Id="TheMonolith" Label="The Monolith" State="true">
+                <Setting Id="FakePaintress" Label="Fake Paintress" State="false" />
+                <Setting Id="Level_Monolith_Interior_Climb_Main-MM_MirrorRenoir" Label="Renoir" State="true" />
+                <Setting Id="Level_Monolith_Exterior_Peak_Main-L_Boss_Paintress_P1_Phase1" Label="The Paintress Phase 1" State="false" />
+                <Setting Id="Level_Monolith_Exterior_Peak_Main-L_Boss_Paintress_P1" Label="The Paintress Phase 2" State="true" />
+            </Setting>
+        </Setting>
+        <Setting Id="Act3" Label="Act 3" State="true">
+            <Setting Id="Level_Lumiere_Main_V2-Act3" Label="Return To Lumière" State="true">
+                <Setting Id="Level_Lumiere_Main_V2-L_Boss_Curator_P1_Phase1" Label="Renoir Phase 1" State="false" />
+                <Setting Id="Level_Lumiere_Main_V2-L_Boss_Curator_P1" Label="Renoir Phase 2" State="true" />
+                <Setting Id="Level_Lumiere_Main_V2-FinalBossVerso" Label="Verso" State="true" />
+                <Setting Id="Level_Lumiere_Main_V2-FinalBossMaelle" Label="Maelle" State="true" />
+            </Setting>
+        </Setting>
+    </Setting>
+    <Setting Id="OptionalEncounterSplits" Label="Optional Encounter Splits" State="false">
+        <Setting Id="SmallLevel_YF_Zone_01" Label="Hidden Gestral Arena" State="false">
+		    <Setting Id="QUEST_MatthieuTheColossus*1" Label="Matthieu The Colossus" State="false" />
+		    <Setting Id="QUEST_BertrandBigHands*1" Label="Bertrand Big Hands" State="false" />
+		    <Setting Id="QUEST_DominiqueGiantFeet*1" Label="Dominique Giant Feet" State="false" />
+		    <Setting Id="QUEST_JulienTinyHead*1" Label="Julien Tiny Head" State="false" />
+        </Setting>
+        <Setting Id="SmallLevel_FA_DarkGestralArena" Label="Dark Gestral Arena" State="false" >
+            <Setting Id="DarkGestralArena_Round1" Label="Chromatic Catapult Sakapatate" State="false" />
+            <Setting Id="DarkGestralArena_Round2" Label="Chromatic Ranger Sakapatate" State="false" />
+            <Setting Id="DarkGestralArena_Round3" Label="Chromatic Robust Sakapatate" State="false" />
+            <Setting Id="QUEST_Golgra_DarkArena*1" Label="Golgra"  State="false" />
+        </Setting>
+		<Setting Id="Level_Side_CleasWorkShop_V2" Label="Painting Workshop" State="false" >
+		    <Setting Id="CW_Boss_LampmasterAlpha" Label="Lampmaster" State="false" />
+        </Setting>
+    </Setting>
+</Settings>
