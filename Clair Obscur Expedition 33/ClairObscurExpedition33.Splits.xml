@@ -76,19 +76,59 @@
         </Setting>
     </Setting>
     <Setting Id="OptionalEncounterSplits" Label="Optional Encounter Splits" State="false">
-        <Setting Id="SmallLevel_YF_Zone_01" Label="Hidden Gestral Arena" State="false">
+        <Setting Id="Level_WorldMap_Main_V2-OE" Label="World Map" State="false">
+            <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Volester_Gault" Label="Bourgeon / Volester / Gault" State="false" />
+            <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Rocher_Potier" Label="Bourgeon / Rocher Potier" State="false" />
+        </Setting>
+        <Setting Id="Level_SpringMeadows_Main_V2-OE" Label="Spring Meadows" State="false">
+            <Setting Id="Level_SpringMeadows_Main_V2-SM_Lancelier_Alpha" Label="Chromatic Lancelier" State="false" />
+			<Setting Id="Level_SpringMeadows_Main_V2-QUEST_JarNeedLight*1" Label="Jar" State="false" />
+        </Setting>
+        <Setting Id="Level_Cave_AbbestAlpha-OE" Label="Abbest Cave" State="false">
+            <Setting Id="Level_Cave_AbbestAlpha-SM_Abbest_Alpha*1" Label="Chromatic Abbest" State="false" />
+        </Setting>
+        <Setting Id="Level_Goblu_Main_V5-OE" Label="Flying Waters" State="false">
+            <Setting Id="Level_Goblu_Main_V5-Merchant_GoblusLair" Label="Merchant - Noco" State="false" />
+            <Setting Id="Level_Goblu_Main_V5-Quest_DemineurWithoutMine*1" Label="Démineur" State="false" />
+            <Setting Id="Level_Goblu_Main_V5-GO_Bourgeon*1" Label="Bourgeon" State="false" />
+            <Setting Id="Level_Goblu_Main_V5-FB_TroubadourAlpha" Label="Chromatic Troubadour" State="false" />
+        </Setting>
+        <Setting Id="Level_AncientSanctuary_Main_V2-OE" Label="Abbest Cave" State="false">
+            <Setting Id="Level_AncientSanctuary_Main_V2-Petank_Blue" Label="Petank - Blue" State="false" />
+        </Setting>
+        <Setting Id="Level_Main_GestralVillage_V2-OE" Label="Gestral Village" State="false">
+			<Setting Id="Level_Main_GestralVillage_V2-Merchant_GestralVillage1" Label="Merchant 1" State="false" />
+			<Setting Id="Level_Main_GestralVillage_V2-Merchant_GestralVillage2" Label="Merchant 2" State="false" />
+			<Setting Id="Level_Main_GestralVillage_V2-QUEST_Gestral_OnoPuncho" Label="Ono Puncho" State="false" />
+        </Setting>
+        <Setting Id="LevelMain_EsquieNest-OE" Label="Esquie's Nest" State="false">
+			<Setting Id="LevelMain_EsquieNest-Petank_Yellow" Label="Petank - Yellow" State="false" />
+			<Setting Id="LevelMain_EsquieNest-EN_Mime*1" Label="Mime" State="false" />
+        </Setting>
+        <Setting Id="SmallLevel_YF_Zone_01-OE" Label="Hidden Gestral Arena" State="false">
 		    <Setting Id="QUEST_MatthieuTheColossus*1" Label="Matthieu The Colossus" State="false" />
 		    <Setting Id="QUEST_BertrandBigHands*1" Label="Bertrand Big Hands" State="false" />
 		    <Setting Id="QUEST_DominiqueGiantFeet*1" Label="Dominique Giant Feet" State="false" />
 		    <Setting Id="QUEST_JulienTinyHead*1" Label="Julien Tiny Head" State="false" />
         </Setting>
-        <Setting Id="SmallLevel_FA_DarkGestralArena" Label="Dark Gestral Arena" State="false" >
+        <Setting Id="SmallLevel_FA_DarkGestralArena-OE" Label="Dark Gestral Arena" State="false">
             <Setting Id="DarkGestralArena_Round1" Label="Chromatic Catapult Sakapatate" State="false" />
             <Setting Id="DarkGestralArena_Round2" Label="Chromatic Ranger Sakapatate" State="false" />
             <Setting Id="DarkGestralArena_Round3" Label="Chromatic Robust Sakapatate" State="false" />
             <Setting Id="QUEST_Golgra_DarkArena*1" Label="Golgra"  State="false" />
         </Setting>
-		<Setting Id="Level_Side_CleasWorkShop_V2" Label="Painting Workshop" State="false" >
+        <Setting Id="SmallLevel_AS_Zone_01-OE" Label="Red Woods" State="false">
+            <Setting Id="SmallLevel_AS_Zone_01-QUEST_SleepingBenisseur*1" Label="Bénisseur" State="false" />
+        </Setting>
+        <Setting Id="Level_YellowForest_Main-OE" Label="Yellow Forest" State="false">
+            <Setting Id="Level_YellowForest_Main-YF_Mime*1" Label="Mime" State="false" />
+            <Setting Id="Level_YellowForest_Main-YF_GlaiseBoss*1" Label="Glaise" State="false" />
+        </Setting>
+        <Setting Id="Level_SeaCliff_Main_V2-OE" Label="Stone Wave Cliffs" State="false">
+            <Setting Id="Level_SeaCliff_Main_V2-OE-Merchant_SeaCliff" Label="Merchant - Jerijeri" State="false" />
+            <Setting Id="Level_SeaCliff_Main_V2-OE-Petank_Orange" Label="Petank - Orange" State="false" />
+        </Setting>
+		<Setting Id="Level_Side_CleasWorkShop_V2-OE" Label="Painting Workshop" State="false" >
 		    <Setting Id="CW_Boss_LampmasterAlpha" Label="Lampmaster" State="false" />
         </Setting>
     </Setting>
