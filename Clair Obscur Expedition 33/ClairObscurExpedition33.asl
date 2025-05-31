@@ -82,6 +82,8 @@ init
 	vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
 	// GEngine.GameInstance.FinishedGameCount
 	vars.Helper["FinishedGameCount"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0xE4C);
+	// GEngine.GameInstance.PlayerController[0].PlayerCameraManager.UnknownFloat
+	vars.Helper["PCMInGame"] = vars.Helper.Make<float>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x24A4);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -121,7 +123,6 @@ init
 	current.TimePlayed = 0;
 	current.DialogueGuid = Guid.Empty;
 	vars.BattleWon = false;
-	vars.NewGamePlus = false;
 	vars.HasEnteredWorldMap = false;
 
 	vars.EvequeEncounters = new HashSet<string>() { "SM_Eveque_ShieldTutorial*1", "SM_Eveque*1" };
@@ -169,7 +170,6 @@ onStart
 	}
 	timer.IsGameTimePaused = true;
 	vars.BattleWon = false;
-	vars.NewGamePlus = false;
 	vars.HasEnteredWorldMap = false;
 	vars.EncounterWon.Clear();
 }
@@ -206,7 +206,7 @@ update
 isLoading
 {
 	return current.IsChangingMap || current.IsChangingArea || current.CS_CinematicPaused ||
-			current.IsPauseMenuVisible || current.BattleFlowState == 1 || 
+			(current.World != "Level_MainMenu" && current.PCMInGame < 0.5)  || current.BattleFlowState == 1 || 
 			current.LSW_HasAppeared || (vars.HasEnteredWorldMap && current.MiniMapActive) || 
 			current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
 }
@@ -274,9 +274,4 @@ split
 exit
 {
 	timer.IsGameTimePaused = true;
-}
-
-onReset
-{
-	vars.NewGamePlus = false;
 }
