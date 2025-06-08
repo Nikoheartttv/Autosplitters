@@ -82,8 +82,8 @@ init
 	vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
 	// GEngine.GameInstance.FinishedGameCount
 	vars.Helper["FinishedGameCount"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0xE4C);
-	// GEngine.GameInstance.PlayerController[0].PlayerCameraManager.UnknownFloat
-	vars.Helper["PCMInGame"] = vars.Helper.Make<float>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x24A4);
+	// GEngine.GameInstance.PlayerController[0].PlayerCameraManager.CameraCachePrivate.Timestamp
+	vars.Helper["PCMInGame"] = vars.Helper.Make<float>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x1390);
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
