@@ -97,5 +97,8 @@ isLoading
 
 split
 {
-	if (!vars.CompletedSplits.Contains("current.WakeUpDay") && old.WakeUpDay != current.WakeUpDay) return true;
+	if (old.WakeUpDate != 0 && current.WakeUpDate != 1)
+	{
+		if (!vars.CompletedSplits.Contains(current.WakeUpDay) && old.WakeUpDay != current.WakeUpDay) return true;
+	}
 }
