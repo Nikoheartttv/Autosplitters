@@ -1,56 +1,4 @@
-state("Among Ashes", "v1.0.1h / v1.0.2") { 
-	bool gameStarted : "GameAssembly.dll", 0x24DA208, 0xB8, 0x0, 0x54;
-	int currentMainStoryEvent : "GameAssembly.dll", 0x24C7858, 0xB8, 0x0, 0x28;
-	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E4870, 0xB8, 0x0, 0x42;
-	bool NightCallInCutscene : "GameAssembly.dll", 0x24E47F8, 0xB8, 0x0, 0x42;
-	int MainMenuState : "GameAssembly.dll", 0x24DA208, 0xB8, 0x0, 0xE8;
-	int TLGameState : "GameAssembly.dll", 0x24A6470, 0xB8, 0x0, 0x20;
-	int FinalBossWeakspots : "GameAssembly.dll", 0x24C4E28, 0xB8, 0x0, 0x38;
-}
-
-state("Among Ashes", "v1.0.2b") { 
-	bool gameStarted : "GameAssembly.dll", 0x24DA218, 0xB8, 0x0, 0x54;
-	int currentMainStoryEvent : "GameAssembly.dll", 0x24C7868, 0xB8, 0x0, 0x28;
-	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E4880, 0xB8, 0x0, 0x42;
-	bool NightCallInCutscene : "GameAssembly.dll", 0x24E4808, 0xB8, 0x0, 0x42;
-	int MainMenuState : "GameAssembly.dll", 0x24DA218, 0xB8, 0x0, 0xE8;
-	int TLGameState : "GameAssembly.dll", 0x24A6480, 0xB8, 0x0, 0x20;
-	int FinalBossWeakspots : "GameAssembly.dll", 0x24C4E38, 0xB8, 0x0, 0x40;
-	bool invokedEnd : "GameAssembly.dll", 0x24C4E38, 0xB8, 0x0, 0xD8;
-}
-
-state("Among Ashes", "v1.0.2c") { 
-	bool gameStarted : "GameAssembly.dll", 0x24DA218, 0xB8, 0x0, 0x54;
-	int currentMainStoryEvent : "GameAssembly.dll", 0x24C7868, 0xB8, 0x0, 0x28;
-	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E4880, 0xB8, 0x0, 0x42;
-	bool NightCallInCutscene : "GameAssembly.dll", 0x24E4808, 0xB8, 0x0, 0x42;
-	int MainMenuState : "GameAssembly.dll", 0x24DA218, 0xB8, 0x0, 0xE8;
-	int TLGameState : "GameAssembly.dll", 0x24A6480, 0xB8, 0x0, 0x20;
-	int FinalBossWeakspots : "GameAssembly.dll", 0x24C4E38, 0xB8, 0x0, 0x40;
-	bool invokedEnd : "GameAssembly.dll", 0x24C4E38, 0xB8, 0x0, 0xD8;
-}
-
-state("Among Ashes", "v1.0.2d") { 
-	bool gameStarted : "GameAssembly.dll", 0x24DB218, 0xB8, 0x0, 0x54;
-	int currentMainStoryEvent : "GameAssembly.dll", 0x24C8868, 0xB8, 0x0, 0x28;
-	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E5880, 0xB8, 0x0, 0x42;
-	bool NightCallInCutscene : "GameAssembly.dll", 0x24E5808, 0xB8, 0x0, 0x42;
-	int MainMenuState : "GameAssembly.dll", 0x24DB218, 0xB8, 0x0, 0xE8;
-	int TLGameState : "GameAssembly.dll", 0x24A7480, 0xB8, 0x0, 0x20;
-	byte FinalBossWeakspots : "GameAssembly.dll", 0x24C5E38, 0xB8, 0x0, 0x40;
-	bool invokedEnd : "GameAssembly.dll", 0x24C5E38, 0xB8, 0x0, 0xD8;
-}
-
-state("Among Ashes", "v1.0.3c") { 
-	bool gameStarted : "GameAssembly.dll", 0x24DC268, 0xB8, 0x0, 0x54;
-	int currentMainStoryEvent : "GameAssembly.dll", 0x24C9898, 0xB8, 0x0, 0x28;
-	bool RealWorldInCutscene : "GameAssembly.dll", 0x24E68B0, 0xB8, 0x0, 0x42;
-	bool NightCallInCutscene : "GameAssembly.dll", 0x24E6840, 0xB8, 0x0, 0x42;
-	int MainMenuState : "GameAssembly.dll", 0x24DC268, 0xB8, 0x0, 0xE8;
-	int TLGameState : "GameAssembly.dll", 0x24A84B0, 0xB8, 0x0, 0x20;
-	byte FinalBossWeakspots : "GameAssembly.dll", 0x24C6E68, 0xB8, 0x0, 0x40;
-	bool invokedEnd : "GameAssembly.dll", 0x24C6E68, 0xB8, 0x0, 0xD8;
-}
+state("Among Ashes"){}
 
 startup
 {
@@ -97,31 +45,41 @@ startup
 
 init
 {
-	string gameVersion = vars.Helper.ReadString(32, ReadStringType.UTF8, "UnityPlayer.dll", 0x1CA4940, 0x3D0);
-	vars.Log(gameVersion);
-
-	switch (gameVersion)
+	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
-	    case "v1.0.1h": version = "v1.0.1h / v1.0.2"; break;
-		case "v1.0.2": version = "v1.0.1h / v1.0.2"; break;
-		case "v1.0.2b": version = "v1.0.2b"; break;
-		case "v1.0.2c": version = "v1.0.2c"; break;
-		case "v1.0.2d": version = "v1.0.2d"; break;
-		case "v1.0.3c": version = "v1.0.3c"; break;
-    }
+		var g = mono["Global"];
+		var gsm = mono["GameStateManager"];
+		var mm = mono["MainMenu"];
+		var pcrw = mono["PlayerControl_RealWorld"];
+		var pcnc = mono["PlayerControl_NightCall"];
+		var pcdb = mono["PlayerControl_DemonBlood"];
+		var ncm = mono["NightCallManager"];
+		var tl = mono["TL_Game"];
+		var fbm = mono["FinalBossManager"];
 
+		vars.Helper["gameStarted"] = mm.Make<bool>("instance", "gameStarted");
+		vars.Helper["MainMenuState"] = mm.Make<int>("instance", "currentState");
+		vars.Helper["RealWorldInCutscene"] = pcrw.Make<bool>("instance", "inCutscene");
+		vars.Helper["NightCallEnemies"] = ncm.MakeList<IntPtr>("instance", "killedEnemies");
+		vars.Helper["NightCallItems"] = ncm.MakeList<IntPtr>("instance", "pickedPickUps");
+		vars.Helper["currentMainStoryEvent"] = gsm.Make<int>("instance", "currentMainStoryEvent");
+		vars.Helper["TreeOfLifeGameState"] = tl.Make<int>("instance", "currentState");
+		vars.Helper["FinalBossWeakspots"] = fbm.Make<int>("instance", "remainingWeakspots");
+		vars.Helper["NightCallInCutscene"] = pcnc.Make<bool>("instance", "inCutscene");
+		
+		return true;
+	});
+
+
+	vars.MainMenuTransition = false;
 	vars.NoInCutsene = false;
 	current.activeScene = "";
-	vars.BossFightActive = false;
-	vars.AfterFinalBossCutsceneFix = false;
 }
 
 onStart
 {
 	vars.CompletedSplits.Clear();
-	vars.BossFightActive = false;
-	vars.NoInCutsene = false;
-	vars.AfterFinalBossCutsceneFix = false;
+	vars.MainMenuState = false;
 	timer.IsGameTimePaused = true;
 }
 
@@ -132,34 +90,9 @@ start
 
 update
 {
-	switch(version)
-	{
-		case "v1.0.1h / v1.0.2": 
-			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0788, 0xB8, 0x0, 0x68);
-			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0788, 0xB8, 0x0, 0x38);
-			break;
-		case "v1.0.2b":
-			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0798, 0xB8, 0x0, 0x68);
-			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0798, 0xB8, 0x0, 0x38);
-			break;
-		case "v1.0.2c":
-			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0798, 0xB8, 0x0, 0x68);
-			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E0798, 0xB8, 0x0, 0x38);
-			break;
-		case "v1.0.2d":
-			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E1798, 0xB8, 0x0, 0x68);
-			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E1798, 0xB8, 0x0, 0x38);
-			break;
-		case "v1.0.3c":
-			current.Items = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E27E8, 0xB8, 0x0, 0x68);
-			current.Enemies = vars.Helper.ReadList<IntPtr>("GameAssembly.dll", 0x24E27E8, 0xB8, 0x0, 0x38);
-			break;
-		default:
-			break;
-	}
-	
 	if(!String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name))	current.activeScene = vars.Helper.Scenes.Active.Name;
 	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
+	
 	if (vars.NoInCutsene == false && current.currentMainStoryEvent == 17)
 	{
 		if (current.RealWorldInCutscene == true) vars.NoInCutsene = true;
@@ -170,60 +103,47 @@ update
 		if (current.RealWorldInCutscene == true) vars.NoInCutsene = true;
 	}
 	if (vars.NoInCutsene == true && old.RealWorldInCutscene == true && current.RealWorldInCutscene == false) vars.NoInCutsene = false;
-	if (old.FinalBossWeakspots == 0 && current.FinalBossWeakspots == 8) vars.BossFightActive = true;
-	if (vars.CompletedSplits.Contains("FinalBossDead") && current.NightCallInCutscene == true && old.RealWorldInCutscene == true && current.RealWorldInCutscene == false) 
-	{
-		vars.AfterFinalBossCutsceneFix = true;
-		vars.Log("End Cutscene Fix is active");
-	}
 }
 
 split
 {
-	// Main Splits
-	if (current.currentMainStoryEvent == 3 || current.currentMainStoryEvent == 10 || current.currentMainStoryEvent == 43 || current.currentMainStoryEvent == 61)
+	// // Main Splits
+	if (current.currentMainStoryEvent == 3 || current.currentMainStoryEvent == 10 || current.currentMainStoryEvent == 11 
+		|| current.currentMainStoryEvent == 43 || current.currentMainStoryEvent == 61)
 	{
 		if (settings["MSE_" + current.currentMainStoryEvent.ToString()] && old.currentMainStoryEvent != current.currentMainStoryEvent && !vars.CompletedSplits.Contains("MSE_" + current.currentMainStoryEvent.ToString()))
 		{
 			vars.CompletedSplits.Add("MSE_" + current.currentMainStoryEvent.ToString());
-			vars.Log("---SPLIT 1");
 			return true;
 		}
 	}
 
-	// Items Splits
-	if (old.Items.Count < current.Items.Count)
+	// // Items Splits
+	if (vars.Helper["NightCallItems"].Current.Count > vars.Helper["NightCallItems"].Old.Count)
 	{
-		var len = vars.Helper.Read<int>(current.Items[current.Items.Count - 1] + 0x10);
-		var name = vars.Helper.ReadString(len * 2, ReadStringType.UTF16, current.Items[current.Items.Count - 1] + 0x14);
-		vars.Log(name);
+		string name = vars.Helper.ReadString(false, vars.Helper["NightCallItems"].Current[vars.Helper["NightCallItems"].Current.Count - 1]);
 		if (!vars.CompletedSplits.Contains("Item_" + name)) 
 		{
 			vars.CompletedSplits.Add("Item_" + name);
-			vars.Log("---SPLIT 2");
-			return settings["Item_" + name];
+			if (settings["Item_" + name]) return true;
 		}
 	}
 
-	// Enemies Splits (Dr. Stoker Only)
-	if (old.Enemies.Count < current.Enemies.Count)
+	// // Enemies Splits (Dr. Stoker Only)
+	if (vars.Helper["NightCallEnemies"].Current.Count > vars.Helper["NightCallEnemies"].Old.Count)
 	{
-		var len = vars.Helper.Read<int>(current.Enemies[current.Enemies.Count - 1] + 0x10);
-		var name = vars.Helper.ReadString(len * 2, ReadStringType.UTF16, current.Enemies[current.Enemies.Count - 1] + 0x14);
-		vars.Log(name);
+		string name = vars.Helper.ReadString(false, vars.Helper["NightCallEnemies"].Current[vars.Helper["NightCallEnemies"].Current.Count - 1]);
 		if (!vars.CompletedSplits.Contains("Enemy_" + name) && name == "FRANCIS_BOSS") 
 		{
 			vars.CompletedSplits.Add("Enemy_" + name);
-			vars.Log("---SPLIT 3");
-			return settings["Enemy_" + name];
+			if (settings["Enemy_" + name]) return true;
 		}
 	}
 
 	// Tree of Life Game Done Split
-	if (settings["TLGameDone"] && old.TLGameState != 4 && current.TLGameState == 4 && !vars.CompletedSplits.Contains("TLGameDone"))
+	if (settings["TLGameDone"] && old.TreeOfLifeGameState != 4 && current.TreeOfLifeGameState == 4 && !vars.CompletedSplits.Contains("TLGameDone"))
 		{
 			vars.CompletedSplits.Add("TLGameDone");
-			vars.Log("---SPLIT 4");
 			return true;
 		}
 	
@@ -232,64 +152,21 @@ split
 		old.RealWorldInCutscene == false && current.RealWorldInCutscene == true && !vars.CompletedSplits.Contains("LookingAtFingermanFNC"))
 		{
 			vars.CompletedSplits.Add("LookingAtFingermanFNC");
-			vars.Log("---SPLIT 5");
 			return true;
 		}
 	
 	// Final Boss Split
-	switch(version)
-	{
-		case "v1.0.1h / v1.0.2": 
-			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && vars.BossFightActive == true && old.FinalBossWeakspots <= 2 && current.FinalBossWeakspots <= 1
-			&& old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
-			{
-				vars.CompletedSplits.Add("FinalBossDead");
-				vars.Log("---SPLIT 6");
-				return true;
-			}
-			break;
-		case "v1.0.2b":
-			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
-			{
-				vars.CompletedSplits.Add("FinalBossDead");
-				vars.Log("---SPLIT 6");
-				return true;
-			}
-			break;
-		case "v1.0.2c":
-			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
-			{
-				vars.CompletedSplits.Add("FinalBossDead");
-				vars.Log("---SPLIT 6");
-				return true;
-			}
-			break;
-		case "v1.0.2d":
-			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
-			{
-				vars.CompletedSplits.Add("FinalBossDead");
-				vars.Log("---SPLIT 6");
-				return true;
-			}
-			break;
-		case "v1.0.3c":
-			if (settings["FinalBossDead"] && vars.AfterFinalBossCutsceneFix == true && current.invokedEnd == true && old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
-			{
-				vars.CompletedSplits.Add("FinalBossDead");
-				vars.Log("---SPLIT 6");
-				return true;
-			}
-			break;
-		default:
-			break;
-	}
-	
+	if (settings["FinalBossDead"] && old.FinalBossWeakspots >= 1 && current.FinalBossWeakspots <= 1 
+		&& old.NightCallInCutscene == false && current.NightCallInCutscene == true && !vars.CompletedSplits.Contains("FinalBossDead"))
+		{
+			vars.CompletedSplits.Add("FinalBossDead");
+			return true;
+		}
 }
 
 
 isLoading
 {
 	if (vars.NoInCutsene == true) return false;
-	else if (vars.AfterFinalBossCutsceneFix == true) return current.RealWorldInCutscene;
 	else return current.activeScene == "LoadingScreen" || current.RealWorldInCutscene || current.NightCallInCutscene;
 }
