@@ -6,7 +6,7 @@ startup
 	vars.Helper.GameName = "The Alters";
 	vars.Helper.AlertLoadless();
 
-    vars.VisitedLevel = new List<string>();
+    vars.CompletedSplits = new List<string>();
 }
 
 init
@@ -31,8 +31,12 @@ init
     // GEngine.GameInstance.LoadingScreen.???
     vars.Helper["Loading"] = vars.Helper.Make<int>(gEngine, 0xFC0, 0x200, 0x50);
     // GEngine.GameInstance.LocalPlayers[0].MyHUD.CutsceneOverlay.bIsFocusable
-    vars.Helper["CutsceneActive"] = vars.Helper.Make<byte>(gEngine, 0xFC0, 0x38, 0x0, 0x30, 0x348, 0x6F0, 0x1DC);
+    vars.Helper["CutsceneActive"] = vars.Helper.Make<byte>(gEngine, 0xFC0, 0x38, 0x0, 0x30, 0x348, 0x710, 0x1DC);
     vars.Helper["CutsceneActive"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+
+	// GWorld.AuthorityGameMode.BP_PlayerStatistics.WakeUpDate.Date
+    vars.Helper["WakeUpDay"] = vars.Helper.Make<int>(gWorld, 0x150, 0x580, 0xD0);
+    vars.Helper["WakeUpDay"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
     // this cutscene does work well, but over-extends even when you have movement
     // GWorld.AuthorityGameMode.ExplorationSystem.PawnStatistics.CutsceneSubsystem.bCutsceneInProgress
@@ -60,6 +64,7 @@ init
 	});
 	
 	current.World = "";
+	current.WakeUpDay = 0;
 }
 
 start
@@ -67,10 +72,11 @@ start
     return old.World == "MainMenu" && current.World == "StartLevel";
 }
 
-// onStart
-// {
-// 	vars.VisitedLevel.Clear();
-// }
+onStart
+{
+	timer.IsGameTimePaused = true;
+	vars.CompletedSplits.Clear();
+}
 
 update
 {
@@ -87,4 +93,9 @@ update
 isLoading
 {
 	return current.Loading != 0 || current.CutsceneActive == 1;
+}
+
+split
+{
+	if (!vars.CompletedSplits.Contains("current.WakeUpDay") && old.WakeUpDay != current.WakeUpDay) return true;
 }
