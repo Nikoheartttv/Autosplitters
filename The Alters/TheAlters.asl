@@ -62,8 +62,30 @@ init
 
 		return number == 0 ? name : name + "_" + number;
 	});
+
+	vars.FindSubsystem = (Func<string, IntPtr>)(name =>
+    {
+		// GEngine.GameInstance.currentnumberofsubsystems
+        var subsystems = vars.Helper.Read<int>(gEngine, 0xFC0, 0x110);
+        for (int i = 0; i < subsystems; i++)
+        {
+			//GEngine.GameInstance.subsystem finds on every 0x18 plus 0x8
+            var subsystem = vars.Helper.Deref(gEngine, 0xD28, 0xFC0, 0x18 * i + 0x8);
+            var sysName = vars.FNameToString(vars.Helper.Read<ulong>(subsystem, 0x18));
+
+            if (sysName.StartsWith(name))
+            {
+                return subsystem;
+            }
+        }
+
+        throw new InvalidOperationException("Subsystem not found: " + name);
+    });
+
+    vars.ChaptersManager = IntPtr.Zero;
 	
 	current.World = "";
+	current.Chapter = "";
 	current.WakeUpDay = 0;
 }
 
@@ -80,12 +102,31 @@ onStart
 
 update
 {
+	IntPtr gm;
+    // if (!vars.Helper.TryRead<IntPtr>(out gm, vars.ChaptersManager))
+    // {
+    //     vars.ChaptersManager = vars.FindSubsystem("UP9ChaptersManager");
+
+    //     // P9ChaptersManager->CurrentChapter->NamePrivate
+    //     vars.Helper["CurrentChapterFName"] = vars.Helper.Make<ulong>(vars.ChaptersManager, 0x138, 0x18);
+
+    //     // UCarnivalGameManager->LoadingScreenManager->LoadingScreenImpl->Class->0x18
+    //     // vars.Helper["CurrentChapterFName"] = vars.Helper.Make<ulong>(vars.GameManager, 0x168, 0x30, 0x10, 0x18);
+    //     // vars.Helper["LoadingScreenImplFn"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+    // }
+
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
 
 	var world = vars.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 	if (old.World != current.World)vars.Log("World: " + current.World);
+
+	// current.Chapter = vars.FNameToString(current.CurrentChapterFName);
+    // if (old.Chapter != current.Chapter)
+    // {
+    //     vars.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
+    // }
 
     // vars.Log(current.GEngine.ToString("X"));
 }
@@ -97,7 +138,7 @@ isLoading
 
 split
 {
-	if (old.WakeUpDate != 0 && current.WakeUpDate != 1)
+	if (old.WakeUpDay != 0 && current.WakeUpDay != 1)
 	{
 		if (!vars.CompletedSplits.Contains(current.WakeUpDay) && old.WakeUpDay != current.WakeUpDay) return true;
 	}
