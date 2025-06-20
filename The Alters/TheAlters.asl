@@ -8,7 +8,8 @@ startup
 
 	dynamic[,] _settings =
 	{
-		{ "ChapterSplits", true, "Chapter Splits - UNFINISHED", null },
+		{ "WakeUpDay", true, "Split upon when you wake up next day", null },
+		{ "ChapterSplits", false, "Chapter Splits - UNFINISHED", null },
 			{ "BP_ACT0_Prologue_Chapter_C", true, "Prologue", "ChapterSplits"},
 			{ "BP_Journey1_Chapter_C", true, "Journey 1", "ChapterSplits"},
 			{ "BP_ACT1_Chapter_C", true, "Act 1", "ChapterSplits" },
@@ -214,10 +215,10 @@ isLoading
 
 split
 {
-// 	if (old.WakeUpDay != 0 && current.WakeUpDay != 1)
-// 	{
-// 		if (!vars.CompletedSplits.Contains(current.WakeUpDay.ToString()) & old.WakeUpDay != current.WakeUpDay) return true;
-// 	}
+	if (settings["WakeUpDay"] && old.WakeUpDay != 0 && current.WakeUpDay != 1)
+	{
+		if (!vars.CompletedSplits.Contains(current.WakeUpDay.ToString()) & old.WakeUpDay != current.WakeUpDay) return true;
+	}
 
 	if (old.Chapter != current.Chapter && !vars.CompletedSplits.Contains(old.Chapter.ToString()))
 	{
