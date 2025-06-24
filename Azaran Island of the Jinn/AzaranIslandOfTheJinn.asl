@@ -152,9 +152,9 @@ split
 		}
 	}
 
-	if (current.roomName == "Rm_Caves_Boss" && current.cutscenePaused == true && settings["EndSplit"] && !vars.CompletedSplits.Contains("EndSplit")) 
-	{
-		vars.CompletedSplits.Add("EndSplit");
-		return true;
-	}
+	if (settings["EndSplit"] && current.roomName == "Rm_Caves_Boss" && current.timeInStatePuzzleSolve > 0 && !vars.CompletedSplits.Contains("EndSplit")) 
+    {
+        vars.CompletedSplits.Add("EndSplit");
+        return true;
+    }
 }
