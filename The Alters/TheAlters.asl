@@ -18,7 +18,7 @@ startup
 			{ "BP_Journey3_Chapter_C", true, "Journey 3", "ChapterSplits" },
 			{ "BP_INTERLUDIUM_Chapter_C", true, "Interlude", "ChapterSplits" },
 			{ "BP_Journey4_Chapter_C", true, "Journey 4", "ChapterSplits" },
-			{ "BP_ACT3_Chapter_C", true, "Act 3", "ChapterSplits" },
+			{ "BP_ACT3_Chapter_C", false, "Act 3", "ChapterSplits" },
 			{ "BP_ACT3_FinalDay_Chapter_C", false, "Act 3 - Final Day", "ChapterSplits" },
 			{ "P9GameplayEvent /Game/P9Playable/Systems/FinalDay/GE_EpilogStarted.GE_EpilogStarted", false, "Epilogue", "ChapterSplits"},
 		{ "EndingSplits", true, "Ending Splits", null },
