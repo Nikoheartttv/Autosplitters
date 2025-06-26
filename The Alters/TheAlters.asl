@@ -9,7 +9,7 @@ startup
 	dynamic[,] _settings =
 	{
 		{ "WakeUpDay", false, "Split upon when you wake up next day", null },
-		{ "ChapterSplits", false, "Chapter Splits", null },
+		{ "ChapterSplits", false, "Chapter Splits - On Completion", null },
 			{ "BP_ACT0_Prologue_Chapter_C", true, "Prologue", "ChapterSplits"},
 			{ "BP_Journey1_Chapter_C", true, "Journey 1", "ChapterSplits"},
 			{ "BP_ACT1_Chapter_C", true, "Act 1", "ChapterSplits" },
