@@ -8,13 +8,26 @@ startup
 
 	dynamic[,] _settings =
 	{
-		{ "WakeUpDay", true, "Split upon when you wake up next day", null },
-		{ "ChapterSplits", false, "Chapter Splits - UNFINISHED", null },
+		{ "WakeUpDay", false, "Split upon when you wake up next day", null },
+		{ "ChapterSplits", false, "Chapter Splits", null },
 			{ "BP_ACT0_Prologue_Chapter_C", true, "Prologue", "ChapterSplits"},
 			{ "BP_Journey1_Chapter_C", true, "Journey 1", "ChapterSplits"},
 			{ "BP_ACT1_Chapter_C", true, "Act 1", "ChapterSplits" },
 			{ "BP_Journey2_Chapter_C", true, "Journey 2", "ChapterSplits" },
 			{ "BP_ACT2_Chapter_C", true, "Act 2", "ChapterSplits" },
+			{ "BP_Journey3_Chapter_C", true, "Journey 3", "ChapterSplits" },
+			{ "BP_INTERLUDIUM_Chapter_C", true, "Interlude", "ChapterSplits" },
+			{ "BP_Journey4_Chapter_C", true, "Journey 4", "ChapterSplits" },
+			{ "BP_ACT3_Chapter_C", true, "Act 3", "ChapterSplits" },
+			{ "BP_ACT3_FinalDay_Chapter_C", false, "Act 3 - Final Day", "ChapterSplits" },
+			{ "P9GameplayEvent /Game/P9Playable/Systems/FinalDay/GE_EpilogStarted.GE_EpilogStarted", false, "Epilogue", "ChapterSplits"},
+		{ "EndingSplits", true, "Ending Splits", null },
+			{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/LastGoobyes/Events/GE_Act3FD_LG_EveryAlterHidden.GE_Act3FD_LG_EveryAlterHidden", false, "Alters Hide in Ark Sarcophogus", "EndingSplits" },
+			{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_FinishTheGameInTheMaxwellsPath.GE_Act3FD_SA_Achievement_FinishTheGameInTheMaxwellsPath", true, "ENDING - Maxwell's Path", "EndingSplits" },
+			{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_FinishTheGameInTheCorporatePath.GE_Act3FD_SA_Achievement_FinishTheGameInTheCorporatePath", true, "ENDING - The Corporate Way (double check if it works)", "EndingSplits" },
+			{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_BetrayEverybodyAsTheBotanist.GE_Act3FD_SA_Achievement_BetrayEverybodyAsTheBotanist", true, "ENDING - The Things We Do for Love (double check if it works)", "EndingSplits" },
+			{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_BlowUpTheBase.GE_Act3FD_SA_Achievement_BlowUpTheBase", true, "ENDING - It Ends In Flames (double check if it works)", "EndingSplits" },
+			{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_ComeBackToEarthAsTheBotanist.GE_Act3FD_SA_Achievement_ComeBackToEarthAsTheBotanist", true, "ENDING - I Deserved This More", "EndingSplits" },
 	};
 	vars.Helper.Settings.Create(_settings);
 
@@ -36,56 +49,18 @@ init
 		throw new Exception(Msg);
 	}
 
-	// GSync
-	vars.Helper["GSync"] = vars.Helper.Make<bool>(gSyncLoadCount);
-	// GWorld.FName
-	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
-    // GEngine.GameInstance.LoadingScreen.???
-    vars.Helper["Loading"] = vars.Helper.Make<int>(gEngine, 0xFC0, 0x200, 0x50);
-
-	// this chapter instance starts as soon as you were to choose from main menu, too fast?
-	// vars.Helper["ChapterName2"] = vars.Helper.Make<ulong>(gEngine, 0xFC0, 0x208, 0x18);
+	vars.Helper["GSync"] = vars.Helper.Make<bool>(gSyncLoadCount); // GSync
+	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18); // GWorld.FName
+    vars.Helper["Loading"] = vars.Helper.Make<int>(gEngine, 0xFC0, 0x200, 0x50); // GEngine.GameInstance.LoadingScreen.???
     // GEngine.GameInstance.LocalPlayers[0].MyHUD.CutsceneOverlay.bIsFocusable
     vars.Helper["CutsceneActive"] = vars.Helper.Make<byte>(gEngine, 0xFC0, 0x38, 0x0, 0x30, 0x348, 0x710, 0x1DC);
     vars.Helper["CutsceneActive"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
 	// GWorld.AuthorityGameMode.BP_PlayerStatistics.WakeUpDate.Date
     vars.Helper["WakeUpDay"] = vars.Helper.Make<int>(gWorld, 0x150, 0x580, 0xD0);
     vars.Helper["WakeUpDay"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
-	// GEngine.GameInstance.subsystems.P9GlobalSequenceSubsystem.CurrentJob.NamePrivate
-	vars.Helper["CurrentJobFn"] = vars.Helper.Make<ulong>(gEngine, 0xFC0, 0x108, 0x1A0, 0x60, 0x18);
-
-	// GWorld -> CharacterManagementSubsystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x60);
-	// GWorld -> ChaptersManagerSubsystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x68);
-	// GWorld -> ResourceSystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x70);
-	// GWorld -> WorkSubsystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x78);
-	// GWorld -> EventsSubsystem !Important
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x88);
-	// GWorld -> EventsSubsystem.EventRecorder.Records
-	vars.Helper["EventsSubsystemRecordsList"] = vars.Helper.Make<IntPtr>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x88, 0xE8, 0x28);
-	vars.Helper["EventsSubsystemRecordsListArrayNum"] = vars.Helper.Make<int>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x88, 0xE8, 0x30);
-	// GWorld -> NarrativeSubsystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x90);
-	// GWorld -> ResearchSubsystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0x98);
-	// GWorld -> CollectiblesSubsystem
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0xA0);
-	// GWorld -> PlayerState
-	// vars.Helper["???"] = vars.Helper.Make<???>(gWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0xB0);
-
-    // this cutscene does work well, but over-extends even when you have movement
-    // GWorld.AuthorityGameMode.ExplorationSystem.PawnStatistics.CutsceneSubsystem.bCutsceneInProgress
-    // vars.Helper["bCutsceneInProgress"] = vars.Helper.Make<bool>(gWorld, 0x150, 0x5A0, 0x390, 0x260, 0x404);
-    // vars.Helper["bCutsceneInProgress"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
-    // Things to look at
-    // GEngine.GameInstance.???.PointerToP9GlobalSequenceSubsystem.CurrentJob-> delve further when doing a job
-    // vars.Helper["CurrentJob?"] = vars.Helper.Make<???>(gEngine, 0xFC0, 0x108, 0x118, 0x60, ???)
+	// GWorld -> GameplayStatsSubsystem.EventsSubsystem.EventRecorder.Records
+	vars.Helper["EventsSubsystemRecordsList"] = vars.Helper.Make<IntPtr>(gWorld, 0x640, 0x8, 0x240, 0x3E0, 0xE8, 0x28);
+	vars.Helper["EventsSubsystemRecordsListArrayNum"] = vars.Helper.Make<int>(gWorld, 0x640, 0x8, 0x240, 0x3E0, 0xE8, 0x30);
 
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
@@ -131,14 +106,15 @@ init
 	current.CurrentJob = "";
 	current.WakeUpDay = 0;
 	vars.GWorld = gWorld;
+	vars.GEngine = gEngine;
+	current.Event = default(ulong);
 
-	// THIS FAILS
-	// vars.EventsList = new List<ulong>();
-	// for (var i = 0; i < current.EventsSubsystemRecordsListArrayNum; i++)
-	// {
-	// 	var events = vars.Helper.Read<ulong>(vars.GWorld, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0xE8, 0x28, 0x18 * i);
-	// 	vars.EventsList[i] = events;
-	// }
+	vars.EventsList = new List<ulong>();
+	for (var i = 0; i < current.EventsSubsystemRecordsListArrayNum; i++)
+	{
+		var events = vars.Helper.Read<ulong>(vars.GWorld, 0x640, 0x8, 0x240, 0x458, 0x88, 0xE8, 0x28, 0x18 * i);
+		vars.EventsList.Add(events);
+	}
 }
 
 start
@@ -157,6 +133,7 @@ update
 	IntPtr gm;
     if (!vars.Helper.TryRead<IntPtr>(out gm, vars.ChaptersManager))
     {
+		// UP9ChaptersManager : public UP9GameInstanceSubsystem
         vars.ChaptersManager = vars.FindSubsystem("P9ChaptersManager");
         // P9ChaptersManager->CurrentChapter->NamePrivate
         vars.Helper["CurrentChapterFName"] = vars.Helper.Make<ulong>(vars.ChaptersManager, 0x138, 0x18);
@@ -179,38 +156,16 @@ update
         vars.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
     }
 
-	// for (var i = 0; i < current.EventsSubsystemRecordsListArrayNum; i++)
-	// {
-	// 	var events = vars.Helper.Read<ulong>(vars.GEngine, 0x30, 0x150, 0x8, 0x3A0, 0x240, 0x458, 0xE8, 0x28, 0x18 * i);
-	// 	if (events != vars.EventsList[i])
-	// 	{
-	// 		if (events == 0) vars.Log("Event removed: " + vars.FNameToString(vars.EventsList[i]));
-	// 		else vars.Log("Event occured: " + vars.FNameToString(events));
-	// 		vars.EventsList[i] = events;
-	// 	}
-	// }
-
-	// current.CurrentJob = vars.FNameToString(current.CurrentJobFn);
-    // if (old.CurrentJob != current.CurrentJob)
-    // {
-    //     vars.Log("Current Job: " + old.CurrentJob + " -> " + current.CurrentJob);
-    // }
-
-	// current.Chapter = vars.FNameToString(current.ChapterName2);
-	// if (old.ChapterName2 != current.ChapterName2)
-    // {
-    //     vars.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
-    // }
-
-	// current.Chapter = vars.FNameToString(current.ChaptersManager);
-	// vars.Log(current.Chapter);
-
-    // vars.Log(current.GEngine.ToString("X"));
+	current.Event = vars.Helper.Read<ulong>(vars.GWorld, 0x640, 0x8, 0x240, 0x458, 0x88, 0xE8, 0x28, 0x18 * (current.EventsSubsystemRecordsListArrayNum-1));
+	if (old.Event != current.Event)
+	{
+		vars.Log("Event occured: " + vars.FNameToString(current.Event));
+	}
 }
 
 isLoading
 {
-	return current.Loading != 0 || current.CutsceneActive == 1;
+	return current.Loading != 0 || current.CutsceneActive == 1 || current.World == "MainMenu";
 }
 
 split
@@ -224,5 +179,11 @@ split
 	{
 		vars.CompletedSplits.Add(old.Chapter);
 		return settings[old.Chapter];
+	}
+
+	if (old.Event != current.Event && settings[vars.FNameToString(current.Event)] && !vars.CompletedSplits.Contains(vars.FNameToString(current.Event)))
+	{
+		vars.CompletedSplits.Add(vars.FNameToString(current.Event));
+		if (settings[vars.FNameToString(current.Event)]) return true;
 	}
 }
