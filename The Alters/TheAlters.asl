@@ -31,7 +31,7 @@ startup
 	};
 	vars.Helper.Settings.Create(_settings);
 
-    vars.CompletedSplits = new List<string>();
+    vars.CompletedDay = new List<string>();
 }
 
 init
@@ -125,7 +125,7 @@ start
 onStart
 {
 	timer.IsGameTimePaused = true;
-	vars.CompletedSplits.Clear();
+	vars.CompletedDay.Clear();
 }
 
 update
@@ -170,25 +170,24 @@ isLoading
 
 split
 {
-	if (settings["WakeUpDay"] && old.WakeUpDay != 0 && current.WakeUpDay != 1)
+	if (old.Chapter != current.Chapter)
 	{
-		if (!vars.CompletedSplits.Contains(current.WakeUpDay.ToString()) & old.WakeUpDay != current.WakeUpDay) return true;
-	}
-
-	if (old.Chapter != current.Chapter && !vars.CompletedSplits.Contains(old.Chapter.ToString()))
-	{
-		vars.CompletedSplits.Add(old.Chapter);
 		return settings[old.Chapter];
 	}
 
-	if (old.Event != current.Event && settings[vars.FNameToString(current.Event)] && !vars.CompletedSplits.Contains(vars.FNameToString(current.Event)))
+	if (settings["WakeUpDay"] && old.WakeUpDay != 0 && current.WakeUpDay != 1)
 	{
-		vars.CompletedSplits.Add(vars.FNameToString(current.Event));
+		if (!vars.CompletedDay.Contains(current.WakeUpDay.ToString()) & old.WakeUpDay != current.WakeUpDay) return true;
+	}
+
+
+	if (old.Event != current.Event && settings[vars.FNameToString(current.Event)])
+	{
 		if (settings[vars.FNameToString(current.Event)]) return true;
 	}
 }
 
 onReset
 {
-	vars.CompletedSplits.Clear();
+	vars.CompletedDay.Clear();
 }
