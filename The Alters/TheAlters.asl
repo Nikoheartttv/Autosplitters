@@ -187,3 +187,8 @@ split
 		if (settings[vars.FNameToString(current.Event)]) return true;
 	}
 }
+
+onReset
+{
+	vars.CompletedSplits.Clear();
+}
