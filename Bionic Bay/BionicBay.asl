@@ -66,6 +66,7 @@ init
 		vars.Helper["FadeState"] = mono.Make<int>("Psychoflow.Game.UI", "FaderUI", "CurrentState");
 		vars.Helper["IsDead"] = mono.Make<bool>("Psychoflow.Game.Characters", "Hero", "m_Status", "DeathState", "IsDead");
 		vars.Helper["HasStarted"] = mono.Make<bool>("Psychoflow.Game.Characters", "Hero", "m_Status", "HasStarted");
+		vars.Helper["EnablePuppetMovementInput"] = mono.Make<bool>("Psychoflow.Game.Characters", "Hero", "EnablePuppetMovementInput");
 
 		return true;
 	});
@@ -97,6 +98,8 @@ update
 	if (old.IsInLevelTransition != current.IsInLevelTransition) vars.Log("IsInLevelTransition: " + current.IsInLevelTransition);
 	if (current.IsInLevelTransition) vars.LevelTransitionToFade = true;
 	if (vars.LevelTransitionToFade && !current.IsInLevelTransition && old.HasStarted == false && current.HasStarted == true) vars.LevelTransitionToFade = false;
+	if (old.EnablePuppetMovementInput != current.EnablePuppetMovementInput) vars.Log("EnablePuppetMovementInput: " + current.EnablePuppetMovementInput);
+	
 
 
 	// if (old.IsDead != current.IsDead) vars.Log("Is Dead: " + current.IsDead);
@@ -118,7 +121,8 @@ split
 	// 	vars.VisitedLevel.Add("End");
 	// 	return true;
 	// }
-	if (settings["End"] && current.SceneName == "Monumental" && current.activeCheckpoint == 26 && current.LetterboxExist && !current.IsPaused && current.CurrentTimeScale < 1.0)
+	if (settings["End"] && current.SceneName == "Monumental" && current.activeCheckpoint == 26 && current.EnablePuppetMovementInput 
+		&& current.LetterboxExist && !current.IsPaused && current.CurrentTimeScale < 1.0 && !vars.VisitedLevel.Contains("End"))
 	{
 		vars.VisitedLevel.Add("End");
 		return true;
