@@ -165,7 +165,7 @@ update
 
 isLoading
 {
-	return current.Loading != 0 || current.CutsceneActive == 1 || current.World == "MainMenu";
+	return current.Loading != 0 || current.CutsceneActive == 1 || current.World != "StartLevel";
 }
 
 split
@@ -180,8 +180,7 @@ split
 		if (!vars.CompletedDay.Contains(current.WakeUpDay.ToString()) & old.WakeUpDay != current.WakeUpDay) return true;
 	}
 
-
-	if (old.Event != current.Event && settings[vars.FNameToString(current.Event)])
+	if (current.Chapter == "BP_ACT3_FinalDay_Chapter_C" && old.Event != current.Event && settings[vars.FNameToString(current.Event)])
 	{
 		if (settings[vars.FNameToString(current.Event)]) return true;
 	}
@@ -190,4 +189,9 @@ split
 onReset
 {
 	vars.CompletedDay.Clear();
+}
+
+exit
+{
+	timer.IsGameTimePaused = true;
 }
