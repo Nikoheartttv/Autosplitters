@@ -3,7 +3,6 @@ state("DeadTake") {}
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-    // Assembly.Load(File.ReadAllBytes("Components/uhara7")).CreateInstance("Main");
 	vars.Helper.GameName = "Dead Take";
 	vars.Helper.AlertLoadless();
 
@@ -32,7 +31,6 @@ init
 		var chunkIdx = (fName & 0x00000000FFFF0000) >> 0x10;
 		var number = (fName & 0xFFFFFFFF00000000) >> 0x20;
 
-		// IntPtr chunk = vars.Helper.Read<IntPtr>(fNames + 0x10 + (int)chunkIdx * 0x8);
 		IntPtr chunk = vars.Helper.Read<IntPtr>(FNamePool + 0x10 + (int)chunkIdx * 0x8);
 		IntPtr entry = chunk + (int)nameIdx * sizeof(short);
 
