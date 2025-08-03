@@ -4,14 +4,6 @@ startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/emu-help-v2")).CreateInstance("PS2");
 
-	
-
-	settings.Add("FullGame", true, "Run Type");
-	settings.Add("IL", false, "Individual Level");
-}
-
-init
-{
 	vars.Helper.Load = (Func<dynamic, bool>)(emu => 
 	{
 		emu.Make<int>("Start", 0x425E20);
@@ -24,6 +16,13 @@ init
 
 		return true;
 	});
+	
+	settings.Add("FullGame", true, "Run Type");
+	settings.Add("IL", false, "Individual Level");
+}
+
+init
+{
 	vars.AfterBossTriggersCount = 0;
 }
 
