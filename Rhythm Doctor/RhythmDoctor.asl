@@ -107,15 +107,17 @@ startup
 init
 {
 	byte[] exeMD5HashBytes = new byte[0];
-	using (var md5 = System.Security.Cryptography.MD5.Create())
+    using (var md5 = System.Security.Cryptography.MD5.Create())
     {
-        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        var gameDir = Path.GetDirectoryName(modules.First().FileName);
+        var hashFileName = Path.Combine(gameDir, "Rhythm Doctor_Data", "Managed", "Assembly-CSharp.dll");
+        using (var s = File.Open(hashFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             exeMD5HashBytes = md5.ComputeHash(s);
         }
     }
 
-	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
+    var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
     vars.MD5Hash = MD5Hash;
     print("MD5: " + MD5Hash);
 
@@ -147,6 +149,9 @@ init
 		case "E41A7BCFDA01F513D60EAAE1F8056A1E" :
 			version = "v0.16.0 / v0.17.0 (r32/r33)";
 			break;
+		case "A342624869D627289AC9CB020306B750" :
+			version = "v0.18.1";
+			break;
 		default:
 			version = "Unknown version";
 			break;
@@ -161,22 +166,38 @@ init
 		var scnGame2 = mono["scnGame"];
         var HUD = mono["HUD"];
         var MM = mono["MistakesManager"];
-        var Level_Custom = mono["Level_Custom"];
+        
 		var scnMenu = mono["scnMenu", 1];
 		var scrC = mono["scrConductor"];
 
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.18.1":
+				{
+					var SV = mono["SpeedrunValues"];
+					var LevelBase = mono["LevelBase"];
+					vars.Helper["inGame"] = SV.Make<bool>("inGame");
+					vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
+					vars.Helper["Level"] = SV.MakeString("currentLevel");
+					vars.Helper["rank"] = SV.Make<int>("rank");
+					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["GameState"] = SV.Make<int>("currentGameState");
+					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+				}
+
+				break;
 			case "v0.16.0 / v0.17.0 (r32/r33)":
-				var SV2 = mono["SpeedrunValues"];
-				vars.Helper["inGame"] = SV2.Make<bool>("inGame");
-				vars.Helper["isLoading"] = SV2.Make<bool>("isLoading");
-				vars.Helper["Level"] = SV2.MakeString("currentLevel");
-				vars.Helper["rank"] = SV2.Make<int>("rank");
-				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
-				vars.Helper["GameState"] = SV2.Make<int>("currentGameState");
-				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+				{
+					var SV = mono["SpeedrunValues"];
+					vars.Helper["inGame"] = SV.Make<bool>("inGame");
+					vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
+					vars.Helper["Level"] = SV.MakeString("currentLevel");
+					vars.Helper["rank"] = SV.Make<int>("rank");
+					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["GameState"] = SV.Make<int>("currentGameState");
+					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+				}
 
 				break;
 			case "v0.15.0 (r31)":
@@ -185,14 +206,16 @@ init
 			case "v0.13.0 (r28)":
 			case "v0.12.0 (r27)":
 				// SpeedrunValues
-				var SV = mono["SpeedrunValues"];
-				vars.Helper["inGame"] = SV.Make<bool>("inGame");
-				vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
-				vars.Helper["Level"] = SV.MakeString("currentLevel");
-				vars.Helper["rank"] = SV.Make<int>("rank");
-				vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
-				vars.Helper["GameState"] = SV.Make<int>("currentGameState");
-				vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+				{
+					var SV = mono["SpeedrunValues"];
+					vars.Helper["inGame"] = SV.Make<bool>("inGame");
+					vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
+					vars.Helper["Level"] = SV.MakeString("currentLevel");
+					vars.Helper["rank"] = SV.Make<int>("rank");
+					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["GameState"] = SV.Make<int>("currentGameState");
+					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+				}
 
 				break;
 
@@ -226,9 +249,25 @@ init
         vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MM["mistakesCountP1"]);
 		
         // Beans Values
-        vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
-        vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", Level_Custom["i1"]);
-        vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", Level_Custom["noGetSet"]);
+		switch(version)
+		{
+			case "v0.18.1":
+				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["LevelBase"]["noGetSet"]);
+				break;
+			case "v0.16.0 / v0.17.0 (r32/r33)":
+				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["Level_Custom"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["Level_Custom"]["noGetSet"]);
+				break;
+			default: 
+				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["Level_Custom"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["Level_Custom"]["noGetSet"]);
+				break;
+		}
+        
 
         return true;
     });
@@ -285,6 +324,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
+		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
@@ -333,6 +373,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.18.1":
 			case "v0.16.0 / v0.17.0 (r32/r33)":
 			case "v0.15.0 (r31)":
 			case "v0.14.0 (r30)":
@@ -376,6 +417,7 @@ split
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.18.1":
 			case "v0.16.0 / v0.17.0 (r32/r33)":
 				if (old.Level == "Intro" && current.Level == "OrientalTechno")
 					{
@@ -475,6 +517,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
+		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
@@ -516,6 +559,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
@@ -538,6 +582,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
 		case "v0.14.0 (r30)":
