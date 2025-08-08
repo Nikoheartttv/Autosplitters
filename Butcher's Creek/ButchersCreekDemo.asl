@@ -41,10 +41,10 @@ start
 
 split
 {
-    if (settings[current.activeScene.ToString()] && old.activeScene != current.activeScene && !vars.CompletedSplits.Contains(current.activeScene.ToString()))
+	if (old.activeScene != current.activeScene && !vars.CompletedSplits.Contains(current.activeScene.ToString()))
     {
 	    vars.CompletedSplits.Add(current.activeScene);
-	    return true;
+	    return settings[current.activeScene.ToString()]
 	}
 }
 
