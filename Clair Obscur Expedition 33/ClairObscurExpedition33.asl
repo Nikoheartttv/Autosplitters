@@ -34,7 +34,7 @@ init
 	switch(MD5Hash)
 	{
 		case "0ED75DA5EBACA82C815FE5F31633B0B5":
-			vars.Helper.GameVersion = "57661 (Steam)";
+			version = "57661 (Steam)";
 			break;
 		default:
 			version = "57069 or lower";
@@ -96,7 +96,7 @@ init
 	switch(version)
 	{
 		case "57661 (Steam)":
-			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0 0x368);
+			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0, 0x368);
 			break;
 		default:
 			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
