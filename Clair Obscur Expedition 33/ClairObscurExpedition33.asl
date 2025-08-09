@@ -102,7 +102,6 @@ init
 			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
 			break;
 	}
-	vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
 	// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
 	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
 	// GEngine.GameInstance.LocalPlayers[0].IsSavePointMenuVisible
