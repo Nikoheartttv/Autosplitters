@@ -17,6 +17,30 @@ startup
 
 init
 {
+
+	byte[] exeMD5HashBytes = new byte[0];
+	using (var md5 = System.Security.Cryptography.MD5.Create())
+    {
+        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        {
+            exeMD5HashBytes = md5.ComputeHash(s);
+        }
+    }
+
+	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
+    vars.MD5Hash = MD5Hash;
+    print("MD5: " + MD5Hash);
+
+	switch(MD5Hash)
+	{
+		case "0ED75DA5EBACA82C815FE5F31633B0B5":
+			vars.Helper.GameVersion = "57661 (Steam)";
+			break;
+		default:
+			version = "57069 or lower";
+			break;
+	}
+
 	vars.ModsDetected = false;
 	vars.gameModule = modules.First();
 	vars.sandfallLocation = Path.GetFullPath(Path.Combine(vars.gameModule.FileName, @"../../../"));
@@ -69,6 +93,15 @@ init
 	// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
 	vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
 	// GEngine.GameInstance.LocalPlayers[0].ExplorationHUDWidget.MiniMapWidget.bIsActive
+	switch(version)
+	{
+		case "57661 (Steam)":
+			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0 0x368);
+			break;
+		default:
+			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
+			break;
+	}
 	vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
 	// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
 	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
