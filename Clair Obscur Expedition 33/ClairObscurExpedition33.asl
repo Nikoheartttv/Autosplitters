@@ -17,30 +17,6 @@ startup
 
 init
 {
-
-	byte[] exeMD5HashBytes = new byte[0];
-	using (var md5 = System.Security.Cryptography.MD5.Create())
-    {
-        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        {
-            exeMD5HashBytes = md5.ComputeHash(s);
-        }
-    }
-
-	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
-    vars.MD5Hash = MD5Hash;
-    print("MD5: " + MD5Hash);
-
-	switch(MD5Hash)
-	{
-		case "0ED75DA5EBACA82C815FE5F31633B0B5":
-			version = "57661 (Steam)";
-			break;
-		default:
-			version = "57069 or lower";
-			break;
-	}
-
 	vars.ModsDetected = false;
 	vars.gameModule = modules.First();
 	vars.sandfallLocation = Path.GetFullPath(Path.Combine(vars.gameModule.FileName, @"../../../"));
@@ -76,6 +52,37 @@ init
 	{
 		const string Msg = "Not all required addresses could be found by scanning.";
 		throw new Exception(Msg);
+	}
+
+	// Poll for BuildVersion until a number is detected
+	string buildVersion = "";
+	for (int i = 0; i < 60; i++) // Try for up to 60 seconds
+	{
+		vars.Helper["BuildVersion"] = vars.Helper.MakeString(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x878, 0x440, 0x1A0, 0x28, 0x0);
+		vars.Helper.Update();
+		vars.Helper.MapPointers();
+
+		buildVersion = current.BuildVersion != null ? current.BuildVersion.ToString() : "";
+
+		// Exclude "999999" and check for a non-empty, numeric buildVersion
+		if (!string.IsNullOrEmpty(buildVersion) && buildVersion.All(char.IsDigit) && buildVersion != "999999")
+		{
+			print("Detected Build Version: " + buildVersion);
+			break;
+		}
+
+		print("Awaiting build version...");
+		Thread.Sleep(1000);
+	}
+
+	switch(buildVersion)
+	{
+		case "57661":
+			version = "57661";
+			break;
+		default:
+			version = "57069 or lower";
+			break;
 	}
 
 	// GWorld.FName
@@ -176,7 +183,6 @@ start
 
 }
 
-
 onStart
 {
 	if (Directory.Exists(vars.paksFolder + @"~mods"))
@@ -226,7 +232,7 @@ update
 	if (old.World != current.World)vars.Log(current.World);
 
 	var encounter = vars.FNameToString(current.BattleManagerEncounterName);
-	if (!string.IsNullOrEmpty(encounter)) current.EncounterName = encounter;
+	if (!string.IsNullOrEmpty(encounter) && current.World != "Level_MainMenu") current.EncounterName = encounter;
 	if (old.EncounterName != current.EncounterName) vars.Log("Encounter Name: " + old.EncounterName + " -> " + current.EncounterName);
 
 	var cinematic = vars.FNameToString(current.CS_CinematicName);
@@ -242,7 +248,6 @@ isLoading
 			current.LSW_HasAppeared || (vars.HasEnteredWorldMap && current.MiniMapActive) || 
 			current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu";
 }
-
 
 split
 {
