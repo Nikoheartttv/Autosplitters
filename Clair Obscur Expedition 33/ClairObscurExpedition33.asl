@@ -13,6 +13,7 @@ startup
 	vars.Helper.AlertLoadless();
 	vars.TimerModel = new TimerModel { CurrentState = timer };
 	vars.EncounterWon = new List<string>();
+	vars.allHelpersInitialized = false;
 }
 
 init
@@ -54,75 +55,55 @@ init
 		throw new Exception(Msg);
 	}
 
-	// Poll for BuildVersion until a number is detected
-	string buildVersion = "";
-	for (int i = 0; i < 60; i++) // Try for up to 60 seconds
-	{
-		vars.Helper["BuildVersion"] = vars.Helper.MakeString(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x878, 0x440, 0x1A0, 0x28, 0x0);
-		vars.Helper.Update();
-		vars.Helper.MapPointers();
+	vars.allHelpersInitialized = false;
+	vars.Helper["BuildVersion"] = vars.Helper.MakeString(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x878, 0x440, 0x1A0, 0x28, 0x0);
+	vars.BuildVersion = "tbd";
+	print("Awaiting build version...");
 
-		buildVersion = current.BuildVersion != null ? current.BuildVersion.ToString() : "";
-
-		// Exclude "999999" and check for a non-empty, numeric buildVersion
-		if (!string.IsNullOrEmpty(buildVersion) && buildVersion.All(char.IsDigit) && buildVersion != "999999")
+	vars.FillHelpers = (Action)(()=>{
+		string buildVersion = vars.BuildVersion; // switch needs a nullable variable
+		// GWorld.FName
+		vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
+		// GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
+		vars.Helper["IsPauseMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBC8);
+		// GEngine.GameInstance.LocalPlayers[0].IsChangingArea
+		vars.Helper["IsChangingArea"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
+		// GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.LevelSequenceActor.Sequence
+		vars.Helper["CS_CinematicName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x290, 0x18);
+		// GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.CinematicPaused
+		vars.Helper["CS_CinematicPaused"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x239);
+		// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.EncounterName
+		vars.Helper["BattleManagerEncounterName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
+		// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
+		vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
+		// GEngine.GameInstance.LocalPlayers[0].ExplorationHUDWidget.MiniMapWidget.bIsActive
+		switch(buildVersion)
 		{
-			print("Detected Build Version: " + buildVersion);
-			break;
-		}
+			case "57661":
+				vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0, 0x368);
+				break;
+			default:
+				vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
+				break;
+		} 
+		// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
+		vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
+		// GEngine.GameInstance.LocalPlayers[0].IsSavePointMenuVisible
+		vars.Helper["IsSavePointMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBE0);
+		// GEngine.GameInstance.IsChangingMap
+		vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
+		// GEngine.GameInstance.LocalPlayers[0].TimePlayed
+		vars.Helper["TimePlayed"] = vars.Helper.Make<double>(gEngine, 0x10A8, 0x1F0);
+		// GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
+		vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
+		// GEngine.GameInstance.FinishedGameCount
+		vars.Helper["FinishedGameCount"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0xE4C);
+		// GEngine.GameInstance.PlayerController[0].PlayerCameraManager.CameraCachePrivate.Timestamp
+		vars.Helper["PCMInGame"] = vars.Helper.Make<float>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x1390);
 
-		print("Awaiting build version...");
-		Thread.Sleep(1000);
-	}
-
-	switch(buildVersion)
-	{
-		case "57661":
-			version = "57661";
-			break;
-		default:
-			version = "57069 or lower";
-			break;
-	}
-
-	// GWorld.FName
-	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
-	// GEngine.GameInstance.LocalPlayers[0].IsPauseMenuVisible
-	vars.Helper["IsPauseMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBC8);
-	// GEngine.GameInstance.LocalPlayers[0].IsChangingArea
-	vars.Helper["IsChangingArea"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
-	// GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.LevelSequenceActor.Sequence
-	vars.Helper["CS_CinematicName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x290, 0x18);
-	// GEngine.GameInstance.LocalPlayers[0].BP_CinematicSystem.CinematicPaused
-	vars.Helper["CS_CinematicPaused"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x239);
-	// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.EncounterName
-	vars.Helper["BattleManagerEncounterName"] = vars.Helper.Make<ulong>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
-	// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
-	vars.Helper["BattleEndState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
-	// GEngine.GameInstance.LocalPlayers[0].ExplorationHUDWidget.MiniMapWidget.bIsActive
-	switch(version)
-	{
-		case "57661 (Steam)":
-			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0, 0x368);
-			break;
-		default:
-			vars.Helper["MiniMapActive"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368);
-			break;
-	}
-	// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
-	vars.Helper["BattleFlowState"] = vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0);
-	// GEngine.GameInstance.LocalPlayers[0].IsSavePointMenuVisible
-	vars.Helper["IsSavePointMenuVisible"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0xBE0);
-	// GEngine.GameInstance.IsChangingMap
-	vars.Helper["IsChangingMap"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0x1D0);
-	// GEngine.GameInstance.LocalPlayers[0].TimePlayed
-	vars.Helper["TimePlayed"] = vars.Helper.Make<double>(gEngine, 0x10A8, 0x1F0);
-	// GEngine.GameInstance.Loading_Screen_Widget.HasAppeared
-	vars.Helper["LSW_HasAppeared"] = vars.Helper.Make<bool>(gEngine, 0x10A8, 0xB08, 0x300);
-	// GEngine.GameInstance.FinishedGameCount
-	vars.Helper["FinishedGameCount"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0xE4C);
-	// GEngine.GameInstance.PlayerController[0].PlayerCameraManager.CameraCachePrivate.Timestamp
-	vars.Helper["PCMInGame"] = vars.Helper.Make<float>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x1390);
+		vars.allHelpersInitialized = true;
+		print("Helpers set for version: " + buildVersion);
+	});
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -170,6 +151,8 @@ init
 
 start
 {
+	if (!vars.allHelpersInitialized) return false;
+
 	if (!settings["NewGamePlus"])
 	{
 		if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) 
@@ -219,6 +202,32 @@ update
 
 	if (vars.ModsDetected) vars.TimerModel.Reset();
 
+	if (!vars.allHelpersInitialized)
+	{
+		string buildVersion = (current.BuildVersion != null) ? current.BuildVersion.ToString() : "";
+
+		// Exclude "999999" and check for a non-empty, numeric buildVersion
+		if (string.IsNullOrEmpty(buildVersion) || !buildVersion.All(char.IsDigit) || buildVersion == "999999")
+		{
+			// Not detected
+			return;
+		}
+		print("Detected Build Version: " + buildVersion);
+
+		switch(buildVersion)
+		{
+			case "57661":
+				vars.BuildVersion = "57661";
+				break;
+			default:
+				vars.BuildVersion = "<=57069";
+				break;
+		}
+		vars.FillHelpers();
+
+		return;
+	}
+
 	// Dialogue
 	IntPtr dialoguePtr;
 	if (vars.Helper.TryDeref(out dialoguePtr, vars.gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8F8, 0xA8, 0x310)) current.DialogueGuid = vars.ReadGuid(dialoguePtr);
@@ -243,6 +252,7 @@ update
 
 isLoading
 {
+	if (!vars.allHelpersInitialized) return true; // stays paused during boot up after game crash
 	return current.IsChangingMap || current.IsChangingArea || current.CS_CinematicPaused ||
 			(current.World != "Level_MainMenu" && current.PCMInGame < 0.5)  || current.BattleFlowState == 1 || 
 			current.LSW_HasAppeared || (vars.HasEnteredWorldMap && current.MiniMapActive) || 
@@ -251,6 +261,8 @@ isLoading
 
 split
 {
+	if (!vars.allHelpersInitialized) return false;
+
 	string worldEncounter = current.World + "-" + old.EncounterName;
 
 	// Eveque Split
@@ -310,5 +322,6 @@ split
 
 exit
 {
+	vars.allHelpersInitialized = false;
 	timer.IsGameTimePaused = true;
 }
