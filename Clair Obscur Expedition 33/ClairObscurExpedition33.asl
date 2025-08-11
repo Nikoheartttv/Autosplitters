@@ -13,6 +13,7 @@ startup
 	vars.Helper.AlertLoadless();
 	vars.TimerModel = new TimerModel { CurrentState = timer };
 	vars.EncounterWon = new List<string>();
+	vars.paksFolder = ""; // read in onStart, so should be initialized
 	vars.allHelpersInitialized = false;
 }
 
@@ -155,9 +156,7 @@ start
 
 	if (!settings["NewGamePlus"])
 	{
-		if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed != 0) 
-		|| current.World == "Level_MainMenu" && current.World != "Level_MainMenu" 
-		&& old.TimePlayed == 0 && current.TimePlayed != 0) return true;
+		if ((current.World == "Level_MainMenu" && old.TimePlayed == 0 && current.TimePlayed > 0 && current.TimePlayed < 10)) return true;
 	}
 	else if (settings["NewGamePlus"])
 	{
