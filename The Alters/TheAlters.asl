@@ -126,6 +126,7 @@ onStart
 {
 	timer.IsGameTimePaused = true;
 	old.World = "";
+	old.Chapter = "";
 	vars.CompletedDay.Clear();
 }
 
@@ -172,7 +173,7 @@ isLoading
 split
 {
 	// game start prevent false split
-	if (old.Chapter != "BP_ACT0_Prologue_Chapter_C" && current.Chapter == "BP_ACT0_Prologue_Chapter_C")
+	if (old.Chapter != "BP_ACT0_Intro_Chapter_C" && current.Chapter == "BP_ACT0_Intro_Chapter_C")
 	{
 		return false;
 	} 
@@ -194,6 +195,8 @@ split
 
 onReset
 {
+	old.World = "";
+	old.Chapter = "";
 	vars.CompletedDay.Clear();
 }
 
