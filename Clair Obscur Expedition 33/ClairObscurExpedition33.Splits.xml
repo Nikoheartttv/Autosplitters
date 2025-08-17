@@ -1,5 +1,6 @@
 <Settings>
-    <Setting Id="NewGamePlus" Label="Turn On NG+ Run" State="false" />
+    <Setting Id="AutoReset" Label="Auto Reset when returning to Main Menu" State="false" />
+	<Setting Id="NewGamePlus" Label="Turn On NG+ Run" State="false" />
     <Setting Id="ActSplits" Label="Start of Act Splits" State="true">
         <Setting Id="LS_Title_Act1" Label="Act 1" State="true" />
         <Setting Id="LS_Title_Act2" Label="Act 2" State="true" />
