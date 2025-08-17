@@ -56,7 +56,6 @@ init
 		throw new Exception(Msg);
 	}
 
-	vars.allHelpersInitialized = false;
 	vars.Helper["BuildVersion"] = vars.Helper.MakeString(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x878, 0x440, 0x1A0, 0x28, 0x0);
 	vars.BuildVersion = "tbd";
 	print("Awaiting build version...");
@@ -317,6 +316,11 @@ split
 	{
 		if (settings.ContainsKey(current.CurrentCinematic)) return settings[current.CurrentCinematic];
 	}
+}
+
+reset
+{
+    if (settings["AutoReset"] && old.World != "Level_MainMenu" && current.World == "Level_MainMenu") return true;
 }
 
 exit
