@@ -105,9 +105,10 @@ init
 	current.Chapter = "";
 	current.CurrentJob = "";
 	current.WakeUpDay = 0;
+	current.Event = default(ulong);
 	vars.GWorld = gWorld;
 	vars.GEngine = gEngine;
-	current.Event = default(ulong);
+	
 
 	vars.EventsList = new List<ulong>();
 	for (var i = 0; i < current.EventsSubsystemRecordsListArrayNum; i++)
@@ -127,6 +128,8 @@ onStart
 	timer.IsGameTimePaused = true;
 	old.World = "";
 	old.Chapter = "";
+	old.Event = default(ulong);
+	old.WakeUpDay = 0;
 	vars.CompletedDay.Clear();
 }
 
@@ -153,16 +156,10 @@ update
 	if (old.World != current.World)vars.Log("World: " + current.World);
 
 	current.Chapter = vars.FNameToString(current.CurrentChapterFName);
-    if (old.Chapter != current.Chapter)
-    {
-        vars.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
-    }
+    if (old.Chapter != current.Chapter) vars.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
 
 	current.Event = vars.Helper.Read<ulong>(vars.GWorld, 0x640, 0x8, 0x240, 0x458, 0x88, 0xE8, 0x28, 0x18 * (current.EventsSubsystemRecordsListArrayNum-1));
-	if (old.Event != current.Event)
-	{
-		vars.Log("Event occured: " + vars.FNameToString(current.Event));
-	}
+	if (old.Event != current.Event) vars.Log("Event occured: " + vars.FNameToString(current.Event));
 }
 
 isLoading
@@ -172,32 +169,34 @@ isLoading
 
 split
 {
-	// game start prevent false split
-	if (old.Chapter != "BP_ACT0_Intro_Chapter_C" && current.Chapter == "BP_ACT0_Intro_Chapter_C")
-	{
-		return false;
-	} 
-	else if (old.Chapter != current.Chapter)
-	{
-		return settings[old.Chapter];
-	}
+    // Chapter splits
+    if (!string.IsNullOrEmpty(old.Chapter) && old.Chapter != current.Chapter)
+    {
+        if (settings[old.Chapter]) return true;
+    }
 
-	if (settings["WakeUpDay"] && old.WakeUpDay != 0 && current.WakeUpDay != 1)
-	{
-		if (!vars.CompletedDay.Contains(current.WakeUpDay.ToString()) & old.WakeUpDay != current.WakeUpDay) return true;
-	}
+    // WakeUpDay splits
+    if (settings["WakeUpDay"] && old.WakeUpDay != 0 && current.WakeUpDay != 1)
+    {
+        if (!vars.CompletedDay.Contains(current.WakeUpDay.ToString()) && old.WakeUpDay != current.WakeUpDay)
+            return true;
+    }
 
-	if (current.Chapter == "BP_ACT3_FinalDay_Chapter_C" && old.Event != current.Event && settings[vars.FNameToString(current.Event)])
-	{
-		if (settings[vars.FNameToString(current.Event)]) return true;
-	}
+    // Final Day event splits
+    if (current.Chapter == "BP_ACT3_FinalDay_Chapter_C" && old.Event != current.Event)
+    {
+        var eventName = vars.FNameToString(current.Event);
+        if (settings[eventName]) return true;
+    }
 }
 
 onReset
 {
-	old.World = "";
-	old.Chapter = "";
-	vars.CompletedDay.Clear();
+    old.World = "";
+    old.Chapter = "";
+    old.Event = default(ulong);
+    old.WakeUpDay = 0;
+    vars.CompletedDay.Clear();
 }
 
 exit
