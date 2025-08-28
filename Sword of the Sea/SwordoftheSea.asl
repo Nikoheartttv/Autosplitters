@@ -98,25 +98,25 @@ update
 	// if (old.LoadingScreen != current.LoadingScreen) vars.Log("LoadingScreen: " + current.LoadingScreen);
 }
 
-isLoading
-{
-	return current.LoadingScreen;
-}
-
 split
 {
-	if (old.World != current.World && !vars.CompletedSplits.Contains(settings[old.World]))
+	if (old.World != current.World && !vars.CompletedSplits.Contains(old.World))
 	{
-		vars.CompletedSplits.Add(settings[old.World]);
+		vars.CompletedSplits.Add(old.World);
 		if (settings[old.World]) return true;
 	}
 
-	if (current.World == "BossMasterLevel" && !vars.CompletedSplits.Contains(settings[current.World])
+	if (current.World == "BossMasterLevel" && !vars.CompletedSplits.Contains(current.World)
 		&& old.EndCutscene != current.EndCutscene)
 	{
-		vars.CompletedSplits.Add(settings[current.World]);
+		vars.CompletedSplits.Add(current.World);
 		if (settings[current.World]) return true;
 	}
+}
+
+isLoading
+{
+	return current.LoadingScreen;
 }
 
 reset
