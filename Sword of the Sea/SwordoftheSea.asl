@@ -57,10 +57,7 @@ init
 
 	// ASL-Help helpers
     vars.Helper["GSync"] = vars.Helper.Make<bool>(gSyncLoadCount);
-    vars.Helper["GWorldName"] 				= vars.Helper.Make<ulong>(gWorld, 0x18);
-    vars.Helper["CleanseEvents"]      = vars.Helper.Make<IntPtr>(gEngine, 0x10A8, 0x258, 0x490);
-    vars.Helper["CleanseEventsCount"] = vars.Helper.Make<int>(gEngine, 0x10A8, 0x258, 0x498);
-    vars.Helper["GWorldName"]         = vars.Helper.Make<ulong>(gWorld, 0x18);
+    vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
 
 	// GEngine -> GameInstance -> LoadingScreen -> bIsEnabled
 	vars.Helper["LoadingScreen"] 			= vars.Helper.Make<bool>(gEngine, 0x10A8, 0x330, 0x0D9);
