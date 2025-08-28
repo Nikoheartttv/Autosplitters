@@ -28,9 +28,9 @@ startup
 
 init
 {
-    IntPtr gWorld         = vars.Helper.ScanRel(3, "48 8B 1D ???????? 48 85 DB 74 ?? 41 B0 01");
-    IntPtr gEngine        = vars.Helper.ScanRel(3, "48 8B 0D ???????? 41 BE ???????? 41 3B");
-    IntPtr fNames         = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ???????? EB");
+    IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 1D ???????? 48 85 DB 74 ?? 41 B0 01");
+    IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 41 BE ???????? 41 3B");
+    IntPtr fNames = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ???????? EB");
     IntPtr gSyncLoadCount = vars.Helper.ScanRel(5, "89 43 60 8B 05 ?? ?? ?? ??");
 
     if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
@@ -68,9 +68,19 @@ init
 	// vars.Helper["VeiledSeaCutsceneActivate"] = vars.Helper.Make<ulong>(VeiledSeaCutscene);
 
 	// Uhara8 Helpers
+	vars.Helper["IntroCutsceneStatus"] = vars.Helper.Make<bool>(IntroCutscene, 0x38, 0x2A8);
 	vars.Helper["EndCutscene"] = vars.Helper.Make<ulong>(Events.FunctionFlag("Ending_A_DirectorBP_C", "Ending_A_DirectorBP_C", "SequenceEvent__ENTRYPOINTEnding_A_DirectorBP"));
 
     current.World = "";
+}
+
+start
+{
+	if (settings["ILMode"])
+	{
+		return current.World != "MainMenu" && old.LoadingScreen && !current.LoadingScreen;
+	}
+	else return current.World == "VeiledSea" && !old.IntroCutsceneStatus && current.IntroCutsceneStatus;
 }
 
 onStart
@@ -95,7 +105,6 @@ isLoading
 {
 	return current.LoadingScreen;
 }
-
 
 split
 {
