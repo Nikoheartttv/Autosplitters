@@ -13,7 +13,7 @@ startup
 		{ "ChapterSplits", true, "Chapter Splits", null },
 			{ "L_01Hallway", true, "Hallway", "ChapterSplits" },
 			{ "L_02Kitchen", true, "Kitchen", "ChapterSplits" },
-			{ "L_03Basement", true, "Basement", "ChapterSplits" },
+			{ "L_Basement", true, "Basement", "ChapterSplits" },
 			{ "L_06KidsRoom", true, "Kid's Bedroom", "ChapterSplits" },
 			{ "L_PrototypeLevel", true, "Daddy's Bedroom", "ChapterSplits" },
 			{ "L_09Steamboat", true, "Steamboat", "ChapterSplits" },
