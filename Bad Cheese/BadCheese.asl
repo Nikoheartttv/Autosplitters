@@ -120,7 +120,7 @@ split
 	//     vars.CompletedSplits.Add(current.ObjectiveName);
 	//     if (settings[current.ObjectiveName]) return true;
 	// }
-	if (old.World != current.World && current.World != "MainMenu" &&settings[old.World] && !vars.CompletedSplits.Contains(old.World))
+	if (old.World != current.World && current.World != "L_MainMenu" && settings[old.World] && !vars.CompletedSplits.Contains(old.World))
 	{
 		vars.Log("Split: " + old.World);
 		vars.CompletedSplits.Add(old.World);
