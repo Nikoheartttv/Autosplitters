@@ -71,8 +71,8 @@ init
 	vars.Helper["CheesegateTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_Cheesegate_C]", "BP_Cheesegate_C]", "ExecuteUbergraph_BP_Cheesegate"));
 
 	// Uhaha Helpers - Death Jumpscares
-	vars.Helper["DaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_DaddyDeathscare_C", "BP_DaddyDeathscare_C", "ExecuteUbergraph_BP_DaddyDeathscare"));
-	vars.Helper["EggDaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_EggDaddyDeathscare_C", "BP_EggDaddyDeathscare_C", "ExecuteUbergraph_BP_EggDaddyDeathscare"));
+	// vars.Helper["DaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_DaddyDeathscare_C", "BP_DaddyDeathscare_C", "ExecuteUbergraph_BP_DaddyDeathscare"));
+	// vars.Helper["EggDaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_EggDaddyDeathscare_C", "BP_EggDaddyDeathscare_C", "ExecuteUbergraph_BP_EggDaddyDeathscare"));
 	
 	// Uhaha Helpers - End Game
 	vars.Helper["RollCredits"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_CreditsCamera_C", "BP_CreditsCamera_C", "RollCredits"));
@@ -94,8 +94,8 @@ update
 	if (current.MouthOfFearFadeOut != old.MouthOfFearFadeOut && current.MouthOfFearFadeOut != 0) vars.NowLoading = true;
 	if (current.BathroomMazeTransition != old.BathroomMazeTransition && current.BathroomMazeTransition != 0) vars.NowLoading = true;
 	if (current.CheesegateTransition != old.CheesegateTransition && current.CheesegateTransition != 0) vars.NowLoading = true;
-	if (current.DaddyDeathScare != old.DaddyDeathScare && current.DaddyDeathScare != 0) vars.NowLoading = true;
-	if (current.EggDaddyDeathScare != old.EggDaddyDeathScare && current.EggDaddyDeathScare != 0) vars.NowLoading = true;
+	// if (current.DaddyDeathScare != old.DaddyDeathScare && current.DaddyDeathScare != 0) vars.NowLoading = true;
+	// if (current.EggDaddyDeathScare != old.EggDaddyDeathScare && current.EggDaddyDeathScare != 0) vars.NowLoading = true;
 	// if (old.ObjectiveName != current.ObjectiveName) vars.Log("Objective: " + current.ObjectiveName);
 	if (old.RollCredits != current.RollCredits && current.RollCredits != 0) vars.Log("RollCredits");
 }
