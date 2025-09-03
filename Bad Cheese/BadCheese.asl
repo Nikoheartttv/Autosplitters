@@ -10,6 +10,9 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "StartTiming", true, "Start Timing", null },
+			{ "FullRun", true, "Full Run", "StartTiming" },
+			{ "FromSettings", false, "From Settings (Loads into Steamboat)", "StartTiming" },
 		{ "ChapterSplits", true, "Chapter Splits", null },
 			{ "L_01Hallway", true, "Hallway", "ChapterSplits" },
 			{ "L_02Kitchen", true, "Kitchen", "ChapterSplits" },
@@ -102,7 +105,8 @@ update
 
 start
 {
-	return old.World == "L_MainMenu" && current.World == "L_01Hallway";
+	if (settings["FullRun"]) return old.World == "L_MainMenu" && current.World == "L_01Hallway";
+	else if (settings["FromSettings"]) return old.World == "L_MainMenu" && current.World == "L_09Steamboat";
 }
 
 onStart
