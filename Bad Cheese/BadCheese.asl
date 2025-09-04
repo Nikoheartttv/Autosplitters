@@ -72,13 +72,14 @@ init
 	vars.Helper["MouthOfFearFadeOut"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_MouthOfFear_C", "BP_MouthOfFear_C", "EndTimeline__FinishedFunc"));
 	vars.Helper["BathroomMazeTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_ExitRoom_C", "BP_ExitRoom_C", "ExecuteUbergraph_BP_ExitRoom"));
 	vars.Helper["CheesegateTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_Cheesegate_C]", "BP_Cheesegate_C]", "ExecuteUbergraph_BP_Cheesegate"));
+	vars.Helper["LevelEndBoxAudio"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_LevelEndBox_C", "BP_LevelEndBox_C", "PlayAudio"));
 
 	// Uhaha Helpers - Death Jumpscares
 	// vars.Helper["DaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_DaddyDeathscare_C", "BP_DaddyDeathscare_C", "ExecuteUbergraph_BP_DaddyDeathscare"));
 	// vars.Helper["EggDaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_EggDaddyDeathscare_C", "BP_EggDaddyDeathscare_C", "ExecuteUbergraph_BP_EggDaddyDeathscare"));
 	
 	// Uhaha Helpers - End Game
-	vars.Helper["RollCredits"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_CreditsCamera_C", "BP_CreditsCamera_C", "RollCredits"));
+	// vars.Helper["RollCredits"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_CreditsCamera_C", "BP_CreditsCamera_C", "RollCredits"));
 
 	current.World = "";
 	vars.NowLoading = true;
@@ -100,7 +101,8 @@ update
 	// if (current.DaddyDeathScare != old.DaddyDeathScare && current.DaddyDeathScare != 0) vars.NowLoading = true;
 	// if (current.EggDaddyDeathScare != old.EggDaddyDeathScare && current.EggDaddyDeathScare != 0) vars.NowLoading = true;
 	// if (old.ObjectiveName != current.ObjectiveName) vars.Log("Objective: " + current.ObjectiveName);
-	if (old.RollCredits != current.RollCredits && current.RollCredits != 0) vars.Log("RollCredits");
+	// if (old.RollCredits != current.RollCredits && current.RollCredits != 0) vars.Log("RollCredits");
+	// if (old.LevelEndBoxAudio != current.LevelEndBoxAudio && current.LevelEndBoxAudio != 0) vars.Log("LevelEndBoxAudio");
 }
 
 start
@@ -130,9 +132,9 @@ split
 		vars.CompletedSplits.Add(old.World);
 		if (settings[old.World]) return true;
 	}
-	if (settings["End"] && current.World == "L_Credits" && (old.RollCredits != current.RollCredits && current.RollCredits != 0) && !vars.CompletedSplits.Contains("End"))
+	if (settings["End"] && current.World == "L_Credits" && (old.LevelEndBoxAudio != current.LevelEndBoxAudio && current.LevelEndBoxAudio != 0) && !vars.CompletedSplits.Contains("End"))
 	{
-		vars.Log("Split: Roll Credits" );
+		vars.Log("Split: End" );
 		vars.CompletedSplits.Add("End");
 		return true;
 	}
