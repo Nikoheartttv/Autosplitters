@@ -1,6 +1,5 @@
 state("BadCheese-Win64-Shipping") {}
 
-
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
@@ -110,7 +109,6 @@ start
 	return (settings["FullRun"] && old.World == "L_MainMenu" && current.World == "L_01Hallway")
 	    || (settings["FromSettings"] && old.World == "L_MainMenu" && current.World == "L_09Steamboat");
 }
-
 
 onStart
 {
