@@ -70,7 +70,7 @@ init
 	vars.Helper["ScreenTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("", "", "ScreenTransitionTimeline__UpdateFunc"));
 	vars.Helper["MouthOfFearFadeOut"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_MouthOfFear_C", "BP_MouthOfFear_C", "EndTimeline__FinishedFunc"));
 	vars.Helper["BathroomMazeTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_ExitRoom_C", "BP_ExitRoom_C", "ExecuteUbergraph_BP_ExitRoom"));
-	vars.Helper["CheesegateTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_Cheesegate_C", "BP_Cheesegate_C", "ExecuteUbergraph_BP_Cheesegate"));
+	vars.Helper["CheesegateTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_Cheesegate_C", "BP_Cheesegate_C", "BndEvt__BP_Cheesegate_EndLevelCol_K2Node_ComponentBoundEvent_1_ComponentBeginOverlapSignature__DelegateSignature"));
 	vars.Helper["LevelEndBoxAudio"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_LevelEndBox_C", "BP_LevelEndBox_C", "PlayAudio"));
 
 	// Uhaha Helpers - Death Jumpscares
