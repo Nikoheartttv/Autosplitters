@@ -268,8 +268,8 @@ init
 				break;
 			default: 
 				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
-				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["Level_Custom"]["i1"]);
-				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["Level_Custom"]["noGetSet"]);
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["LevelBase"]["noGetSet"]);
 				break;
 		}
         
