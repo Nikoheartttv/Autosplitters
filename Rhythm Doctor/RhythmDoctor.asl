@@ -152,6 +152,9 @@ init
 		case "A342624869D627289AC9CB020306B750" :
 			version = "v0.18.1";
 			break;
+		case "97D2F28BC38DEF7DF9D61AECF98D4F73" :
+			version = "v0.19.0";
+			break;
 		default:
 			version = "Unknown version";
 			break;
@@ -173,6 +176,7 @@ init
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.19.0":
 			case "v0.18.1":
 				{
 					var SV = mono["SpeedrunValues"];
@@ -251,6 +255,7 @@ init
         // Beans Values
 		switch(version)
 		{
+			case "v0.19.0":
 			case "v0.18.1":
 				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
 				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
@@ -324,6 +329,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
+		case "v0.19.0":
 		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
@@ -373,6 +379,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.19.0":
 			case "v0.18.1":
 			case "v0.16.0 / v0.17.0 (r32/r33)":
 			case "v0.15.0 (r31)":
@@ -417,6 +424,7 @@ split
 		switch(version)
 		{
 			case "Unknown version":
+			case "v0.19.0":
 			case "v0.18.1":
 			case "v0.16.0 / v0.17.0 (r32/r33)":
 				if (old.Level == "Intro" && current.Level == "OrientalTechno")
@@ -517,6 +525,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
+		case "v0.19.0":
 		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
@@ -559,6 +568,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.19.0":
 		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
@@ -582,6 +592,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
+		case "v0.19.0":
 		case "v0.18.1":
 		case "v0.16.0 / v0.17.0 (r32/r33)":
 		case "v0.15.0 (r31)":
