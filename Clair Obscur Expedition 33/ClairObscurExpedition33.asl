@@ -81,11 +81,13 @@ init
 		vars.HelpersForPlayerType[mainMenu] = new List<string>();
 		vars.HelpersForPlayerType[inGame] = new List<string>();
 		vars.HelpersForPlayerType[inGameWorldMap] = new List<string>();
+		vars.HelpersForPlayerType[always] = new List<string>();
 
 		vars.UpdateActionsForPlayerType = new Dictionary<string, List<Action>>();
 		vars.UpdateActionsForPlayerType[mainMenu] = new List<Action>();
 		vars.UpdateActionsForPlayerType[inGame] = new List<Action>();
 		vars.UpdateActionsForPlayerType[inGameWorldMap] = new List<Action>();
+		vars.UpdateActionsForPlayerType[always] = new List<Action>();
 
 		// Player types that have the same memory layouts as others, which may depend on build version
 		vars.PlayerTypeAliases = new Dictionary<string, string>();
@@ -304,7 +306,7 @@ update
 		}
 		return false; // If we just captured the build version, then we'll update all the newly registered helpers on the next tick
 	}
-	
+
 	// We have a build version and helpers for the player type have updated, so we can now safely perform most update calculations.
 
 	if (vars.ModsDetected)
@@ -313,9 +315,13 @@ update
 		return false;
 	}
 
-	foreach (Action action in vars.UpdateActionsForPlayerType[vars.ActivePlayerType])
+	List<Action> actions;
+	if (vars.UpdateActionsForPlayerType.TryGetValue(vars.ActivePlayerType, out actions))
 	{
-		if (action != null) action.Invoke();
+		foreach (Action action in actions)
+		{
+			if (action != null) action.Invoke();
+		}
 	}
 
 	var world = vars.FNameToString(current.GWorldName, true);
