@@ -1,4 +1,5 @@
 // Load Removal made by Nikoheart
+// Edits made by ISO2768-mK & PlaccidPenguin
 // Any queries/edits/changes needed, please contact at @hellonikoheart on X (Twitter) or @nikoheart.com on Bluesky
 // or reach out within the #lrt-autosplitter-dev channel in the speedrunning Discord
 
