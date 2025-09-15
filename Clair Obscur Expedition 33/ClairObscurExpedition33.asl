@@ -304,7 +304,7 @@ update
 		}
 		return false; // If we just captured the build version, then we'll update all the newly registered helpers on the next tick
 	}
-
+	
 	// We have a build version and helpers for the player type have updated, so we can now safely perform most update calculations.
 
 	if (vars.ModsDetected)
@@ -313,9 +313,9 @@ update
 		return false;
 	}
 
-	if (vars.UpdateActionsForPlayerType.ContainsKey(vars.ActivePlayerType))
+	foreach (Action action in vars.UpdateActionsForPlayerType[vars.ActivePlayerType])
 	{
-		foreach (Action action in vars.UpdateActionsForPlayerType[vars.ActivePlayerType]) action?.Invoke();
+		if (action != null) action.Invoke();
 	}
 
 	var world = vars.FNameToString(current.GWorldName, true);
@@ -352,7 +352,7 @@ onStart
 		var modsMessage = MessageBox.Show (
 			"Clair Obscur: Expedition 33 speedruns requires no mods to be in use.\n"+
 				"If you are seeing this message, it means that the '~mods' folder has been detected.\n"+
-				"Make sure to remove the~mods folder to stop seeing this message and ensure the validity of a legitimate speedrun.\n",
+				"Make sure to remove the '~mods' folder to stop seeing this message and ensure the validity of a legitimate speedrun.\n",
 				"Mods Folder Detected",
 			MessageBoxButtons.OK,MessageBoxIcon.Question
 			);
@@ -452,7 +452,7 @@ split
 
 	// Final Renoir First Phase Split
 	if (current.EncounterName == "L_Boss_Curator_P1" && current.CurrentCinematic == "MCS_RenoirFightPhase2to3_PartLumiere" 
-		& !vars.EncounterWon.Contains(worldEncounter + "_Phase1"))
+		&& !vars.EncounterWon.Contains(worldEncounter + "_Phase1"))
 		{
 			vars.EncounterWon.Add(worldEncounter + "_Phase1");
 			if (settings[worldEncounter + "_Phase1"]) return true;
