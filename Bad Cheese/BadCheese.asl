@@ -10,8 +10,8 @@ startup
 	dynamic[,] _settings =
 	{
 		{ "StartTiming", true, "Start Timing", null },
-			{ "FullRun", true, "Full Run", "StartTiming" },
-			{ "FromSettings", false, "From Settings (Loads into Steamboat)", "StartTiming" },
+			{ "FromSettings", false, "From Settings (Main Menu → Steamboat, v1.0 only)", "StartTiming" },
+			{ "CreepongStart", false, "Creepong Start (Main Menu → Kid's Bedroom)", "StartTiming" },
 		{ "ChapterSplits", true, "Chapter Splits", null },
 			{ "L_01Hallway", true, "Hallway", "ChapterSplits" },
 			{ "L_02Kitchen", true, "Kitchen", "ChapterSplits" },
@@ -92,22 +92,23 @@ update
 	var world = vars.FNameToString(current.GWorldName);
 	if (world != null && world != "None") current.World = world;
 	if (old.World != current.World) vars.Log("World: " + current.World);
+
 	if (current.ReverseTransition != old.ReverseTransition && current.ReverseTransition != 0) vars.NowLoading = false;
-	if (current.ScreenTransition != old.ScreenTransition && current.ScreenTransition != 0) vars.NowLoading = true;
-	if (current.MouthOfFearFadeOut != old.MouthOfFearFadeOut && current.MouthOfFearFadeOut != 0) vars.NowLoading = true;
-	if (current.BathroomMazeTransition != old.BathroomMazeTransition && current.BathroomMazeTransition != 0) vars.NowLoading = true;
-	if (current.CheesegateTransition != old.CheesegateTransition && current.CheesegateTransition != 0) vars.NowLoading = true;
-	// if (current.DaddyDeathScare != old.DaddyDeathScare && current.DaddyDeathScare != 0) vars.NowLoading = true;
-	// if (current.EggDaddyDeathScare != old.EggDaddyDeathScare && current.EggDaddyDeathScare != 0) vars.NowLoading = true;
-	// if (old.ObjectiveName != current.ObjectiveName) vars.Log("Objective: " + current.ObjectiveName);
-	// if (old.RollCredits != current.RollCredits && current.RollCredits != 0) vars.Log("RollCredits");
-	// if (old.LevelEndBoxAudio != current.LevelEndBoxAudio && current.LevelEndBoxAudio != 0) vars.Log("LevelEndBoxAudio");
+	else if ((current.ScreenTransition != old.ScreenTransition && current.ScreenTransition != 0)
+			|| (current.MouthOfFearFadeOut != old.MouthOfFearFadeOut && current.MouthOfFearFadeOut != 0)
+			|| (current.BathroomMazeTransition != old.BathroomMazeTransition && current.BathroomMazeTransition != 0)
+			|| (current.CheesegateTransition != old.CheesegateTransition && current.CheesegateTransition != 0)) vars.NowLoading = true;
 }
 
 start
 {
-	return (settings["FullRun"] && old.World == "L_MainMenu" && current.World == "L_01Hallway")
-	    || (settings["FromSettings"] && old.World == "L_MainMenu" && current.World == "L_09Steamboat");
+	if (settings["FromSettings"] && old.World == "L_MainMenu" && current.World == "L_09Steamboat")
+		return true;
+
+	if (settings["CreepongStart"] && old.World == "L_MainMenu" && current.World == "L_06KidsRoom")
+		return true;
+
+	return old.World == "L_MainMenu" && current.World == "L_01Hallway";
 }
 
 onStart
