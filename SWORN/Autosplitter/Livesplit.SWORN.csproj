@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7FEEDA65-2FEE-482E-8866-6EA9C18FF15A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Livesplit.SWORN</RootNamespace>
+    <AssemblyName>Livesplit.SWORN</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameData\Bosses.cs" />
+    <Compile Include="GameData\BossIDs.cs" />
+    <Compile Include="GameData\BossData.cs" />
+    <Compile Include="GameData\RestShopIDs.cs" />
+    <Compile Include="IL2CPP\IL2CPPAssembly.cs" />
+    <Compile Include="IL2CPP\IL2CPPClass.cs" />
+    <Compile Include="IL2CPP\IL2CPPField.cs" />
+    <Compile Include="IL2CPP\IL2CPPImage.cs" />
+    <Compile Include="IL2CPP\IL2CPPManager.cs" />
+    <Compile Include="Memory\DeepPointerExtensions.cs" />
+    <Compile Include="Memory\ManagedDataWatcher.cs" />
+    <Compile Include="Memory\ManagedListWatcher.cs" />
+    <Compile Include="Memory\ManagedStringWatcher.cs" />
+    <Compile Include="Memory\Game.cs" />
+    <Compile Include="Memory\ProcessExtensions.cs" />
+    <Compile Include="Memory\Watcher.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\SWORNComponent.ASLFunctions.cs" />
+    <Compile Include="UI\Components\SWORNComponent.Core.cs" />
+    <Compile Include="UI\Components\SWORNComponentFactory.cs" />
+    <Compile Include="UI\Components\SWORNAutosplitterSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Components\SWORNAutosplitterSettings.Designer.cs">
+      <DependentUpon>SWORNAutosplitterSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LiveSplit\src\LiveSplit.Core\LiveSplit.Core.csproj">
+      <Project>{387fdcc1-89e0-474c-b3ce-b04e6dca6525}</Project>
+      <Name>LiveSplit.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LiveSplit\src\UpdateManager\UpdateManager.csproj">
+      <Project>{6a791025-eff4-43f9-88f1-c69e00f4700d}</Project>
+      <Name>UpdateManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Components\SWORNAutosplitterSettings.resx">
+      <DependentUpon>SWORNAutosplitterSettings.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Autosplitter-Static-Asset00.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
