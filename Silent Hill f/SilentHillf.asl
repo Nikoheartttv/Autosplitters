@@ -16,7 +16,6 @@ init
 	IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 05 ???????? 48 85 C0 75 ?? 48 83 C4 ?? 5B");
 	IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 48 8B BC 24 ???????? 48 8B 9C 24");
 	IntPtr fNames = vars.Helper.ScanRel(3, "48 8D 0D ???????? E8 ???????? C6 05 ?????????? 0F 10 07");
-	// IntPtr gSyncLoad = vars.Helper.ScanRel(21, "33 C0 0F 57 C0 F2 0F 11 05");
 
 	vars.CompletedSplits = new HashSet<string>();
 	vars.GEngine = gEngine;
@@ -34,13 +33,11 @@ init
 		return name.Substring(0, under + 1);
 	});
 
-	// uhara helpers
 	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 	IntPtr WBP_Cutscene_C = vars.Events.InstancePtr("WBP_Cutscene_C", "");
 	vars.Helper["CutsceneName"] = vars.Helper.Make<uint>(WBP_Cutscene_C, 0x460);
 	vars.Helper["CutsceneName"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
-	// asl-help helpers
 	vars.Helper["GWorldName"] = vars.Helper.Make<uint>(gWorld, 0x18);
 	vars.Helper["IsGameInitialized"] = vars.Helper.Make<bool>(gWorld, 0x158, 0x37A);
 	vars.Helper["bWaitForRevive"] = vars.Helper.Make<bool>(gWorld, 0x158, 0x3B1);
@@ -58,7 +55,6 @@ init
 	vars.cutsceneActive = false;
 	vars.cutsceneHold = false;
 	vars.NGPItemCollected = false;
-	
 	current.LocalPlayer = 0;
 
 	vars.CutscenesToWatch = new HashSet<string>() 
@@ -80,7 +76,6 @@ init
 	};
 }
 
-// Look for when character has control as starting point
 start
 {
 	if (current.Cutscene.Contains("LS_SC0101"))
@@ -134,7 +129,6 @@ split
 {
 	bool didSplit = false;
 
-	// Item and Omamori Split on Change (exclude NG+ Sacred Sword Offering items)
 	if (current.Item != old.Item 
 		&& !vars.CompletedSplits.Contains(current.Item)
 		&& settings.ContainsKey(current.Item)
@@ -147,7 +141,6 @@ split
 		didSplit = true;
 	}
 
-	// Cutscene Splits
 	if (old.Cutscene != current.Cutscene && !string.IsNullOrEmpty(current.Cutscene))
     {
         string baseCutscene = current.Cutscene;
@@ -164,7 +157,6 @@ split
         }
     }
 
-	// Progress Splits
 	if (!vars.CompletedSplits.Contains(current.Progress))
 	{
 		string baseProgress = current.Progress;
@@ -190,10 +182,8 @@ split
 		}
 	}
 
-	// Custom NG+ Splits (SwordOffering + SSword sequence)
 	if (settings.ContainsKey("NewGamePlus") && settings["NewGamePlus"])
     {
-        // SwordOffering picked up
         if (current.Item != old.Item 
             && current.Item.Contains("SwordOffering")
             && !vars.NGPItemCollected)
@@ -202,7 +192,6 @@ split
             vars.NGPItemCollected = true;
         }
 
-        // Sacred Sword acquired after SwordOffering
         if (vars.NGPItemCollected 
             && current.Item != old.Item 
             && current.Item.Contains("SSword")
