@@ -1,3 +1,4 @@
+// Autosplitter and Load Remover made by Nikoheart and Streetbackguy
 state("SHf-Win64-Shipping"){}
 state("SHf-WinGDK-Shipping"){}
 
@@ -9,6 +10,7 @@ startup
 	vars.Helper.GameName = "Silent Hill f";
 	vars.Helper.AlertLoadless();
 	vars.Uhara.EnableDebug();
+	vars.CompletedSplits = new HashSet<string>();
 }
 
 init
@@ -16,15 +18,7 @@ init
 	IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 05 ???????? 48 85 C0 75 ?? 48 83 C4 ?? 5B");
 	IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 48 8B BC 24 ???????? 48 8B 9C 24");
 	IntPtr fNames = vars.Helper.ScanRel(3, "48 8D 0D ???????? E8 ???????? C6 05 ?????????? 0F 10 07");
-
-	vars.CompletedSplits = new HashSet<string>();
 	vars.GEngine = gEngine;
-	vars.KeyItem = new Dictionary<ulong, int>();
-	vars.Omamori = new Dictionary<ulong, int>();
-	vars.FNameCache = new Dictionary<ulong, string>();
-
-	if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
-		throw new Exception("Not all required addresses could be found by scanning.");
 
 	vars.FNameToShortString = (Func<uint, string>)(fName =>
     {
@@ -57,7 +51,7 @@ init
 	vars.NGPItemCollected = false;
 	current.LocalPlayer = 0;
 
-	vars.CutscenesToWatch = new HashSet<string>() 
+	vars.CutscenesToHold = new HashSet<string>() 
 	{ 
 		"LS_SC0106",
 		"LS_SC0203", 
@@ -72,7 +66,6 @@ init
 		"LS_SC1202",
 		"LS_SC1301",
 		"LS_SC1402",
-		
 	};
 }
 
@@ -128,17 +121,17 @@ split
 	}
 
 	if (old.Cutscene != current.Cutscene && !string.IsNullOrEmpty(current.Cutscene))
-	{
-		string baseCutscene = current.Cutscene.Substring(0, 9);
+    {
+        string baseCutscene = current.Cutscene.Substring(0, 9);
 
-		if (settings.ContainsKey(baseCutscene) && settings[baseCutscene] 
-			&& !vars.CompletedSplits.Contains(baseCutscene))
-		{
-			vars.Log("--- Cutscene Split Complete: " + baseCutscene);
-			vars.CompletedSplits.Add(baseCutscene);
-			didSplit = true;
-		}
-	}
+        if (settings.ContainsKey(baseCutscene) && settings[baseCutscene] 
+            && !vars.CompletedSplits.Contains(baseCutscene))
+        {
+            vars.Log("--- Cutscene Split Complete: " + baseCutscene);
+            vars.CompletedSplits.Add(baseCutscene);
+            didSplit = true;
+        }
+    }
 
 	if (!vars.CompletedSplits.Contains(current.Progress))
 	{
@@ -150,6 +143,8 @@ split
 			baseProgress = baseProgress.Substring(0, baseProgress.Length - 7);
 		else if (baseProgress.EndsWith("Hard"))
 			baseProgress = baseProgress.Substring(0, baseProgress.Length - 5);
+		else if (baseProgress.StartsWith("Progress.Story.Ch16"))
+			baseProgress = baseProgress.Substring(0, baseProgress.Length - 1);
 
 		if (settings.ContainsKey(baseProgress) && settings[baseProgress] && !vars.CompletedSplits.Contains(baseProgress))
 		{
@@ -213,13 +208,13 @@ isLoading
 	}
 
 	if (!vars.cutsceneHold && !string.IsNullOrEmpty(current.Cutscene) 
-		&& vars.CutscenesToWatch.Contains(current.Cutscene.Substring(0, 9)))
+		&& vars.CutscenesToHold.Contains(current.Cutscene.Substring(0, 9)))
 	{
 		vars.cutsceneHold = true;
 	}
 
 	if (vars.cutsceneHold && !string.IsNullOrEmpty(current.Cutscene) 
-		&& !vars.CutscenesToWatch.Contains(current.Cutscene.Substring(0, 9)))
+		&& !vars.CutscenesToHold.Contains(current.Cutscene.Substring(0, 9)))
 	{
 		vars.cutsceneHold = false;
 	}
