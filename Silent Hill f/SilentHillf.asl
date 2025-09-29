@@ -27,11 +27,11 @@ init
 		throw new Exception("Not all required addresses could be found by scanning.");
 
 	vars.FNameToShortString = (Func<uint, string>)(fName =>
-	{
-		string name = vars.Events.FNameToString(fName);
-		int under = name.LastIndexOf('_');
-		return name.Substring(0, under + 1);
-	});
+    {
+        string name = vars.Events.FNameToString(fName);
+        int under = name.LastIndexOf('_');
+        return under >= 0 ? name.Substring(0, under + 1) : name;
+    });
 
 	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 	IntPtr WBP_Cutscene_C = vars.Events.InstancePtr("WBP_Cutscene_C", "");
@@ -97,32 +97,18 @@ update
 	vars.Helper.Update();
 	vars.Helper.MapPointers();
 
-	if (old.bIsInEvent != current.bIsInEvent) vars.Log("bIsInEvent: " + current.bIsInEvent);
-
 	string cutscene = vars.Events.FNameToString(current.CutsceneName); 
 	string newCutscene = (!string.IsNullOrEmpty(cutscene) && cutscene != "None") ? cutscene : "";
-
-	if (newCutscene != current.Cutscene)
-	{
-		if (!string.IsNullOrEmpty(newCutscene))
-			vars.Log("Current Cutscene Started: " + newCutscene);
-		else
-			vars.Log("No Cutscene Active");
-
-		current.Cutscene = newCutscene;
-	}
+	if (newCutscene != current.Cutscene) current.Cutscene = newCutscene;
 
 	string world = vars.Events.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
-	if (old.World != current.World) vars.Log("/// World Log: " + current.World);
 
 	string progress = vars.Events.FNameToString(current.ProgressTag);
 	if (!string.IsNullOrEmpty(progress) && progress != "None" && current.World == "NoceWorld") current.Progress = progress;
-	if (old.Progress != current.Progress) vars.Log("/// Progress Log: " + current.Progress);
 
 	string item = vars.Events.FNameToString(current.LastAddedID);
 	if (!string.IsNullOrEmpty(item) && item != "None") current.Item = item;
-	if (old.Item != current.Item) vars.Log("/// Item Log: " + current.Item);
 }
 
 split
