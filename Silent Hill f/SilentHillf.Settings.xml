@@ -22,7 +22,7 @@
 		<Setting Id="Chapter2" Label="Chapter 2" State="true">
 			<Setting Id="CH2P" Label="Progress" State="true">
 				<Setting Id="LS_LQ0202" Label="Find the Kaiken" State="false"/>
-				<Setting Id="LS_LQ0204" Label="Find the Doll" State="false"/>
+				<Setting Id="LS_LQ0203" Label="Find the Doll" State="false"/>
 				<Setting Id="LS_SC0203" Label="Escape Monsters and reach Inari Statue" State="false"/>
                 <Setting Id="Progress.Story.Ch03" Label="Chapter 2 Finished" State="true" />
 			</Setting>
@@ -178,7 +178,8 @@
 			<Setting Id="CH12P" Label="Progress" State="true">
                 <Setting Id="Progress.Story.Ch12.1210_ToCandyStore.05" Label="First Forced Fight" State="false"/>
 				<Setting Id="Progress.Story.Ch12.1210_ToCandyStore.07" Label="Second Forced Fight" State="false"/>
-                <Setting Id="Progress.Story.Ch12.1210_ToCandyStore.010" Label="Third Forced Fight" State="false"/>
+                <Setting Id="Progress.Story.Ch12.1210_ToCandyStore.10" Label="Third Forced Fight" State="false"/>
+				<Setting Id="LS_SC1202" Label="Catch up to Fog Monster" State="false"/>
                 <Setting Id="Progress.Story.Ch13" Label="Chapter 12 Finished" State="true" />
 			</Setting>
 		</Setting>
@@ -193,7 +194,7 @@
 			<Setting Id="CH14P" Label="Progress" State="true">
 				<Setting Id="Progress.Story.Ch14.1410_GoHome.03" Label="First Forced Fight" State="false"/>
 				<Setting Id="Progress.Story.Ch14.1420_HillSide.03" Label="Second Forced Fight" State="false"/>
-                <Setting Id="Progress.Story.Ch14.1420_HillSide.06" Label="Third Forced Fight" State="false"/>
+                <Setting Id="Progress.Story.Ch14.1420_HillSide.07" Label="Third Forced Fight" State="false"/>
                 <Setting Id="Progress.Story.Ch15" Label="Chapter 14 Finished" State="true" />
 			</Setting>
 		</Setting>
@@ -202,7 +203,7 @@
 			<Setting Id="CH15P" Label="Progress" State="true">
 				<Setting Id="Progress.Story.Ch15.1520_Torii.06" Label="First Forced Fight" State="false"/>
 				<Setting Id="Progress.Story.Ch15.1530_OCR.04" Label="Second Forced Fight" State="false"/>
-                <Setting Id="Progress.Story.Ch16A" Label="Chapter 15 Finished" State="true" />
+                <Setting Id="Progress.Story.Ch16" Label="Chapter 15 Finished" State="true" />
 			</Setting>
 		</Setting>
 
@@ -214,22 +215,51 @@
 		</Setting>
 	</Setting>
 
-	<Setting Id="NewGamePlus" Label="New Game Plus Items" State="false">
+	<Setting Id="NewGamePlus" Label="New Game Plus Splits" State="false">
 		<Setting Id="SS" Label="Sacred Sword" State="false">
-			<Setting Id="HLS_SacredSwordOffering_01" Label="Faded Bride Doll to Jizo Statue" State="false"/>
-			<Setting Id="OLD_SacredSwordOffering_02" Label="Rusted Flask to Jizo Statue" State="false"/>
-			<Setting Id="ALW_SacredSwordOffering_03" Label="Broken Japanese Geta Sandal to Jizo Statue" State="false"/>
-			<Setting Id="MTN_SacredSwordOffering_04" Label="Cracked Hibachi Brazier to Jizo Statue" State="false"/>
-			<Setting Id="OLD_SacredSwordOffering_05" Label="Dad's Old Kitchen Knife to Jizo Statue" State="false"/>
-			<Setting Id="LS_LQ0901" Label="Acquired Sacred Sword from Divine Tree" State="false"/>
-			<Setting Id="Katana" Label="Get Sacred Sword" State="false"/>
-			<Setting Id="KatanaAlter" Label="Get Agura No Hitei-Sama" State="false"/>
-			<!-- <Setting Id="LS_LQ0902" Label="Purify the Sacred Sword Cutscene" State="false"/> -->
+			<Setting Id= "SSP" Label="Progress" State="false">
+				<Setting Id="HLS_SacredSwordOffering_01" Label="Faded Bride Doll to Jizo Statue" State="false"/>
+				<Setting Id="OLD_SacredSwordOffering_02" Label="Rusted Flask to Jizo Statue" State="false"/>
+				<Setting Id="ALW_SacredSwordOffering_03" Label="Broken Japanese Geta Sandal to Jizo Statue" State="false"/>
+				<Setting Id="MTN_SacredSwordOffering_04" Label="Cracked Hibachi Brazier to Jizo Statue" State="false"/>
+				<Setting Id="OLD_SacredSwordOffering_05" Label="Dad's Old Kitchen Knife to Jizo Statue" State="false"/>
+			</Setting>
+			<Setting Id="SSC" Label="Cutscene" State="false">
+				<Setting Id="LS_LQ0901" Label="Acquired Sacred Sword from Divine Tree Cutscene" State="false"/>
+			</Setting>
+			<Setting Id="SSKI" Label="Key Items Collected" State="false">
+				<Setting Id="Katana" Label="Get Sacred Sword" State="false"/>
+			</Setting>
 		</Setting>
-		<Setting Id="AltEnding" Label="Alternative Ending Splits" State="false">
-			<Setting Id="LS_SC0705" Label="Got Rid of Red Capsules" State="false"/>
+		<Setting Id="PSS" Label="Purified Sacred Sword" State="false">
+			<Setting Id="PSSC" Label="Cutscene" State="false">
+				<Setting Id="LS_LQ0902" Label="Purify the Sacred Sword Cutscene" State="false"/>
+			</Setting>
+			<Setting Id="PSSKI" Label="Key Items Collected" State="false">
+				<Setting Id="KatanaAltar" Label="Get the Purified Sword" State="false"/>
+			</Setting>
+		</Setting>
+		<Setting Id="LS_SC0705" Label="Got Rid of Red Capsules" State="false"/>
+		<Setting Id="UFO" Label="UFO Ending" State="false">
+			<Setting Id="LS_LQ1603" Label="UFO Ending" State="false"/>
+		</Setting>
+		<Setting Id="FWE" Label="Fox's Wedding Ending" State="false">
+			<Setting Id="HoteiSama" Label="Get Agura No Hotei-Sama" State="false"/>
 			<Setting Id="LS_SC1606" Label="Fox's Wedding Ending (Bad)" State="false"/>
-			<Setting Id="LS_SC1610" Label="The Fox Who Wet His Whistle Ending (Good)" State="false"/>
+		</Setting>
+		<Setting Id="FWT" Label="Fox Who Wet His Tail Ending" State="false">
+			<Setting Id="LS_SC1610" Label="The Fox Who Wet His Tail Ending (Good)" State="false"/>
+		</Setting>
+		<Setting Id="EIS" Label="Ebisugaoka in Silence Ending" State="false">
+			<Setting Id="LS_LQ0903" Label="Offer Brooch to Jizo Statue" State="false"/>
+			<Setting Id="LS_SC1004" Label="Marriage Talk with Mother" State="false"/>
+			<Setting Id="LS_SC1005" Label="Father Apologising to Hinako" State="false"/>
+			<Setting Id="LS_LQ1601" Label="Fox First Phase" State="false"/>
+			<Setting Id="Progress.Story.Ch16D.1641_FoxFight.04" Label="Tsukumogami First Phase" State="false"/>
+			<Setting Id="Progress.Story.Ch16D.1642_Tsukumogami.04" Label="Fox Second Phase" State="false"/>
+			<Setting Id="Progress.Story.Ch16D.1643_FoxFightR2.03" Label="Tsukumogami Second Phase" State="false"/>
+			<Setting Id="LS_LQ1602" Label="Fox Third Phase" State="false"/>
+			<Setting Id="LS_LQ1613" Label="Ebisugaoka in Silence Ending (True)" State="false"/>
 		</Setting>
 	</Setting>
 
