@@ -128,20 +128,17 @@ split
 	}
 
 	if (old.Cutscene != current.Cutscene && !string.IsNullOrEmpty(current.Cutscene))
-    {
-        string baseCutscene = current.Cutscene;
-        int idx = baseCutscene.IndexOf("_L");
-        if (idx > 0)
-            baseCutscene = baseCutscene.Substring(0, idx);
+	{
+		string baseCutscene = current.Cutscene.Substring(0, 9);
 
-        if (settings.ContainsKey(baseCutscene) && settings[baseCutscene] 
-            && !vars.CompletedSplits.Contains(baseCutscene))
-        {
-            vars.Log("--- Cutscene Split Complete: " + baseCutscene);
-            vars.CompletedSplits.Add(baseCutscene);
-            didSplit = true;
-        }
-    }
+		if (settings.ContainsKey(baseCutscene) && settings[baseCutscene] 
+			&& !vars.CompletedSplits.Contains(baseCutscene))
+		{
+			vars.Log("--- Cutscene Split Complete: " + baseCutscene);
+			vars.CompletedSplits.Add(baseCutscene);
+			didSplit = true;
+		}
+	}
 
 	if (!vars.CompletedSplits.Contains(current.Progress))
 	{
