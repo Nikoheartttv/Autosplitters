@@ -385,7 +385,7 @@ isLoading
 	if (vars.WaitForBuild) return true; // stays paused during boot up after game crash
 
 	return
-		current.World == "Map_Game_Bootstrap" || current.World == "Level_MainMenu" || // Startup
+		current.World == "Map_Game_Bootstrap" || // Startup
 		current.IsChangingMap || current.IsChangingArea || current.LSW_HasAppeared || // Visible loading screens
 		(current.World != "Level_MainMenu" && current.PCMInGame < 0.5) ||
 
