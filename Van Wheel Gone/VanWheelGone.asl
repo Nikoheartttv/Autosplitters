@@ -99,7 +99,7 @@ split
 
 isLoading
 {
-	return current.GSync != 0 || current.World == "Lvl_Intro";
+	return current.GSync != 0;
 }
 
 reset
