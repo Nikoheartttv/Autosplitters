@@ -58,8 +58,10 @@ update
 
 start
 {
-	if ((current.World != "Lvl_Intro" && old.ControllerBeginPlay != current.ControllerBeginPlay && current.ControllerBeginPlay != 0)
-	{return true;}
+	if (current.World != "Lvl_Intro" && old.ControllerBeginPlay != current.ControllerBeginPlay && current.ControllerBeginPlay != 0)
+	{
+		return true;
+	}
 }
 
 onStart
