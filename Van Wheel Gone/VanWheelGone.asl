@@ -5,6 +5,7 @@ startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
+	vars.Uhara.EnableDebug();
 	vars.Helper.GameName = "Van Wheel Gone";
 	vars.Helper.AlertLoadless();
 	
