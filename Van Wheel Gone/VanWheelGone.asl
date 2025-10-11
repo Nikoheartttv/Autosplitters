@@ -1,4 +1,5 @@
 state("VanWheelGone-Win64-Shipping"){}
+state("VanWheelGone"){}
 
 startup
 {
