@@ -21,7 +21,7 @@ startup
 			{ "Lvl_Violence", true, "Violence", "Splits"},
 			{ "Lvl_Fraud", true, "Fraud", "Splits"},
 			{ "FinalBossGone", true, "Treachery", "Splits"},
-		{ "LandInBetween", false, "Split on Landing in Between Levels", null}
+		{ "LandInBetween", false, "Split on Lands Between  Sublevels", null}
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.CompletedSplits = new HashSet<string>();
