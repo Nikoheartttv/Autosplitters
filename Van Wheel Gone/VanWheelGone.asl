@@ -21,7 +21,8 @@ startup
 			{ "Lvl_Violence", true, "Violence", "Splits"},
 			{ "Lvl_Fraud", true, "Fraud", "Splits"},
 			{ "FinalBossGone", true, "Treachery", "Splits"},
-		{ "LandInBetween", false, "Split on Lands Between  Sublevels", null}
+		{ "LandInBetween", false, "Split on Lands Between  Sublevels", null},
+		{ "LockFpsGame", false, "Lock FPS to 80", null}
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.CompletedSplits = new HashSet<string>();
@@ -41,9 +42,12 @@ init
 	vars.Helper["GWorldName"] = vars.Helper.Make<uint>(gWorld, 0x18);
 	vars.Helper["FinalBossGone"] = vars.Helper.Make<bool>(gEngine, 0x1248, 0x208, 0x800);
 	vars.Helper["GSync"] = vars.Helper.Make<int>(gSyncLoad);
-
+	
 	current.World = "";
 	vars.LandInbetweenCount = 0;
+	
+	if (settings["LockFpsGame"])
+		vars.Events.LockFps(80f);
 }
 
 update
