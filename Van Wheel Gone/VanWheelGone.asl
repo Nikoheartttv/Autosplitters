@@ -22,7 +22,6 @@ startup
 			{ "Lvl_Fraud", true, "Fraud", "Splits"},
 			{ "FinalBossGone", true, "Treachery", "Splits"},
 		{ "LandInBetween", false, "Split on Lands Between  Sublevels", null},
-		{ "LockFpsGame", false, "Lock FPS to 80", null}
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.CompletedSplits = new HashSet<string>();
@@ -45,9 +44,6 @@ init
 	
 	current.World = "";
 	vars.LandInbetweenCount = 0;
-	
-	if (settings["LockFpsGame"])
-		vars.Events.LockFps(80f);
 }
 
 update
