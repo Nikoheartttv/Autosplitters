@@ -12,14 +12,14 @@ startup
 	{
 		{ "AutoReset", false, "Auto Reset on return to Main Menu or Try Again", null},
 		{ "Splits", true, "Splits", null },
-			{ "Lvl_Limbo0", true, "Limbo", "Splits"},
-			{ "Lvl_Lust0", true, "Lust", "Splits"},
-			{ "Lvl_Gluttony0", true, "Gluttony", "Splits"},
-			{ "Lvl_Greed0", true, "Greed", "Splits"},
-			{ "Lvl_Wrath0", true, "Wrath", "Splits"},
-			{ "Lvl_Heresy0", true, "Heresy", "Splits"},
-			{ "Lvl_Violence0", true, "Violence", "Splits"},
-			{ "Lvl_Fraud0", true, "Fraud", "Splits"},
+			{ "Lvl_Limbo", true, "Limbo", "Splits"},
+			{ "Lvl_Lust", true, "Lust", "Splits"},
+			{ "Lvl_Gluttony", true, "Gluttony", "Splits"},
+			{ "Lvl_Greed", true, "Greed", "Splits"},
+			{ "Lvl_Wrath", true, "Wrath", "Splits"},
+			{ "Lvl_Heresy", true, "Heresy", "Splits"},
+			{ "Lvl_Violence", true, "Violence", "Splits"},
+			{ "Lvl_Fraud", true, "Fraud", "Splits"},
 			{ "FinalBossGone", true, "Treachery", "Splits"},
 		{ "LandInBetween", false, "Split on Lands Between  Sublevels", null},
 	};
@@ -84,7 +84,7 @@ split
 		}
 	}
 	
-	if (old.World != current.World && old.World == "LandInBetween0" 
+	if (old.World != current.World && old.World == "LandInBetween" 
 		&& settings["LandInBetween"] && !vars.CompletedSplits.Contains("LandInBetween" + vars.LandInbetweenCount))
 	{
 		vars.CompletedSplits.Add("LandInBetween" + vars.LandInbetweenCount);
