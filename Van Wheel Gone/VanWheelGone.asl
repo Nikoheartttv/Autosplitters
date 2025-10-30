@@ -43,6 +43,7 @@ init
 	vars.Helper["FinalBossGone"] = vars.Helper.Make<bool>(gEngine, 0x1248, 0x208, 0x800);
 	vars.Helper["SpeedRunTimer"] = vars.Helper.Make<double>(gEngine, 0x1248, 0x308);
 
+	current.SpeedRunTimer = 0.0;
 	current.World = "";
 	vars.LandInbetweenCount = 0;
 	vars.TotalTime = TimeSpan.Zero;
