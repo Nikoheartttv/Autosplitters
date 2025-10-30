@@ -4,7 +4,6 @@ startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
-	vars.Uhara.EnableDebug();
 	vars.Helper.GameName = "Van Wheel Gone";
 	vars.Helper.AlertLoadless();
 	
@@ -21,7 +20,7 @@ startup
 			{ "Lvl_Violence", true, "Violence", "Splits"},
 			{ "Lvl_Fraud", true, "Fraud", "Splits"},
 			{ "FinalBossGone", true, "Treachery", "Splits"},
-		{ "LandInBetween", false, "Split on Lands Between  Sublevels", null},
+		{ "LandInBetween", false, "Split on Landing in Between Levels", null}
 	};
 	vars.Helper.Settings.Create(_settings);
 	vars.CompletedSplits = new HashSet<string>();
@@ -32,18 +31,21 @@ init
 	IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 1D ???????? 48 85 DB 74 ?? 41 B0 01");
 	IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 48 8B 89 ???????? E8");
 	IntPtr fNames = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ???????? EB");
-	IntPtr gSyncLoad = vars.Helper.ScanRel(21, "33 C0 0F 57 C0 F2 0F 11 05");
 
-	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
-	IntPtr WB_SpeedFinished_C = vars.Events.InstancePtr("WB_SpeedFinished_C", "");
-	vars.Helper["ControllerBeginPlay"] = vars.Helper.Make<ulong>(vars.Events.FunctionFlag("BP_ThirdPersonCharacter_C", "BP_ThirdPersonCharacter_C", "ReceivePossessed"));
-	vars.Helper["IntroStarted"] = vars.Helper.Make<ulong>(vars.Events.FunctionFlag("MV_Intro_DirectorBP_C", "MV_Intro_DirectorBP_C", "OnCreated"));
+    vars.Helper.Update();
+	vars.Helper.MapPointers();
+
+    vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
+    IntPtr WB_SpeedFinished_C = vars.Events.InstancePtr("WB_SpeedFinished_C", "");
+	vars.Helper["FinishedTimer"] = vars.Helper.Make<double>(WB_SpeedFinished_C, 0xAD0);
+	vars.Helper["FinishedTimer"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 	vars.Helper["GWorldName"] = vars.Helper.Make<uint>(gWorld, 0x18);
 	vars.Helper["FinalBossGone"] = vars.Helper.Make<bool>(gEngine, 0x1248, 0x208, 0x800);
-	vars.Helper["GSync"] = vars.Helper.Make<int>(gSyncLoad);
-	
+	vars.Helper["SpeedRunTimer"] = vars.Helper.Make<double>(gEngine, 0x1248, 0x308);
+
 	current.World = "";
 	vars.LandInbetweenCount = 0;
+	vars.TotalTime = TimeSpan.Zero;
 }
 
 update
@@ -58,10 +60,8 @@ update
 
 start
 {
-	if (current.World != "Lvl_Intro" && old.ControllerBeginPlay != current.ControllerBeginPlay && current.ControllerBeginPlay != 0)
-	{
-		return true;
-	}
+    if ((old.World == "Lvl_Intro" || old.SpeedRunTimer == 0.0) && current.World != "Lvl_Intro" && current.SpeedRunTimer > 0.0)
+        return true;
 }
 
 onStart
@@ -100,9 +100,19 @@ split
 	}
 }
 
+gameTime
+{
+    if (old.SpeedRunTimer > current.SpeedRunTimer && current.SpeedRunTimer == 0.0)
+    {
+        vars.TotalTime += TimeSpan.FromSeconds(old.SpeedRunTimer);
+    }
+
+    return vars.TotalTime + TimeSpan.FromSeconds(current.FinishedTimer > 0 ? current.FinishedTimer : current.SpeedRunTimer);
+}
+
 isLoading
 {
-	return current.GSync != 0;
+    return true;
 }
 
 reset
