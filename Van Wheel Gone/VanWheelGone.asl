@@ -9,17 +9,28 @@ startup
 	
 	dynamic[,] _settings =
 	{
-		{ "AutoReset", false, "Auto Reset on return to Main Menu or Try Again", null},
+		{ "AutoReset", false, "Auto Reset on return to Main Menu", null},
 		{ "Splits", true, "Splits", null },
-			{ "Lvl_Limbo", true, "Limbo", "Splits"},
-			{ "Lvl_Lust", true, "Lust", "Splits"},
-			{ "Lvl_Gluttony", true, "Gluttony", "Splits"},
-			{ "Lvl_Greed", true, "Greed", "Splits"},
-			{ "Lvl_Wrath", true, "Wrath", "Splits"},
-			{ "Lvl_Heresy", true, "Heresy", "Splits"},
-			{ "Lvl_Violence", true, "Violence", "Splits"},
-			{ "Lvl_Fraud", true, "Fraud", "Splits"},
-			{ "FinalBossGone", true, "Treachery", "Splits"},
+			{ "Levels", true, "Levels", "Splits"},
+				{ "Lvl_Limbo", true, "Limbo", "Levels"},
+				{ "Lvl_Lust", true, "Lust", "Levels"},
+				{ "Lvl_Gluttony", true, "Gluttony", "Levels"},
+				{ "Lvl_Greed", true, "Greed", "Levels"},
+				{ "Lvl_Wrath", true, "Wrath", "Levels"},
+				{ "Lvl_Heresy", true, "Heresy", "Levels"},
+				{ "Lvl_Violence", true, "Violence", "Levels"},
+				{ "Lvl_Fraud", true, "Fraud", "Levels"},
+				{ "FinalBossGone", true, "Treachery", "Levels"},
+			{ "CatsCollected", false, "Cats", "Splits" },
+				{ "Cat1", true, "Cat 1 - Limbo", "CatsCollected" },
+				{ "Cat2", true, "Cat 2 - Lust", "CatsCollected" },
+				{ "Cat3", true, "Cat 3 - Gluttony", "CatsCollected" },
+				{ "Cat4", true, "Cat 4 - Greed", "CatsCollected" },
+				{ "Cat5", true, "Cat 5 - Wrath", "CatsCollected" },
+				{ "Cat6", true, "Cat 6 - Heresy", "CatsCollected" },
+				{ "Cat7", true, "Cat 7 - Violence", "CatsCollected" },
+				{ "Cat8", true, "Cat 8 - Fraud", "CatsCollected" },
+				{ "Cat9", true, "Cat 9 - Treachery", "CatsCollected" },
 		{ "LandInBetween", false, "Split on Landing in Between Levels", null}
 	};
 	vars.Helper.Settings.Create(_settings);
@@ -42,21 +53,14 @@ init
 	vars.Helper["GWorldName"] = vars.Helper.Make<uint>(gWorld, 0x18);
 	vars.Helper["FinalBossGone"] = vars.Helper.Make<bool>(gEngine, 0x1248, 0x208, 0x800);
 	vars.Helper["SpeedRunTimer"] = vars.Helper.Make<double>(gEngine, 0x1248, 0x308);
+	vars.Helper["CatSpeedRunCheck"] = vars.Helper.Make<IntPtr>(gEngine, 0x1248, 0x390);
+	vars.CatsCollected = new bool[9];
 
 	current.SpeedRunTimer = 0.0;
 	current.World = "";
+	current.FinalBossGone = false;
 	vars.LandInbetweenCount = 0;
 	vars.TotalTime = TimeSpan.Zero;
-}
-
-update
-{
-	vars.Helper.Update();
-	vars.Helper.MapPointers();
-
-	string world = vars.Events.FNameToString(current.GWorldName);
-	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
-	if (old.World != current.World && current.World == "LandInBetween") vars.LandInbetweenCount++;
 }
 
 start
@@ -67,10 +71,24 @@ start
 
 onStart
 {
-	vars.CompletedSplits.Clear();
-	vars.TotalTime = TimeSpan.Zero;
-	vars.LandInbetweenCount = 0;
 	timer.IsGameTimePaused = true;
+	vars.TotalTime = TimeSpan.Zero;
+	vars.CompletedSplits.Clear();
+	vars.LandInbetweenCount = 0;
+	for (int i = 0; i < vars.CatsCollected.Length; i++)
+	{
+		vars.CatsCollected[i] = false;
+	}
+}
+
+update
+{
+	vars.Helper.Update();
+	vars.Helper.MapPointers();
+
+	string world = vars.Events.FNameToString(current.GWorldName);
+	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+	if (old.World != current.World && current.World == "LandInBetween") vars.LandInbetweenCount++;
 }
 
 split
@@ -98,6 +116,26 @@ split
 		vars.CompletedSplits.Add("FinalBossGone");
 		vars.Log("Completed Splits: Final Boss Gone");
 		if (settings["FinalBossGone"]) return true;
+	}
+
+	if (current.CatSpeedRunCheck != IntPtr.Zero)
+	{
+		for (int i = 0; i < 9; i++)
+		{
+			bool isCollected = vars.Helper.Read<byte>(current.CatSpeedRunCheck + i) != 0;
+
+			if (!vars.CatsCollected[i] && isCollected)
+			{
+				if (settings["Cat" + (i + 1)] && !vars.CompletedSplits.Contains("Cat" + (i + 1)))
+				{
+					vars.CompletedSplits.Add("Cat" + (i + 1));
+					vars.Log("Cat" + (i + 1) + " collected! Split triggered.");
+					return true;
+				}
+			}
+
+			vars.CatsCollected[i] = isCollected;
+		}
 	}
 }
 
