@@ -10,9 +10,13 @@ startup
 init
 {
     vars.Tool = vars.Uhara.CreateTool("UnrealEngine", "Events");
-
     vars.Resolver.Watch<ulong>("EmptySpaceStart", vars.Tool.FunctionFlag("BP_EmptySpace_Intro_C", "BP_EmptySpace_Intro_C", "Timeline__UpdateFunc"));
     vars.Resolver.Watch<ulong>("EndCardTrigger", vars.Tool.FunctionFlag("BP_EndcardTrigger_SNF_C", "BP_EndcardTrigger_SNF_C", "ExecuteUbergraph_BP_EndcardTrigger_SNF"));
+}
+
+start
+{
+    return old.EmptySpaceStart != current.EmptySpaceStart && current.EmptySpaceStart != 0;
 }
 
 update
@@ -20,9 +24,9 @@ update
     vars.Uhara.Update();
 }
 
-
-start
+split
 {
-    return old.EmptySpaceStart != current.EmptySpaceStart && current.EmptySpaceStart != 0;
+    if (old.EndCardTrigger != current.EndCardTrigger && current.EndCardTrigger != 0) return true;
 }
+    
     
