@@ -46,5 +46,3 @@ onReset
 {
 	vars.StartCanMove = true;
 }
-    
-    
