@@ -9,6 +9,7 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "NewGamePlus", false, "New Game Plus Start - from Phone Booth", null },
 		{ "Splits", true, "Splits", null },
 	 		{ "D1Combat_Station_Boss", true, "Day 1 - Jenny", "Splits" },
 	 		{ "D2Combat_Aquarium_Boss", true, "Day 2 - Matilda", "Splits" },
@@ -99,7 +100,11 @@ init
 
 start
 {
-	return old.activeScene == "_Welcome" && current.activeScene == "D0_Michelle_Store";
+if (settings["NewGamePlus"])
+    {return old.activeScene == "_Main_Menu" && current.activeScene == "D0_Town";
+    } else
+    {return old.activeScene == "_Welcome" && current.activeScene == "D0_Michelle_Store";
+    }
 }
 
 onStart
