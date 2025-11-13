@@ -3,7 +3,7 @@ state("BadCheese-Win64-Shipping") {}
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-	Assembly.Load(File.ReadAllBytes("Components/uhara8")).CreateInstance("Main");
+	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
 	vars.Helper.GameName = "Bad Cheese";
 	vars.Helper.AlertLoadless();
 
