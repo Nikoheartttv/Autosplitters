@@ -1,0 +1,221 @@
+<Settings>
+    <Setting Id="LevelSplits" Label="Level Splits" State="false">
+        <Setting Id="BBR_KrustyKrabRestaurant" Label="Bikini Bottom - The Krusty Krab" State="true" />
+        <Setting Id="BBR_HRA" Label="Bikini Bottom - Road to Krusty Krab" State="true" />
+        <Setting Id="KKHubTest_Map" Label="The Floating Patty" State="false" />
+        <Setting Id="WP_GoldFishIsland" Label="Gold Fish Island - Resort" State="true" />
+        <Setting Id="WP_NeptunesPalace" Label="Neptune's Palace" State="true" />
+        <Setting Id="WP_Atlantis" Label="Atlantis" State="true" />
+        <Setting Id="WP_JellyFishFields" Label="Jellyfish Fields" State="true" />
+        <Setting Id="WP_HauntedBikiniBottom" Label="Haunted Bikini Bottom" State="true" />
+        <Setting Id="P_PostGameCredits" Label="Post Game Credits" State="true" />
+        <!-- Figure out spilits for challenges tiers and boss challenges-->
+        <!-- The level is all WP_ChallengeVoid -->
+
+    </Setting>
+    <Setting Id="StoryQuests" Label="Story Quests" State="true">
+        <!-- BBR Krusty Krab -->
+        <Setting Id="StoryQ_BBR_KrustyKrabRestaurant" Label="Bikini Bottom - The Krusty Krab" State="true">
+            <Setting Id="DA_BBR_B_CleanTheTables" Label="Clean The Tables" State="true" />
+            <Setting Id="DA_BBR_E_CollectIngredients" Label="Collect Ingredients" State="true" />
+            <Setting Id="DA_BBR_F_StartCooking" Label="Start Cooking" State="false" />
+        </Setting>
+        <!-- BBR Road to KK -->
+        <Setting Id="StoryQ_BBR_HRA" Label="Bikini Bottom - Road to Krusty Krab" State="true">
+            <Setting Id="DA_BBR2_E_FirstReachKK" Label="Reach the Krusty Krab Outskirts" State="true" />
+            <Setting Id="DA_BBR2_B_RescuePlankton" Label="Rescue Plankton" State="true" />
+            <Setting Id="DA_BBR2_E_SecondReachKK" Label="Reach the Krusty Krab" State="true" />
+            <Setting Id="DA_BBR2_F_DefeatTheBoss" Label="Defeat Slammer + Ghosts" State="true" />
+            <Setting Id="DA_BBR2_G_OnboardTheFlyingKK" Label="Onboard The Flying Krusty Krab" State="false" />
+        </Setting>
+        <!-- Floating Krusty Krab PART 1 -->
+        <Setting Id="StoryQ_KKHub_Part1" Label="Floating Krusty Krab — Part 1" State="true">
+            <Setting Id="DA_HUB_BBR_PrepareTheShip" Label="Prepare the Ship" State="true" />
+            <Setting Id="DA_HUB_BBR_BuyPinkCostume" Label="Buy Floating Patty Uniform" State="false" />
+            <Setting Id="DA_HUB_BBR_EquipCostume" Label="Equip Costume" State="false" />
+            <Setting Id="DA_HUB_BBR_TalkToMrKrabs" Label="Talk To Mr Krabs" State="true" />
+            <Setting Id="DA_HUB_BBR_TravelToGFI" Label="Travel To GFI" State="false" />
+        </Setting>
+        <!-- Gold Fish Island -->
+        <Setting Id="StoryQ_WP_GFI" Label="Gold Fish Island" State="true">
+            <Setting Id="DA_GFI_A_CatchUpToKrabs" Label="Catch Up To Krabs" State="true" />
+            <Setting Id="DA_GFI_B1_FindAWayInsideTheJungle" Label="Find A Way Inside The Jungle" State="false" />
+            <Setting Id="DA_GFI_B2_FixTheLighthouse" Label="Fix The Lighthouse" State="true" />
+            <Setting Id="DA_GFI_B3_ReturnToGoldie" Label="Return To Goldie" State="false" />
+            <Setting Id="DA_GFI_C_EnterTheJungle" Label="Enter The Jungle" State="true" />
+            <Setting Id="DA_GFI_D_ExploreTheJungle" Label="Explore The Jungle" State="true" />
+            <Setting Id="DA_GFI_E_TalkToKrabs" Label="Talk To Krabs" State="false" />
+            <Setting Id="DA_GFI_F_FindAWayBehindTheWaterfall" Label="Find A Way Behind The Waterfall" State="true" />
+            <Setting Id="DA_GFI_G_FindWaterSource" Label="Find The Source Of The Waterfall" State="true" />
+            <Setting Id="DA_GFI_G2_StopWaterSource" Label="Close The Cistern" State="true" />
+            <Setting Id="DA_GFI_H_RegroupAtWaterfall" Label="Regroup At The Waterfall" State="true" />
+            <Setting Id="DA_GFI_I_ProceedThroughCave" Label="Go Through The Opening" State="true" />
+            <Setting Id="DA_GFI_J_EnterTheTemple" Label="Find A Way Into the Temple" State="true" />
+            <Setting Id="DA_GFI_K_OpenTheGate" Label="Open The Gate" State="true" />
+            <Setting Id="DA_GFI_L_FollowTheScent" Label="Follow The Slide" State="true" />
+            <Setting Id="DA_GFI_M_InspectChest" Label="Free Mr. Krabs" State="false" />
+            <Setting Id="DA_GFI_N_DefeatTheChest" Label="Defeat The Dutchman's Chest" State="true" />
+            <Setting Id="DA_GFI_O_ReturnToHub" Label="Return To The Floating Patty" State="false" />
+        </Setting>
+        <!-- Floating Krusty Krab  PART 2 -->
+        <Setting Id="StoryQ_KKHub_Part2" Label="Floating Krusty Krab — Part 2" State="true">
+            <Setting Id="DA_HUB_TalkToSandy" Label="Talk To Sandy" State="true" />
+            <Setting Id="DA_HUB_GetAcessToEngineRoom" Label="Get Access To Engine Room" State="false" />
+            <Setting Id="DA_HUB_FindSandysObject" Label="Find Sandy's Object" State="true" />
+            <Setting Id="DA_HUB_TalkToSandy2" Label="Talk To Sandy 2" State="true" />
+            <Setting Id="DA_HUB_FindKrabsInOffice" Label="Find Krabs In Office" State="false" />
+            <Setting Id="DA_HUB2_TalkToMrKrabs" Label="Talk To Mr Krabs" State="true" />
+            <Setting Id="DA_HUB_BBR_TravelToNEP" Label="Travel To Neptune's Palace" State="false" />
+        </Setting>
+        <!-- Neptune's Palace -->
+        <Setting Id="StoryQ_NEP" Label="Neptune's Palace" State="true">
+            <Setting Id="DA_NEP_A_EnterTheGala" Label="Enter King Neptune's Gala" State="true" />
+            <Setting Id="DA_NEP_B_FindAnAlternativeWay" Label="Find A Way Into The Gala" State="true" />
+            <Setting Id="DA_NEP_C_ReachKingNeptune" Label="Reach King Neptune" State="true" />
+            <Setting Id="DA_NEP_D_FindWayVIPArea" Label="Find Way VIP Area" State="true" />
+            <Setting Id="DA_NEP_E_FollowTheServant" Label="Follow The Servant" State="true" />
+            <Setting Id="DA_NEP_F_ReturnToGala" Label="Go Back To The Gala" State="true" />
+            <Setting Id="DA_NEP_G_ReachEndOfServantQuarters" Label="Find A Way To The Lantern" State="true" />
+            <Setting Id="DA_NEP_H_TurnTheLanternOn" Label="Turn The Lantern On" State="true" />
+            <Setting Id="DA_NEP_I_BreakIntoTheBedroom" Label="Find A Way Into The Royal Bedroom" State="true" />
+            <Setting Id="DA_NEP_J_GetMermaidCostume" Label="Get Mermaid Costume" State="true" />
+            <Setting Id="DA_NEP_L_EscapeFromBedroom" Label="Go To King Neptune" State="true" />
+            <Setting Id="DA_NEP_M_TalkToNeptune" Label="Talk To Neptune" State="true" />
+        </Setting>
+        <!-- Atlantis -->
+        <Setting Id="StoryQ_ATL" Label="Atlantis" State="true">
+            <Setting Id="DA_ATL_A_FindWayOutOfCatacombs" Label="Escape The Catacombs" State="true" />
+            <Setting Id="DA_ATL_B_TalkToJailedKassandra" Label="Talk To Jailed Kassandra" State="false" />
+            <Setting Id="DA_ATL_C_DefeatInhaler" Label="Defeat Guzzler" State="true" />
+            <Setting Id="DA_ATL_D_FreeKassandra" Label="Free Kassandra" State="true" />
+            <Setting Id="DA_ATL_D_LookAfterKassandra" Label="Look After Kassandra" State="true" />
+            <Setting Id="DA_ATL_E_EscapeThroughDrain" Label="Reach The Crypt" State="true" />
+            <Setting Id="DA_ATL_F_RegroupWithKassandra" Label="Talk To Kassandra" State="true" />
+            <Setting Id="DA_ATL_G_ReachTheSurface" Label="Get To The Surface" State="true" />
+            <Setting Id="DA_ATL_H_FirstMakeWay" Label="Reach The Poseidome 1" State="true" />
+            <Setting Id="DA_ATL_J_BreakOpenDome" Label="Smash The Weights" State="true" />
+            <Setting Id="DA_ATL_L_UseRollingRock" Label="Reach The Poseidome 2" State="true" />
+            <Setting Id="DA_ATL_L_UseRollingRock2" Label="Cross The Building Site" State="true" />
+            <Setting Id="DA_ATL_H_SecondMakeWay" Label="Reach The Poseidome 3" State="true" />            
+            <Setting Id="DA_ATL_M_TalkToKassandraBridge" Label="Talk To Kassandra" State="false" />
+            <Setting Id="DA_ATL_N_RunUpToPoseidome" Label="Run Up To Poseidome" State="false" />
+            <Setting Id="DA_ATL_P_DefeatNeptuneStatue" Label="Defeat Neptune's Statue" State="true" />
+            <Setting Id="DA_ATL_TravelBackToTheHUB" Label="Travel Back to the Floating Patty" State="false" />                
+        </Setting>
+        <!-- Floating Krusty Krab PART 3 -->
+        <Setting Id="StoryQ_KKHub_Part3" Label="Floating Krusty Krab — Part 3" State="true">
+            <Setting Id="DA_HUB_TalkToKassandra" Label="Talk To Kassandra" State="true" />
+            <Setting Id="DA_HUB_BBR_TalkingTasks" Label="Talking Tasks" State="true" />
+            <Setting Id="DA_HUB3_TalkToSandy" Label="Talk To Sandy 3" State="true" />
+        </Setting>
+        <!-- Jellyfish Fields -->
+        <Setting Id="StoryQ_JFF" Label="Jellyfish Fields" State="true">
+            <Setting Id="DA_JFF_A_KeepUpWithSandy" Label="Keep Up With Sandy" State="true" />
+            <Setting Id="DA_JFF_B_CollectJelly" Label="Collect Jellyfish" State="true" />
+            <Setting Id="DA_JFF_C_CatchUpToSandy" Label="Catch Up To Sandy" State="true" />
+            <Setting Id="DA_JFF_D_DefeatTheEnemies" Label="Defeat The Enemies" State="true" />
+            <Setting Id="DA_JFF_E_Find_Sandy" Label="Find Sandy" State="true" />
+            <Setting Id="DA_JFF_F_FindWayThroughToSandy" Label="Find A Way To Reach Sandy" State="true" />
+            <Setting Id="DA_JFF_G_ReuniteWithPatrick" Label="Join Patrick" State="true" />
+            <Setting Id="DA_JFF_H_FindSandy" Label="Find Sandy" State="true" />
+            <Setting Id="DA_JFF_I_DefeatSandy" Label="Defeat Hibernation Sandy" State="true" />
+            <Setting Id="DA_JFF_J_ReturnToHub" Label="Return To The Floating Patty" State="false" />
+        </Setting>
+        <!-- HUB PART 4 -->
+        <Setting Id="StoryQ_KKHub_Part4" Label="Floating Krusty Krab — Part 4" State="true">
+            <Setting Id="DA_HUB4_TalkToSandy" Label="Talk To Sandy 4" State="true" />
+            <Setting Id="DA_HUB_DefeatEnemies" Label="Defeat The Ghosts" State="true" />
+            <Setting Id="DA_HUB_TalkToMrKrabs" Label="Talk To Mr Krabs" State="true" />
+            <Setting Id="DA_HUB_ReachTheTopOfTheBalloon" Label="Reach The Top Of The Balloon" State="true" />
+            <Setting Id="DA_HUB_FindSquidward" Label="Find Squidward" State="true" />
+            <Setting Id="DA_HUB_DefeatTheEnemies" Label="Defeat The Ghosts" State="true" />
+            <Setting Id="DA_HUB_FixBalloonHoles" Label="Fix Balloon Holes" State="true" />
+            <Setting Id="DA_HUB_LeaveBalloon" Label="Leave Balloon" State="false" />
+            <Setting Id="DA_HUB_TalkToMrKrabs2" Label="Talk To Mr Krabs 2" State="true" />
+            <Setting Id="DA_HUB_BBR_TravelToHBB" Label="Travel To Haunted Bikini Bottom" State="false" />
+        </Setting>
+        <!-- Haunted Bikini Bottom-->
+        <Setting Id="StoryQ_HBB" Label="Haunted Bikini Bottom" State="true">
+            <Setting Id="DA_HBB_ReachTheFCM" Label="Reach The Fry Cook Museum" State="true" />
+            <Setting Id="DA_HBB_ExtractTheGoldenSpatula" Label="Get The Golden Spatula" State="true" />
+            <Setting Id="DA_HBB_DefeatTheEnemies" Label="Defeat The Ghosts" State="true" />
+            <Setting Id="DA_HBB_ReachTheGiants" Label="Reach the Feuding Titans" State="true" />
+            <Setting Id="DA_HBB_DefeatFlyingDutchman" Label="Half Defeat - Defeat Flying Dutchman" State="false" />
+            <Setting Id="DA_HBB_DefeatNeptune" Label="Half Defeat - Defeat Neptune" State="false" />
+            <Setting Id="DA_HBB_BossSlide" Label="Reach The Feuding Titans" State="true" />
+            <Setting Id="DA_HBB_StopTheDuo" Label="Defeat The Titans" State="true" />
+        </Setting>
+                <!-- <Setting Id="DA_HUB_TalktoMrKrabs_FetchBubbleBowlQuest" Label="Fetch Bubble Bowl Quest" State="false" /> -->
+    </Setting>
+    <Setting Id="SideQuests" Label="Side Quests" State="false">
+        <Setting Id="SideQ_KKHub" Label="Floating Krusty Krab" State="true">
+            <Setting Id="DA_HUB_CatchXJellyfish" Label="Catch 100 Jellyfish" State="true" />
+            <Setting Id="DA_HUB_CompleteHUBRace" Label="Win The Office Race" State="true" />
+            <Setting Id="DA_HUB_CompletePattyGrillMinigame" Label="Make Krabby Patties" State="true" />
+            <Setting Id="DA_HUB_RepairFix" Label="Repair Fix" State="true" />
+            <Setting Id="DA_HUB_PlanktonQuest" Label="Plankton Quest" State="true" />
+            <Setting Id="DA_HUB_FindSandyClothes" Label="Find Sandy Clothes" State="true" />
+            <Setting Id="DA_HUB_ReturnClothesToSandy" Label="Give Sandy Her Sandy" State="true" />
+            <Setting Id="DA_HUB_PlanktonQuest_CollectScraps1" Label="Collect 30 Scraps" State="true" />
+            <Setting Id="DA_HUB_PlanktonQuest_CollectScraps2" Label="Collect 60 Scraps" State="true" />
+            <Setting Id="DA_HUB_PlanktonQuest_CollectScraps3" Label="Collect 90 Scraps" State="true" />
+            <Setting Id="DA_HUB_PlanktonQuest_CollectScraps4" Label="Collect Scraps 4" State="true" />
+            <Setting Id="DA_HUB_PlanktonQuest" Label="Plankton Quest" State="true" />
+        </Setting>
+        <Setting Id="SideQ_GFI" Label="Gold Fish Island" State="false">
+            <Setting Id="DA_GFI_CollectTrash" Label="Collect Trash" State="true" />
+            <Setting Id="DA_GFI_TalkToMrsPuff" Label="Talk To Mrs. Puff After Collecting Trash" State="false" />
+            <Setting Id="DA_GFI_CompleteResortRace" Label="Win The Resort Race" State="true" />
+            <Setting Id="DA_GFI_CompleteJungleRace" Label="Win The Jungle Race" State="true" />
+            <Setting Id="DA_GFI_CompleteSlideRace1" Label="Win the 1st Slide Race" State="true" />
+            <Setting Id="DA_GFI_CompleteSlideRace2" Label="Win the 2nd Slide Race" State="true" />
+            <Setting Id="DA_GFI_FindLostTicket" Label="Find The Ticket" State="true" />
+            <Setting Id="DA_GFI_ReturnLostTicket" Label="Return Lost Ticket" State="true" />
+            <Setting Id="DA_GFI_FixArtworkshop" Label="Fix The Still Life" State="true" />
+        </Setting>
+        <Setting Id="StoryQ_NEP" Label="Neptune's Palace" State="false">
+            <Setting Id="DA_NEP_FindGaryFood" Label="Find Snail Bites" State="true" />
+            <Setting Id="DA_NEP_ReturnToGary" Label="Brought Gary The Snail Bites" State="true" />
+            <Setting Id="DA_NEP_CompleteSlideRace" Label="Win The 3rd Slide Race" State="true" />
+            <Setting Id="DA_NEP_CompletePlatformingRace" Label="Win The Garden Race" State="true" />        
+            <Setting Id="DA_NEP_FindSquiliamObject" Label="Find Something Special For Squillam" State="true" />
+            <Setting Id="DA_NEP_ReturnToSquilliam" Label="Return To Squilliam" State="true" />
+            <Setting Id="DA_NEP_FindHoffTVs" Label="Collect TVs" State="true" />
+            <Setting Id="DA_NEP_EnterHoffShrine" Label="Enter Hoff Shrine" State="true" />
+        </Setting>
+        <Setting Id="SideQ_ATL" Label="Atlantis" State="true">
+            <Setting Id="DA_ATL_GetTomChocolate" Label="Find Chocolate" State="true" />
+            <Setting Id="DA_ATL_ReturnToTom" Label="Return To Tom" State="true" />
+            <Setting Id="DA_ATL_CompleteSlideRace" Label="Win the 4th Slide Race" State="true" />
+            <Setting Id="DA_ATL_CompleteRollingRockRace" Label="Win The Rolling Rock Race" State="true" />
+            <Setting Id="DA_ATL_FindSpot" Label="Find Spot" State="true" />
+            <Setting Id="DA_ATL_BringSpotHome" Label="Bring Spot Home" State="true" />
+        </Setting>
+        <Setting Id="SideQ_JFF" Label="Jellyfish Fields" State="true">
+            <Setting Id="DA_JFF_CompleteMeadowRace" Label="Win The Meadow Race" State="true" />
+            <Setting Id="DA_JFF_CompleteMountainRace" Label="Win The Mountain Race" State="true" />
+        </Setting>
+        <Setting Id="StoryQ_HBB_Sidequests" Label="Sidequests" State="false">
+            <Setting Id="DA_HBB_CompleteSlideRace5" Label="Win The Slide Race 5" State="true" />
+            <Setting Id="DA_HBB_CompleteSlideRace6" Label="Win The Slide Race 6" State="true" />
+        </Setting>
+    </Setting>
+    <!-- <Setting Id="PP" Label="Plankton's Portal Challenges DLC" State="false">
+        <Setting Id="PP_Sandy" Label="Sandy Challenges" State="true">
+            <Setting Id="WP_DLC1_Vehicle1" Label="Treedome Speedway" State="true" />
+        </Setting>
+        <Setting Id="PP_Squidward" Label="Squidward Challenges" State="true">
+            <Setting Id="WP_DLC1_Platforming1" Label="Squidward Haunting" State="true" />
+        </Setting>
+        <Setting Id="PP_Krabs" Label="Mr. Krabs Challenges" State="true">
+            <Setting Id="WP_DLC1_Combat1" Label="Treasure Payback" State="true" />
+        </Setting>
+    </Setting>
+    <Setting Id="SFS" Label="Search For Squarepants" State="false">
+        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Haunted Chum Bucket" State="true" />
+        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Ghostly River" State="true" />
+        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Shipwreck Cave" State="true" />
+        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Skull Island" State="true" />
+        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Skull Arena" State="true" />
+    </Setting> -->
+</Settings>
