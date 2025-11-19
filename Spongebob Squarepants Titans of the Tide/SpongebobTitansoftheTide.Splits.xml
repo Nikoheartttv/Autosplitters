@@ -145,7 +145,6 @@
             <Setting Id="DA_HBB_BossSlide" Label="Reach The Feuding Titans" State="true" />
             <Setting Id="DA_HBB_StopTheDuo" Label="Defeat The Titans" State="true" />
         </Setting>
-                <!-- <Setting Id="DA_HUB_TalktoMrKrabs_FetchBubbleBowlQuest" Label="Fetch Bubble Bowl Quest" State="false" /> -->
     </Setting>
     <Setting Id="SideQuests" Label="Side Quests" State="false">
         <Setting Id="SideQ_KKHub" Label="Floating Krusty Krab" State="true">
@@ -172,7 +171,7 @@
             <Setting Id="DA_GFI_ReturnLostTicket" Label="Return Lost Ticket" State="true" />
             <Setting Id="DA_GFI_FixArtworkshop" Label="Fix The Still Life" State="true" />
         </Setting>
-        <Setting Id="StoryQ_NEP" Label="Neptune's Palace" State="false">
+        <Setting Id="SideQ_NEP" Label="Neptune's Palace" State="false">
             <Setting Id="DA_NEP_FindGaryFood" Label="Find Snail Bites" State="true" />
             <Setting Id="DA_NEP_ReturnToGary" Label="Brought Gary The Snail Bites" State="true" />
             <Setting Id="DA_NEP_CompleteSlideRace" Label="Win The 3rd Slide Race" State="true" />
@@ -194,7 +193,7 @@
             <Setting Id="DA_JFF_CompleteMeadowRace" Label="Win The Meadow Race" State="true" />
             <Setting Id="DA_JFF_CompleteMountainRace" Label="Win The Mountain Race" State="true" />
         </Setting>
-        <Setting Id="StoryQ_HBB_Sidequests" Label="Sidequests" State="false">
+        <Setting Id="SideQ_HBB_Sidequests" Label="Haunted Bikini Bottom" State="false">
             <Setting Id="DA_HBB_CompleteSlideRace5" Label="Win The Slide Race 5" State="true" />
             <Setting Id="DA_HBB_CompleteSlideRace6" Label="Win The Slide Race 6" State="true" />
         </Setting>
