@@ -153,7 +153,6 @@
             <Setting Id="DA_HUB_CompleteHUBRace" Label="Win The Office Race" State="true" />
             <Setting Id="DA_HUB_CompletePattyGrillMinigame" Label="Make Krabby Patties" State="true" />
             <Setting Id="DA_HUB_RepairFix" Label="Repair Fix" State="true" />
-            <Setting Id="DA_HUB_PlanktonQuest" Label="Plankton Quest" State="true" />
             <Setting Id="DA_HUB_FindSandyClothes" Label="Find Sandy Clothes" State="true" />
             <Setting Id="DA_HUB_ReturnClothesToSandy" Label="Give Sandy Her Sandy" State="true" />
             <Setting Id="DA_HUB_PlanktonQuest_CollectScraps1" Label="Collect 30 Scraps" State="true" />
