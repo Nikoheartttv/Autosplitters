@@ -3,7 +3,6 @@ state("Ghost-Win64-Shipping") {}
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
-	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	vars.Uhara.AlertLoadless();
 	vars.Uhara.Settings.CreateFromXml("Components/SpongebobTitansoftheTide.Splits.xml");
 	vars.CompletedSplits = new List<string>();
