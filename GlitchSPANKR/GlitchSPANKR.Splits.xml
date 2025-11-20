@@ -1,0 +1,167 @@
+<Settings>
+    <Setting Id="Splits" Label="Splits" State="true">
+        <Setting Id="SPANKR_HQ" Label="Enter SPANKR_HQ" State="true" />
+        <Setting Id="PathTutorialLevels" Label="Path Tutorial" State="true">
+            <Setting Id="PathTutorialSplits" Label="Path Tutorial - Splits" State="true">
+                <Setting Id="Program_Start" Label="Program_Start" State="true" />
+                <Setting Id="Program_Identify" Label="Program_Identify" State="true" />
+                <Setting Id="Find_Target" Label="Find_Target" State="true" />
+                <Setting Id="Machine_Learning" Label="Machine_Learning" State="true" />
+                <Setting Id="Break_Through" Label="Break_Through" State="true" />
+                <Setting Id="Free_Cammin" Label="Free_Cammin" State="true" />
+                <Setting Id="Friend_Or_Foe" Label="Friend_Or_Foe" State="true" />
+            </Setting>
+            <Setting Id="PathGLevels" Label="Path G - Top Row" State="true">
+                <Setting Id="PathGSplits" Label="Path G - Splits" State="true">
+                    <Setting Id="Excitement" Label="Excitement" State="true" />
+                    <Setting Id="DontSpank" Label="DontSpank" State="true" />
+                    <Setting Id="Small" Label="Small" State="true" />
+                    <Setting Id="Old_Friends" Label="Old_Friends" State="true" />
+                    <Setting Id="Apologies" Label="Apologies" State="true" />
+                    <Setting Id="Clubbing" Label="Clubbing" State="true" />
+                    <Setting Id="Pet_Care" Label="Pet_Care" State="true" />
+                    <Setting Id="Restraint_2" Label="Restraint_2" State="true" />
+                </Setting>
+                <Setting Id="PathPLevels" Label="Path P - Top Row" State="true">
+                    <Setting Id="PathPSplits" Label="Path P - Splits" State="true">
+                        <Setting Id="Lights_Out" Label="Lights_Out" State="true" />
+                        <Setting Id="Party_Time" Label="Party_Time" State="true" />
+                        <Setting Id="Whoopsie" Label="Whoopsie" State="true" />
+                        <Setting Id="Drugs_Are_Bad" Label="Drugs_Are_Bad" State="true" />
+                        <Setting Id="A_New_Perspective" Label="A_New_Perspective" State="true" />
+                        <Setting Id="Retro" Label="Retro" State="true" />
+                        <Setting Id="Pizza_Party" Label="Pizza_Party" State="true" />
+                        <Setting Id="Music_Man" Label="Music_Man" State="true" />
+                        <Setting Id="A_Loaded_Question" Label="A_Loaded_Question" State="true" />
+                    </Setting>
+                    <Setting Id="PathHLoversLevels" Label="Path H Lovers - Top Row" State="true">
+                        <Setting Id="PathHLoversSplits" Label="Path H Lovers - Splits" State="true">
+                            <Setting Id="Movie_Night" Label="Movie_Night" State="true" />
+                            <Setting Id="Dinner_Cooking" Label="Dinner_Cooking" State="true" />
+                            <Setting Id="Dinner_Eating" Label="Dinner_Eating" State="true" />
+                            <Setting Id="Wedding" Label="Wedding" State="true" />
+                            <Setting Id="Something_Ever_After" Label="Something_Ever_After" State="true" />
+                        </Setting>
+                    </Setting>
+                    <Setting Id="PathCLonelyLevels" Label="Path C Lonely - Bottom Row" State="true">
+                        <Setting Id="PathCLonelySplits" Label="Path C Lonely - Splits" State="true">
+                            <Setting Id="Silence" Label="Silence" State="true" />
+                            <Setting Id="Distance" Label="Distance" State="true" />
+                            <Setting Id="Wangman" Label="Wangman" State="true" />
+                            <Setting Id="Clean_Up" Label="Clean_Up" State="true" />
+                            <Setting Id="Family_Man" Label="Family_Man" State="true" />
+                        </Setting>
+                    </Setting>
+                </Setting>
+                <Setting Id="PathLLevels" Label="Path L - Bottom Row" State="true">
+                    <Setting Id="PathLSplits" Label="Path L - Splits" State="true">
+                        <Setting Id="Smoochies" Label="Smoochies" State="true" />
+                        <Setting Id="Caged" Label="Caged" State="true" />
+                        <Setting Id="Kissem_Or_Missem" Label="Kissem_Or_Missem" State="true" />
+                        <Setting Id="Test_Your_SPUNK" Label="Test_Your_SPUNK" State="true" />
+                        <Setting Id="Dunk_The_Spunk" Label="Dunk_The_Spunk" State="true" />
+                        <Setting Id="Prize_Counter" Label="Prize_Counter" State="true" />
+                        <Setting Id="Kissem" Label="Kissem" State="true" />
+                    </Setting>
+                </Setting>
+            </Setting>
+            <Setting Id="PathBLevels" Label="Path B - Bottom Row" State="true">
+                <Setting Id="PathBSplits" Label="Path B - Splits" State="true">
+                    <Setting Id="BuckleUp" Label="BuckleUp" State="true" />
+                    <Setting Id="Self_Defense" Label="Self_Defense" State="true" />
+                    <Setting Id="Hoodwinked" Label="Hoodwinked" State="true" />
+                    <Setting Id="Payback" Label="Payback" State="true" />
+                    <Setting Id="Breaking_Point" Label="Breaking_Point" State="true" />
+                    <Setting Id="Black_Magic" Label="Black_Magic" State="true" />
+                    <Setting Id="Somewhere" Label="Somewhere" State="true" />
+                    <Setting Id="Booty_Defense" Label="Booty_Defense" State="true" />
+                    <Setting Id="Moral_Dilemma" Label="Moral_Dilemma" State="true" />
+                </Setting>
+                <Setting Id="PathSSpareLevels" Label="Path S Spare - Top Row" State="true">
+                    <Setting Id="PathSSpareSplits" Label="Path S Spare - Splits" State="true">
+                        <Setting Id="Too_Slow" Label="Too_Slow" State="true" />
+                        <Setting Id="Reverse_Psychology" Label="Reverse_Psychology" State="true" />
+                        <Setting Id="World_News" Label="World_News" State="true" />
+                        <Setting Id="Something_Amiss" Label="Something_Amiss" State="true" />
+                        <Setting Id="I_Heart_Something" Label="I_Heart_Something" State="true" />
+                        <Setting Id="New_key" Label="New_key" State="true" />
+                        <Setting Id="Reversed" Label="Reversed" State="true" />
+                        <Setting Id="The_Gauntlet" Label="The_Gauntlet" State="true" />
+                        <Setting Id="Statistically_Improbable" Label="Statistically_Improbable" State="true" />
+                        <Setting Id="Bilingual" Label="Bilingual" State="true" />
+                    </Setting>
+                    <Setting Id="PathNNemesisLevels" Label="Path N Nemesis - Top Row" State="true">
+                        <Setting Id="PathNNemesisSplits" Label="Path N Nemesis - Splits" State="true">
+                            <Setting Id="Tag_Along" Label="Tag_Along" State="true" />
+                            <Setting Id="Jiggle" Label="Jiggle" State="true" />
+                            <Setting Id="Its_YOU" Label="Its_YOU" State="true" />
+                            <Setting Id="Spy_Movie" Label="Spy_Movie" State="true" />
+                            <Setting Id="Smash_And_Grab" Label="Smash_And_Grab" State="true" />
+                            <Setting Id="Ownership" Label="Ownership" State="true" />
+                            <Setting Id="Revenge" Label="Revenge" State="true" />
+                        </Setting>
+                    </Setting>
+                    <Setting Id="PathMMagicLevels" Label="Path M Magic - Bottom Row" State="true">
+                        <Setting Id="PathMMagicSplits" Label="Path M Magic - Splits" State="true">
+                            <Setting Id="Magic" Label="Magic" State="true" />
+                            <Setting Id="Busted" Label="Busted" State="true" />
+                            <Setting Id="Escort" Label="Escort" State="true" />
+                            <Setting Id="Dark_Maze" Label="Dark_Maze" State="true" />
+                            <Setting Id="Refunds" Label="Refunds" State="true" />
+                        </Setting>
+                    </Setting>
+                </Setting>
+                <Setting Id="PathDLevels" Label="Path D - Bottom Row" State="true">
+                    <Setting Id="PathDSplits" Label="Path D - Splits" State="true">
+                        <Setting Id="BossFight" Label="BossFight" State="true" />
+                        <Setting Id="Unimaginable" Label="Unimaginable" State="true" />
+                        <Setting Id="Time_Consuming" Label="Time_Consuming" State="true" />
+                        <Setting Id="Thend" Label="Thend" State="true" />
+                        <Setting Id="Waiting" Label="Waiting" State="true" />
+                        <Setting Id="Blackmail" Label="Blackmail" State="true" />
+                        <Setting Id="SpunkBall" Label="SpunkBall" State="true" />
+                        <Setting Id="Recycler" Label="Recycler" State="true" />
+                        <Setting Id="TattleTale" Label="TattleTale" State="true" />
+                    </Setting>
+                    <Setting Id="PathJMomLevels" Label="Path J Mom - Top Row" State="true">
+                        <Setting Id="PathJMomSplits" Label="Path J Mom - Splits" State="true">
+                            <Setting Id="Paddlin" Label="Paddlin" State="true" />
+                            <Setting Id="Doppleganger" Label="Doppleganger" State="true" />
+                            <Setting Id="Spernk" Label="Spernk" State="true" />
+                            <Setting Id="Main_Quest" Label="Main_Quest" State="true" />
+                            <Setting Id="End_Of_Pain" Label="End_Of_Pain" State="true" />
+                        </Setting>
+                    </Setting>
+                    <Setting Id="PathRFrenemyLevels" Label="Path R Frenemy - Bottom Row" State="true">
+                        <Setting Id="PathRFrenemySplits" Label="Path R Frenemy - Splits" State="true">
+                            <Setting Id="Hide_And_Seek" Label="Hide_And_Seek" State="true" />
+                            <Setting Id="Spaceman" Label="Spaceman" State="true" />
+                            <Setting Id="Surprise" Label="Surprise" State="true" />
+                            <Setting Id="Browser_History" Label="Browser_History" State="true" />
+                            <Setting Id="Death" Label="Death" State="true" />
+                            <Setting Id="Bombastic" Label="Bombastic" State="true" />
+                        </Setting>
+                    </Setting>
+                </Setting>
+            </Setting>
+        </Setting>
+        <Setting Id="FinalHub" Label="FinalHub" State="true">
+            <Setting Id="Calm_Before_The_Storm" Label="Calm_Before_The_Storm" State="true" />
+            <Setting Id="Desp_1" Label="Desp_1" State="true" />
+            <Setting Id="Desp_2" Label="Desp_2" State="true" />
+            <Setting Id="Desp_3" Label="Desp_3" State="true" />
+            <Setting Id="Desp_4" Label="Desp_4" State="true" />
+            <Setting Id="Desp_5" Label="Desp_5" State="true" />
+            <Setting Id="Desp_7" Label="Desp_7" State="true" />
+            <Setting Id="Desp_8" Label="Desp_8" State="true" />
+            <Setting Id="The_Decision" Label="The_Decision" State="true" />
+        </Setting>
+        <Setting Id="BadEnding" Label="Bad Ending" State="true">
+            <Setting Id="Its_MY_Game" Label="Its_MY_Game" State="true" />
+            <Setting Id="Big_Booty_Slapper_6" Label="Big_Booty_Slapper_6 (Credits Bad)" State="true" />
+        </Setting>
+        <Setting Id="GoodEnding" Label="Good Ending" State="true">
+            <Setting Id="Youre_Worth_It" Label="Youre_Worth_It (Credits Good)" State="true" />
+        </Setting>
+    </Setting>
+</Settings>
