@@ -193,27 +193,61 @@
             <Setting Id="DA_JFF_CompleteMeadowRace" Label="Win The Meadow Race" State="true" />
             <Setting Id="DA_JFF_CompleteMountainRace" Label="Win The Mountain Race" State="true" />
         </Setting>
-        <Setting Id="SideQ_HBB_Sidequests" Label="Haunted Bikini Bottom" State="false">
+        <Setting Id="SideQ_HBB" Label="Haunted Bikini Bottom" State="false">
             <Setting Id="DA_HBB_CompleteSlideRace5" Label="Win The Slide Race 5" State="true" />
             <Setting Id="DA_HBB_CompleteSlideRace6" Label="Win The Slide Race 6" State="true" />
         </Setting>
     </Setting>
-    <!-- <Setting Id="PP" Label="Plankton's Portal Challenges DLC" State="false">
-        <Setting Id="PP_Sandy" Label="Sandy Challenges" State="true">
-            <Setting Id="WP_DLC1_Vehicle1" Label="Treedome Speedway" State="true" />
+    <Setting Id="DLC" Label="DLC" State="false">
+        <Setting Id="PPDLC1" Label="Plankton's Portal Challenges 1" State="true">
+            <Setting Id="PPDLC1Sandy" Label="Sandy's Levels" State="true">
+                <Setting Id="PPDLC1SandyV1" Label="Treedome Speedway" State="true" />
+                <Setting Id="PPDLC1SandyV2" Label="Acorn Trunktrack" State="true" />
+                <Setting Id="PPDLC1SandyV3" Label="Canopy Crossroads" State="true" />
+            </Setting>
+            <Setting Id="PPDLC1Squidward" Label="Squidward's Levels" State="true">
+                <Setting Id="PPDLC1SquidwardV1" Label="Squidward's Haunting" State="true" />
+                <Setting Id="PPDLC1SquidwardV2" Label="Krusty Nightmare" State="true" />
+                <Setting Id="PPDLC1SquidwardV3" Label="An Artist's Dream" State="true" />
+            </Setting>
+            <Setting Id="PPDLC1Krabs" Label="Mr. Krab's Levels" State="true">
+                <Setting Id="PPDLC1KrabsV1" Label="Treasure Payback" State="true" />
+                <Setting Id="PPDLC1KrabsV2" Label="Tridents And Thunder" State="true" />
+                <Setting Id="PPDLC1KrabsV3" Label="Haunted Hibernation" State="true" />
+            </Setting>
         </Setting>
-        <Setting Id="PP_Squidward" Label="Squidward Challenges" State="true">
-            <Setting Id="WP_DLC1_Platforming1" Label="Squidward Haunting" State="true" />
+        <Setting Id="PPDLC2" Label="Plankton's Portal Challenges 2" State="true">
+            <Setting Id="PPDLC2CT" Label="Challenge Tiers" State="true">
+                <Setting Id="PPDLC2T1" Label="Tier 1" State="true">
+                    <Setting Id="PPDLC2Platforming1" Label="Platforming Challenge 1" State="true" />
+                    <Setting Id="PPDLC2Jellyfish1" Label="Jellyfish Challenge 1" State="true" />
+                </Setting>
+                <Setting Id="PPDLC2T2" Label="Tier 2" State="true">
+                    <Setting Id="PPDLC2Combat1" Label="Combat Challenge 1" State="true" />
+                    <Setting Id="PPDLC2Cubes1" Label="Floating Cubes Challenge 1" State="true" />
+                </Setting>
+                <Setting Id="PPDLC2T3" Label="Tier 3" State="true">
+                    <Setting Id="PPDLC2Platforming2" Label="Platforming Challenge 2" State="true" />
+                    <Setting Id="PPDLC2Jellyfish2" Label="Jellyfish Challenge 2" State="true" />
+                    <Setting Id="PPDLC2Cubes2" Label="Floating Cubes Challenge 2" State="true" />
+                </Setting>
+                <Setting Id="PPDLC2T4" Label="Tier 4" State="true">
+                    <Setting Id="PPDLCPlatforming3" Label="Platforming Challenge 3" State="true" />
+                    <Setting Id="PPDLC2Jellyfish3" Label="Jellyfish Challenge 3" State="true" />
+                    <Setting Id="PPDLC2Combat2" Label="Combat Challenge 2" State="true" />
+                </Setting>
+                <Setting Id="PPDLC2T5" Label="Tier 5" State="true">
+                    <Setting Id="PPDLC2Combat3" Label="Combat Challenge 3" State="true" />
+                    <Setting Id="PPDLC2Cubes3" Label="Floating Cubes Challenge 1" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="PPDLC2BC" Label="Boss Challenges" State="true">
+                <Setting Id="PPDLC2Dutchman" Label="Dutchman's Chest" State="true" />
+                <Setting Id="PPDLC2NeptunesStatue" Label="Neptune's Statue" State="true" />
+                <Setting Id="PPDLC2HibernationSandy" Label="Hibernation Sandy" State="true" />
+                <Setting Id="PPDLC2Titans" Label="Titans" State="true" />
+            </Setting>
         </Setting>
-        <Setting Id="PP_Krabs" Label="Mr. Krabs Challenges" State="true">
-            <Setting Id="WP_DLC1_Combat1" Label="Treasure Payback" State="true" />
-        </Setting>
+        <Setting Id="SFSComplete" Label="Search For Squarepants" State="true" />
     </Setting>
-    <Setting Id="SFS" Label="Search For Squarepants" State="false">
-        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Haunted Chum Bucket" State="true" />
-        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Ghostly River" State="true" />
-        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Shipwreck Cave" State="true" />
-        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Skull Island" State="true" />
-        <Setting Id="WP_DLC2_SearchForSquarePants" Label="Skull Arena" State="true" />
-    </Setting> -->
 </Settings>

@@ -7,15 +7,12 @@ startup
     vars.Uhara.Settings.CreateFromXml("Components/SpongebobTitansoftheTide.Splits.xml");
     vars.CompletedSplits = new List<string>();
     vars.CompletedObjectives = new List<string>();
-    
-    
 }
 
 init
 {
     vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
     vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
-
     IntPtr GG_Speedrunning = vars.Events.InstancePtr("GG_SpeedrunningViewModel", "GG_SpeedrunningViewModel");
 
     vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
@@ -23,6 +20,41 @@ init
     vars.Resolver.Watch<float>("GameTime", GG_Speedrunning, 0x68);
     vars.Resolver.Watch<IntPtr>("Objectives", vars.Utils.GEngine, 0x1248, 0x110, 0x368, 0xC8);
     vars.Resolver.Watch<int>("ObjectivesNum", vars.Utils.GEngine, 0x1248, 0x110, 0x368, 0xD0);
+
+    //Plankton's Portal Challenges DLC 1
+    vars.Events.FunctionFlag("PPDLC1SandyV1", "LS_DLC1_V1_Outro_DirectorBP_C", "", "*_DLC1_V1_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SandyV2", "LS_DLC1_V2_Outro_DirectorBP_C", "", "*_DLC1_V2_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SandyV3", "LS_DLC1_V3_Outro_DirectorBP_C", "", "*_DLC1_V3_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SquidwardV1", "LS_DLC1_P1_Outro_DirectorBP_C", "", "*_DLC1_P1_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SquidwardV2", "LS_DLC1_P2_Outro_DirectorBP_C", "", "*_DLC1_P2_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SquidwardV3", "LS_DLC1_FinishedPlatforming3_DirectorBP_C", "", "*_DLC1_FinishedPlatforming3_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1KrabsV1", "LS_DLC1_C1_Outro_02_DirectorBP_C", "", "*_DLC1_C1_Outro_02_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1KrabsV2", "LS_DLC1_C2_Outro_02_DirectorBP_C", "", "*_DLC1_C2_Outro_02_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1KrabsV3", "LS_DLC1_C3_Outro_DirectorBP_C", "", "*_DLC1_C3_Outro_DirectorBP");
+
+    //Planton's Portal Challenge DLC 2
+    vars.Events.FunctionFlag("PPDLC2Platforming1", "LS_01_Platforming1_Finished_DirectorBP_C", "", "*_01_Platforming1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Jellyfish1", "LS_02_Jellyfish1_Finished_DirectorBP_C", "", "*_02_Jellyfish1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Combat1", "LS_03_Combat1_Finished_DirectorBP_C", "", "*_03_Combat1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Cubes1", "LS_04_Cubes1_Finished_DirectorBP_C", "", "*_04_Cubes1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Platforming2", "LS_05_Platforming2_Finished_DirectorBP_C", "", "*_05_Platforming2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Jellyfish2", "LS_06_Jellyfish2_Finished_DirectorBP_C", "", "*_06_Jellyfish2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Cubes2", "LS_07_Cubes2_Finished_DirectorBP_C", "", "*_07_Cubes2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLCPlatforming3", "LS_08_Platforming3_Finished_DirectorBP_C", "", "*_08_Platforming3_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Jellyfish3", "LS_09_Jellyfish3_Finished_DirectorBP_C", "", "*_09_Jellyfish3_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Combat2", "LS_10_Combat2_Finished_DirectorBP_C", "", "*_10_Combat2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Combat3", "LS_11_Combat3_Finished_DirectorBP_C", "", "*_11_Combat3_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Cubes3", "LS_12_Cubes3_Finished_DirectorBP_C", "", "*_12_Cubes3_Finished_DirectorBP");
+
+    //Boss Fights
+    // Dutchman Fight - in WP_GoldFishIsland
+    vars.Events.FunctionFlag("PPDLC2Dutchman", "LS_GFI_A4_BossOutro_BossTrial_DirectorBP_C", "*_BossTrial_DirectorBP_C", "*_BossTrial_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2NeptunesStatue", "LS_ATL_Boss_Outro_05_DirectorBP_C", "*_Boss_Outro_05_DirectorBP_C", "_Boss_Outro_05_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2HibernationSandy", "LS_JFF_A4_BossOutro_3_SandyFalls_New_DirectorBP_C", "*_BossOutro_3_SandyFalls_New_DirectorBP_C", "*_BossOutro_3_SandyFalls_New_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Titans", "WBP_ChallengeResultDialog_C", "WBP_ChallengeResultDialog_C", "");
+
+    // Search For Squarepants
+    vars.Events.FunctionFlag("SFSComplete", "LS_DLC2_SI_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP");
 
     current.World = "";
     current.GameTime = 0;
@@ -112,6 +144,42 @@ split
             vars.CompletedSplits.Add(obj);
             return true;
         }
+    }
+
+    // DLC / FunctionFlag splits
+    string[] dlcFlags = new string[]
+    {
+        // Plankton's Portal DLC 1
+        "PPDLC1SandyV1","PPDLC1SandyV2","PPDLC1SandyV3",
+        "PPDLC1SquidwardV1","PPDLC1SquidwardV2","PPDLC1SquidwardV3",
+        "PPDLC1KrabsV1","PPDLC1KrabsV2","PPDLC1KrabsV3",
+
+        // Plankton's Portal DLC 2
+        "PPDLC2Platforming1","PPDLC2Jellyfish1","PPDLC2Combat1","PPDLC2Cubes1",
+        "PPDLC2Platforming2","PPDLC2Jellyfish2","PPDLC2Cubes2",
+        "PPDLCPlatforming3","PPDLC2Jellyfish3","PPDLC2Combat2","PPDLC2Combat3","PPDLC2Cubes3",
+
+        // Boss Fights
+        "PPDLC2Dutchman","PPDLC2NeptunesStatue","PPDLC2HibernationSandy",
+
+        // Search for Squarepants
+        "SFSComplete"
+    };
+
+    foreach (var flag in dlcFlags)
+    {
+        if (vars.Resolver.CheckFlag(flag) && settings.ContainsKey(flag) && settings[flag] && !vars.CompletedSplits.Contains(flag))
+        {
+            vars.CompletedSplits.Add(flag);
+            return true;
+        }
+    }
+
+    // Edge Case for Titans
+    if (current.World == "WP_HauntedBikiniBottom" && vars.Resolver.CheckFlag("PPDLC2Titans") && settings["PPDLC2Titans"] && !vars.CompletedSplits.Contains("PPDLC2Titans")) 
+    {
+        vars.CompletedSplits.Add("PPDLC2Titans");
+        return true;
     }
 }
 
