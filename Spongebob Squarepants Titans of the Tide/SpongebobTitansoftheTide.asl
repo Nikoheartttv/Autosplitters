@@ -16,7 +16,6 @@ init
 	IntPtr GG_Speedrunning = vars.Events.InstancePtr("GG_SpeedrunningViewModel", "GG_SpeedrunningViewModel");
 
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
-	vars.Resolver.Watch<int>("CurrentLevelIndex", vars.Utils.GEngine, 0x1248, 0x1E0);
 	vars.Resolver.Watch<float>("GameTime", GG_Speedrunning, 0x68);
 
 	vars.FindSubsystem = (Func<string, IntPtr>)(name =>
