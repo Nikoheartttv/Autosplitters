@@ -76,6 +76,7 @@ init
 
 onStart
 {
+	vars.LastGameTime = 0;
 	current.GameTime = 0;
 	timer.IsGameTimePaused = true;
 	vars.WaitingForZero = true;
