@@ -68,6 +68,7 @@ init
 
 	current.World = "";
 	vars.readyObjective = false;
+	vars.Loading = false;
 }
 
 onStart
@@ -96,6 +97,9 @@ update
 
 	var world = vars.Utils.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+
+	if (vars.Resolver.CheckFlag("LoadScreenShowing")) vars.Loading = true;
+	if (vars.Resolver.CheckFlag("LoadScreenHidden")) vars.Loading = false;
 
 	if (current.Objectives != IntPtr.Zero && current.ObjectivesNum > 0)
 	{
@@ -202,9 +206,9 @@ split
 
 isLoading
 {
-	if (vars.Resolver.CheckFlag("LoadScreenShowing")) return true;
-	else if (current.World == "P_Intro" || current.World == "P_MainMenu") return true;
-	else if (vars.Resolver.CheckFlag("LoadScreenHidden")) return false;
+	return current.World == "P_Intro" ||
+		current.World == "P_MainMenu" ||
+		vars.Loading;
 }
 
 
