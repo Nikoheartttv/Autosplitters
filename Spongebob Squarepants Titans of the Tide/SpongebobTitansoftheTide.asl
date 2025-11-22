@@ -13,11 +13,10 @@ init
 {
 	vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
 	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
-	IntPtr GG_Speedrunning = vars.Events.InstancePtr("GG_SpeedrunningViewModel", "GG_SpeedrunningViewModel");
 
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
-	vars.Resolver.Watch<float>("GameTime", GG_Speedrunning, 0x68);
-	vars.Uhara["GameTime"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	vars.Events.FunctionFlag("LoadScreenShowing", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenShowing");
+	vars.Events.FunctionFlag("LoadScreenHidden", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenHidden");
 
 	vars.FindSubsystem = (Func<string, IntPtr>)(name =>
 	{
@@ -68,18 +67,12 @@ init
 	vars.Events.FunctionFlag("SFSComplete", "LS_DLC2_SI_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP");
 
 	current.World = "";
-	current.GameTime = 0;
-	vars.LastGameTime = 0;
-	vars.WaitingForZero = true;
 	vars.readyObjective = false;
 }
 
 onStart
 {
-	vars.LastGameTime = 0;
-	current.GameTime = 0;
 	timer.IsGameTimePaused = true;
-	vars.WaitingForZero = true;
 	vars.CompletedSplits.Clear();
 	vars.CompletedObjectives.Clear();
 }
@@ -207,18 +200,15 @@ split
 	}
 }
 
-gameTime
-{
-	if (vars.WaitingForZero)
-	{
-		if (current.GameTime <= 0.1) vars.WaitingForZero = false;
-		return TimeSpan.Zero;
-	}
-	if (current.GameTime > vars.LastGameTime) vars.LastGameTime = current.GameTime;
-	return TimeSpan.FromSeconds(vars.LastGameTime);
-}
-
 isLoading
 {
-	return true;
+	if (vars.Resolver.CheckFlag("LoadScreenShowing")) return true;
+	else if (current.World == "P_Intro" || current.World == "P_MainMenu") return true;
+	else if (vars.Resolver.CheckFlag("LoadScreenHidden")) return false;
+}
+
+
+exit
+{
+	timer.IsGameTimePaused = true;
 }
