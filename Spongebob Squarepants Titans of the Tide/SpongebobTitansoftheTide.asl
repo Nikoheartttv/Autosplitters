@@ -17,6 +17,7 @@ init
 
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
 	vars.Resolver.Watch<float>("GameTime", GG_Speedrunning, 0x68);
+	vars.Uhara["GameTime"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
 	vars.FindSubsystem = (Func<string, IntPtr>)(name =>
 	{
@@ -71,7 +72,6 @@ init
 	vars.LastGameTime = 0;
 	vars.WaitingForZero = true;
 	vars.readyObjective = false;
-	current.Test2 = "";
 }
 
 onStart

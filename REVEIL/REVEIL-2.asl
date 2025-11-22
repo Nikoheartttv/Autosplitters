@@ -74,6 +74,8 @@ onStart
 
 update
 {
+	current.activeScene = vars.Helper.Scenes.Active.Name == null ? current.activeScene : vars.Helper.Scenes.Active.Name;
+	if(current.activeScene != old.activeScene) vars.Log("active: Old: \"" + old.activeScene + "\", Current: \"" + current.activeScene + "\"");
     if (old.GameHasStarted != current.GameHasStarted) vars.Log("GameHasStarted: " + current.GameHasStarted.ToString());
     if (old.GameIsLoading != current.GameIsLoading) vars.Log("GameIsLoading: " + current.GameIsLoading.ToString());
     if (old.GameIsFinished != current.GameIsFinished) vars.Log("GameIsFinished: " + current.GameIsFinished.ToString());
@@ -88,6 +90,12 @@ split
         vars.VisitedLevel.Add(current.OverallChapterNum.ToString());
         return settings[current.OverallChapterNum.ToString()];
     }
+
+	if (current.OverallChapterNum == 2 && !vars.VisitedLevel.Contains("3") && old.activeScene == "Akt 1 - House" && current.activeScene == "Akt 1 - Circus_Day")
+	{
+		vars.VisitedLevel.Add("3");
+        return true;
+	}
 
     if (current.Act == 5 && current.OverallChapterNum == 20 
         && old.GameIsFinished == 0 & current.GameIsFinished == 1)

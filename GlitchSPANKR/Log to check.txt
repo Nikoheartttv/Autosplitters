@@ -1,0 +1,240 @@
+[UHARA] World: World_News
+[UHARA] Split triggered for 'World_News'
+[UHARA] World: Something_Amiss
+[UHARA] Split triggered for 'Something_Amiss'
+[UHARA] World: I_Heart_Something
+[UHARA] Split triggered for 'I_Heart_Something'
+[UHARA] World: New_key
+[UHARA] World: Reversed
+[UHARA] Split triggered for 'Reversed'
+[UHARA] World: The_Gauntlet
+[UHARA] Split triggered for 'The_Gauntlet'[UHARA] World: Statistically_Improbable
+[UHARA] Split triggered for 'Statistically_Improbable'[UHARA] World: Bilingual
+[UHARA] Split triggered for 'Bilingual'[UHARA] World: Tag_Along
+[UHARA] Split triggered for 'Tag_Along'
+[UHARA] World: Jiggle
+[UHARA] Split triggered for 'Jiggle'
+[UHARA] World: Its_YOU[UHARA] Split triggered for 'Its_YOU'
+[UHARA] World: Spy_Movie
+[UHARA] World: SPANKR_HQ[UHARA] SPANKR_HQ split triggered
+[UHARA] World: Spy_Movie
+   [ ASL] Custom Setting Key doesn't exist: 0?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist: 0?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist: ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist: 0?
+   [ASL] Custom Setting Key doesn't exist: ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist: 0?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist: ?
+   [ASL] Custom Setting Key doesn't exist: 0?
+   [ASL] Custom Setting Key doesn't exist: ?
+   [ASL] Custom Setting Key doesn't exist:  ?
+   [ASL] Custom Setting Key doesn't exist: ?
+Exception thrown: 'System.ComponentModel.Win32Exception' in 'init' method:
+Only part of a ReadProcessMemory or WriteProcessMemory request was completed   at ASL line 156 in 'init'   at LiveSplit.ASL.ASLMethod.Call(LiveSplitState timer, ExpandoObject vars, String& version, Double& refreshRate, Object settings, ExpandoObject old, ExpandoObject current, Process game)
+   at LiveSplit.ASL.ASLScript.RunMethod(ASLMethod method, LiveSplitState state, String& version)
+   at LiveSplit.ASL.ASLScript.DoInit(LiveSplitState state)
+   at LiveSplit.UI.Components.ASLComponent.UpdateScript()[ASL/44786347] InitializingLiveSplit.exe Error: 0 : 
+Exception thrown: 'System.ComponentModel.Win32Exception' in 'init' method:
+Only part of a ReadProcessMemory or WriteProcessMemory request was completed   at ASL line 156 in 'init'   at LiveSplit.ASL.ASLMethod.Call(LiveSplitState timer, ExpandoObject vars, String& version, Double& refreshRate, Object settings, ExpandoObject old, ExpandoObject current, Process game)
+   at LiveSplit.ASL.ASLScript.RunMethod(ASLMethod method, LiveSplitState state, String& version)
+   at LiveSplit.ASL.ASLScript.DoInit(LiveSplitState state)
+   at LiveSplit.UI.Components.ASLComponent.UpdateScript()[ASL/44786347] Initializing[UHARA] GEngine: 7FF65034B598
+[UHARA] GWorld: 7FF65034E970
+[UHARA] FNames: 7FF650117B00
+[ASL/44786347] Init completed, running main methods[UHARA] World: EpilepsyWarning
+[UHARA] World: PrologueIntro
+[UHARA] World: ShaderCompile
+[UHARA] World: MainMenuBedroom
+[UHARA] World: SPANKR_HQ
+[UHARA] SPANKR_HQ split triggered
+[UHARA] World: Spy_Movie
+[UHARA] Split triggered for 'Spy_Movie'
+[UHARA] World: Smash_And_Grab
+[UHARA] Split triggered for 'Smash_And_Grab'
+[UHARA] World: Ownership
+[UHARA] Split triggered for 'Ownership'
+[UHARA] World: Revenge
+[UHARA] Split triggered for 'Revenge'
+[UHARA] World: BossDoorAnim
+[UHARA] World: SPANKR_HQ
+[UHARA] SPANKR_HQ split triggered
+[UHARA] World: Bilingual
+[UHARA] World: Magic
+[UHARA] Split triggered for 'Magic'
+[UHARA] World: Busted
+[UHARA] Split triggered for 'Busted'[UHARA] World: Escort[UHARA] Split triggered for 'Escort'[UHARA] World: Dark_Maze
+[UHARA] Split triggered for 'Dark_Maze'
+[UHARA] World: Refunds
+[UHARA] Split triggered for 'Refunds'[UHARA] World: BossDoorAnim
+[UHARA] World: SPANKR_HQ
+[UHARA] SPANKR_HQ split triggered
+[UHARA] World: Moral_Dilemma
+[UHARA] World: BossFight
+[UHARA] Split triggered for 'BossFight'
+[UHARA] World: Unimaginable
+[UHARA] Split triggered for 'Unimaginable'
+[UHARA] World: Get_Help_Man
+
+// Spankers Anonymous - if you accidentially go here, you wanna make sure its not accounted for
+// Might be good to put the alt/secret levels in the splitter and false them
+[ASL] Custom Setting Key doesn't exist: Get_Help_Man
+
+[UHARA] World: Time_Consuming
+[UHARA] World: Unimaginable
+[UHARA] World: Time_Consuming
+[UHARA] Split triggered for 'Time_Consuming'
+[UHARA] World: Thend
+[UHARA] World: Waiting
+[UHARA] Split triggered for 'Waiting'
+[UHARA] World: Blackmail
+[UHARA] Split triggered for 'Blackmail'
+[UHARA] World: SpunkBall
+[UHARA] Split triggered for 'SpunkBall'
+[UHARA] World: Recycler
+[UHARA] World: Trashed
+[UHARA] World: SPANKR_HQ[UHARA] SPANKR_HQ split triggered
+[UHARA] World: Recycler[UHARA] Split triggered for 'Recycler'[UHARA] World: TattleTale
+[UHARA] Split triggered for 'TattleTale'
+[UHARA] World: Paddlin[UHARA] World: Doppleganger[UHARA] Split triggered for 'Doppleganger'[UHARA] World: Spernk
+[UHARA] Split triggered for 'Spernk'
+[UHARA] World: Main_Quest
+[UHARA] Split triggered for 'Main_Quest'
+[UHARA] World: End_Of_Pain[UHARA] Split triggered for 'End_Of_Pain'[UHARA] World: BossDoorAnim[UHARA] World: SPANKR_HQ[UHARA] SPANKR_HQ split triggered
+[UHARA] World: TattleTale
+[UHARA] World: Hide_And_Seek[UHARA] Split triggered for 'Hide_And_Seek'
+[UHARA] World: Spaceman[UHARA] Split triggered for 'Spaceman'
+[UHARA] World: Surprise
+[UHARA] Split triggered for 'Surprise'
+[UHARA] World: Browser_History[UHARA] Split triggered for 'Browser_History'
+[UHARA] World: Death
+[UHARA] Split triggered for 'Death'[UHARA] World: Bombastic[UHARA] World: Bombastic_Bedroom
+[UHARA] Split triggered for 'Bombastic'[UHARA] World: BossDoorAnim[UHARA] World: SPANKR_HQ[UHARA] SPANKR_HQ split triggered[UHARA] World: Calm_Before_The_Storm[UHARA] Split triggered for 'Calm_Before_The_Storm'[UHARA] World: Desp[UHARA] Split triggered for 'Desp_1'[UHARA] Split triggered for 'Desp_2'
+[UHARA] Split triggered for 'Desp_3'[UHARA] Split triggered for 'Desp_4'[UHARA] Split triggered for 'Desp_5'[UHARA] Split triggered for 'Desp_7'[UHARA] Split triggered for 'Desp_8'
+[UHARA] Split triggered for 'The_Decision'
+[UHARA] World: The_Decision
+[UHARA] World: Its_MY_Game
+[UHARA] World: SPANKR_HQ
+[UHARA] SPANKR_HQ split triggered
+[UHARA] World: FINAL_HUB
+[UHARA] World: The_Decision
+[UHARA] World: Youre_Worth_It
+[UHARA] Split triggered for 'Youre_Worth_It'
+[UHARA] World: Credits_Good
+[UHARA] World: SPANKR_HQ
+[UHARA] Split triggered for 'Program_Start'
+[UHARA] Split triggered for 'Program_Identify'
+[UHARA] Split triggered for 'Find_Target'
+[UHARA] Split triggered for 'Machine_Learning'
+[UHARA] Split triggered for 'Break_Through'
+[UHARA] Split triggered for 'Free_Cammin'
+[UHARA] Split triggered for 'Friend_Or_Foe'
+[UHARA] Split triggered for 'Excitement'
+[UHARA] Split triggered for 'DontSpank'
+[UHARA] Split triggered for 'Small'
+[UHARA] Split triggered for 'Old_Friends'
+[UHARA] Split triggered for 'Apologies'
+[UHARA] Split triggered for 'Clubbing'
+[UHARA] Split triggered for 'Pet_Care'
+[UHARA] Split triggered for 'Restraint_2'
+[UHARA] Split triggered for 'Lights_Out'
+[UHARA] Split triggered for 'Party_Time'
+[UHARA] Split triggered for 'Whoopsie'
+[UHARA] Split triggered for 'Drugs_Are_Bad'
+[UHARA] Split triggered for 'A_New_Perspective'
+[UHARA] Split triggered for 'Retro'
+[UHARA] Split triggered for 'Pizza_Party'
+[UHARA] Split triggered for 'Music_Man'
+[UHARA] Split triggered for 'A_Loaded_Question'
+[UHARA] Split triggered for 'Movie_Night'
+[UHARA] Split triggered for 'Dinner_Cooking'
+[UHARA] Split triggered for 'Dinner_Eating'
+[UHARA] Split triggered for 'Wedding'
+[UHARA] Split triggered for 'Something_Ever_After'
+[UHARA] Split triggered for 'Silence'
+[UHARA] Split triggered for 'Distance'
+[UHARA] Split triggered for 'Wangman'
+[UHARA] Split triggered for 'Clean_Up'
+[UHARA] Split triggered for 'Family_Man'
+[UHARA] Split triggered for 'Smoochies'
+[UHARA] Split triggered for 'Caged'
+[UHARA] Split triggered for 'Kissem_Or_Missem'
+[UHARA] Split triggered for 'Test_Your_SPUNK'
+[UHARA] Split triggered for 'Dunk_The_Spunk'
+[UHARA] Split triggered for 'Prize_Counter'
+[UHARA] Split triggered for 'BuckleUp'
+[UHARA] Split triggered for 'Self_Defense'
+[UHARA] Split triggered for 'Hoodwinked'
+[UHARA] Split triggered for 'Payback'
+[UHARA] Split triggered for 'Breaking_Point'
+[UHARA] Split triggered for 'Black_Magic'
+[UHARA] Split triggered for 'Somewhere'
+[UHARA] Split triggered for 'Booty_Defense'
+[UHARA] Split triggered for 'Moral_Dilemma'
+[UHARA] Split triggered for 'Too_Slow'
+[UHARA] Split triggered for 'World_News'
+[UHARA] Split triggered for 'Something_Amiss'
+[UHARA] Split triggered for 'I_Heart_Something'
+[UHARA] Split triggered for 'Reversed'
+[UHARA] Split triggered for 'The_Gauntlet'
+[UHARA] Split triggered for 'Statistically_Improbable'
+[UHARA] Split triggered for 'Bilingual'
+[UHARA] Split triggered for 'Tag_Along'
+[UHARA] Split triggered for 'Jiggle'
+[UHARA] Split triggered for 'Its_YOU'
+[UHARA] Split triggered for 'Spy_Movie'
+[UHARA] Split triggered for 'Smash_And_Grab'
+[UHARA] Split triggered for 'Ownership'
+[UHARA] Split triggered for 'Revenge'
+[UHARA] Split triggered for 'Magic'
+[UHARA] Split triggered for 'Busted'
+[UHARA] Split triggered for 'Escort'
+[UHARA] Split triggered for 'Dark_Maze'
+[UHARA] Split triggered for 'Refunds'
+[UHARA] Split triggered for 'BossFight'
+[UHARA] Split triggered for 'Unimaginable'
+[UHARA] Split triggered for 'Time_Consuming'
+[UHARA] Split triggered for 'Waiting'
+[UHARA] Split triggered for 'Blackmail'
+[UHARA] Split triggered for 'SpunkBall'
+[UHARA] Split triggered for 'Recycler'
+[UHARA] Split triggered for 'TattleTale'
+[UHARA] Split triggered for 'Doppleganger'
+[UHARA] Split triggered for 'Spernk'
+[UHARA] Split triggered for 'Main_Quest'
+[UHARA] Split triggered for 'End_Of_Pain'
+[UHARA] Split triggered for 'Hide_And_Seek'
+[UHARA] Split triggered for 'Spaceman'
+[UHARA] Split triggered for 'Surprise'
+[UHARA] Split triggered for 'Browser_History'
+[UHARA] Split triggered for 'Death'
+[UHARA] Split triggered for 'Bombastic'
+[UHARA] Split triggered for 'Calm_Before_The_Storm'
+[UHARA] Split triggered for 'Desp_1'
+[UHARA] Split triggered for 'Desp_2'
+[UHARA] Split triggered for 'Desp_3'
+[UHARA] Split triggered for 'Desp_4'
+[UHARA] Split triggered for 'Desp_5'
+[UHARA] Split triggered for 'Desp_7'
+[UHARA] Split triggered for 'Desp_8'
+[UHARA] Split triggered for 'The_Decision'
+[UHARA] Split triggered for 'Youre_Worth_It'

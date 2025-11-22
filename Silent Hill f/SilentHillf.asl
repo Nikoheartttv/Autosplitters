@@ -9,7 +9,7 @@ startup
 	vars.Helper.Settings.CreateFromXml("Components/SilentHillf.Settings.xml");
 	vars.Helper.GameName = "Silent Hill f";
 	vars.Helper.AlertLoadless();
-	vars.Uhara.EnableDebug();
+	// vars.Uhara.EnableDebug();
 	vars.CompletedSplits = new HashSet<string>();
 }
 
