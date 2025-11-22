@@ -4,6 +4,7 @@ startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
 	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
+	vars.Helper.GameName = "Van Wheel Gone";
 	vars.Helper.AlertLoadless();
 	
 	dynamic[,] _settings =
@@ -38,29 +39,6 @@ startup
 
 init
 {
-	byte[] exeMD5HashBytes = new byte[0];
-    using (var md5 = System.Security.Cryptography.MD5.Create())
-    {
-        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        {
-            exeMD5HashBytes = md5.ComputeHash(s);
-        }
-    }
-
-    var md5hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
-    print("MD5: " + md5hash);
-
-    switch(md5hash)
-    {
-        case "437BBD25B354A15D657F871E542216CB":
-            version = "V 1.0.000";
-            break;
-        case "06419024F55FF049B2806A1282479AE4":
-			version = "V 1.0.001";
-			break;
-
-    }
-
 	IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 1D ???????? 48 85 DB 74 ?? 41 B0 01");
 	IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 48 8B 89 ???????? E8");
 	IntPtr fNames = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ???????? EB");
@@ -68,19 +46,14 @@ init
     vars.Helper.Update();
 	vars.Helper.MapPointers();
 
-	if (gEngine != IntPtr.Zero) vars.Log("GEngine: " + gEngine.ToString("X"));
-
     vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
     IntPtr WB_SpeedFinished_C = vars.Events.InstancePtr("WB_SpeedFinished_C", "");
-	// vars.Helper["VersionNumberPtr"] = vars.Helper.Make<IntPtr>(gEngine, 0x1248, 0x1E0, 0x2D8, 0x30, 0x168);
-	// vars.Helper["VersionNumberSize"] = vars.Helper.Make<int>(gEngine, 0x1248, 0x1E0, 0x2D8, 0x30, 0x170);
 	vars.Helper["FinishedTimer"] = vars.Helper.Make<double>(WB_SpeedFinished_C, 0xAD0);
 	vars.Helper["FinishedTimer"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 	vars.Helper["GWorldName"] = vars.Helper.Make<uint>(gWorld, 0x18);
 	vars.Helper["FinalBossGone"] = vars.Helper.Make<bool>(gEngine, 0x1248, 0x208, 0x800);
 	vars.Helper["SpeedRunTimer"] = vars.Helper.Make<double>(gEngine, 0x1248, 0x308);
 	vars.Helper["CatSpeedRunCheck"] = vars.Helper.Make<IntPtr>(gEngine, 0x1248, 0x390);
-	vars.Helper["CatCollectionCheck"] = vars.Helper.Make<uint>(vars.Events.FunctionFlag("BP_CatCollectionItem_C", "BP_CatCollectionItem_C", "ReceiveActorBeginOverlap"));
 	vars.CatsCollected = new bool[9];
 
 	current.SpeedRunTimer = 0.0;
@@ -88,38 +61,6 @@ init
 	current.FinalBossGone = false;
 	vars.LandInbetweenCount = 0;
 	vars.TotalTime = TimeSpan.Zero;
-	current.VersionText = "";
-
-	vars.CatWorlds = new string[9]
-	{
-		"Lvl_Limbo",
-		"Lvl_Lust",
-		"Lvl_Gluttony",
-		"Lvl_Greed",
-		"Lvl_Wrath",
-		"Lvl_Heresy",
-		"Lvl_Violence",
-		"Lvl_Fraud",
-		"Lvl_Treachery"
-	};
-
-	// In update, determine CatIndex
-	if (current.World == "Lvl_Intro")
-	{
-		current.CatIndex = -1; // no cat in intro
-	}
-	else
-	{
-		current.CatIndex = -1; // default invalid
-		for (int i = 0; i < vars.CatWorlds.Length; i++)
-		{
-			if (current.World == vars.CatWorlds[i])
-			{
-				current.CatIndex = i;
-				break; // first match only
-			}
-		}
-}
 }
 
 start
@@ -147,33 +88,7 @@ update
 
 	string world = vars.Events.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
-	if (old.World != current.World) vars.Log("World: " + current.World);
 	if (old.World != current.World && current.World == "LandInBetween") vars.LandInbetweenCount++;
-
-	// // Only run if VersionNumberPtr is valid
-	// if (current.VersionNumberPtr != IntPtr.Zero && current.VersionNumberSize > 0)
-	// {
-	// 	// Scan all slots
-	// 	for (int i = 0; i < current.VersionNumberSize; i++)
-	// 	{
-	// 		IntPtr slotPtr = current.VersionNumberPtr + i * 0x8 + 0x30; // Slot Content offset
-
-	// 		// Create a temporary MakeString watcher for this slot
-	// 		string slotString = vars.Helper.ReadString(128, ReadStringType.UTF16, slotPtr, 0x30, 0x188, 0x20, 0x0);
-
-	// 		// If it starts with V, assume it's the version and set current.VersionText
-	// 		if (!string.IsNullOrEmpty(slotString) && slotString.StartsWith("V"))
-	// 		{
-	// 			current.VersionText = slotString;
-	// 		}
-	// 	}
-	// }
-
-	// Log only when it changes
-	// if (old.VersionText != current.VersionText)
-	// {
-	// 	vars.Log("Version Number: " + current.VersionText);
-	// }
 }
 
 split
@@ -203,48 +118,25 @@ split
 		if (settings["FinalBossGone"]) return true;
 	}
 
-	if (current.VersionText != "V 1.0.000")
+	if (current.CatSpeedRunCheck != IntPtr.Zero)
 	{
-		if (current.CatSpeedRunCheck != IntPtr.Zero)
+		for (int i = 0; i < 9; i++)
 		{
-			for (int i = 0; i < 9; i++)
+			bool isCollected = vars.Helper.Read<byte>(current.CatSpeedRunCheck + i) != 0;
+
+			if (!vars.CatsCollected[i] && isCollected)
 			{
-				bool isCollected = vars.Helper.Read<byte>(current.CatSpeedRunCheck + i) != 0;
-
-				if (!vars.CatsCollected[i] && isCollected)
+				if (settings["Cat" + (i + 1)] && !vars.CompletedSplits.Contains("Cat" + (i + 1)))
 				{
-					if (settings["Cat" + (i + 1)] && !vars.CompletedSplits.Contains("Cat" + (i + 1)))
-					{
-						vars.CompletedSplits.Add("Cat" + (i + 1));
-						vars.Log("Cat" + (i + 1) + " collected! Split triggered.");
-						return true;
-					}
-				}
-
-				vars.CatsCollected[i] = isCollected;
-			}
-		}
-	} else if (current.VersionText == "V 1.0.000")
-	{
-		if (old.CatCollectionCheck != current.CatCollectionCheck && current.CatCollectionCheck != 0 && current.CatIndex != -1)
-		{
-			// Only trigger if this cat hasn't been collected yet
-			if (!vars.CatsCollected[current.CatIndex])
-			{
-				vars.CatsCollected[current.CatIndex] = true;
-
-				if (settings["Cat" + (current.CatIndex + 1)])
-				{
-					vars.CompletedSplits.Add("Cat" + (current.CatIndex + 1));
-					vars.Log("Cat" + (current.CatIndex + 1) + " collected! Split triggered.");
+					vars.CompletedSplits.Add("Cat" + (i + 1));
+					vars.Log("Cat" + (i + 1) + " collected! Split triggered.");
 					return true;
 				}
 			}
+
+			vars.CatsCollected[i] = isCollected;
 		}
 	}
-
-
-	
 }
 
 gameTime
