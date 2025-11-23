@@ -7,6 +7,49 @@ startup
 	vars.Uhara.Settings.CreateFromXml("Components/SpongebobTitansoftheTide.Splits.xml");
 	vars.CompletedSplits = new List<string>();
 	vars.CompletedObjectives = new List<string>();
+
+	#region TextComponent
+	vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
+	vars.SetText = (Action<string, object>)((text1, text2) =>
+	{
+		const string FileName = "LiveSplit.Text.dll";
+		LiveSplit.UI.Components.ILayoutComponent lc;
+
+		if (!vars.lcCache.TryGetValue(text1, out lc))
+		{
+			lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
+				.FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == text1)
+				?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
+
+			vars.lcCache.Add(text1, lc);
+		}
+
+		if (!timer.Layout.LayoutComponents.Contains(lc)) timer.Layout.LayoutComponents.Add(lc);
+
+		dynamic tc = lc.Component;
+		tc.Settings.Text1 = text1;
+		tc.Settings.Text2 = text2.ToString();
+	});
+
+
+	vars.RemoveText = (Action<string>)(text1 =>
+	{
+		LiveSplit.UI.Components.ILayoutComponent lc;
+		if (vars.lcCache.TryGetValue(text1, out lc))
+		{
+			timer.Layout.LayoutComponents.Remove(lc);
+			vars.lcCache.Remove(text1);
+		}
+	});
+
+	vars.RemoveAllTexts = (Action)(() =>
+	{
+		foreach (var lc in vars.lcCache.Values)
+			timer.Layout.LayoutComponents.Remove(lc);
+
+		vars.lcCache.Clear();
+	});
+	#endregion
 }
 
 init
@@ -15,6 +58,7 @@ init
 	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
+	vars.Events.FunctionFlag("LoadScreenShowing2", "BP_LoadingScreenListener_C", "BP_LoadingScreenListener_C", "On Show Loading Screen");
 	vars.Events.FunctionFlag("LoadScreenShowing", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenShowing");
 	vars.Events.FunctionFlag("LoadScreenHidden", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenHidden");
 
@@ -68,7 +112,15 @@ init
 
 	current.World = "";
 	vars.readyObjective = false;
+	vars.LoadScreenA = false;
+	vars.LoadScreenB = false;
 	vars.Loading = false;
+
+	vars.SetTextIfEnabled = (Action<string, object>)((text1, text2) =>
+	{
+		if (settings[text1]) vars.SetText(text1, text2); //Show the text
+		else vars.RemoveText(text1);
+	});
 }
 
 onStart
@@ -85,6 +137,7 @@ start
 
 update
 {
+
 	IntPtr gm;
 	if (!vars.Resolver.TryRead<IntPtr>(out gm, vars.GG_PersistenceSystem))
 	{
@@ -98,8 +151,28 @@ update
 	var world = vars.Utils.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 
-	if (vars.Resolver.CheckFlag("LoadScreenShowing")) vars.Loading = true;
-	if (vars.Resolver.CheckFlag("LoadScreenHidden")) vars.Loading = false;
+	if (vars.Resolver.CheckFlag("LoadScreenShowing"))
+	{
+		vars.LoadScreenA = true;
+		if (vars.LoadScreenB) vars.Loading = true;
+	}
+
+	if (vars.Resolver.CheckFlag("LoadScreenShowing2"))
+	{
+		vars.LoadScreenB = true;
+		if (vars.LoadScreenA) vars.Loading = true;
+	}
+
+	if (vars.Resolver.CheckFlag("LoadScreenHidden"))
+	{
+		vars.LoadScreenA = false;
+		vars.LoadScreenB = false;
+		vars.Loading = false;
+	}
+
+	vars.SetTextIfEnabled("DI_Loading",vars.Loading);
+	vars.SetTextIfEnabled("DI_LoadingA",vars.LoadScreenA);
+	vars.SetTextIfEnabled("DI_LoadingB",vars.LoadScreenB);
 
 	if (current.Objectives != IntPtr.Zero && current.ObjectivesNum > 0)
 	{

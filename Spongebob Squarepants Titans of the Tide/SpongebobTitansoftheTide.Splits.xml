@@ -250,4 +250,7 @@
         </Setting>
         <Setting Id="SFSComplete" Label="Search For Squarepants" State="true" />
     </Setting>
+    <Setting Id="DebugInfo" Label="Debug Info (only for testing)" State="false">
+        <Setting Id="DI_Loading" Label="Loading" State="false" />
+    </Setting>
 </Settings>
