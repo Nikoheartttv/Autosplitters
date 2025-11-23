@@ -254,5 +254,6 @@
         <Setting Id="DI_Loading" Label="Loading" State="false" />
         <Setting Id="DI_LoadingA" Label="Loading Shown A" State="false" />
         <Setting Id="DI_LoadingB" Label="Loading Shown B" State="false" />
+        <Setting Id="TimingMode" Label="Timing Mode (IGT/LRT)" State="true" />
     </Setting>
 </Settings>

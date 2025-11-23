@@ -2,179 +2,181 @@ state("Ghost-Win64-Shipping") {}
 
 startup
 {
-	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
-	vars.Uhara.AlertLoadless();
-	vars.Uhara.Settings.CreateFromXml("Components/SpongebobTitansoftheTide.Splits.xml");
-	vars.CompletedSplits = new List<string>();
-	vars.CompletedObjectives = new List<string>();
+    Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
+    vars.Uhara.AlertLoadless();
+    vars.Uhara.Settings.CreateFromXml("Components/SpongebobTitansoftheTide.Splits.xml");
+    vars.CompletedSplits = new List<string>();
+    vars.CompletedObjectives = new List<string>();
 
-	#region TextComponent
-	vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
-	vars.SetText = (Action<string, object>)((text1, text2) =>
-	{
-		const string FileName = "LiveSplit.Text.dll";
-		LiveSplit.UI.Components.ILayoutComponent lc;
+    #region TextComponent
+    vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
+    vars.SetText = (Action<string, object>)((text1, text2) =>
+    {
+        const string FileName = "LiveSplit.Text.dll";
+        LiveSplit.UI.Components.ILayoutComponent lc;
 
-		if (!vars.lcCache.TryGetValue(text1, out lc))
-		{
-			lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
-				.FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == text1)
-				?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
+        if (!vars.lcCache.TryGetValue(text1, out lc))
+        {
+            lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
+                .FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == text1)
+                ?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
 
-			vars.lcCache.Add(text1, lc);
-		}
+            vars.lcCache.Add(text1, lc);
+        }
 
-		if (!timer.Layout.LayoutComponents.Contains(lc)) timer.Layout.LayoutComponents.Add(lc);
+        if (!timer.Layout.LayoutComponents.Contains(lc)) timer.Layout.LayoutComponents.Add(lc);
 
-		dynamic tc = lc.Component;
-		tc.Settings.Text1 = text1;
-		tc.Settings.Text2 = text2.ToString();
-	});
+        dynamic tc = lc.Component;
+        tc.Settings.Text1 = text1;
+        tc.Settings.Text2 = text2.ToString();
+    });
 
+    vars.RemoveText = (Action<string>)(text1 =>
+    {
+        LiveSplit.UI.Components.ILayoutComponent lc;
+        if (vars.lcCache.TryGetValue(text1, out lc))
+        {
+            timer.Layout.LayoutComponents.Remove(lc);
+            vars.lcCache.Remove(text1);
+        }
+    });
 
-	vars.RemoveText = (Action<string>)(text1 =>
-	{
-		LiveSplit.UI.Components.ILayoutComponent lc;
-		if (vars.lcCache.TryGetValue(text1, out lc))
-		{
-			timer.Layout.LayoutComponents.Remove(lc);
-			vars.lcCache.Remove(text1);
-		}
-	});
+    vars.RemoveAllTexts = (Action)(() =>
+    {
+        foreach (var lc in vars.lcCache.Values)
+            timer.Layout.LayoutComponents.Remove(lc);
 
-	vars.RemoveAllTexts = (Action)(() =>
-	{
-		foreach (var lc in vars.lcCache.Values)
-			timer.Layout.LayoutComponents.Remove(lc);
-
-		vars.lcCache.Clear();
-	});
-	#endregion
+        vars.lcCache.Clear();
+    });
+    #endregion
 }
 
 init
 {
-	vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
-	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
+    vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
+    vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
-	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
-	vars.Events.FunctionFlag("LoadScreenShowing2", "BP_LoadingScreenListener_C", "BP_LoadingScreenListener_C", "On Show Loading Screen");
-	vars.Events.FunctionFlag("LoadScreenShowing", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenShowing");
-	vars.Events.FunctionFlag("LoadScreenHidden", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenHidden");
+    vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
+    vars.Events.FunctionFlag("LoadScreenShowing2", "BP_LoadingScreenListener_C", "BP_LoadingScreenListener_C", "On Show Loading Screen");
+    vars.Events.FunctionFlag("LoadScreenShowing", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenShowing");
+    vars.Events.FunctionFlag("LoadScreenHidden", "GG_SpeedrunningSubsystem", "GG_SpeedrunningSubsystem", "OnLoadingScreenHidden");
 
-	vars.FindSubsystem = (Func<string, IntPtr>)(name =>
-	{
-		var subsystems = vars.Resolver.Read<int>(vars.Utils.GEngine, 0x1248, 0x118);
-		for (int i = 0; i < subsystems; i++)
-		{
-			var subsystem = vars.Resolver.Deref(vars.Utils.GEngine, 0x1248, 0x110, 0x18 * i + 0x8);
-			var sysName = vars.Utils.FNameToString(vars.Resolver.Read<uint>(subsystem, 0x18));
-			if (sysName.StartsWith(name)) return subsystem;
-		}
-		throw new InvalidOperationException("Subsystem not found: " + name);
-	});
-	vars.GG_PersistenceSystem = IntPtr.Zero;
+    vars.Resolver.Watch<float>("GameTime", vars.Events.InstancePtr("GG_SpeedrunningViewModel", "GG_SpeedrunningViewModel"), 0x68);
 
-	//Plankton's Portal Challenges DLC 1
-	vars.Events.FunctionFlag("PPDLC1SandyV1", "LS_DLC1_V1_Outro_DirectorBP_C", "", "*_DLC1_V1_Outro_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1SandyV2", "LS_DLC1_V2_Outro_DirectorBP_C", "", "*_DLC1_V2_Outro_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1SandyV3", "LS_DLC1_V3_Outro_DirectorBP_C", "", "*_DLC1_V3_Outro_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1SquidwardV1", "LS_DLC1_P1_Outro_DirectorBP_C", "", "*_DLC1_P1_Outro_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1SquidwardV2", "LS_DLC1_P2_Outro_DirectorBP_C", "", "*_DLC1_P2_Outro_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1SquidwardV3", "LS_DLC1_FinishedPlatforming3_DirectorBP_C", "", "*_DLC1_FinishedPlatforming3_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1KrabsV1", "LS_DLC1_C1_Outro_02_DirectorBP_C", "", "*_DLC1_C1_Outro_02_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1KrabsV2", "LS_DLC1_C2_Outro_02_DirectorBP_C", "", "*_DLC1_C2_Outro_02_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC1KrabsV3", "LS_DLC1_C3_Outro_DirectorBP_C", "", "*_DLC1_C3_Outro_DirectorBP");
+    vars.FindSubsystem = (Func<string, IntPtr>)(name =>
+    {
+        var subsystems = vars.Resolver.Read<int>(vars.Utils.GEngine, 0x1248, 0x118);
+        for (int i = 0; i < subsystems; i++)
+        {
+            var subsystem = vars.Resolver.Deref(vars.Utils.GEngine, 0x1248, 0x110, 0x18 * i + 0x8);
+            var sysName = vars.Utils.FNameToString(vars.Resolver.Read<uint>(subsystem, 0x18));
+            if (sysName.StartsWith(name)) return subsystem;
+        }
+        throw new InvalidOperationException("Subsystem not found: " + name);
+    });
+    vars.GG_PersistenceSystem = IntPtr.Zero;
 
-	//Planton's Portal Challenge DLC 2
-	vars.Events.FunctionFlag("PPDLC2Platforming1", "LS_01_Platforming1_Finished_DirectorBP_C", "", "*_01_Platforming1_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Jellyfish1", "LS_02_Jellyfish1_Finished_DirectorBP_C", "", "*_02_Jellyfish1_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Combat1", "LS_03_Combat1_Finished_DirectorBP_C", "", "*_03_Combat1_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Cubes1", "LS_04_Cubes1_Finished_DirectorBP_C", "", "*_04_Cubes1_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Platforming2", "LS_05_Platforming2_Finished_DirectorBP_C", "", "*_05_Platforming2_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Jellyfish2", "LS_06_Jellyfish2_Finished_DirectorBP_C", "", "*_06_Jellyfish2_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Cubes2", "LS_07_Cubes2_Finished_DirectorBP_C", "", "*_07_Cubes2_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLCPlatforming3", "LS_08_Platforming3_Finished_DirectorBP_C", "", "*_08_Platforming3_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Jellyfish3", "LS_09_Jellyfish3_Finished_DirectorBP_C", "", "*_09_Jellyfish3_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Combat2", "LS_10_Combat2_Finished_DirectorBP_C", "", "*_10_Combat2_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Combat3", "LS_11_Combat3_Finished_DirectorBP_C", "", "*_11_Combat3_Finished_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Cubes3", "LS_12_Cubes3_Finished_DirectorBP_C", "", "*_12_Cubes3_Finished_DirectorBP");
+    // DLC / FunctionFlag setup
+    vars.Events.FunctionFlag("PPDLC1SandyV1", "LS_DLC1_V1_Outro_DirectorBP_C", "", "*_DLC1_V1_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SandyV2", "LS_DLC1_V2_Outro_DirectorBP_C", "", "*_DLC1_V2_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SandyV3", "LS_DLC1_V3_Outro_DirectorBP_C", "", "*_DLC1_V3_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SquidwardV1", "LS_DLC1_P1_Outro_DirectorBP_C", "", "*_DLC1_P1_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SquidwardV2", "LS_DLC1_P2_Outro_DirectorBP_C", "", "*_DLC1_P2_Outro_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1SquidwardV3", "LS_DLC1_FinishedPlatforming3_DirectorBP_C", "", "*_DLC1_FinishedPlatforming3_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1KrabsV1", "LS_DLC1_C1_Outro_02_DirectorBP_C", "", "*_DLC1_C1_Outro_02_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1KrabsV2", "LS_DLC1_C2_Outro_02_DirectorBP_C", "", "*_DLC1_C2_Outro_02_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC1KrabsV3", "LS_DLC1_C3_Outro_DirectorBP_C", "", "*_DLC1_C3_Outro_DirectorBP");
 
-	//Boss Fights
-	// Dutchman Fight - in WP_GoldFishIsland
-	vars.Events.FunctionFlag("PPDLC2Dutchman", "LS_GFI_A4_BossOutro_BossTrial_DirectorBP_C", "*_BossTrial_DirectorBP_C", "*_BossTrial_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2NeptunesStatue", "LS_ATL_Boss_Outro_05_DirectorBP_C", "*_Boss_Outro_05_DirectorBP_C", "_Boss_Outro_05_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2HibernationSandy", "LS_JFF_A4_BossOutro_3_SandyFalls_New_DirectorBP_C", "*_BossOutro_3_SandyFalls_New_DirectorBP_C", "*_BossOutro_3_SandyFalls_New_DirectorBP");
-	vars.Events.FunctionFlag("PPDLC2Titans", "WBP_ChallengeResultDialog_C", "WBP_ChallengeResultDialog_C", "");
+    vars.Events.FunctionFlag("PPDLC2Platforming1", "LS_01_Platforming1_Finished_DirectorBP_C", "", "*_01_Platforming1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Jellyfish1", "LS_02_Jellyfish1_Finished_DirectorBP_C", "", "*_02_Jellyfish1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Combat1", "LS_03_Combat1_Finished_DirectorBP_C", "", "*_03_Combat1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Cubes1", "LS_04_Cubes1_Finished_DirectorBP_C", "", "*_04_Cubes1_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Platforming2", "LS_05_Platforming2_Finished_DirectorBP_C", "", "*_05_Platforming2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Jellyfish2", "LS_06_Jellyfish2_Finished_DirectorBP_C", "", "*_06_Jellyfish2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Cubes2", "LS_07_Cubes2_Finished_DirectorBP_C", "", "*_07_Cubes2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLCPlatforming3", "LS_08_Platforming3_Finished_DirectorBP_C", "", "*_08_Platforming3_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Jellyfish3", "LS_09_Jellyfish3_Finished_DirectorBP_C", "", "*_09_Jellyfish3_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Combat2", "LS_10_Combat2_Finished_DirectorBP_C", "", "*_10_Combat2_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Combat3", "LS_11_Combat3_Finished_DirectorBP_C", "", "*_11_Combat3_Finished_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Cubes3", "LS_12_Cubes3_Finished_DirectorBP_C", "", "*_12_Cubes3_Finished_DirectorBP");
 
-	// Search For Squarepants
-	vars.Events.FunctionFlag("SFSComplete", "LS_DLC2_SI_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Dutchman", "LS_GFI_A4_BossOutro_BossTrial_DirectorBP_C", "*_BossTrial_DirectorBP_C", "*_BossTrial_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2NeptunesStatue", "LS_ATL_Boss_Outro_05_DirectorBP_C", "*_Boss_Outro_05_DirectorBP_C", "_Boss_Outro_05_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2HibernationSandy", "LS_JFF_A4_BossOutro_3_SandyFalls_New_DirectorBP_C", "*_BossOutro_3_SandyFalls_New_DirectorBP_C", "*_BossOutro_3_SandyFalls_New_DirectorBP");
+    vars.Events.FunctionFlag("PPDLC2Titans", "WBP_ChallengeResultDialog_C", "WBP_ChallengeResultDialog_C", "");
+    vars.Events.FunctionFlag("SFSComplete", "LS_DLC2_SI_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP_C", "*_Outro_04_DirectorBP");
 
-	current.World = "";
-	vars.readyObjective = false;
-	vars.LoadScreenA = false;
-	vars.LoadScreenB = false;
-	vars.Loading = false;
+    current.World = "";
+    vars.readyObjective = false;
+    vars.LoadScreenA = false;
+    vars.LoadScreenB = false;
+    vars.Loading = false;
+    vars.WaitingForZero = true;
 
-	vars.SetTextIfEnabled = (Action<string, object>)((text1, text2) =>
-	{
-		if (settings[text1]) vars.SetText(text1, text2); //Show the text
-		else vars.RemoveText(text1);
-	});
+    vars.UseGameTime = true;
+    vars.LastIGT = 0f;
+    vars.IGTStallFrames = 0;
+    vars.IGTStallThreshold = 15;
+
+    vars.SetTextIfEnabled = (Action<string, object>)((text1, text2) =>
+    {
+        if (settings[text1]) vars.SetText(text1, text2);
+        else vars.RemoveText(text1);
+    });
 }
 
 onStart
 {
-	timer.IsGameTimePaused = true;
-	vars.CompletedSplits.Clear();
-	vars.CompletedObjectives.Clear();
+    vars.WaitingForZero = true; 
+    vars.UseGameTime = true;
+    vars.LastIGT = 0f;
+    vars.IGTStallFrames = 0;
+    vars.CompletedSplits.Clear();
+    vars.CompletedObjectives.Clear();
 }
 
 start
 {
-	return old.World == "P_MainMenu" && current.World == "BBR_KrustyKrabRestaurant";
+    return old.World == "P_MainMenu" && current.World == "BBR_KrustyKrabRestaurant";
 }
 
 update
 {
+    IntPtr gm;
+    if (!vars.Resolver.TryRead<IntPtr>(out gm, vars.GG_PersistenceSystem))
+    {
+        vars.GG_PersistenceSystem = vars.FindSubsystem("GG_PersistenceSystem");
+        vars.Resolver.Watch<IntPtr>("Objectives", vars.GG_PersistenceSystem, 0xC8);
+        vars.Resolver.Watch<int>("ObjectivesNum", vars.GG_PersistenceSystem, 0xD0);
+    }
 
-	IntPtr gm;
-	if (!vars.Resolver.TryRead<IntPtr>(out gm, vars.GG_PersistenceSystem))
-	{
-		vars.GG_PersistenceSystem = vars.FindSubsystem("GG_PersistenceSystem");
-		vars.Resolver.Watch<IntPtr>("Objectives", vars.GG_PersistenceSystem, 0xC8);
-		vars.Resolver.Watch<int>("ObjectivesNum", vars.GG_PersistenceSystem, 0xD0);
-	}
+    vars.Uhara.Update();
 
-	vars.Uhara.Update();
+    var world = vars.Utils.FNameToString(current.GWorldName);
+    if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 
-	var world = vars.Utils.FNameToString(current.GWorldName);
-	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+    if (vars.Resolver.CheckFlag("LoadScreenShowing")) 
+    { 
+        vars.LoadScreenA = true; 
+        if (vars.LoadScreenB) vars.Loading = true;
+    }
+    if (vars.Resolver.CheckFlag("LoadScreenShowing2"))
+    { 
+        vars.LoadScreenB = true; 
+        if (vars.LoadScreenA) vars.Loading = true;
+    }
+    if (vars.Resolver.CheckFlag("LoadScreenHidden"))
+    { 
+        vars.LoadScreenA = false; 
+        vars.LoadScreenB = false; 
+        vars.Loading = false;
+    }
 
-	if (vars.Resolver.CheckFlag("LoadScreenShowing"))
-	{
-		vars.LoadScreenA = true;
-		if (vars.LoadScreenB) vars.Loading = true;
-	}
+    vars.SetTextIfEnabled("DI_Loading", vars.Loading);
+    vars.SetTextIfEnabled("DI_LoadingA", vars.LoadScreenA);
+    vars.SetTextIfEnabled("DI_LoadingB", vars.LoadScreenB);
 
-	if (vars.Resolver.CheckFlag("LoadScreenShowing2"))
-	{
-		vars.LoadScreenB = true;
-		if (vars.LoadScreenA) vars.Loading = true;
-	}
-
-	if (vars.Resolver.CheckFlag("LoadScreenHidden"))
-	{
-		vars.LoadScreenA = false;
-		vars.LoadScreenB = false;
-		vars.Loading = false;
-	}
-
-	vars.SetTextIfEnabled("DI_Loading",vars.Loading);
-	vars.SetTextIfEnabled("DI_LoadingA",vars.LoadScreenA);
-	vars.SetTextIfEnabled("DI_LoadingB",vars.LoadScreenB);
-
-	if (current.Objectives != IntPtr.Zero && current.ObjectivesNum > 0)
+    if (current.Objectives != IntPtr.Zero && current.ObjectivesNum > 0)
 	{
 		for (int i = 0; i < current.ObjectivesNum; i++)
 		{
@@ -217,6 +219,34 @@ update
 			}
 		}
 	}
+}
+
+gameTime
+{
+    float igt = 0.0f;
+    try { igt = current.GameTime; } catch { igt = vars.LastIGT; }
+
+    if (vars.WaitingForZero)
+    {
+        if (igt > 0.0f) vars.WaitingForZero = false;
+        else return null;
+    }
+
+    if (igt > vars.LastIGT + 0.0001f)
+    {
+        vars.IGTStallFrames = 0;
+        if (!vars.UseGameTime) vars.UseGameTime = true;
+    }
+    else
+    {
+        vars.IGTStallFrames = vars.IGTStallFrames + 1;
+        if (vars.IGTStallFrames > vars.IGTStallThreshold && vars.UseGameTime) vars.UseGameTime = false;
+    }
+
+    vars.LastIGT = igt;
+
+    if (vars.UseGameTime) return TimeSpan.FromSeconds(igt);
+    else return null;
 }
 
 split
@@ -279,13 +309,10 @@ split
 
 isLoading
 {
-	return current.World == "P_Intro" ||
-		current.World == "P_MainMenu" ||
-		vars.Loading;
+    return current.World == "P_Intro" || current.World == "P_MainMenu" || vars.Loading;
 }
-
 
 exit
 {
-	timer.IsGameTimePaused = true;
+    timer.IsGameTimePaused = true;
 }
