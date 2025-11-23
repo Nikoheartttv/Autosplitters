@@ -252,5 +252,7 @@
     </Setting>
     <Setting Id="DebugInfo" Label="Debug Info (only for testing)" State="false">
         <Setting Id="DI_Loading" Label="Loading" State="false" />
+        <Setting Id="DI_LoadingA" Label="Loading Shown A" State="false" />
+        <Setting Id="DI_LoadingB" Label="Loading Shown B" State="false" />
     </Setting>
 </Settings>
