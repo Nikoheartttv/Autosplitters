@@ -175,6 +175,8 @@ update
     vars.SetTextIfEnabled("DI_Loading", vars.Loading);
     vars.SetTextIfEnabled("DI_LoadingA", vars.LoadScreenA);
     vars.SetTextIfEnabled("DI_LoadingB", vars.LoadScreenB);
+	var modeText = vars.Loading ? "Mode: Loading" : (vars.UseGameTime ? "Mode: IGT" : "Mode: LRT");
+	vars.SetTextIfEnabled("TimingMode", modeText);
 
     if (current.Objectives != IntPtr.Zero && current.ObjectivesNum > 0)
 	{
