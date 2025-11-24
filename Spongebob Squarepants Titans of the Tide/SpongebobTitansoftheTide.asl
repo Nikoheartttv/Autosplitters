@@ -228,6 +228,8 @@ gameTime
     float igt = 0.0f;
     try { igt = current.GameTime; } catch { igt = vars.LastIGT; }
 
+    igt = Math.Max(0f, igt);
+
     if (vars.WaitingForZero)
     {
         if (igt > 0.0f) vars.WaitingForZero = false;
@@ -251,11 +253,40 @@ gameTime
     else return null;
 }
 
+gameTime
+{
+    float igt = 0.0f;
+    try { igt = current.GameTime; } catch { igt = vars.LastIGT; }
+
+    igt = Math.Max(0f, igt);
+
+    if (vars.WaitingForZero)
+    {
+        if (igt > 0.0f) vars.WaitingForZero = false;
+        else return null;
+    }
+
+    if (igt > vars.LastIGT + 0.0001f)
+    {
+        vars.IGTStallFrames = 0;
+        if (!vars.UseGameTime) vars.UseGameTime = true;
+    }
+    else
+    {
+        vars.IGTStallFrames++;
+        if (vars.IGTStallFrames > vars.IGTStallThreshold && vars.UseGameTime) vars.UseGameTime = false;
+    }
+
+    vars.LastIGT = igt;
+    return TimeSpan.FromSeconds(igt);
+}
+
+
 split
 {
 	if (old.World != current.World && !vars.CompletedSplits.Contains(old.World) && settings.ContainsKey(old.World) && settings[old.World])
 	{
-		vars.Uhara.Log("Split: " + old.World);
+		vars.Uhara.Log("World Split: " + old.World);
 		vars.CompletedSplits.Add(old.World);
 		return true;
 	}
@@ -265,7 +296,7 @@ split
 		if (settings.ContainsKey(obj) && settings[obj] && !vars.CompletedSplits.Contains(obj))
 		{
 			vars.CompletedSplits.Add(obj);
-			vars.Uhara.Log("Split: " + obj);
+			vars.Uhara.Log("Objective Split: " + obj);
 			return true;
 		}
 	}
@@ -295,7 +326,7 @@ split
 		if (vars.Resolver.CheckFlag(flag) && settings.ContainsKey(flag) && settings[flag] && !vars.CompletedSplits.Contains(flag))
 		{
 			vars.CompletedSplits.Add(flag);
-			vars.Uhara.Log("Split: " + flag);
+			vars.Uhara.Log("DLC Split: " + flag);
 			return true;
 		}
 	}
@@ -304,7 +335,7 @@ split
 	if (current.World == "WP_HauntedBikiniBottom" && vars.Resolver.CheckFlag("PPDLC2Titans") && settings["PPDLC2Titans"] && !vars.CompletedSplits.Contains("PPDLC2Titans"))
 	{
 		vars.CompletedSplits.Add("PPDLC2Titans");
-		vars.Uhara.Log("Split: PPDLC2Titans");
+		vars.Uhara.Log("DLC Split: PPDLC2Titans");
 		return true;
 	}
 }
