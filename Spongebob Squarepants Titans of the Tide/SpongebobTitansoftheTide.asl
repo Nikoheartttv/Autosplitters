@@ -137,7 +137,8 @@ onStart
 
 start
 {
-    return old.World == "P_MainMenu" && current.World == "BBR_KrustyKrabRestaurant";
+    // return old.World == "P_MainMenu" && current.World == "BBR_KrustyKrabRestaurant";
+    return old.World != current.World && current.World == "BBR_KrustyKrabRestaurant";
 }
 
 update
