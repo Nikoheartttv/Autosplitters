@@ -7,48 +7,6 @@ startup
     vars.Uhara.Settings.CreateFromXml("Components/SpongebobTitansoftheTide.Splits.xml");
     vars.CompletedSplits = new List<string>();
     vars.CompletedObjectives = new List<string>();
-
-    #region TextComponent
-    vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
-    vars.SetText = (Action<string, object>)((text1, text2) =>
-    {
-        const string FileName = "LiveSplit.Text.dll";
-        LiveSplit.UI.Components.ILayoutComponent lc;
-
-        if (!vars.lcCache.TryGetValue(text1, out lc))
-        {
-            lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
-                .FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == text1)
-                ?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
-
-            vars.lcCache.Add(text1, lc);
-        }
-
-        if (!timer.Layout.LayoutComponents.Contains(lc)) timer.Layout.LayoutComponents.Add(lc);
-
-        dynamic tc = lc.Component;
-        tc.Settings.Text1 = text1;
-        tc.Settings.Text2 = text2.ToString();
-    });
-
-    vars.RemoveText = (Action<string>)(text1 =>
-    {
-        LiveSplit.UI.Components.ILayoutComponent lc;
-        if (vars.lcCache.TryGetValue(text1, out lc))
-        {
-            timer.Layout.LayoutComponents.Remove(lc);
-            vars.lcCache.Remove(text1);
-        }
-    });
-
-    vars.RemoveAllTexts = (Action)(() =>
-    {
-        foreach (var lc in vars.lcCache.Values)
-            timer.Layout.LayoutComponents.Remove(lc);
-
-        vars.lcCache.Clear();
-    });
-    #endregion
 }
 
 init
@@ -114,21 +72,17 @@ init
     vars.WaitingForZero = true;
 
     vars.UseGameTime = true;
+    vars.IGT = 0f;
     vars.LastIGT = 0f;
     vars.IGTStallFrames = 0;
     vars.IGTStallThreshold = 15;
-
-    vars.SetTextIfEnabled = (Action<string, object>)((text1, text2) =>
-    {
-        if (settings[text1]) vars.SetText(text1, text2);
-        else vars.RemoveText(text1);
-    });
 }
 
 onStart
 {
     vars.WaitingForZero = true; 
     vars.UseGameTime = true;
+    vars.IGT = 0f;
     vars.LastIGT = 0f;
     vars.IGTStallFrames = 0;
     vars.CompletedSplits.Clear();
@@ -155,6 +109,7 @@ update
 
     var world = vars.Utils.FNameToString(current.GWorldName);
     if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+    if (old.World != current.World) vars.Uhara.Log("World Change: " + current.World);
 
     if (vars.Resolver.CheckFlag("LoadScreenShowing")) 
     { 
@@ -172,12 +127,6 @@ update
         vars.LoadScreenB = false; 
         vars.Loading = false;
     }
-
-    vars.SetTextIfEnabled("DI_Loading", vars.Loading);
-    vars.SetTextIfEnabled("DI_LoadingA", vars.LoadScreenA);
-    vars.SetTextIfEnabled("DI_LoadingB", vars.LoadScreenB);
-	var modeText = vars.Loading ? "Mode: Loading" : (vars.UseGameTime ? "Mode: IGT" : "Mode: LRT");
-	vars.SetTextIfEnabled("TimingMode", modeText);
 
     if (current.Objectives != IntPtr.Zero && current.ObjectivesNum > 0)
 	{
@@ -226,49 +175,19 @@ update
 
 gameTime
 {
-    float igt = 0.0f;
-    try { igt = current.GameTime; } catch { igt = vars.LastIGT; }
-
-    igt = Math.Max(0f, igt);
-
-    if (vars.WaitingForZero)
-    {
-        if (igt > 0.0f) vars.WaitingForZero = false;
-        else return null;
-    }
-
-    if (igt > vars.LastIGT + 0.0001f)
-    {
-        vars.IGTStallFrames = 0;
-        if (!vars.UseGameTime) vars.UseGameTime = true;
-    }
-    else
-    {
-        vars.IGTStallFrames = vars.IGTStallFrames + 1;
-        if (vars.IGTStallFrames > vars.IGTStallThreshold && vars.UseGameTime) vars.UseGameTime = false;
-    }
-
-    vars.LastIGT = igt;
-
-    if (vars.UseGameTime) return TimeSpan.FromSeconds(igt);
-    else return null;
-}
-
-gameTime
-{
-    float igt = 0.0f;
-    try { igt = current.GameTime; } catch { igt = vars.LastIGT; }
-    igt = Math.Max(0f, igt);
+    vars.IGT = 0.0f;
+    try { vars.IGT = current.GameTime; } catch { vars.IGT = vars.LastIGT; }
+    vars.IGT = Math.Max(0f, vars.IGT);
 
     if (vars.WaitingForZero)
     {
-        if (igt > 0.0f) vars.WaitingForZero = false;
+        if (vars.IGT > 0.0f) vars.WaitingForZero = false;
         else return null;
     }
 
-    if (igt < vars.LastIGT)igt = vars.LastIGT;
+    if (vars.IGT < vars.LastIGT) vars.IGT = vars.LastIGT;
 
-    if (igt > vars.LastIGT + 0.0001f)
+    if (vars.IGT > vars.LastIGT + 0.0001f)
     {
         vars.IGTStallFrames = 0;
         if (!vars.UseGameTime) vars.UseGameTime = true;
@@ -280,8 +199,8 @@ gameTime
             vars.UseGameTime = false;
     }
 
-    vars.LastIGT = igt;
-    return TimeSpan.FromSeconds(igt);
+    vars.LastIGT = vars.IGT;
+    return TimeSpan.FromSeconds(vars.IGT);
 }
 
 split
@@ -345,6 +264,15 @@ split
 isLoading
 {
     return current.World == "P_Intro" || current.World == "P_MainMenu" || vars.Loading;
+}
+
+onReset
+{
+    vars.WaitingForZero = true; 
+    vars.UseGameTime = true;
+    vars.IGT = 0f;
+    vars.LastIGT = 0f;
+    vars.IGTStallFrames = 0;
 }
 
 exit
