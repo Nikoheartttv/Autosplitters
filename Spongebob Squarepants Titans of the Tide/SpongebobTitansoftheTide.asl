@@ -175,7 +175,6 @@ update
 
 gameTime
 {
-    vars.IGT = 0.0f;
     try { vars.IGT = current.GameTime; } catch { vars.IGT = vars.LastIGT; }
     vars.IGT = Math.Max(0f, vars.IGT);
 
@@ -187,20 +186,29 @@ gameTime
 
     if (vars.IGT < vars.LastIGT) vars.IGT = vars.LastIGT;
 
-    if (vars.IGT > vars.LastIGT + 0.0001f)
-    {
-        vars.IGTStallFrames = 0;
-        if (!vars.UseGameTime) vars.UseGameTime = true;
-    }
-    else
+    if (vars.Loading)
     {
         vars.IGTStallFrames++;
         if (vars.IGTStallFrames > vars.IGTStallThreshold)
             vars.UseGameTime = false;
     }
+    else
+    {
+        if (vars.IGT > vars.LastIGT + 0.0001f)
+        {
+            vars.IGTStallFrames = 0;
+            vars.UseGameTime = true;
+        }
+        else
+        {
+            vars.IGTStallFrames++;
+            if (vars.IGTStallFrames > vars.IGTStallThreshold)
+                vars.UseGameTime = false;
+        }
+    }
 
     vars.LastIGT = vars.IGT;
-    return TimeSpan.FromSeconds(vars.IGT);
+    return TimeSpan.FromSeconds(vars.UseGameTime ? vars.IGT : vars.LastIGT);
 }
 
 split
