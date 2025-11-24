@@ -257,7 +257,6 @@ gameTime
 {
     float igt = 0.0f;
     try { igt = current.GameTime; } catch { igt = vars.LastIGT; }
-
     igt = Math.Max(0f, igt);
 
     if (vars.WaitingForZero)
@@ -265,6 +264,8 @@ gameTime
         if (igt > 0.0f) vars.WaitingForZero = false;
         else return null;
     }
+
+    if (igt < vars.LastIGT)igt = vars.LastIGT;
 
     if (igt > vars.LastIGT + 0.0001f)
     {
@@ -274,13 +275,13 @@ gameTime
     else
     {
         vars.IGTStallFrames++;
-        if (vars.IGTStallFrames > vars.IGTStallThreshold && vars.UseGameTime) vars.UseGameTime = false;
+        if (vars.IGTStallFrames > vars.IGTStallThreshold)
+            vars.UseGameTime = false;
     }
 
     vars.LastIGT = igt;
     return TimeSpan.FromSeconds(igt);
 }
-
 
 split
 {
