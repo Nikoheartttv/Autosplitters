@@ -4,6 +4,7 @@
 // or reach out within the #lrt-autosplitter-dev channel in the speedrunning Discord
 
 state("Sandfall-Win64-Shipping") {}
+state("SandFallGOG-Win64-Shipping") {}
 state("Sandfall-WinGDK-Shipping") {}
 
 startup
@@ -162,14 +163,18 @@ init
 			// GEngine.GameInstance.LocalPlayers[0].AC_jRPG_BattleManager.BattleEndState
 			vars.RegisterHelper("BattleEndState", inGame, dontUpdate, vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910));
 			// GEngine.GameInstance.LocalPlayers[0].ExplorationHUDWidget.MiniMapWidget.bIsActive
-			switch(buildVersion)
+			int numBuildVersion = 0;
+			if(!int.TryParse(buildVersion, out numBuildVersion))
+			{ // not parseable as number, or out of range of int32
+				numBuildVersion = 0;
+			}
+			if(numBuildVersion >= 57661)
 			{
-				case "57661":
-					vars.RegisterHelper("MiniMapActive", inGame, dontUpdate, vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0, 0x368));
-					break;
-				default:
-					vars.RegisterHelper("MiniMapActive", inGame, dontUpdate, vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368));
-					break;
+				vars.RegisterHelper("MiniMapActive", inGame, dontUpdate, vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3D0, 0x368));
+			}
+			else
+			{
+				vars.RegisterHelper("MiniMapActive", inGame, dontUpdate, vars.Helper.Make<bool>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, 0x3C8, 0x368));
 			}
 			// GEngine.GameInstance.LocalPlayers[0].BattleFlowState
 			vars.RegisterHelper("BattleFlowState", inGame, dontUpdate, vars.Helper.Make<byte>(gEngine, 0x10A8, 0x38, 0x0, 0x30, 0x9B0));
