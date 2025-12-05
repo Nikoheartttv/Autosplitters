@@ -67,7 +67,8 @@ init
 	vars.FlyingLoading = false;
 
 	// Game Start / End
-	vars.Events.FunctionFlag("OnGameStart", "BP_InventorySubsystem_C", "", "OnNewGameEvent");
+	// vars.Events.FunctionFlag("OnGameStart", "BP_InventorySubsystem_C", "", "OnNewGameEvent");
+    vars.Start = true;
 	vars.Events.FunctionFlag("EndOfGame", "BP_GameManager_HypnosChamber_C", "", "SleepAwakeTitleCard");
 
 	vars.Resolver.Watch<int>("OverallChapterNum", vars.Utils.GEngine, 0xD48, 0x4C8);
@@ -78,7 +79,7 @@ init
 
 start
 {
-	return vars.Resolver.CheckFlag("OnGameStart");
+	return vars.Resolver.CheckFlag("VideoTransitionInTimeline");
 }
 
 onStart
