@@ -27,7 +27,7 @@ startup
 			{ "Chapter7", true, "Chapter 7 - The Fathom", "ChapterSplits" },
 				{ "CHP_10", true, "On Bearing Witness", "Chapter7" },
 			{ "Chapter8", true, "Chapter 8 - The Flat", "ChapterSplits" },
-				{ "CHP_11", true, "Tuning in the Attic", "Chapter8" },
+				{ "CHP_11", true, "Tuning in the Static", "Chapter8" },
 			{ "Chapter9", true, "Chapter 9 - The Crush", "ChapterSplits" },
 				{ "CHP_12", true, "Dizzy is the Distance Starting Over", "Chapter9" },
 			{ "Chapter10", true, "Chapter 10 - The Keep", "ChapterSplits" },
