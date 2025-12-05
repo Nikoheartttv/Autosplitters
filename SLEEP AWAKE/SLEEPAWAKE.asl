@@ -35,7 +35,7 @@ startup
 			{ "Chapter11", true, "Chapter 11 - The Depth", "ChapterSplits" },
 				{ "CHP_14", true, "The Wreckage of Killing the Secrets of the Heart", "Chapter11" },
 			{ "Chapter12", true, "Chapter 12 - The Chowk", "ChapterSplits" },
-				{ "EndGame", true, "All Together Now (Splits at End Title Card)", "ChapterSplits" },
+				{ "EndGame", true, "All Together Now (Splits at End Title Card)", "Chapter12" },
 	};
 	vars.Uhara.Settings.Create(_settings);
 }
