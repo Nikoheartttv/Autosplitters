@@ -59,10 +59,10 @@ init
 	// Chapter 9 After Secret Room
 	vars.Events.FunctionFlag("Ch09AfterSecretRoom", "Ch09_Crush_Obscura_P_C", "", "OnSetupLoadingVideoDelay");
 	// Chapter 11 After Video into Hypnos Chamber
-	vars.Events.FunctionFlag("Ch10AfterVideo", "HypnosChamber_P_C", "", "OnSetupLoadingVideoDelay");
+	vars.Events.FunctionFlag("Ch11AfterVideo", "HypnosChamber_P_C", "", "OnSetupLoadingVideoDelay");
 	// Chapter 12 Flying Sequence
-	vars.Events.FunctionFlag("Ch11StartFlyingSequence", "BP_AmmasBedCandle_C", "", "ExecuteUbergraph_BP_AmmasBedCandle");
-	vars.Events.FunctionFlag("Ch11AfterFlyingSequence", "CSE_BreathingBase_C", "", "OnEventChanged");
+	vars.Events.FunctionFlag("Ch12StartFlyingSequence", "BP_AmmasBedCandle_C", "", "ExecuteUbergraph_BP_AmmasBedCandle");
+	vars.Events.FunctionFlag("Ch12AfterFlyingSequence", "CSE_BreathingBase_C", "", "OnEventChanged");
 	vars.Loading = false;
 	vars.FlyingLoading = false;
 
@@ -98,7 +98,7 @@ update
 	if (vars.Resolver.CheckFlag("OnPlayLoadingVideo")) vars.Loading = true;
 	if (vars.Resolver.CheckFlag("VideoTimelineTransitionIn")) vars.Loading = true;
 	if (vars.Resolver.CheckFlag("Ch04WinterIchorRising")) vars.Loading = true;
-	if (vars.Resolver.CheckFlag("Ch76PharmacyInfusionTake")) vars.Loading = true;
+	if (vars.Resolver.CheckFlag("Ch07PharmacyInfusionTake")) vars.Loading = true;
 	if (vars.Resolver.CheckFlag("OnLoadingVideoFinished")) vars.Loading = false;
 	if (vars.Resolver.CheckFlag("Ch01FathomDunescapeReturn")) vars.Loading = false;
 	if (vars.Resolver.CheckFlag("Ch07PharmacyReturnAfterInfusion")) vars.Loading = false;
