@@ -71,6 +71,7 @@ init
     vars.Start = true;
 	vars.Events.FunctionFlag("EndOfGame", "BP_GameManager_HypnosChamber_C", "", "SleepAwakeTitleCard");
 
+    vars.Resolver.Watch<bool>("Loading", vars.Utils.GSync);
 	vars.Resolver.Watch<int>("OverallChapterNum", vars.Utils.GEngine, 0xD48, 0x4C8);
 	vars.Resolver.WatchString("ChapterGoal", vars.Utils.GEngine, 0xD48, 0x848, 0x28, 0x0);
 
@@ -107,6 +108,8 @@ update
 	if (vars.Resolver.CheckFlag("Ch11AfterVideo")) vars.Loading = false;
 	if (vars.Resolver.CheckFlag("Ch12StartFlyingSequence")) { vars.Loading = true; vars.FlyingLoading = true; }
 	if (vars.FlyingLoading && vars.Resolver.CheckFlag("Ch12AfterFlyingSequence")) { vars.Loading = false; vars.FlyingLoading = false; }
+    if (current.Loading == true) vars.Loading = true;
+    if (current.Loading == false) vars.Loading = false;
 
 	if (old.OverallChapterNum != current.OverallChapterNum) vars.Uhara.Log("Overall Chapter Num: " + current.OverallChapterNum);
 }
