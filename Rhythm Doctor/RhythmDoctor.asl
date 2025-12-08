@@ -130,6 +130,9 @@ init
     print("MD5: " + MD5Hash);
 
 	switch(MD5Hash){
+		case "B2FECBA9A6393A4212597B13D3B0FD21" :
+			version = "v1.0.1";
+			break;
 		case "F4F1BFEDD020FBAD460EAB343F106A19" :
 			version = "v1.0.0";
 			break;
@@ -191,6 +194,7 @@ init
 		switch(version)
 		{
 			case "Unknown version":
+			case "v1.0.1":
 			case "v1.0.0":
 				{
 					var SV = mono["SpeedrunValues"];
@@ -297,6 +301,7 @@ init
         // Beans Values
 		switch(version)
 		{
+			case "v1.0.1":
 			case "v1.0.0":
 			case "v0.19.0":
 			case "v0.18.1":
@@ -372,6 +377,7 @@ update
 	switch (version)
 	{
 		case "Unknown version":
+		case "v1.0.1":
 		case "v1.0.0":
 		case "v0.19.0":
 		case "v0.18.1":
@@ -423,6 +429,7 @@ start
 		switch(version)
 		{
 			case "Unknown version":
+			case "v1.0.1":
 			case "v1.0.0":
 			case "v0.19.0":
 			case "v0.18.1":
@@ -469,6 +476,7 @@ split
 		switch(version)
 		{
 			case "Unknown version":
+			case "v1.0.1":
 			case "v1.0.0":
 			case "v0.19.0":
 			case "v0.18.1":
@@ -571,6 +579,7 @@ split
 	else switch (version)
 	{
 		case "Unknown version":
+		case "v1.0.1":
 		case "v1.0.0":
 		case "v0.19.0":
 		case "v0.18.1":
@@ -615,6 +624,7 @@ isLoading
 	switch(version)
 	{
 		case "Unknown version":
+		case "v1.0.1":
 		case "v1.0.0":
 		case "v0.19.0":
 		case "v0.18.1":
@@ -640,6 +650,7 @@ reset
 	switch(version)
 	{
 		case "Unknown version":
+		case "v1.0.1":
 		case "v1.0.0":
 		case "v0.19.0":
 		case "v0.18.1":
