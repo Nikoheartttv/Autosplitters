@@ -114,61 +114,62 @@ startup
 
 init
 {
+	vars.Version = "";
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
 		int releaseNumber = vars.Helper.Read<int>(mono["Releases"].Static + mono["Releases"]["releaseNumber"]);
 		switch(releaseNumber)
 		{
 			case 16:
-				version = "v0.10.1";
+				vars.Version = "v0.10.1";
 				break;
 			case 25:
-				version = "v0.11.5";
+				vars.Version = "v0.11.5";
 				break;
 			case 26:
-				version = "v0.11.6";
+				vars.Version = "v0.11.6";
 				break;
 			case 27:
-				version = "v0.12.0";
+				vars.Version = "v0.12.0";
 				break;
 			case 28:
-				version = "v0.13.0";
+				vars.Version = "v0.13.0";
 				break;
 			case 29:
-				version = "v0.13.1";
+				vars.Version = "v0.13.1";
 				break;
 			case 30:
-				version = "v0.14.0";
+				vars.Version = "v0.14.0";
 				break;
 			case 31:
-				version = "v0.15.0";
+				vars.Version = "v0.15.0";
 				break;
 			case 32:
-				version = "v0.15.1";
+				vars.Version = "v0.15.1";
 				break;
 			case 33:
-				version = "v0.16.0";
+				vars.Version = "v0.16.0";
 				break;
 			case 34:
-				version = "v0.16.1";
+				vars.Version = "v0.16.1";
 				break;
 			case 35:
-				version = "v0.17.0";
+				vars.Version = "v0.17.0";
 				break;
 			case 39:
-				version = "v0.18.1";
+				vars.Version = "v0.18.1";
 				break;
 			case 40:
-				version = "v0.19.0";
+				vars.Version = "v0.19.0";
 				break;
 			case 41:
-				version = "v1.0.0";
+				vars.Version = "v1.0.0";
 				break;
 			case 42:
-				version = "v1.0.1+";
+				vars.Version = "v1.0.1+";
 				break;
 			default:
-				version = "v1.0.1+";
+				vars.Version = "v1.0.1+";
 				break;
 		}
 
@@ -183,7 +184,7 @@ init
 		vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MM["mistakesCountP1"]);
 		dynamic HUD = null;
 
-		switch(version)
+		switch((string)vars.Version)
 		{
 			case "v1.0.1+":
 			case "v1.0.0":
@@ -288,7 +289,7 @@ init
 		}
 
 		// Beans Values
-		switch(version)
+		switch((string)vars.Version)
 		{
 			case "v1.0.1+":
 			case "v1.0.0":
@@ -357,9 +358,8 @@ update
 	// Initialise checks at level start
 	if ((old.Scene == "scnLevelSelect" && current.Scene == "scnGame")) vars.levelCompleted = false;
 
-	switch (version)
+	switch((string)vars.Version)
 	{
-		case "Unknown version":
 		case "v1.0.1+":
 		case "v1.0.0":
 		case "v0.19.0":
@@ -410,9 +410,8 @@ start
 {
 	if (!settings["IL_Mode"])
 	{
-		switch(version)
+		switch((string)vars.Version)
 		{
-			case "Unknown version":
 			case "v1.0.1+":
 			case "v1.0.0":
 			case "v0.19.0":
@@ -460,9 +459,8 @@ split
 {
 	if (!settings["IL_Mode"])
 	{
-		switch(version)
+		switch((string)vars.Version)
 		{
-			case "Unknown version":
 			case "v1.0.1+":
 			case "v1.0.0":
 				if (old.Level == "Intro" && current.Level == "OrientalTechno")
@@ -603,9 +601,8 @@ split
 				break;
 		}
 	}
-	else switch (version)
+	else switch((string)vars.Version)
 	{
-		case "Unknown version":
 		case "v1.0.1+":
 		case "v1.0.0":
 		case "v0.19.0":
@@ -651,9 +648,8 @@ onSplit
 
 isLoading
 {
-	switch(version)
+	switch((string)vars.Version)
 	{
-		case "Unknown version":
 		case "v1.0.1+":
 		case "v1.0.0":
 		case "v0.19.0":
@@ -679,9 +675,8 @@ isLoading
 
 reset
 {
-	switch(version)
+	switch((string)vars.Version)
 	{
-		case "Unknown version":
 		case "v1.0.1+":
 		case "v1.0.0":
 		case "v0.19.0":
