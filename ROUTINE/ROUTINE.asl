@@ -8,6 +8,7 @@ startup
 
 	dynamic[,] _settings =
 	{
+		{ "SetSeed", false, "Set Seed Speedrun", null },
 		{ "ChapterSplits", true, "Chapter Splits", null },
 			{ "Routine_Data_Chapter_02", true, "Chapter 1: Birth", "ChapterSplits" },
 			{ "Routine_Data_Chapter_03", true, "Chapter 2: Incision", "ChapterSplits" },
@@ -17,7 +18,6 @@ startup
 			{ "EndSplit", true, "Chapter 6: Legacy", "ChapterSplits" },
 	};
 	vars.Uhara.Settings.Create(_settings);
-
 }
 
 init
@@ -32,10 +32,7 @@ init
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
 	vars.Resolver.Watch<bool>("CineVideoLock", vars.Utils.GEngine, 0x11F8, 0x38, 0x0, 0x30, 0x350, 0x6A8, 0xC0);
 
-	IntPtr SaveGame = vars.Events.InstancePtr("Routine_SaveGame_C", "");
-	// GEngine -> Game Instance -> LocalPlayers[0] -> PlayerController -> AcknowledgedPawn -> NoteComponent -> Notes[AllocatorInstance]
-	vars.Resolver.Watch<IntPtr>("NoteComponent", vars.Utils.GEngine, 0x11F8, 0x38, 0x0, 0x30, 0x350, 0x710, 0xA8);
-	vars.Resolver.Watch<int>("NoteComponentCount", vars.Utils.GEngine, 0x11F8, 0x38, 0x0, 0x30, 0x350, 0x710, 0xB0);
+	// IntPtr SaveGame = vars.Events.InstancePtr("Routine_SaveGame_C", "");
 	current.World = "";
 
 	vars.Resolver.Watch<IntPtr>("EventComponent", vars.Utils.GEngine, 0x11F8, 0x38, 0x0, 0x30, 0x2E8, 0x708, 0xA8);
@@ -46,27 +43,27 @@ update
 {
 	vars.Uhara.Update();
 
-	// --- World tracking ---
 	string world = vars.Utils.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
-	if (old.World != current.World) vars.Uhara.Log("World Change: " + current.World);
+	// if (old.World != current.World) vars.Uhara.Log("World Change: " + current.World);
 
 	if (current.EventComponentCount > old.EventComponentCount)
 	{
 		string name = vars.Utils.FNameToString(vars.Resolver.Read<uint>(current.EventComponent + 0x10 * (current.EventComponentCount - 1), 0x18));
-
-		if (!string.IsNullOrEmpty(name)) vars.Uhara.Log("Last EventComponent FName: " + name);
+		// if (!string.IsNullOrEmpty(name)) vars.Uhara.Log("Last EventComponent FName: " + name);
 	}
-	if (old.GSync != current.GSync) vars.Uhara.Log("GSync changed: " + current.GSync);
+	// if (old.GSync != current.GSync) vars.Uhara.Log("GSync changed: " + current.GSync);
 }
 
 start
 {
-	return old.World == "Map_Menu_Main" && current.World == "Map_Game_Arrivals_Master" && current.CineVideoLock;
+	if (!settings["SetSeed"]) return old.World == "Map_Menu_Main" && current.World == "Map_Game_Arrivals_Master" && current.CineVideoLock;
+	else return old.World == "Map_Menu_Main" && current.World == "Map_Game_Arrivals_Master";
 }
 
 onStart
 {
+	timer.IsGameTimePaused = true;
 	vars.CompletedSplits.Clear();
 }
 
