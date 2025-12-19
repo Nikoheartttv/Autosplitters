@@ -384,7 +384,7 @@ split
 	}
 	else 
 	{
-		switch ((string)vars.Version)
+		switch (version)
 		{
 			case "v1.0.1+": case "v1.0.0":
 			case "v0.19.0": case "v0.18.1":
