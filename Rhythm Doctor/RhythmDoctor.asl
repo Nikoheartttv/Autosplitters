@@ -112,42 +112,42 @@ init
 		};
 
 		int releaseNumber = vars.Helper.Read<int>(mono["Releases"].Static + mono["Releases"]["releaseNumber"]);
-        if (releaseToVersion.ContainsKey(releaseNumber))
-        	version = releaseToVersion[releaseNumber];
+		if (releaseToVersion.ContainsKey(releaseNumber))
+			version = releaseToVersion[releaseNumber];
 		else
 			version = "v1.0.1+";
 		vars.Log("Release Number: " + releaseNumber);
 
 		vars.Mono = mono;
-        vars.Assembly = mono.Images["Assembly-CSharp"];
-        var scnGame = mono["scnGame", 1];
-        var scnGame2 = mono["scnGame"];
-        var MM = mono["MistakesManager"];
-        var scnMenu = mono["scnMenu", 1];
+		vars.Assembly = mono.Images["Assembly-CSharp"];
+		var scnGame = mono["scnGame", 1];
+		var scnGame2 = mono["scnGame"];
+		var MM = mono["MistakesManager"];
+		var scnMenu = mono["scnMenu", 1];
 		vars.Helper["failedLevel"] = scnGame.Make<bool>("_instance", "failedLevel");
 		vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MM["mistakesCountP1"]);
-        dynamic HUD = null;
+		dynamic HUD = null;
 
-        switch(version)
-        {
-            case "v1.0.1+": case "v1.0.0":
-                {
-                    var SV = mono["SpeedrunValues"];
+		switch(version)
+		{
+			case "v1.0.1+": case "v1.0.0":
+				{
+					var SV = mono["SpeedrunValues"];
 					var LevelBase = mono["LevelBase"];
-                    var Rankscreen = mono["Rankscreen"];
-                    vars.Helper["inGame"] = SV.Make<bool>("inGame");
-                    vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
-                    vars.Helper["Level"] = SV.MakeString("currentLevel");
-                    vars.Helper["rank"] = SV.Make<int>("rank");
-                    vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
-                    vars.Helper["GameState"] = SV.Make<int>("currentGameState");
-                    vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
-                    vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "rankscreen", Rankscreen["trueGameover"]);
-                    vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
-                }
-                break;
+					var Rankscreen = mono["Rankscreen"];
+					vars.Helper["inGame"] = SV.Make<bool>("inGame");
+					vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
+					vars.Helper["Level"] = SV.MakeString("currentLevel");
+					vars.Helper["rank"] = SV.Make<int>("rank");
+					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["GameState"] = SV.Make<int>("currentGameState");
+					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+					vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "rankscreen", Rankscreen["trueGameover"]);
+					vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+				}
+				break;
 
-            case "v0.19.0": case "v0.18.1": 
+			case "v0.19.0": case "v0.18.1": 
 				{
 					var SV = mono["SpeedrunValues"];
 					var LevelBase = mono["LevelBase"];
@@ -166,65 +166,65 @@ init
 
 			case "v0.17.0": case "v0.16.1": case "v0.16.0": case "v0.15.1": 
 			case "v0.15.0": case "v0.14.0": case "v0.13.1": case "v0.13.0": case "v0.12.0":
-                {
-                    var SV = mono["SpeedrunValues"];
-                    HUD = mono["HUD"];
-                    vars.Helper["inGame"] = SV.Make<bool>("inGame");
-                    vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
-                    vars.Helper["Level"] = SV.MakeString("currentLevel");
-                    vars.Helper["rank"] = SV.Make<int>("rank");
-                    vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
-                    vars.Helper["GameState"] = SV.Make<int>("currentGameState");
-                    vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
-                    vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
-                    vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
-                }
-                break;
+				{
+					var SV = mono["SpeedrunValues"];
+					HUD = mono["HUD"];
+					vars.Helper["inGame"] = SV.Make<bool>("inGame");
+					vars.Helper["isLoading"] = SV.Make<bool>("isLoading");
+					vars.Helper["Level"] = SV.MakeString("currentLevel");
+					vars.Helper["rank"] = SV.Make<int>("rank");
+					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["GameState"] = SV.Make<int>("currentGameState");
+					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+					vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
+					vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+				}
+				break;
 
-            case "v0.11.6": case "v0.11.5": case "v0.10.1":
-                {
-                    HUD = mono["HUD"];
-                    vars.Helper["rank"] = scnGame.Make<int>("_instance", "hud", HUD["mRank"]);
-                    vars.Helper["Level"] = mono.MakeString("scnGame", "internalIdentifier");
-                    vars.Helper["slotOpen"] = scnMenu.Make<bool>("_instance", "slotOpen");
-                    vars.Helper["transitioningToAnotherScene"] = scnMenu.Make<bool>("_instance", "transitioningToAnotherScene");
-                    vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
-                    vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
-                    vars.Helper["GameState"] = scnGame.Make<int>("_instance", "_gameState");
+			case "v0.11.6": case "v0.11.5": case "v0.10.1":
+				{
+					HUD = mono["HUD"];
+					vars.Helper["rank"] = scnGame.Make<int>("_instance", "hud", HUD["mRank"]);
+					vars.Helper["Level"] = mono.MakeString("scnGame", "internalIdentifier");
+					vars.Helper["slotOpen"] = scnMenu.Make<bool>("_instance", "slotOpen");
+					vars.Helper["transitioningToAnotherScene"] = scnMenu.Make<bool>("_instance", "transitioningToAnotherScene");
+					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+					vars.Helper["GameState"] = scnGame.Make<int>("_instance", "_gameState");
 
-                    if (vars.Version == "v0.10.1")
-                        vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["mGameover"]);
-                    else
-                        vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
+					if (vars.Version == "v0.10.1")
+						vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["mGameover"]);
+					else
+						vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
 
-                    vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
-                }
-                break;
-        }
+					vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+				}
+				break;
+		}
 
-        switch(version)
-        {
-            case "v1.0.1+": case "v1.0.0": case "v0.19.0": case "v0.18.1":
-                vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
-                vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
-                vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["LevelBase"]["noGetSet"]);
-                break;
+		switch(version)
+		{
+			case "v1.0.1+": case "v1.0.0": case "v0.19.0": case "v0.18.1":
+				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["LevelBase"]["noGetSet"]);
+				break;
 
-            case "v0.17.0": case "v0.16.1": case "v0.16.0":
-                vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
-                vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["Level_Custom"]["i1"]);
-                vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["Level_Custom"]["noGetSet"]);
-                break;
+			case "v0.17.0": case "v0.16.1": case "v0.16.0":
+				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["Level_Custom"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["Level_Custom"]["noGetSet"]);
+				break;
 
-            default:
-                vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
-                vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
-                vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["LevelBase"]["noGetSet"]);
-                break;
-        }
+			default:
+				vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
+				vars.Helper["score"] = scnGame.Make<int>("_instance", "currentLevel", mono["LevelBase"]["i1"]);
+				vars.Helper["noGetSet"] = scnGame.Make<bool>("_instance", "currentLevel", mono["LevelBase"]["noGetSet"]);
+				break;
+		}
 
-        return true;
-    });
+		return true;
+	});
 
 	vars.WLClassFound = false;
 	vars.WLHasShownEnding = false;
@@ -320,12 +320,12 @@ start
 		}
 	}
 	else if (current.Scene == "scnGame")
-    {
-        if (current.Level != "BeansHopper")
-            return !current.attemptToLoadTutorial && !current.currentLevelPath.Contains("tutorial") && current.GameState == 1;
-        else
-            return current.barNumber == 3;
-    }
+	{
+		if (current.Level != "BeansHopper")
+			return !current.attemptToLoadTutorial && !current.currentLevelPath.Contains("tutorial") && current.GameState == 1;
+		else
+			return current.barNumber == 3;
+	}
 }
 
 onStart
@@ -340,30 +340,39 @@ onStart
 
 split
 {
-    if (!settings["IL_Mode"])
-    {
-        if (old.Scene == "scnGame" && current.Scene != "scnGame")
-        {
-            bool isNoCompletion = vars.noCompletionLevels.Contains(old.Level);
-            string splitLevel = isNoCompletion ? old.Level : current.Level;
+	if (!settings["IL_Mode"])
+	{
+		if (old.Scene == "scnGame" && current.Scene != "scnGame")
+		{
+			string splitLevel = old.Level;
+			bool isNoCompletion = vars.noCompletionLevels.Contains(splitLevel);
 
-            if (!vars.VisitedLevel.Contains(splitLevel))
-            {
-                bool doSplit = isNoCompletion
-                    || (splitLevel == "BeansHopper" && (!settings["Flawless"] || current.score >= 60))
-                    || (vars.bossLevels.Contains(splitLevel) && vars.levelCompleted)
-                    || (splitLevel == "HelpingHands" && (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17))
-                    || (!isNoCompletion && splitLevel != "BeansHopper" && splitLevel != "HelpingHands" &&
-                        vars.GetLocalRank(current.rank) >= 10 && (!settings["Flawless"] || vars.GetLocalRank(current.rank) == 17));
+			if (!vars.VisitedLevel.Contains(splitLevel))
+			{
+				bool doSplit = false;
 
-                if (doSplit)
-                {
-                    vars.Log("--- SPLIT: " + splitLevel);
+				if (isNoCompletion)
+					doSplit = true;
+				else if (splitLevel == "BeansHopper")
+					doSplit = !settings["Flawless"] || current.score >= 60;
+				else if (splitLevel == "HelpingHands")
+					doSplit = !settings["Flawless"] || vars.GetLocalRank(current.rank) == 17;
+				else if (vars.bossLevels.Contains(splitLevel))
+					doSplit = vars.levelCompleted;
+				else
+				{
+					int localRank = vars.GetLocalRank(current.rank);
+					doSplit = localRank >= 10 && (!settings["Flawless"] || localRank == 17);
+				}
+
+				if (doSplit)
+				{
+					vars.Log("--- SPLIT: " + splitLevel);
 					vars.VisitedLevel.Add(splitLevel);
-                    return settings[splitLevel];
-                }
-            }
-        }
+					return settings[splitLevel];
+				}
+			}
+		}
 
 		if (!vars.VisitedLevel.Contains("RhythmWeightlifter") &&
 			old.Scene == "scnRhythmWeightlifter" && current.Scene == "scnLevelSelect" &&
@@ -372,10 +381,10 @@ split
 			vars.VisitedLevel.Add("RhythmWeightlifter");
 			return settings["RhythmWeightlifter"];
 		}
-    }
-    else
-    {
-		switch (version)
+	}
+	else 
+	{
+		switch ((string)vars.Version)
 		{
 			case "v1.0.1+": case "v1.0.0":
 			case "v0.19.0": case "v0.18.1":
@@ -391,8 +400,9 @@ split
 					? current.GameState == 3 && old.rank == 0 && current.rank != 0 
 					: !old.noGetSet && current.noGetSet;
 		}
-    }
+	}
 }
+
 
 onSplit
 {
