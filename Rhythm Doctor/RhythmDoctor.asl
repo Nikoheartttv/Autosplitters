@@ -116,6 +116,7 @@ init
         	version = releaseToVersion[releaseNumber];
 		else
 			version = "v1.0.1+";
+		vars.Log("Release Number: " + releaseNumber);
 
 		vars.Mono = mono;
         vars.Assembly = mono.Images["Assembly-CSharp"];
