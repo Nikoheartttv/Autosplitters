@@ -102,24 +102,30 @@ init
 {
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
-		var releaseToVersion = new Dictionary<int, string>()
-		{
-			{ 16, "v0.10.1" }, { 25, "v0.11.5" }, { 26, "v0.11.6" },
-			{ 27, "v0.12.0" }, { 28, "v0.13.0" }, { 29, "v0.13.1" },
-			{ 30, "v0.14.0" }, { 31, "v0.15.0" }, { 32, "v0.15.1" },
-			{ 33, "v0.16.0" }, { 34, "v0.16.1" }, { 35, "v0.17.0" },
-			{ 39, "v0.18.1" }, { 40, "v0.19.0" }, { 41, "v1.0.0" }, { 42, "v1.0.1+" }
-		};
-
-		int releaseNumber = vars.Helper.Read<int>(mono["Releases"].Static + mono["Releases"]["releaseNumber"]);
-		if (releaseToVersion.ContainsKey(releaseNumber))
-			version = releaseToVersion[releaseNumber];
-		else
-			version = "v1.0.1+";
-		vars.Log("Release Number: " + releaseNumber);
-
 		vars.Mono = mono;
-		vars.Assembly = mono.Images["Assembly-CSharp"];
+        vars.Assembly = mono.Images["Assembly-CSharp"];
+
+		if (String.IsNullOrEmpty(version))
+        {
+			var releasesStatic = mono["Releases"].Static;
+			if (releasesStatic == IntPtr.Zero) return false;
+
+			int releaseNumber = vars.Helper.Read<int>(releasesStatic + mono["Releases"]["releaseNumber"]);
+			var releaseToVersion = new Dictionary<int, string>()
+			{
+				{ 16, "v0.10.1" }, { 25, "v0.11.5" }, { 26, "v0.11.6" },
+				{ 27, "v0.12.0" }, { 28, "v0.13.0" }, { 29, "v0.13.1" },
+				{ 30, "v0.14.0" }, { 31, "v0.15.0" }, { 32, "v0.15.1" },
+				{ 33, "v0.16.0" }, { 34, "v0.16.1" }, { 35, "v0.17.0" },
+				{ 39, "v0.18.1" }, { 40, "v0.19.0" }, { 41, "v1.0.0" }, { 42, "v1.0.1+" }
+			};
+
+			version = releaseToVersion.ContainsKey(releaseNumber) ? releaseToVersion[releaseNumber] : "v1.0.1+";
+            vars.Log("Release Number: " + releaseNumber + " -> version " + version);
+
+            return false;
+		}
+		
 		var scnGame = mono["scnGame", 1];
 		var scnGame2 = mono["scnGame"];
 		var MM = mono["MistakesManager"];
