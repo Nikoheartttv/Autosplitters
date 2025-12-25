@@ -100,8 +100,15 @@ startup
 
 init
 {
+	vars.Version = null;
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
+		vars.Mono = mono;
+        vars.Assembly = mono.Images["Assembly-CSharp"];
+		var releases = mono["Releases"];
+		if (releases == null || releases.Static == IntPtr.Zero) return false;
+		int releaseNumber = vars.Helper.Read<int>(releases.Static + mono["Releases"]["releaseNumber"]);
+
 		var releaseToVersion = new Dictionary<int, string>()
 		{
 			{ 16, "v0.10.1" }, { 25, "v0.11.5" }, { 26, "v0.11.6" },
@@ -110,15 +117,9 @@ init
 			{ 33, "v0.16.0" }, { 34, "v0.16.1" }, { 35, "v0.17.0" },
 			{ 39, "v0.18.1" }, { 40, "v0.19.0" }, { 41, "v1.0.0" }, { 42, "v1.0.1+" }
 		};
+        vars.Version = releaseToVersion.ContainsKey(releaseNumber) ? releaseToVersion[releaseNumber] : "v1.0.1+";
+		vars.Log("Release Number: " + releaseNumber + " -> version " + version);
 
-		int releaseNumber = vars.Helper.Read<int>(mono["Releases"].Static + mono["Releases"]["releaseNumber"]);
-        if (releaseToVersion.ContainsKey(releaseNumber))
-        	version = releaseToVersion[releaseNumber];
-		else
-			version = "v1.0.1+";
-
-		vars.Mono = mono;
-        vars.Assembly = mono.Images["Assembly-CSharp"];
         var scnGame = mono["scnGame", 1];
         var scnGame2 = mono["scnGame"];
         var MM = mono["MistakesManager"];
@@ -127,7 +128,7 @@ init
 		vars.Helper["mistakesCountP1"] = scnGame.Make<float>("_instance", "mistakesManager", MM["mistakesCountP1"]);
         dynamic HUD = null;
 
-        switch(version)
+        switch((string)vars.Version)
         {
             case "v1.0.1+": case "v1.0.0":
                 {
@@ -143,6 +144,7 @@ init
                     vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
                     vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "rankscreen", Rankscreen["trueGameover"]);
                     vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+					vars.Log("Using v1.0.x pointers");
                 }
                 break;
 
@@ -160,6 +162,7 @@ init
 					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
 					vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
 					vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+					vars.Log("Using v0.18-0.19 pointers");
 				}
 				break;
 
@@ -177,6 +180,7 @@ init
                     vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
                     vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
                     vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+					vars.Log("Using v0.16-0.17 pointers");
                 }
                 break;
 
@@ -197,11 +201,12 @@ init
                         vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
 
                     vars.Helper["trueGameover"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+					vars.Log("Using v0.10-0.11 pointers");
                 }
                 break;
         }
 
-        switch(version)
+        switch((string)vars.Version)
         {
             case "v1.0.1+": case "v1.0.0": case "v0.19.0": case "v0.18.1":
                 vars.Helper["barNumber"] = mono.Make<int>("scrConductor", "_instance", "barNumber");
@@ -270,7 +275,7 @@ update
 		}
 	}
 
-	switch (version)
+	switch ((string)vars.Version)
 	{
 		case "v1.0.1+": case "v1.0.0":
 		case "v0.19.0": case "v0.18.1":
@@ -303,7 +308,7 @@ start
 {
 	if (!settings["IL_Mode"])
 	{
-		switch(version)
+		switch((string)vars.Version)
 		{
 			case "v1.0.1+": case "v1.0.0":
 			case "v0.19.0": case "v0.18.1":
@@ -374,7 +379,7 @@ split
     }
     else
     {
-		switch (version)
+		switch ((string)vars.Version)
 		{
 			case "v1.0.1+": case "v1.0.0":
 			case "v0.19.0": case "v0.18.1":
@@ -400,7 +405,7 @@ onSplit
 
 isLoading
 {
-	switch(version)
+	switch((string)vars.Version)
 	{
 		case "v1.0.1+": case "v1.0.0":
 		case "v0.19.0": case "v0.18.1":
@@ -417,7 +422,7 @@ isLoading
 
 reset
 {
-	switch(version)
+	switch((string)vars.Version)
 	{
 		case "v1.0.1+": case "v1.0.0":
 		case "v0.19.0": case "v0.18.1":
