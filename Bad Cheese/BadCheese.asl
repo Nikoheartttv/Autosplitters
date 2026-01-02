@@ -3,15 +3,20 @@ state("BadCheese-Win64-Shipping") {}
 startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-	Assembly.Load(File.ReadAllBytes("Components/uhara8")).CreateInstance("Main");
+	Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
 	vars.Helper.GameName = "Bad Cheese";
 	vars.Helper.AlertLoadless();
 
 	dynamic[,] _settings =
 	{
 		{ "StartTiming", true, "Start Timing", null },
-			{ "FullRun", true, "Full Run", "StartTiming" },
-			{ "FromSettings", false, "From Settings (Loads into Steamboat)", "StartTiming" },
+			{ "FromSettings", false, "From Settings (Main Menu → Steamboat, v1.0 only)", "StartTiming" },
+			{ "Creepong", false, "Creepong Start (Main Menu → Kid's Bedroom)", "StartTiming" },
+		{ "CreepongSplits", true, "Creepong Splits", null },
+			{ "CreepongLevel1", true, "Level 1", "CreepongSplits" },
+			{ "CreepongLevel2", true, "Level 2", "CreepongSplits" },
+			{ "CreepongLevel3", true, "Level 3", "CreepongSplits" },
+			{ "CreepongBoss",  true, "Boss (Win)", "CreepongSplits" },
 		{ "ChapterSplits", true, "Chapter Splits", null },
 			{ "L_01Hallway", true, "Hallway", "ChapterSplits" },
 			{ "L_02Kitchen", true, "Kitchen", "ChapterSplits" },
@@ -36,10 +41,7 @@ init
 	IntPtr gSyncLoadCount = vars.Helper.ScanRel(5, "89 43 60 8B 05 ?? ?? ?? ??");
 
 	if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
-	{
-		const string Msg = "Not all required addresses could be found by scanning.";
-		throw new Exception(Msg);
-	}
+		throw new Exception("Not all required addresses could be found by scanning.");
 
 	vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
@@ -57,10 +59,6 @@ init
 	});
 
 	var Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
-	IntPtr MusicBox = Events.InstancePtr("BP_MusicBoxActor_C", "BP_MusicBoxActor_C");
-	// IntPtr Objective = Events.InstancePtr("WBP_Objective_C", "WBP_Objective_C");
-	// WBP_Objective_C -> LocTextObjectiveMessage -> TextStruct.Key["AllocatorInstance"]
-	// vars.Helper["ObjectiveName"] = vars.Helper.MakeString(Objective, 0x2E8, 0x2F0, 0x0);
 
 	// asl-help Helpers
 	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
@@ -72,13 +70,10 @@ init
 	vars.Helper["BathroomMazeTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_ExitRoom_C", "BP_ExitRoom_C", "ExecuteUbergraph_BP_ExitRoom"));
 	vars.Helper["CheesegateTransition"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_Cheesegate_C", "BP_Cheesegate_C", "BndEvt__BP_Cheesegate_EndLevelCol_K2Node_ComponentBoundEvent_1_ComponentBeginOverlapSignature__DelegateSignature"));
 	vars.Helper["LevelEndBoxAudio"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_LevelEndBox_C", "BP_LevelEndBox_C", "PlayAudio"));
-
-	// Uhaha Helpers - Death Jumpscares
-	// vars.Helper["DaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_DaddyDeathscare_C", "BP_DaddyDeathscare_C", "ExecuteUbergraph_BP_DaddyDeathscare"));
-	// vars.Helper["EggDaddyDeathScare"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_EggDaddyDeathscare_C", "BP_EggDaddyDeathscare_C", "ExecuteUbergraph_BP_EggDaddyDeathscare"));
-	
-	// Uhaha Helpers - End Game
-	// vars.Helper["RollCredits"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_CreditsCamera_C", "BP_CreditsCamera_C", "RollCredits"));
+	vars.Helper["CreepongStart"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_PongMap_C", "TransitionMap_BP_PongMap_C_CAT", "PlayLevelTransitionAnimation"));
+	vars.Helper["CreepongWin"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_PongGame2_C", "BP_PongGame2_C", "BossKillEvent"));
+	vars.Helper["CreepongNextLevel"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_PongMap_C", "TransitionMap_BP_PongMap_C_CAT", "*Transition__FinishedFunc"));
+	vars.Helper["CreepongShowLevel"] = vars.Helper.Make<ulong>(Events.FunctionFlag("BP_PongGame2_C", "BP_PongGame2_C", "ShowLevelName"));
 
 	current.World = "";
 	vars.NowLoading = true;
@@ -90,52 +85,84 @@ update
 	vars.Helper.MapPointers();
 
 	var world = vars.FNameToString(current.GWorldName);
-	if (world != null && world != "None") current.World = world;
-	if (old.World != current.World) vars.Log("World: " + current.World);
-	if (current.ReverseTransition != old.ReverseTransition && current.ReverseTransition != 0) vars.NowLoading = false;
-	if (current.ScreenTransition != old.ScreenTransition && current.ScreenTransition != 0) vars.NowLoading = true;
-	if (current.MouthOfFearFadeOut != old.MouthOfFearFadeOut && current.MouthOfFearFadeOut != 0) vars.NowLoading = true;
-	if (current.BathroomMazeTransition != old.BathroomMazeTransition && current.BathroomMazeTransition != 0) vars.NowLoading = true;
-	if (current.CheesegateTransition != old.CheesegateTransition && current.CheesegateTransition != 0) vars.NowLoading = true;
-	// if (current.DaddyDeathScare != old.DaddyDeathScare && current.DaddyDeathScare != 0) vars.NowLoading = true;
-	// if (current.EggDaddyDeathScare != old.EggDaddyDeathScare && current.EggDaddyDeathScare != 0) vars.NowLoading = true;
-	// if (old.ObjectiveName != current.ObjectiveName) vars.Log("Objective: " + current.ObjectiveName);
-	// if (old.RollCredits != current.RollCredits && current.RollCredits != 0) vars.Log("RollCredits");
-	// if (old.LevelEndBoxAudio != current.LevelEndBoxAudio && current.LevelEndBoxAudio != 0) vars.Log("LevelEndBoxAudio");
+	if (!string.IsNullOrEmpty(world) && world != "None")
+		current.World = world;
+
+	if (old.World != current.World)
+		vars.Log("World: " + current.World);
+
+	if (current.ReverseTransition != old.ReverseTransition && current.ReverseTransition != 0)
+		vars.NowLoading = false;
+	else if ((current.ScreenTransition != old.ScreenTransition && current.ScreenTransition != 0)
+			|| (current.MouthOfFearFadeOut != old.MouthOfFearFadeOut && current.MouthOfFearFadeOut != 0)
+			|| (current.BathroomMazeTransition != old.BathroomMazeTransition && current.BathroomMazeTransition != 0)
+			|| (current.CheesegateTransition != old.CheesegateTransition && current.CheesegateTransition != 0))
+		vars.NowLoading = true;
 }
 
 start
 {
-	return (settings["FullRun"] && old.World == "L_MainMenu" && current.World == "L_01Hallway")
-	    || (settings["FromSettings"] && old.World == "L_MainMenu" && current.World == "L_09Steamboat");
+	if (settings["FromSettings"] && old.World == "L_MainMenu" && current.World == "L_09Steamboat") return true;
+	if (settings["Creepong"] && current.CreepongStart != old.CreepongStart && current.CreepongStart != 0) return true;
+
+	return old.World == "L_MainMenu" && current.World == "L_01Hallway";
 }
 
 onStart
 {
-	timer.IsGameTimePaused = true;
-	vars.NowLoading = true;
+	if (!settings["Creepong"])
+	{
+		timer.IsGameTimePaused = true;
+		vars.NowLoading = true;
+	}
+
 	vars.CompletedSplits.Clear();
+
+	// Track Creepong progress
+	vars.CreepongLevel = 1;
+	vars.CreepongPendingSplit = false;
 }
 
 split
 {
-	// if (old.ObjectiveName != current.ObjectiveName && settings[current.ObjectiveName] && !vars.CompletedSplits.Contains(current.ObjectiveName))
-	// {
-	//     vars.Log("Split: " + current.ObjectiveName);
-	//     vars.CompletedSplits.Add(current.ObjectiveName);
-	//     if (settings[current.ObjectiveName]) return true;
-	// }
+	// --- Normal chapter splits ---
 	if (old.World != current.World && current.World != "L_MainMenu" && settings[old.World] && !vars.CompletedSplits.Contains(old.World))
 	{
 		vars.Log("Split: " + old.World);
 		vars.CompletedSplits.Add(old.World);
 		if (settings[old.World]) return true;
 	}
+
 	if (settings["End"] && current.World == "L_Credits" && (old.LevelEndBoxAudio != current.LevelEndBoxAudio && current.LevelEndBoxAudio != 0) && !vars.CompletedSplits.Contains("End"))
 	{
-		vars.Log("Split: End" );
+		vars.Log("Split: End");
 		vars.CompletedSplits.Add("End");
 		return true;
+	}
+
+	// --- CREEPONG SPLITS ---
+	if (settings["Creepong"])
+	{
+		// Transition finished → waiting for ShowLevel
+		if (current.CreepongNextLevel != old.CreepongNextLevel && current.CreepongNextLevel != 0)
+		{
+			vars.CreepongPendingSplit = true;
+		}
+
+		// ShowLevel right after transition → split if setting enabled
+		if (vars.CreepongPendingSplit && current.CreepongShowLevel != old.CreepongShowLevel && current.CreepongShowLevel != 0)
+		{
+			vars.CreepongPendingSplit = false;
+			if (vars.CreepongLevel >= 1 && vars.CreepongLevel <= 3 && settings["CreepongLevel" + vars.CreepongLevel]) return true;
+			vars.CreepongLevel++;
+		}
+
+		// Final boss kill
+		if (current.CreepongWin != old.CreepongWin && current.CreepongWin != 0 && vars.CreepongLevel == 4)
+		{
+			vars.Log("Creepong Boss Win");
+			if (settings["CreepongBoss"]) return true;
+		}
 	}
 }
 
