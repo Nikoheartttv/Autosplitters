@@ -4,9 +4,9 @@ startup
 {
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
 	vars.Helper.GameName = "Partizan";
-    vars.MissionComplete = new List<string>();
+	vars.MissionComplete = new List<string>();
 
-    #region TextComponent
+	#region TextComponent
 		vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
 		vars.SetText = (Action<string, object>)((text1, text2) =>
 		{
@@ -38,36 +38,36 @@ startup
 		});
 	#endregion
 
-    dynamic[,] _settings =
+	dynamic[,] _settings =
 	{
 		{ "AutoReset", true, "Auto Reset", null },
 		{ "FirstLevel", true, "First Level", null },
 			{ "FindCalhoun", true, "Find Calhoun", "FirstLevel" },
 			{ "SaveCalhoun", true, "Save Calhoun", "FirstLevel" },
-        { "Debug", false, "Debug", null },
-            { "Speed", true, "Speed", "Debug" },
+		{ "Debug", false, "Debug", null },
+			{ "Speed", true, "Speed", "Debug" },
 	};
 	vars.Helper.Settings.Create(_settings);
 }
 
 init
 {
-    vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
+	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
-        vars.Helper["missions"] = mono.Make<IntPtr>("World.Mission_System.MissionHandler", "missions");
-        vars.Helper["timer"] = mono.Make<IntPtr>("World.Mission_System.GlobalMissionHandler", "data");
-        vars.Helper["inGameMenu"] = mono.Make<int>("World.Global", "inGameMenu");
-        vars.Helper["velX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA0);
-        vars.Helper["velY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA4);
-        vars.Helper["velZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA8);
-        vars.Helper["posX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xAC);
-        vars.Helper["posY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xB0);
-        vars.Helper["posZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xB4);
-        vars.Helper["movementInputx"] = mono.Make<float>("World.Global", "playerHandler", "characterMovement", "movementInput", 0x28);
+		vars.Helper["missions"] = mono.Make<IntPtr>("World.Mission_System.MissionHandler", "missions");
+		vars.Helper["timer"] = mono.Make<IntPtr>("World.Mission_System.GlobalMissionHandler", "data");
+		vars.Helper["inGameMenu"] = mono.Make<int>("World.Global", "inGameMenu");
+		vars.Helper["velX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA0);
+		vars.Helper["velY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA4);
+		vars.Helper["velZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA8);
+		vars.Helper["posX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xAC);
+		vars.Helper["posY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xB0);
+		vars.Helper["posZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xB4);
+		vars.Helper["movementInputx"] = mono.Make<float>("World.Global", "playerHandler", "characterMovement", "movementInput", 0x28);
 		return true;
 	});
 
-    #region Text Component
+	#region Text Component
 		vars.SetTextIfEnabled = (Action<string, object>)((text1, text2) =>
 		{
 			if (settings[text1]) vars.SetText(text1, text2); 
@@ -75,61 +75,61 @@ init
 		});
 	#endregion
 
-    current.Placeholder = 0;
-    current.time = 0;
-    vars.inGame = false;
-    current.inGameMenu = 0;
-    current.posX = 0;
-    current.posY = 0;
-    current.posZ = 0;
-    current.horizontalSpeed = 0;
+	current.Placeholder = 0;
+	current.time = 0;
+	vars.inGame = false;
+	current.inGameMenu = 0;
+	current.posX = 0;
+	current.posY = 0;
+	current.posZ = 0;
+	current.horizontalSpeed = 0;
 }
 
 update
 {
-    current.time = vars.Helper.Read<float>(current.timer + 0x38);
-    vars.inGame = current.inGameMenu != 0;
-    // if (old.posX != current.posX || old.posY != current.posY || old.posZ != current.posZ) vars.Log("X " + current.posX + "Y " + current.posY + "Z " + current.posZ);
+	current.time = vars.Helper.Read<float>(current.timer + 0x38);
+	vars.inGame = current.inGameMenu != 0;
+	// if (old.posX != current.posX || old.posY != current.posY || old.posZ != current.posZ) vars.Log("X " + current.posX + "Y " + current.posY + "Z " + current.posZ);
 
-    current.horizontalSpeed = Math.Sqrt(current.velX*current.velX + current.velZ*current.velZ);
+	current.horizontalSpeed = Math.Sqrt(current.velX*current.velX + current.velZ*current.velZ);
 
-    #region Debug Prints
-    if (settings["Debug"])
-    {
-        if ((int)old.horizontalSpeed != (int)current.horizontalSpeed) 
-        {
-            vars.Log("Speed " + ((int)current.horizontalSpeed).ToString());
-            vars.SetTextIfEnabled("Speed", ((int)current.horizontalSpeed).ToString());
-        }
-    }
-    #endregion
+	#region Debug Prints
+	if (settings["Debug"])
+	{
+		if ((int)old.horizontalSpeed != (int)current.horizontalSpeed) 
+		{
+			vars.Log("Speed " + ((int)current.horizontalSpeed).ToString());
+			vars.SetTextIfEnabled("Speed", ((int)current.horizontalSpeed).ToString());
+		}
+	}
+	#endregion
 }
 
 onStart
 {
-    vars.MissionComplete.Clear();
+	vars.MissionComplete.Clear();
 }
 
 start
 {
-    return old.posX != current.posX;
+	return old.movementInputx != current.movementInputx;
 }
 
 split
 {
-    int size = vars.Helper.Read<int>(current.missions + 0x10, 0x20, 0x30, 0x18);
-    for (int i = 0; i < size; i++)
-    {
-        string name = vars.Helper.ReadString(current.missions + 0x10, 0x20, 0x30, 0x10, i * 0x8 + 0x20, 0x10);
-        if (!string.IsNullOrEmpty(name) && !vars.MissionComplete.Contains(name))
-        {
-            vars.MissionComplete.Add(name);
-            return true;
-        }
-    }
+	int size = vars.Helper.Read<int>(current.missions + 0x10, 0x20, 0x30, 0x18);
+	for (int i = 0; i < size; i++)
+	{
+		string name = vars.Helper.ReadString(current.missions + 0x10, 0x20, 0x30, 0x10, i * 0x8 + 0x20, 0x10);
+		if (!string.IsNullOrEmpty(name) && !vars.MissionComplete.Contains(name))
+		{
+			vars.MissionComplete.Add(name);
+			return true;
+		}
+	}
 }
 
 reset
 {
-    return settings["AutoReset"] && old.time != 0 && current.time == 0;
+	return settings["AutoReset"] && old.time != 0 && current.time == 0;
 }
