@@ -43,8 +43,8 @@ startup
 	{
 		{ "AutoReset", true, "Auto Reset", null },
 		{ "FirstLevel", true, "First Level", null },
-			{ "FindCalhoun", true, "Find Calhoun", "FirstLevel" },
-			{ "SaveCalhoun", true, "Save Calhoun", "FirstLevel" },
+			{ "Find Calhoun", true, "Find Calhoun", "FirstLevel" },
+			{ "Save Calhoun", true, "Save Calhoun", "FirstLevel" },
 		{ "Debug", false, "Debug", null },
 			{ "Speed", true, "Speed", "Debug" },
 	};
@@ -66,7 +66,7 @@ init
 		vars.Helper["timer"] = mono.Make<IntPtr>("World.Mission_System.GlobalMissionHandler", "data");
 		vars.Helper["inGameMenu"] = mono.Make<int>("World.Global", "inGameMenu");
 		vars.Helper["movementInputx"] = mono.Make<float>("World.Global", "playerHandler", "characterMovement", "movementInput", 0x28);
-		
+
 		vars.Helper["velX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA0);
 		vars.Helper["velY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA4);
 		vars.Helper["velZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA8);
@@ -133,10 +133,10 @@ split
 	for (int i = 0; i < size; i++)
 	{
 		string name = vars.Helper.ReadString(current.missions + 0x10, 0x20, 0x30, 0x10, i * 0x8 + 0x20, 0x10);
-		if (!string.IsNullOrEmpty(name) && !vars.MissionComplete.Contains(name))
+		if (!string.IsNullOrEmpty(name) && settings[name] && !vars.MissionComplete.Contains(name))
 		{
 			vars.MissionComplete.Add(name);
-			return true;
+			return settings[name];
 		}
 	}
 }
