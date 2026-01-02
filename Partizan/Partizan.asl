@@ -62,6 +62,16 @@ split
     }
 }
 
+gameTime
+{
+    return TimeSpan.FromSeconds(current.time);
+}
+
+isLoading
+{
+    return true;
+}
+
 reset
 {
     return settings["AutoReset"] && old.time != 0 && current.time == 0;
