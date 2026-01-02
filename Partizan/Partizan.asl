@@ -2,6 +2,7 @@ state("Partizan"){}
 
 startup
 {
+	Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
 	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Unity");
 	vars.Helper.GameName = "Partizan";
 	vars.MissionComplete = new List<string>();
@@ -52,18 +53,27 @@ startup
 
 init
 {
+    var JitSave = vars.Uhara.CreateTool("Unity", "DotNet", "JitSave");
+
+    JitSave.SetOuter("Assembly-CSharp.dll", "World");
+    vars.Resolver.Watch<ulong>("Restart", JitSave.AddFlag("SceneHandler", "RestartScene"));
+	vars.Resolver.Watch<ulong>("QuitToMenu", JitSave.AddFlag("ApplicationHandler", "QuitToMenu"));
+    JitSave.ProcessQueue();
+
 	vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
 	{
 		vars.Helper["missions"] = mono.Make<IntPtr>("World.Mission_System.MissionHandler", "missions");
 		vars.Helper["timer"] = mono.Make<IntPtr>("World.Mission_System.GlobalMissionHandler", "data");
 		vars.Helper["inGameMenu"] = mono.Make<int>("World.Global", "inGameMenu");
+		vars.Helper["movementInputx"] = mono.Make<float>("World.Global", "playerHandler", "characterMovement", "movementInput", 0x28);
+		
 		vars.Helper["velX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA0);
 		vars.Helper["velY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA4);
 		vars.Helper["velZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xA8);
 		vars.Helper["posX"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xAC);
 		vars.Helper["posY"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xB0);
 		vars.Helper["posZ"] = mono.Make<float>("World.Global", "playerHandler", "tsitskiCharacter", 0xB4);
-		vars.Helper["movementInputx"] = mono.Make<float>("World.Global", "playerHandler", "characterMovement", "movementInput", 0x28);
+		
 		return true;
 	});
 
@@ -87,6 +97,8 @@ init
 
 update
 {
+	vars.Uhara.Update();
+
 	current.time = vars.Helper.Read<float>(current.timer + 0x38);
 	vars.inGame = current.inGameMenu != 0;
 	// if (old.posX != current.posX || old.posY != current.posY || old.posZ != current.posZ) vars.Log("X " + current.posX + "Y " + current.posY + "Z " + current.posZ);
@@ -131,5 +143,5 @@ split
 
 reset
 {
-	return settings["AutoReset"] && old.time != 0 && current.time == 0;
+    return vars.Resolver.CheckFlag("Restart") || vars.Resolver.CheckFlag("QuitToMenu");
 }
