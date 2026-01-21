@@ -118,7 +118,7 @@ init
 			{ 39, "v0.18.1" }, { 40, "v0.19.0" }, { 41, "v1.0.0" }, { 42, "v1.0.1+" }
 		};
         vars.Version = releaseToVersion.ContainsKey(releaseNumber) ? releaseToVersion[releaseNumber] : "v1.0.1+";
-		vars.Log("Release Number: " + releaseNumber + " -> version " + version);
+		vars.Log("Release Number: " + releaseNumber + " -> version " + vars.Version);
 
         var scnGame = mono["scnGame", 1];
         var scnGame2 = mono["scnGame"];
@@ -140,6 +140,7 @@ init
                     vars.Helper["Level"] = SV.MakeString("currentLevel");
                     vars.Helper["rank"] = SV.Make<int>("rank");
                     vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["currentLevelPath"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
                     vars.Helper["GameState"] = SV.Make<int>("currentGameState");
                     vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
                     vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "rankscreen", Rankscreen["trueGameover"]);
@@ -158,6 +159,7 @@ init
 					vars.Helper["Level"] = SV.MakeString("currentLevel");
 					vars.Helper["rank"] = SV.Make<int>("rank");
 					vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["currentLevelPath"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
 					vars.Helper["GameState"] = SV.Make<int>("currentGameState");
 					vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
 					vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
@@ -176,6 +178,7 @@ init
                     vars.Helper["Level"] = SV.MakeString("currentLevel");
                     vars.Helper["rank"] = SV.Make<int>("rank");
                     vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
+					vars.Helper["currentLevelPath"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
                     vars.Helper["GameState"] = SV.Make<int>("currentGameState");
                     vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
                     vars.Helper["trueGameover"] = scnGame.Make<byte>("_instance", "hud", HUD["trueGameover"]);
@@ -193,6 +196,7 @@ init
                     vars.Helper["transitioningToAnotherScene"] = scnMenu.Make<bool>("_instance", "transitioningToAnotherScene");
                     vars.Helper["currentLevelPath"] = scnGame2.MakeString("currentLevelPath");
                     vars.Helper["attemptToLoadTutorial"] = scnGame2.Make<bool>("attemptToLoadTutorial");
+					vars.Helper["currentLevelPath"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
                     vars.Helper["GameState"] = scnGame.Make<int>("_instance", "_gameState");
 
                     if (vars.Version == "v0.10.1")
