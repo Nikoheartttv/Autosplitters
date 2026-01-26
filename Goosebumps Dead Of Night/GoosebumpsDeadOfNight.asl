@@ -40,6 +40,7 @@ update
 onStart
 {
 	timer.IsGameTimePaused = true;
+	vars.VisitedLevel.Clear();
 }
 
 start
