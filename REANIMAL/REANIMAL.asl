@@ -50,8 +50,6 @@ start
 
 onStart
 {
-	vars.StartTime = current.Timer;
-	vars.Uhara.Log("Timer started at: " + vars.StartTime);
 	vars.CompletedSplits.Clear();
 }
 
