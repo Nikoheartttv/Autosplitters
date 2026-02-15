@@ -35,6 +35,7 @@ init
 	vars.Resolver.Watch<uint>("TelemtryCurrentChapterName", vars.Utils.GWorld, 0x160, 0x488);
 
 	vars.Events.FunctionFlag("DeathHandler", "DeathHandler_*", "DeathHandler_*", "OnDeathHandlingStarted");
+	vars.Events.FunctionFlag("BoatSpawn", "BP_PlayersMontageOverride_C", "BP_PlayersMontageOverride_C", "HIP_Girl Play Montage");
 	vars.Events.FunctionFlag("FadeFromBlack", "BP_IngameGameMode_C", "BP_IngameGameMode_C", "K2_OnRestartPlayer");
 	vars.Events.FunctionFlag("RabbitEndSplit", "SEQ_AmbushStart_01_DirectorBP_C", "SEQ_AmbushStart_01_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_AmbushStart_01_DirectorBP");
 
@@ -45,7 +46,7 @@ init
 
 start
 {
-	return current.World == "MLVL_EverholmWorld" && old.CinematicDisableMovement && !current.CinematicDisableMovement;
+	return current.World == "MLVL_EverholmWorld" && vars.Resolver.CheckFlag("BoatSpawn");
 }
 
 onStart
