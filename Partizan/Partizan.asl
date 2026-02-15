@@ -99,17 +99,6 @@ update
 {
 	vars.Uhara.Update();
 
-	int size = vars.Helper.Read<int>(current.missions + 0x10, 0x20, 0x30, 0x18);
-	for (int i = 0; i < size; i++)
-	{
-		string name = vars.Helper.ReadString(current.missions + 0x10, 0x20, 0x30, 0x10, i * 0x8 + 0x20, 0x10);
-		if (!string.IsNullOrEmpty(name) && !vars.MissionComplete2.Contains(name))
-		{
-			vars.MissionComplete2.Add(name);
-			vars.Log("Mission: " + name);
-		}
-	}
-
 	current.time = vars.Helper.Read<float>(current.timer + 0x38);
 	vars.inGame = current.inGameMenu != 0;
 	// if (old.posX != current.posX || old.posY != current.posY || old.posZ != current.posZ) vars.Log("X " + current.posX + "Y " + current.posY + "Z " + current.posZ);
