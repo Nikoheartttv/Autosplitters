@@ -15,7 +15,8 @@ startup
 		{ "NobodyLeftBehind", true, "Chapter 5 - Down In A Hole", null },
 		{ "TheSpoils", true, "Chapter 6 - Nobody Left Behind", null },
 		{ "TheWatcher", true, "Chapter 7 - The Spoils", null },
-		{ "EndSplit", true, "Chapter 8 - All-Consuming Past", null }
+		{ "AllConsumingPast", true, "Chapter 8 - The Watcher", null },
+		{ "EndSplit", true, "Chapter 9 - All-Consuming Past", null }
 	};
 	vars.Uhara.Settings.Create(_settings);
 }
