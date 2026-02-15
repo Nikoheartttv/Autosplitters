@@ -1,0 +1,243 @@
+<Settings>
+    <Setting Id="AutoStart" Label="Auto Start" State="true" />
+    <Setting Id="AutoReset" Label="Auto Reset" State="false" />
+    
+    <!-- Move lines up/down to reorder splits -->
+    <Setting Id="Splits" Label="Splits" State="true">
+        <Setting Id="Chapter1" Label="Chapter 1 - Dead In The Water" State="true">
+            <Setting Id="DeadInTheWater" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter1Checkpoints" Label="Checkpoint Splits" State="false">
+                <Setting Id="BP_BoatCP_Forest_WaterPathStart" Label="Find Mine in Water" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_Exterior" Label="Land on Shore of Mill Exterior" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_SewersFanTunnel" Label="Sewers Fan Tunnel" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_Sewers" Label="Inside Sewers" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_5" Label="[057] BP_Checkpoint_SIG_C_UAID_B07B250CF705609102_1363455517 !!! REVISE !!! Out of tunnels" State="true" />
+                <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_4" Label="[069] BP_CP_Forest_Mill_LargeHall (After talking to friend)" State="true" />
+                <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_29" Label="[053] BP_Checkpoint_SIG_C_5 (Power engaged)" State="true" /> -->
+                <Setting Id="BP_CP_Forest_Mill_BoilerSoftSave" Label="Rotating Boiler Puzzle Start" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_EastRooms" Label="After Rotating Boiler Puzzle" State="true" /> 
+                <Setting Id="BP_CP_Forest_Mill_EastHall" Label="East Hall" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_UndergroundPath" Label="Underground Path to Outside" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_Backyard" Label="Backyard" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_Courtyard" Label="Courtyard" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_WestRooms_01" Label="West Rooms" State="true" />
+                <Setting Id="BP_CP_Forest_Mill_WestRooms_02" Label="Pick Up Wheel in West Rooms and Leave" State="true" />
+                <!-- WestRooms_01 repeats -->
+                <!-- Courtyard repeats -->
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_36" Label="[049] BP_Checkpoint_SIG_C_1 (both wheels onto cart)" State="true" /> -->
+                <Setting Id="BP_CP_Forest_WreckedTrain_TrainTunnel" Label="Reach Wrecked Train in Tunnel" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_1" Label="[058] BP_Checkpoint_SIG_C_UAID_B07B250CF705647102_1678493423 !!! REVISE !!! (Going into the train from top)" State="true" /> -->
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_10" Label="[059] BP_Checkpoint_SIG_C_UAID_B07B250CF705AF7702_1119381959 !!! REVISE !!! (After tall guy tries to find you under seats)" State="true" /> -->
+                <Setting Id="BP_CP_Forest_WreckedTrain_TrainYard_03" Label="After Stealth Section in between Trains" State="true" />
+                <Setting Id="BP_CP_Forest_WreckedTrain_TrainYard_04" Label="Approaching Levers in Train" State="true" />
+                <Setting Id="BP_CP_Forest_WreckedTrain_TrainBridge" Label="Running over Train Bridge" State="true" />
+                <Setting Id="BP_CP_Forest_SkinsForest_TrainBridgeEnd" Label="Reach end of Train Bridge" State="true" />
+                <Setting Id="BP_CP_Forest_SkinsForest_SkinChaseStart" Label="Skin Chase Start" State="true" />
+                <Setting Id="BP_CP_Forest_SkinsForest_SkinChase_02" Label="Skin Chase Part 2 Start" State="true" />
+                <Setting Id="BP_CP_Forest_SkinsForest_SawTree" Label="Grab Saw and Saw Tree" State="true" />
+                <Setting Id="BP_CP_Forest_SkinsForest_IceCreamTruckChase" Label="Ice Cream Truck Chase" State="true" />
+                <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_01" Label="After Ice Cream Truck Chase " State="true" />
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter2" Label="Chapter 2 - The Cleaning House" State="true">
+            <Setting Id="AfterTheFlood" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter2Checkpoints" Label="Checkpoint Splits" State="false">
+                <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_02" Label="Enter Village" State="true" />
+                <Setting Id="BP_CP_Forest_Village_MainStreetSquare_FirstTime" Label="Enter Main Street Square" State="true" />
+                <Setting Id="BP_CP_Forest_Village_OutsideCinema" Label="Outside Cinema" State="true" />
+                <Setting Id="BP_CP_Forest_Village_BackAlleyBoltcutters" Label="Get Boltcutters" State="true" />
+                <!-- Outside Cinema repeats -->
+                <Setting Id="BP_CP_Forest_Village_CinemaRoom" Label="Enter Cinema Room" State="true" />
+                <Setting Id="BP_CP_Forest_Village_CinemaRoom_FarSide" Label="Reach Far Side of Cinema Room" State="false" />
+                <Setting Id="BP_CP_Forest_Village_Playground" Label="Reach Playground" State="false" />
+                <Setting Id="BP_CP_Forest_Village_SkinmakingRoom" Label="Enter Skinmaking Room" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_16" Label="[051] BP_Checkpoint_SIG_C_3 (after stealth skinmaking room)" State="true" />
+                <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_21" Label="[050] BP_Checkpoint_SIG_C_2 (rescue locked up friend)" State="true" /> -->
+                <Setting Id="BP_CP_Forest_Village_PlaygroundChase" Label="Playground Chase" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_12" Label="[087] BP_CP_Forest_Village_CornerHouseReturn" State="true" /> -->
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="[052] BP_Checkpoint_SIG_C_4 (leave corner house after under table stealth)" State="true" /> -->
+                <Setting Id="BP_CP_Forest_Village_CinemaReturn" Label="Leave Cinema" State="true" />
+                <Setting Id="BP_PS_Forest_Village_SnifferTricycle" Label="Tricycle Sniffer" State="false" />
+                <Setting Id="BP_CP_Forest_Village_BackAlley" Label="Enter Back Alley of Gas Station" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_0" Label="[060] BP_Checkpoint_SIG_C_UAID_B07B250CF705E86C02_1885866375 !!! REVISE !!! Get Gas from Gas station" State="true" /> -->
+                <Setting Id="BP_CP_Forest_Village_MainStreetSquare_HasGas" Label="Reach Van and Put Gas In" State="true" />
+                <Setting Id="BP_CP_Forest_ForestRoad_TruckChaseStart" Label="Truck Chase Start" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9A616" Label="BP_CP_Forest_ForestRoad-Fighting in truck against tall skin man" State="false" /> -->
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="[054] BP_Checkpoint_SIG_C_6 (after waking back up on sand outside Mill - essentially chapter 2 end split)" State="true" /> -->
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter3" Label="Chapter 3 - After The Flood" State="true">
+            <Setting Id="NoShelter" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter3Checkpoints" Label="Checkpoint Splits" State="false">
+                <Setting Id="BP_CP_Forest_WaterDamEntrance" Label="On top of Water Dam" State="true" />
+                <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_24" Label="[048] BP_Checkpoint_SIG_C_0 (wheel on dam turney thing)" State="true" />
+                <!-- <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7E4" Label="BP_CP_Forest_WaterDam-open up second gates !!! REVISE !!!" State="false" /> -->
+                <Setting Id="BP_BoatCP_Overworld_Watermines" Label="More Mines in Water" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_Store" Label="Enter the Store" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_StoreBackyard" Label="Backyard of Store" State="true" />
+                <Setting Id="BP_CP_Overworld_FloodedStreets_BeforeHarpoon" Label="Enter Flooded Streets to get Harpoons" State="false" />
+                <!-- <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_28" Label="[096] BP_Checkpoint_SIG_C_8 (harpoons on boat)" State="true" /> -->
+                <Setting Id="BP_CP_Overworld_FloodedStreets_Mines" Label="Use Harpoons to Explode Mines" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_Hotel" Label="Enter Hotel" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_Hotel_ElevatorHall" Label="Hotel Elevator Hall" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_Hotel_Corridor" Label="Hotel Corridor" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_HotelExit" Label="Exit Hotel" State="true" />
+                <Setting Id="BP_BoatCP_Overworld_CannonIslandFirstTime_Safety" Label="First Time Finding Cannon Island" State="true" /> 
+                <Setting Id="BP_CP_Overworld_StartBeachToPigsty" Label="Land on Beach to head to Pigsty" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_GrassField_ToPigsty" Label="Grass Field" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_PigstyExterior" Label="Get Key from Trash Bin outside Pigsty" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_PigstyInteriorEntrance" Label="Enter Interior of Pigsty" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_PigstyInteriorExit" Label="Reach Massive Pig" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_Fields" Label="Exit Left of Pigsty Towards Lighthouse" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_FirstTimeLighthouseOutside" Label="Reach Outside of Lighthouse" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_LighthouseInside" Label="Reach Top of Lighthouse" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_LighthouseOutside_Chase" Label="Chase Start outside from Lighthouse" State="true" />
+                <Setting Id="BP_CP_PelicanQuest_LighthouseBarn_Chase" Label="Reach Barn during Chase " State="true" />
+                <!-- <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_1" Label="[120] BP_CP_Orphanage_Exterior_Arrival" State="true" /> -->
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter4" Label="Chapter 4 - No Shelter" State="true">
+            <Setting Id="DownInAHole" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter4Checkpoints" Label="Checkpoint Splits" State="false">
+            <!-- <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_1" Label="[120] BP_CP_Orphanage_Exterior_Arrival" State="true" /> -->
+            <Setting Id="BP_CP_Orphanage_ClocktowerOutside" Label="Outside of Clocktower" State="true" />
+            <Setting Id="BP_CP_Orphanage_ClocktowerInside" Label="Inside Clocktower" State="true" />
+            <Setting Id="BP_CP_Orphanage_BrokenCorridor" Label="Broken Corridor" State="true" />
+            <Setting Id="BP_CP_Orphanage_FoodHall" Label="Food Hall" State="true" />
+            <Setting Id="BP_CP_Orphanage_FoyerBalcony" Label="Foyer Balcony" State="true" />
+            <Setting Id="BP_CP_Orphanage_LightRoomCorridor" Label="Light Room Corridor" State="true" />
+            <Setting Id="BP_CP_Orphanage_LightRoomCombat" Label="Light Room Combat" State="true" />
+            <Setting Id="BP_CP_Orphanage_EndOfLightroomCorridor" Label="End of Light Room Corridor" State="true" />
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter5" Label="Chapter 5 - Down In A Hole" State="true">
+            <Setting Id="NobodyLeftBehind" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter5Checkpoints" Label="Checkpoint Splits" State="false">
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter6" Label="Chapter 6 - Nobody Left Behind" State="true">
+            <Setting Id="TheSpoils" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter6Checkpoints" Label="Checkpoint Splits" State="false">
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter7" Label="Chapter 7 - The Spoils" State="true">
+            <Setting Id="TheWatcher" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter7Checkpoints" Label="Checkpoint Splits" State="false">
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter8" Label="Chapter 8 - The Watcher" State="true">
+            <Setting Id="AllConsumingPast" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter8Checkpoints" Label="Checkpoint Splits" State="false">
+            </Setting>
+        </Setting>
+        <Setting Id="Chapter9" Label="Chapter 9 - All-Consuming Past" State="true">
+            <Setting Id="EndSplit" Label="Chapter Split" State="true" />
+            <Setting Id="Chapter9Checkpoints" Label="Checkpoint Splits" State="false">
+            </Setting>
+        </Setting>
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_11" Label="[001] BP_Checkpoint_SIG_C_6" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_16" Label="[002] BP_Checkpoint_SIG_C_7" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_28" Label="[003] BP_Checkpoint_SIG_C_8" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7E977302_1232352511" Label="[004] BP_Checkpoint_SIG_C_UAID_7486E20E9B7E977302_1313291512" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_A4BB6DABB56C999F02_1128725327" Label="[005] BP_Checkpoint_SIG_C_UAID_A4BB6DABB56C999F02_1782577328" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_11" Label="[006] BP_BoatCP_Overworld_CannonIslandFirstTime_Safety" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_11" Label="[007] BP_BoatCP_Overworld_CarTunnel" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_13" Label="[008] BP_BoatCP_Overworld_CarTunnelInside" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_9" Label="[009] BP_BoatCP_Overworld_ChurchBlownUp" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_8" Label="[010] BP_BoatCP_Overworld_Highway" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_15" Label="[017] BP_BoatCP_Overworld_WarTownMines" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_10" Label="[019] BP_BoatCP_WhaleQuest_BuildingRuins" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_24" Label="[020] BP_CP_Overworld_BeachAfterCodeBunker" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_9" Label="[021] BP_CP_Overworld_CodeBunker" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_7" Label="[022] BP_CP_Overworld_CodeBunker_PuzzleSolved" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_UAID_A4BB6DABB56CA29F02_1399870911" Label="[023] BP_CP_Overworld_FloodedStreets_BeforeHarpoon" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="[025] BP_CP_Overworld_MilitaryConvoyUnderground" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_26" Label="[028] BP_CP_PelicanQuest_Finished" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_UAID_7486E20E9B7E6A8B02_1561343936" Label="[034] BP_CP_PelicanQuest_PigstyExterior" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_5" Label="[037] BP_CP_WhaleQuest_ShipwreckExterior_End" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_3" Label="[038] BP_CP_WhaleQuest_ShipwreckExterior_FirstTime" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_30" Label="[039] BP_CP_WhaleQuest_ShipwreckInterior_DivingCage" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_25" Label="[040] BP_CP_WhaleQuest_ShipwreckInterior_DivingCage_HasEye" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E95990BA302_1175240561" Label="[041] BP_CP_WhaleQuest_ShipwreckInterior_Entrance" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_4" Label="[042] BP_CP_WhaleQuest_ShipwreckInterior_TalkToWhale" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_8" Label="[043] BP_CP_WhaleQuest_Underwater_02" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_33" Label="[044] BP_CP_WhaleQuest_Underwater_ChaseFinished" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7E376E02_1760604336" Label="[045] BP_CP_WhaleQuest_Underwater_ChaseStart" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_32" Label="[046] BP_CP_WhaleQuest_Underwater_PryBrookhorseEye" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_6" Label="[047] BP_CP_WhaleQuest_UnderwaterArrival" State="true" />
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9A616A7102_1962500479" Label="[055] BP_Checkpoint_SIG_C_UAID_7486E20E9A616A7102_2137990480" State="true" />
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7E4B8302_1136597032" Label="[056] BP_Checkpoint_SIG_C_UAID_7486E20E9B7E4B8302_1155847033" State="true" />
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E8AE86D7B02_2036722568" Label="[084] BP_CP_Forest_Village_CinemaReturn" State="true" />
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E959973A102_1911988752" Label="[086] BP_CP_Forest_Village_CinemaRoom_FarSide" State="true" />
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7E297A02_1295103543" Label="[091] BP_CP_Forest_Village_Playground" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_5" Label="[093] BP_Checkpoint_SIG_C_0" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_16" Label="[095] BP_Checkpoint_SIG_C_7" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7E977302_1232352511" Label="[097] BP_Checkpoint_SIG_C_UAID_7486E20E9B7E977302_1313291512" State="true" />
+        <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_A4BB6DABB56C999F02_1128725327" Label="[098] BP_Checkpoint_SIG_C_UAID_A4BB6DABB56C999F02_1782577328" State="true" />
+        <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7EF87202_1837532527" Label="[105] BP_PS_Forest_Village_SnifferTricycle" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_3" Label="[106] BP_Checkpoint_SIG_C_0" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_9" Label="[107] BP_Checkpoint_SIG_C_1" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="[108] BP_Checkpoint_SIG_C_3" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_18" Label="[109] BP_Checkpoint_SIG_C_4" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_19" Label="[110] BP_Checkpoint_SIG_C_5" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_8" Label="[111] BP_Checkpoint_SIG_C_6" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_16" Label="[112] BP_Checkpoint_SIG_C_UAID_7486E20E9B7EAF7202_1677632679" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_4" Label="[113] BP_CP_Orphanage_Attic_SleepingSpiderkids" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_5" Label="[115] BP_CP_Orphanage_Caves_BottomOfWell" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_8" Label="[116] BP_CP_Orphanage_Caves_PigHideoutEnd" State="true" />
+        
+        
+        
+        
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_16" Label="[125] BP_CP_Orphanage_Return_DiningRoomExit" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_13" Label="[126] BP_CP_Orphanage_Return_DustSpiderkidAttic" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_10" Label="[127] BP_CP_Orphanage_Return_Entrance" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_12" Label="[128] BP_CP_Orphanage_Return_ExteriorFacade" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_17" Label="[129] BP_CP_Orphanage_Return_FacadeMotherChase" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_11" Label="[130] BP_CP_Orphanage_Return_InteriorFacade" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_0" Label="[131] BP_CP_Orphanage_Return_MotherDeathRoom" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_7" Label="[132] BP_CP_Orphanage_SandCity_AfterBrokenPath" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_6" Label="[133] BP_CP_Orphanage_SandCity_BrokenPathPuzzle" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_UAID_7486E20E9B7EF57202_1163712999" Label="[134] BP_CP_Orphanage_Sandcity_Start" State="true" />
+        <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_0" Label="[135] BP_CP_Orphanage_SpiralStairs_Puzzle" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_2" Label="[136] BP_Checkpoint_SIG_C_0" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_7" Label="[137] BP_Checkpoint_SIG_C_1" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_8" Label="[138] BP_Checkpoint_SIG_C_2" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_19" Label="[139] BP_Checkpoint_SIG_C_3" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_13" Label="[140] BP_Checkpoint_SIG_C_4" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_30" Label="[141] BP_Checkpoint_SIG_C_5" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_12" Label="[142] BP_Checkpoint_SIG_C_6" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_0" Label="[143] BP_BoatCP_Wartown_WaterMinesAlley" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInBoat_C_1" Label="[144] BP_BoatCP_Wartown_WaterMinesAlley_02" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_32" Label="[145] BP_CP_WarTown_Battlefield" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="[146] BP_CP_WarTown_BrokenBasement" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_6" Label="[147] BP_CP_WarTown_HospitalBunker" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_3" Label="[148] BP_CP_WarTown_HospitalCorridor" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_21" Label="[149] BP_CP_WarTown_HospitalElevator" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_22" Label="[150] BP_CP_WarTown_HospitalSheepbeast" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_10" Label="[151] BP_CP_WarTown_SheepbeastClimbsHouse" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="[152] BP_CP_WarTown_ShootingWarehouse" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_14" Label="[153] BP_CP_WarTown_SniperApartments_02" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_7" Label="[154] BP_CP_WarTown_SniperApartments_03" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_24" Label="[155] BP_CP_WarTown_SniperApartments_04" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_1" Label="[156] BP_CP_WarTown_SniperApartments_05" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_9" Label="[157] BP_CP_WarTown_SniperApartments_06" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_11" Label="[158] BP_CP_WarTown_SniperApartments_07" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_16" Label="[159] BP_CP_WarTown_SniperApartments_PianoMan" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_5" Label="[160] BP_CP_WarTown_SniperApartmentsExterior" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_23" Label="[161] BP_CP_WarTown_SniperBridgeEnd" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_18" Label="[162] BP_CP_WarTown_SniperBridgeStart" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_17" Label="[163] BP_CP_WarTown_SniperParkingGarage" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_28" Label="[164] BP_CP_WarTown_SniperParkingGarage_02" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_38" Label="[165] BP_CP_WarTown_TankAreaStart" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInVehicle_C_1" Label="[166] BP_CP_WarTown_TankChase_Finale" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_26" Label="[167] BP_CP_WarTown_TankEncounter" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInVehicle_C_3" Label="[168] BP_CP_WarTown_TankMayhem_Opera" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInVehicle_C_2" Label="[169] BP_CP_WarTown_TankMayhem_OperaEntrance" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStartInTank_C_1" Label="[170] BP_CP_WarTown_TankSheepBeastChase" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_4" Label="[171] BP_CP_WarTown_TrenchesMachineGun" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_0" Label="[172] BP_CP_WarTown_TrenchesMiddle" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_37" Label="[173] BP_CP_WarTown_TrenchesStart" State="true" />
+        <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_20" Label="[174] BP_CP_WarTown_TrenchRun" State="true" />
+    </Setting>
+</Settings>
