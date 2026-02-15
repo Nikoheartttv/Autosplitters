@@ -33,6 +33,7 @@ init
 	vars.Resolver.Watch<bool>("TransitionType", vars.Utils.GEngine, 0xBBB);
 	vars.Resolver.Watch<bool>("CinematicDisableMovement", vars.Utils.GWorld, 0x160, 0x605);
 	vars.Resolver.Watch<uint>("TelemtryCurrentChapterName", vars.Utils.GWorld, 0x160, 0x488);
+	vars.Resolver.Watch<float>("CameraDepth", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x3AC);
 
 	vars.Events.FunctionFlag("DeathHandler", "DeathHandler_*", "DeathHandler_*", "OnDeathHandlingStarted");
 	vars.Events.FunctionFlag("BoatSpawn", "BP_PlayersMontageOverride_C", "BP_PlayersMontageOverride_C", "HIP_Girl Play Montage");
@@ -42,11 +43,13 @@ init
 	vars.Loading = false;
 	current.World = "";
 	current.ChapterName = "";
+	vars.LastUpdatedWorld = "";
 }
 
 start
 {
-	return current.World == "MLVL_EverholmWorld" && vars.Resolver.CheckFlag("BoatSpawn");
+	return current.CameraDepth < old.CameraDepth && old.CameraDepth > 1f &&
+		current.World == "MLVL_EverholmWorld" && (vars.LastUpdatedWorld == "LVL_MainMenu" || vars.LastUpdatedWorld == "");
 }
 
 onStart
