@@ -35,7 +35,7 @@ init
 	vars.Resolver.Watch<uint>("TelemtryCurrentChapterName", vars.Utils.GWorld, 0x160, 0x488);
 
 	vars.Events.FunctionFlag("DeathHandler", "DeathHandler_*", "DeathHandler_*", "OnDeathHandlingStarted");
-	vars.Events.FunctionFlag("GameStarted", "BP_EverholmGameState_C", "BP_EverholmGameState_C", "ExecuteUbergraph_BP_EverholmGameState");
+	vars.Events.FunctionFlag("FadeFromBlack", "BP_IngameGameMode_C", "BP_IngameGameMode_C", "K2_OnRestartPlayer");
 	vars.Events.FunctionFlag("RabbitEndSplit", "SEQ_AmbushStart_01_DirectorBP_C", "SEQ_AmbushStart_01_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_AmbushStart_01_DirectorBP");
 
 	vars.Loading = false;
@@ -64,7 +64,7 @@ update
 	if (!string.IsNullOrEmpty(chaptername)) current.ChapterName = chaptername;
 
 	if (vars.Resolver.CheckFlag("BoatSpawn")) vars.Loading = false;
-	if (vars.Resolver.CheckFlag("GameStarted")) vars.Loading = false;
+	if (vars.Resolver.CheckFlag("FadeFromBlack")) vars.Loading = false;
 	if (vars.Resolver.CheckFlag("DeathHandler")) vars.Loading = true;
 }
 
