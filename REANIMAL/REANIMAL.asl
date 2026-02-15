@@ -55,6 +55,7 @@ start
 onStart
 {
 	vars.CompletedSplits.Clear();
+	vars.LastUpdatedWorld = "X";
 }
 
 update
