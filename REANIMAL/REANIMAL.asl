@@ -2,23 +2,10 @@ state("REANIMAL"){}
 
 startup
 {
-	Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
-	vars.Uhara.AlertLoadless();
-	vars.CompletedSplits = new List<string>();
-
-	dynamic[,] _settings =
-	{
-		{ "TheCleaningHouse", true, "Chapter 1 - Dead In The Water", null },
-		{ "AfterTheFlood", true, "Chapter 2 - The Cleaning House", null },
-		{ "NoShelter", true, "Chapter 3 - After The Flood", null },
-		{ "DownInAHole", true, "Chapter 4 - No Shelter", null },
-		{ "NobodyLeftBehind", true, "Chapter 5 - Down In A Hole", null },
-		{ "TheSpoils", true, "Chapter 6 - Nobody Left Behind", null },
-		{ "TheWatcher", true, "Chapter 7 - The Spoils", null },
-		{ "AllConsumingPast", true, "Chapter 8 - The Watcher", null },
-		{ "EndSplit", true, "Chapter 9 - All-Consuming Past", null }
-	};
-	vars.Uhara.Settings.Create(_settings);
+    Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
+	vars.Uhara.Settings.CreateFromXml("Components/REANIMAL.Splits.xml");
+    vars.Uhara.AlertLoadless();
+    vars.CompletedSplits = new List<string>();
 }
 
 init
@@ -26,15 +13,12 @@ init
 	vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
 	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
-	// if (vars.Utils.GEngine != IntPtr.Zero) vars.Uhara.Log("GEngine found at " + vars.Utils.GEngine.ToString("X"));
-	// if (vars.Utils.GWorld != IntPtr.Zero) vars.Uhara.Log("GWorld found at " + vars.Utils.GWorld.ToString("X")); 
-	// if (vars.Utils.FNames != IntPtr.Zero) vars.Uhara.Log("FNames found at " + vars.Utils.FNames.ToString("X"));
-
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
 	vars.Resolver.Watch<bool>("TransitionType", vars.Utils.GEngine, 0xBBB);
-	vars.Resolver.Watch<bool>("CinematicDisableMovement", vars.Utils.GWorld, 0x160, 0x605);
-	vars.Resolver.Watch<uint>("TelemtryCurrentChapterName", vars.Utils.GWorld, 0x160, 0x488);
 	vars.Resolver.Watch<float>("CameraDepth", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x3AC);
+	vars.Resolver.WatchString("SavedCheckpointPlayerStart", vars.Utils.GEngine, 0x10A8, 0x250, 0x20, 0x0);
+    vars.Resolver.Watch<uint>("SavedCheckpointAssetPathName", vars.Utils.GEngine, 0x10A8, 0x250, 0x18);
+	vars.Resolver.Watch<uint>("CheckpointFName", vars.Events.FunctionParentPtr("BP_CheckpointVolume_C", "", "OnBeginTriggerOverlap"), 0x18);
 
 	vars.Events.FunctionFlag("DeathHandler", "DeathHandler_*", "DeathHandler_*", "OnDeathHandlingStarted");
 	vars.Events.FunctionFlag("BoatSpawn", "BP_PlayersMontageOverride_C", "BP_PlayersMontageOverride_C", "HIP_Girl Play Montage");
@@ -43,8 +27,10 @@ init
 
 	vars.Loading = false;
 	current.World = "";
-	current.ChapterName = "";
 	vars.LastUpdatedWorld = "";
+    current.CheckpointName = "";
+    current.AssetPathName = "";
+    current.ComboCheckpoint = "";
 }
 
 start
@@ -65,9 +51,16 @@ update
 
 	var world = vars.Utils.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+	if (current.World != old.World) vars.LastUpdatedWorld = old.World;
 
-	var chaptername = vars.Utils.FNameToString(current.TelemtryCurrentChapterName);
-	if (!string.IsNullOrEmpty(chaptername)) current.ChapterName = chaptername;
+	var checkpointname = vars.Utils.FNameToString(current.CheckpointFName);
+    if (!string.IsNullOrEmpty(checkpointname) && checkpointname != "None") current.CheckpointName = checkpointname;
+
+	var assetpath = vars.Utils.FNameToString(current.SavedCheckpointAssetPathName);
+    if (!string.IsNullOrEmpty(assetpath) && assetpath != "None") current.AssetPathName = assetpath;
+
+	if (old.AssetPathName != current.AssetPathName || old.SavedCheckpointPlayerStart != current.SavedCheckpointPlayerStart)
+        current.ComboCheckpoint = current.AssetPathName + ":" + current.SavedCheckpointPlayerStart;
 
 	if (vars.Resolver.CheckFlag("BoatSpawn")) vars.Loading = false;
 	if (vars.Resolver.CheckFlag("FadeFromBlack")) vars.Loading = false;
@@ -76,28 +69,44 @@ update
 
 split
 {
-	if (old.ChapterName != current.ChapterName && !string.IsNullOrEmpty(current.ChapterName))
+	// Chapter Combo checkpoint splits (AssetPath:PlayerStart)
+    if (old.AssetPathName != current.AssetPathName || old.SavedCheckpointPlayerStart != current.SavedCheckpointPlayerStart)
     {
-        if (settings.ContainsKey(current.ChapterName) && settings[current.ChapterName] && !vars.CompletedSplits.Contains(current.ChapterName))
+        if (settings.ContainsKey(current.ComboCheckpoint) && settings[current.ComboCheckpoint] && !vars.CompletedSplits.Contains(current.ComboCheckpoint))
         {
-            vars.CompletedSplits.Add(current.ChapterName);
-            vars.Uhara.Log("Split on chapter: " + current.ChapterName);
+            vars.CompletedSplits.Add(current.ComboCheckpoint);
             return true;
         }
     }
 
-	if (vars.Resolver.CheckFlag("RabbitEndSplit"))
+    // CheckpointFName splits (BP_CheckpointVolume trigger)
+    if (old.CheckpointName != current.CheckpointName && !string.IsNullOrEmpty(current.CheckpointName))
     {
-        if (settings["EndSplit"] && !vars.CompletedSplits.Contains("EndSplit"))
+        if (settings.ContainsKey(current.CheckpointName) && settings[current.CheckpointName] && !vars.CompletedSplits.Contains(current.CheckpointName))
+        {
+            vars.CompletedSplits.Add(current.CheckpointName);
+            return true;
+        }
+    }
+
+    // End split
+    if (vars.Resolver.CheckFlag("RabbitEndSplit"))
+    {
+        if (settings.ContainsKey("EndSplit") && settings["EndSplit"] && !vars.CompletedSplits.Contains("EndSplit"))
         {
             vars.CompletedSplits.Add("EndSplit");
             return true;
         }
     }
-
 }
 
 isLoading
 {
 	return current.TransitionType || vars.Loading;
+}
+
+reset
+{
+	return settings.ContainsKey("AutoReset") && settings["AutoReset"]
+		&& current.World != old.World && current.World == "LVL_MainMenu";
 }
