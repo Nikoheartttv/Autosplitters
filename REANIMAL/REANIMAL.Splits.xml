@@ -35,12 +35,12 @@
                 <Setting Id="BP_CP_Forest_Village_OutsideCinema" Label="Outside Cinema" State="true" />
                 <Setting Id="BP_CP_Forest_Village_BackAlleyBoltcutters" Label="Get Boltcutters" State="true" />
                 <Setting Id="BP_CP_Forest_Village_CinemaRoom" Label="Enter Cinema Room" State="true" />
-                <Setting Id="BP_CP_Forest_Village_CinemaRoom_FarSide" Label="Reach Far Side of Cinema Room" State="false" />
+                <Setting Id="BP_CP_Forest_Village_CinemaRoom_FarSide" Label="Reach Far Side of Cinema Room" State="true" />
                 <Setting Id="BP_CP_Forest_Village_Playground" Label="Reach Playground" State="false" />
                 <Setting Id="BP_CP_Forest_Village_SkinmakingRoom" Label="Enter Skinmaking Room" State="true" />
                 <Setting Id="BP_CP_Forest_Village_PlaygroundChase" Label="Playground Chase" State="true" />
                 <Setting Id="BP_CP_Forest_Village_CinemaReturn" Label="Leave Cinema" State="true" />
-                <Setting Id="BP_PS_Forest_Village_SnifferTricycle" Label="Tricycle Sniffer" State="false" />
+                <Setting Id="BP_PS_Forest_Village_SnifferTricycle" Label="Tricycle Sniffer" State="true" />
                 <Setting Id="BP_CP_Forest_Village_BackAlley" Label="Enter Back Alley of Gas Station" State="true" />
                 <Setting Id="BP_CP_Forest_Village_MainStreetSquare_HasGas" Label="Reach Van and Put Gas In" State="true" />
                 <Setting Id="BP_CP_Forest_ForestRoad_TruckChaseStart" Label="Truck Chase Start" State="true" />
@@ -54,7 +54,7 @@
                 <Setting Id="BP_BoatCP_Overworld_Watermines" Label="More Mines in Water" State="true" />
                 <Setting Id="BP_BoatCP_Overworld_Store" Label="Enter the Store" State="true" />
                 <Setting Id="BP_BoatCP_Overworld_StoreBackyard" Label="Backyard of Store" State="true" />
-                <Setting Id="BP_CP_Overworld_FloodedStreets_BeforeHarpoon" Label="Enter Flooded Streets to get Harpoons" State="false" />
+                <Setting Id="BP_CP_Overworld_FloodedStreets_BeforeHarpoon" Label="Enter Flooded Streets to get Harpoons" State="true" />
                 <Setting Id="BP_CP_Overworld_FloodedStreets_Mines" Label="Use Harpoons to Explode Mines" State="true" />
                 <Setting Id="BP_BoatCP_Overworld_Hotel" Label="Enter Hotel" State="true" />
                 <Setting Id="BP_BoatCP_Overworld_Hotel_ElevatorHall" Label="Hotel Elevator Hall" State="true" />
