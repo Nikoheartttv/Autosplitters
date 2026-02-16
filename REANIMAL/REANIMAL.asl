@@ -20,8 +20,11 @@ init
     vars.Resolver.Watch<uint>("SavedCheckpointAssetPathName", vars.Utils.GEngine, 0x10A8, 0x250, 0x18);
 	vars.Resolver.Watch<uint>("CheckpointFName", vars.Events.FunctionParentPtr("BP_CheckpointVolume_C", "", "OnBeginTriggerOverlap"), 0x18);
 
-	vars.Events.FunctionFlag("DeathHandler", "DeathHandler_*", "DeathHandler_*", "OnDeathHandlingStarted");
-	vars.Events.FunctionFlag("BoatSpawn", "BP_PlayersMontageOverride_C", "BP_PlayersMontageOverride_C", "HIP_Girl Play Montage");
+	vars.Events.FunctionFlag("DeathHandlerPhase1", "DeathHandler_*", "DeathHandler_*", "OnDeathHandlingStarted");
+    vars.Events.FunctionFlag("DeathHandlerPhase2", "DeathHandler_*", "DeathHandler_*", "OnActorDied");
+    vars.Events.FunctionFlag("PlayerDeathHandlerPhase1", "PlayerDeathHandler_*", "PlayerDeathHandler_*", "OnDeathHandlingStarted");
+    vars.Events.FunctionFlag("PlayerDeathHandlerPhase2", "PlayerDeathHandler_*", "PlayerDeathHandler_*", "OnActorDied");
+	// vars.Events.FunctionFlag("BoatSpawn", "BP_PlayersMontageOverride_C", "BP_PlayersMontageOverride_C", "HIP_Girl Play Montage");
 	vars.Events.FunctionFlag("FadeFromBlack", "BP_IngameGameMode_C", "BP_IngameGameMode_C", "K2_OnRestartPlayer");
 	vars.Events.FunctionFlag("RabbitEndSplit", "SEQ_AmbushStart_01_DirectorBP_C", "SEQ_AmbushStart_01_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_AmbushStart_01_DirectorBP");
 
@@ -31,6 +34,7 @@ init
     current.CheckpointName = "";
     current.AssetPathName = "";
     current.ComboCheckpoint = "";
+    vars.DeathPhase = 0;
 }
 
 start
@@ -62,9 +66,18 @@ update
 	if (old.AssetPathName != current.AssetPathName || old.SavedCheckpointPlayerStart != current.SavedCheckpointPlayerStart)
         current.ComboCheckpoint = current.AssetPathName + ":" + current.SavedCheckpointPlayerStart;
 
-	if (vars.Resolver.CheckFlag("BoatSpawn")) vars.Loading = false;
-	if (vars.Resolver.CheckFlag("FadeFromBlack")) vars.Loading = false;
-	if (vars.Resolver.CheckFlag("DeathHandler")) vars.Loading = true;
+	if (vars.Resolver.CheckFlag("FadeFromBlack")) 
+    {
+        vars.DeathPhase = 0;
+        vars.Loading = false;
+    }
+    if (vars.DeathPhase == 0 && (vars.Resolver.CheckFlag("DeathHandlerPhase1") || vars.Resolver.CheckFlag("PlayerDeathHandlerPhase1")))
+        vars.DeathPhase = 1;
+    if (vars.DeathPhase == 1 && (vars.Resolver.CheckFlag("DeathHandlerPhase2") || vars.Resolver.CheckFlag("PlayerDeathHandlerPhase2")))
+    {
+        vars.DeathPhase = 2;
+        vars.Loading = true;
+    }
 }
 
 split
