@@ -130,3 +130,8 @@ reset
 	return settings.ContainsKey("AutoReset") && settings["AutoReset"]
 		&& current.World != old.World && current.World == "LVL_MainMenu";
 }
+
+exit
+{
+	timer.IsGameTimePaused = true;
+}
