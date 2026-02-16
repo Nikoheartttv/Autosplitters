@@ -27,6 +27,8 @@ init
 	// vars.Events.FunctionFlag("BoatSpawn", "BP_PlayersMontageOverride_C", "BP_PlayersMontageOverride_C", "HIP_Girl Play Montage");
 	vars.Events.FunctionFlag("FadeFromBlack", "BP_IngameGameMode_C", "BP_IngameGameMode_C", "K2_OnRestartPlayer");
 	vars.Events.FunctionFlag("RabbitEndSplit", "SEQ_AmbushStart_01_DirectorBP_C", "SEQ_AmbushStart_01_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_AmbushStart_01_DirectorBP");
+    vars.Events.FunctionFlag("SimpleRagdollPhase1", "DeathHandler_SimpleRagdoll_C", "DeathHandler_SimpleRagdoll_C", "OnDeathHandlingStarted");
+    vars.Events.FunctionFlag("SimpleRagdollPhase2", "DeathHandler_SimpleRagdoll_C", "DeathHandler_SimpleRagdoll_C", "OnActorDied");
 
 	vars.Loading = false;
 	current.World = "";
@@ -77,6 +79,11 @@ update
     {
         vars.DeathPhase = 2;
         vars.Loading = true;
+    }
+    if (vars.Resolver.CheckFlag("SimpleRagdollPhase1") || vars.Resolver.CheckFlag("SimpleRagdollPhase2"))
+    {
+        vars.DeathPhase = 0;
+        vars.Loading = false;
     }
 }
 
