@@ -2,15 +2,15 @@ state("SwordOfTheSea-Win64-Shipping") {}
 
 startup
 {
-    Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-    Assembly.Load(File.ReadAllBytes("Components/uhara8")).CreateInstance("Main");
-	vars.Helper.GameName = "Sword of the Sea";
-    vars.Helper.AlertLoadless();
+    Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
+    vars.Uhara.AlertLoadless();
+	vars.CompletedSplits = new HashSet<string>();
 
 	dynamic[,] _settings =
 	{
 		{ "AutoReset", false, "Auto Reset when returning to Main Menu", null },
 		{ "ILMode", false, "Individual Level Start", null },
+		{ "AllFrogs", false, "All Frogs Split (End Cutscene of Boiling Cavern)", null },
 		{ "Chapter Splits", true, "Chapter Splits", null },
 			{ "VeiledSea",       true, "Veiled Sea",         "Chapter Splits" },
 			{ "LostGrotto",      true, "Lost Grotto",        "Chapter Splits" },
@@ -22,52 +22,25 @@ startup
 			{ "BossMasterLevel", true, "Sky Abyss",          "Chapter Splits" },
 	};
 
-	vars.Helper.Settings.Create(_settings);
-	vars.CompletedSplits = new HashSet<string>();
+	vars.Uhara.Settings.Create(_settings);	
 }
 
 init
 {
-    IntPtr gWorld = vars.Helper.ScanRel(3, "48 8B 1D ???????? 48 85 DB 74 ?? 41 B0 01");
-    IntPtr gEngine = vars.Helper.ScanRel(3, "48 8B 0D ???????? 41 BE ???????? 41 3B");
-    IntPtr fNames = vars.Helper.ScanRel(7, "8B D9 74 ?? 48 8D 15 ???????? EB");
-    IntPtr gSyncLoadCount = vars.Helper.ScanRel(5, "89 43 60 8B 05 ?? ?? ?? ??");
+	vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
+	vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
-    if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
-        throw new Exception("Not all required addresses could be found by scanning.");
+	IntPtr IntroCutscene = vars.Events.InstancePtr("Intro_DirectorBP_C", "Intro_DirectorBP_C");
+	vars.Resolver.Watch<bool>("IntroCutsceneStatus", IntroCutscene, 0x38, 0x2A8);
+	vars.Events.FunctionFlag("EndCutscene", "Ending_A_DirectorBP_C", "Ending_A_DirectorBP_C", "SequenceEvent__ENTRYPOINTEnding_A_DirectorBP");
+	vars.Events.FunctionFlag("AllFrogs", "WraithDeath_DirectorBP_C", "WraithDeath_DirectorBP_C", "SequenceEvent__ENTRYPOINTWraithDeath_DirectorBP");
 
-    vars.FNameToString = (Func<ulong, string>)(fName =>
-    {
-        var nameIdx  = (fName & 0x000000000000FFFF) >> 0x00;
-        var chunkIdx = (fName & 0x00000000FFFF0000) >> 0x10;
-        var number   = (fName & 0xFFFFFFFF00000000) >> 0x20;
-
-        IntPtr chunk = vars.Helper.Read<IntPtr>(fNames + 0x10 + (int)chunkIdx * 0x8);
-        IntPtr entry = chunk + (int)nameIdx * sizeof(short);
-
-        int length   = vars.Helper.Read<short>(entry) >> 6;
-        string name  = vars.Helper.ReadString(length, ReadStringType.UTF8, entry + sizeof(short));
-
-        return number == 0 ? name : name + "_" + number;
-    });
-
-    var Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
-	IntPtr IntroCutscene = Events.InstancePtr("Intro_DirectorBP_C", "Intro_DirectorBP_C");
-	// IntPtr VeiledSeaCutscene = Events.FunctionFlag("OceanSeed_BP_C", "MiniIchorPool_BP_C", "BndEvt__MiniIchorPool_BP_SwordStabInteractionComponent_BP_K2Node_ComponentBoundEvent_0_OnAnimToPointBeginEvent__DelegateSignature");
-
-	// ASL-Help helpers
-    vars.Helper["GSync"] = vars.Helper.Make<bool>(gSyncLoadCount);
-    vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gWorld, 0x18);
+	vars.Resolver.Watch<int>("GSync", vars.Utils.GSync);
+    vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
 
 	// GEngine -> GameInstance -> LoadingScreen -> bIsEnabled
-	vars.Helper["LoadingScreen"] 			= vars.Helper.Make<bool>(gEngine, 0x10A8, 0x330, 0x0D9);
-	vars.Helper["LoadingScreen"].FailAction	= MemoryWatcher.ReadFailAction.SetZeroOrNull;
-	// vars.Helper["VeiledSeaCutsceneActivate"] = vars.Helper.Make<ulong>(VeiledSeaCutscene);
-
-	// Uhara8 Helpers
-	vars.Helper["IntroCutsceneStatus"] = vars.Helper.Make<bool>(IntroCutscene, 0x38, 0x2A8);
-	vars.Helper["EndCutscene"] = vars.Helper.Make<ulong>(Events.FunctionFlag("Ending_A_DirectorBP_C", "Ending_A_DirectorBP_C", "SequenceEvent__ENTRYPOINTEnding_A_DirectorBP"));
-
+	vars.Resolver.Watch<bool>("LoadingScreen", vars.Utils.GEngine, 0x10A8, 0x330, 0x0D9);
+	vars.Uhara["LoadingScreen"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
     current.World = "";
 }
 
@@ -88,14 +61,11 @@ onStart
 
 update
 {
-    vars.Helper.Update();
-    vars.Helper.MapPointers();
+    vars.Uhara.Update();
 
-    var world = vars.FNameToString(current.GWorldName);
+    var world = vars.Utils.FNameToString(current.GWorldName);
     if (world != null && world != "None") current.World = world;
-    if (old.World != current.World) vars.Log("World: " + current.World);
-
-	// if (old.LoadingScreen != current.LoadingScreen) vars.Log("LoadingScreen: " + current.LoadingScreen);
+    if (old.World != current.World) vars.Uhara.Log("World: " + current.World);
 }
 
 split
@@ -107,10 +77,17 @@ split
 	}
 
 	if (current.World == "BossMasterLevel" && !vars.CompletedSplits.Contains(current.World)
-		&& old.EndCutscene != current.EndCutscene)
+		&& vars.Resolver.CheckFlag("EndCutscene"))
 	{
 		vars.CompletedSplits.Add(current.World);
 		if (settings[current.World]) return true;
+	}
+
+	if (current.World == "BoilingCavern" && !vars.CompletedSplits.Contains(current.World)
+		&& vars.Resolver.CheckFlag("AllFrogs"))
+	{
+		vars.CompletedSplits.Add("AllFrogs");
+		if (settings["AllFrogs"]) return true;
 	}
 }
 
