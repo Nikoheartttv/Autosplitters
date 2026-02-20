@@ -148,7 +148,7 @@ split
 		&& current.CheckpointName == "BP_CP_WarTown_BrokenBasement" && !vars.CompletedSplits.Contains("ILChapter6")) 
 		{ vars.CompletedSplits.Add("Chapter6IL"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter7IL") && settings.ContainsKey("ILChapter7") && settings["ILChapter7"] 
-		&& current.CheckpointName == "BP_CP_WarTown_HospitalSheepbeast"!vars.CompletedSplits.Contains("ILChapter7")) 
+		&& current.CheckpointName == "BP_CP_WarTown_HospitalSheepbeast" && !vars.CompletedSplits.Contains("ILChapter7")) 
 		{ vars.CompletedSplits.Add("Chapter7IL"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter8IL") && settings.ContainsKey("ILChapter8") && settings["ILChapter8"] && !vars.CompletedSplits.Contains("ILChapter8")) 
 		{ vars.CompletedSplits.Add("Chapter8IL"); return true; }
