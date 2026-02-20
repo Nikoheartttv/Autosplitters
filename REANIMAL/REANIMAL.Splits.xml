@@ -1,5 +1,6 @@
 <Settings>
     <Setting Id="AutoReset" Label="Auto-Reset" State="false" />
+    <Setting Id="ILSplitting" Label="Individual Levels Splitting" State="false" />
     <Setting Id="Splits" Label="Splits" State="true">
         <Setting Id="Chapter1" Label="Chapter 1 - Dead In The Water" State="true">
             <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_01" Label="Chapter 1 Split" State="true" />
@@ -173,5 +174,16 @@
                 <Setting Id="BP_CP_WarTown_TankChase_Finale" Label="Sheepbeast Finale" State="true" />
             </Setting>
         </Setting>
+    </Setting>
+    <Setting Id="ILSplits" Label="Individual Level Splits" State="false">
+        <Setting Id="ILChapter1" Label="Chapter 1" State="true" />
+        <Setting Id="ILChapter2" Label="Chapter 2" State="true" />
+        <Setting Id="ILChapter3" Label="Chapter 3" State="true" />
+        <Setting Id="ILChapter4" Label="Chapter 4" State="true" />
+        <Setting Id="ILChapter5" Label="Chapter 5" State="true" />
+        <Setting Id="ILChapter6" Label="Chapter 6" State="true" />
+        <Setting Id="ILChapter7" Label="Chapter 7" State="true" />
+        <Setting Id="ILChapter8" Label="Chapter 8" State="true" />
+        <Setting Id="ILChapter9" Label="Chapter 9" State="true" />
     </Setting>
 </Settings>
