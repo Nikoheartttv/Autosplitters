@@ -43,6 +43,7 @@ init
 	vars.Events.FunctionFlag("Chapter5IL", "LSEQ_DeadMotherTest_PukeCamera_2_DirectorBP_C", "LSEQ_DeadMotherTest_PukeCamera_2_DirectorBP_C", "SequenceEvent__ENTRYPOINTLSEQ_DeadMotherTest_PukeCamera_2_DirectorBP");
 	vars.Events.FunctionFlag("Chapter6IL", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "");
 	vars.Events.FunctionFlag("Chapter7IL", "BP_Coop_Interaction_SqueezeGap_C", "BP_Coop_Interaction_SqueezeGap_C", "");
+	vars.Events.FunctionFlag("Chapter7RunThroughTheDoor", "SEQ_RunThroughTheDoor_DirectorBP_C", "SEQ_RunThroughTheDoor_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_RunThroughTheDoor_DirectorBP");
 	vars.Events.FunctionFlag("Chapter8IL", "BP_TankActor_C", "BP_TankActor_C", "BndEvt__BP_TankActor_PassengerInteraction_K2Node_ComponentBoundEvent_0_InteractionComponentEvent__DelegateSignature");
 
 	// End Split
@@ -50,6 +51,7 @@ init
 
 	vars.Loading = false;
 	vars.Chpt1ILIntro = false;
+	vars.Chapter7ILSafeguard = false;
 	current.World = "";
 	vars.LastUpdatedWorld = "";
 	current.CheckpointName = "";
@@ -108,6 +110,11 @@ update
 	}
 	if (vars.Resolver.CheckFlag("SimpleRagdollPhase1") || vars.Resolver.CheckFlag("SimpleRagdollPhase2"))
 		{ vars.DeathPhase = 0; vars.Loading = false; }
+
+	if (vars.Resolver.CheckFlag("Chapter7RunThroughTheDoor") && !vars.Chapter7ILSafeguard)
+	{
+		vars.Chapter7ILSafeguard = true;
+	}
 }
 
 split
@@ -135,25 +142,25 @@ split
 
 	// IL Splits
 	if (vars.Resolver.CheckFlag("Chapter1IL") && settings.ContainsKey("ILChapter1") && settings["ILChapter1"] && !vars.CompletedSplits.Contains("ILChapter1")) 
-		{ vars.CompletedSplits.Add("Chapter1IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter1"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter2IL") && settings.ContainsKey("ILChapter2") && settings["ILChapter2"] && !vars.CompletedSplits.Contains("ILChapter2")) 
-		{ vars.CompletedSplits.Add("Chapter2IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter2"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter3IL") && settings.ContainsKey("ILChapter3") && settings["ILChapter3"] && !vars.CompletedSplits.Contains("ILChapter3")) 
-		{ vars.CompletedSplits.Add("Chapter3IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter3"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter4IL") && settings.ContainsKey("ILChapter4") && settings["ILChapter4"] && !vars.CompletedSplits.Contains("ILChapter4")) 
-		{ vars.CompletedSplits.Add("Chapter4IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter4"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter5IL") && settings.ContainsKey("ILChapter5") && settings["ILChapter5"] && !vars.CompletedSplits.Contains("ILChapter5")) 
-		{ vars.CompletedSplits.Add("Chapter5IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter5"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter6IL") && settings.ContainsKey("ILChapter6") && settings["ILChapter6"] 
 		&& current.CheckpointName == "BP_CP_WarTown_BrokenBasement" && !vars.CompletedSplits.Contains("ILChapter6")) 
-		{ vars.CompletedSplits.Add("Chapter6IL"); return true; }
-	if (vars.Resolver.CheckFlag("Chapter7IL") && settings.ContainsKey("ILChapter7") && settings["ILChapter7"] 
+		{ vars.CompletedSplits.Add("ILChapter6"); return true; }
+	if (vars.Resolver.CheckFlag("Chapter7IL") && settings.ContainsKey("ILChapter7") && settings["ILChapter7"] && vars.Chapter7ILSafeguard
 		&& current.CheckpointName == "BP_CP_WarTown_HospitalSheepbeast" && !vars.CompletedSplits.Contains("ILChapter7")) 
-		{ vars.CompletedSplits.Add("Chapter7IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter7"); return true; }
 	if (vars.Resolver.CheckFlag("Chapter8IL") && settings.ContainsKey("ILChapter8") && settings["ILChapter8"] && !vars.CompletedSplits.Contains("ILChapter8")) 
-		{ vars.CompletedSplits.Add("Chapter8IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter8"); return true; }
 	if (vars.Resolver.CheckFlag("RabbitEndSplit") && settings.ContainsKey("ILChapter9") && settings["ILChapter9"] && !vars.CompletedSplits.Contains("ILChapter9")) 
-		{ vars.CompletedSplits.Add("Chapter9IL"); return true; }
+		{ vars.CompletedSplits.Add("ILChapter9"); return true; }
 }
 
 isLoading
@@ -170,6 +177,7 @@ reset
 onReset
 {
 	vars.Chpt1ILIntro = false;
+	vars.Chapter7ILRunThroughDoor = false;
 }
 
 exit
