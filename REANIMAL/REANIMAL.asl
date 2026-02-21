@@ -52,6 +52,7 @@ init
 	vars.Loading = false;
 	vars.Chpt1ILIntro = false;
 	vars.Chapter7ILSafeguard = false;
+    vars.Chapter7Split = false;
 	current.World = "";
 	vars.LastUpdatedWorld = "";
 	current.CheckpointName = "";
@@ -80,6 +81,7 @@ onStart
 	vars.CompletedSplits.Clear();
 	vars.LastUpdatedWorld = "X";
 	vars.Chapter7ILSafeguard = false;
+    vars.Chapter7Split = false;
 }
 
 update
@@ -99,23 +101,18 @@ update
 
 	if (old.AssetPathName != current.AssetPathName || old.SavedCheckpointPlayerStart != current.SavedCheckpointPlayerStart)
 		current.ComboCheckpoint = current.AssetPathName + ":" + current.SavedCheckpointPlayerStart;
-
 	if (vars.Resolver.CheckFlag("IntroCutscene")) vars.Chpt1ILIntro = true;
-	
 	if (vars.Resolver.CheckFlag("FadeFromBlack")) 
 		{ vars.DeathPhase = 0; vars.Loading = false; }
 	if (vars.DeathPhase == 0 && (vars.Resolver.CheckFlag("DeathHandlerPhase1") || vars.Resolver.CheckFlag("PlayerDeathHandlerPhase1")))
 		vars.DeathPhase = 1;
 	if (vars.DeathPhase == 1 && (vars.Resolver.CheckFlag("DeathHandlerPhase2") || vars.Resolver.CheckFlag("PlayerDeathHandlerPhase2")))
-		{ vars.DeathPhase = 2; vars.Loading = true;
-	}
+		{ vars.DeathPhase = 2; vars.Loading = true; }
 	if (vars.Resolver.CheckFlag("SimpleRagdollPhase1") || vars.Resolver.CheckFlag("SimpleRagdollPhase2"))
 		{ vars.DeathPhase = 0; vars.Loading = false; }
+	if (vars.Resolver.CheckFlag("Chapter7RunThroughTheDoor") && !vars.Chapter7ILSafeguard) vars.Chapter7ILSafeguard = true;
+    if (vars.Resolver.CheckFlag("Chapter7IL") && vars.Chapter7ILSafeguard) vars.Chapter7Split = true;
 
-	if (vars.Resolver.CheckFlag("Chapter7RunThroughTheDoor") && !vars.Chapter7ILSafeguard)
-	{
-		vars.Chapter7ILSafeguard = true;
-	}
 }
 
 split
@@ -155,9 +152,8 @@ split
 	if (vars.Resolver.CheckFlag("Chapter6IL") && settings.ContainsKey("ILChapter6") && settings["ILChapter6"] 
 		&& current.CheckpointName == "BP_CP_WarTown_BrokenBasement" && !vars.CompletedSplits.Contains("ILChapter6")) 
 		{ vars.CompletedSplits.Add("ILChapter6"); return true; }
-	if (vars.Resolver.CheckFlag("Chapter7IL") && settings.ContainsKey("ILChapter7") && settings["ILChapter7"] && vars.Chapter7ILSafeguard
-		&& current.CheckpointName == "BP_CP_WarTown_HospitalSheepbeast" && !vars.CompletedSplits.Contains("ILChapter7")) 
-		{ vars.CompletedSplits.Add("ILChapter7"); return true; }
+	if (vars.Chapter7Split && settings.ContainsKey("ILChapter7") && settings["ILChapter7"] && !vars.CompletedSplits.Contains("ILChapter7")) 
+    { vars.CompletedSplits.Add("ILChapter7"); vars.Chapter7Split = false; return true; }
 	if (vars.Resolver.CheckFlag("Chapter8IL") && settings.ContainsKey("ILChapter8") && settings["ILChapter8"] && !vars.CompletedSplits.Contains("ILChapter8")) 
 		{ vars.CompletedSplits.Add("ILChapter8"); return true; }
 	if (vars.Resolver.CheckFlag("RabbitEndSplit") && settings.ContainsKey("ILChapter9") && settings["ILChapter9"] && !vars.CompletedSplits.Contains("ILChapter9")) 
@@ -179,6 +175,7 @@ onReset
 {
 	vars.Chpt1ILIntro = false;
 	vars.Chapter7ILSafeguard = false;
+    vars.Chapter7Split = false;
 }
 
 exit
