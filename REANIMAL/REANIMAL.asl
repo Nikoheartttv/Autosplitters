@@ -42,7 +42,7 @@ init
 	vars.Events.FunctionFlag("Chapter4IL", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "HIP_HideCrownMesh");
 	vars.Events.FunctionFlag("Chapter5IL", "LSEQ_DeadMotherTest_PukeCamera_2_DirectorBP_C", "LSEQ_DeadMotherTest_PukeCamera_2_DirectorBP_C", "SequenceEvent__ENTRYPOINTLSEQ_DeadMotherTest_PukeCamera_2_DirectorBP");
 	vars.Events.FunctionFlag("Chapter6IL", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "");
-	vars.Events.FunctionFlag("Chapter7IL", "BP_Coop_Interaction_SqueezeGap_C", "BP_Coop_Interaction_SqueezeGap_C", "");
+	vars.Events.FunctionFlag("Chapter7IL", "BP_Coop_Interaction_SqueezeGap_C", "BP_Coop_Interaction_SqueezeGap_C", "BndEvt__BP_Coop_Interaction_SqueezeGap_InteractionComponent_K2Node_ComponentBoundEvent_0_InteractionComponentEvent__DelegateSignature");
 	vars.Events.FunctionFlag("Chapter7RunThroughTheDoor", "SEQ_RunThroughTheDoor_DirectorBP_C", "SEQ_RunThroughTheDoor_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_RunThroughTheDoor_DirectorBP");
 	vars.Events.FunctionFlag("Chapter8IL", "BP_TankActor_C", "BP_TankActor_C", "BndEvt__BP_TankActor_PassengerInteraction_K2Node_ComponentBoundEvent_0_InteractionComponentEvent__DelegateSignature");
 
