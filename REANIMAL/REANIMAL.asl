@@ -40,7 +40,7 @@ init
 	vars.Events.FunctionFlag("Chapter2IL", "SEQ_ForestRoad_SnifferEndingSuccess_DirectorBP_C", "SEQ_ForestRoad_SnifferEndingSuccess_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_ForestRoad_SnifferEndingSuccess_DirectorBP");
 	vars.Events.FunctionFlag("Chapter3IL", "SEQ_WaitingOnBus_DirectorBP_C", "SEQ_WaitingOnBus_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_WaitingOnBus_DirectorBP");
 	vars.Events.FunctionFlag("Chapter4IL", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "HIP_HideCrownMesh");
-	vars.Events.FunctionFlag("Chapter5IL", "LSEQ_DeadMotherTest_PukeCamera_2_DirectorBP_C", "LSEQ_DeadMotherTest_PukeCamera_2_DirectorBP_C", "SequenceEvent__ENTRYPOINTLSEQ_DeadMotherTest_PukeCamera_2_DirectorBP");
+	vars.Events.FunctionFlag("Chapter5IL", "BP_MilitaryTruckKids_C", "BP_MilitaryTruckKids_C", "CE_HoistPlayerInteract*");
 	vars.Events.FunctionFlag("Chapter6IL", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "");
 	vars.Events.FunctionFlag("Chapter7IL", "BP_Coop_Interaction_SqueezeGap_C", "BP_Coop_Interaction_SqueezeGap_C", "BndEvt__BP_Coop_Interaction_SqueezeGap_InteractionComponent_K2Node_ComponentBoundEvent_0_InteractionComponentEvent__DelegateSignature");
 	vars.Events.FunctionFlag("Chapter7RunThroughTheDoor", "SEQ_RunThroughTheDoor_DirectorBP_C", "SEQ_RunThroughTheDoor_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_RunThroughTheDoor_DirectorBP");
