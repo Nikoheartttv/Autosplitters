@@ -36,7 +36,7 @@ init
 	vars.Events.FunctionFlag("CameraFadeIn", "BP_EverholmGameState_C", "BP_EverholmGameState_C", "CameraFadeIn__UpdateFunc");
 
 	// IL Flags
-	vars.Events.FunctionFlag("Chapter1IL", "PuzzleManagerTrainBridge_V2_C", "PuzzleManagerTrainBridge_V2_C", "HIP_PlayPullUpMontages");
+	vars.Events.FunctionFlag("Chapter1IL", "BP_IceCreamTruckForest_C", "BP_IceCreamTruckForest_C", "ExecuteUbergraph_BP_IceCreamTruckForest");
 	vars.Events.FunctionFlag("Chapter2IL", "SEQ_ForestRoad_SnifferEndingSuccess_DirectorBP_C", "SEQ_ForestRoad_SnifferEndingSuccess_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_ForestRoad_SnifferEndingSuccess_DirectorBP");
 	vars.Events.FunctionFlag("Chapter3IL", "SEQ_WaitingOnBus_DirectorBP_C", "SEQ_WaitingOnBus_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_WaitingOnBus_DirectorBP");
 	vars.Events.FunctionFlag("Chapter4IL", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "HIP_HideCrownMesh");
