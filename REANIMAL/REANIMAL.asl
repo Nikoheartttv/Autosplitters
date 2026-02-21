@@ -79,6 +79,7 @@ onStart
 {
 	vars.CompletedSplits.Clear();
 	vars.LastUpdatedWorld = "X";
+	vars.Chapter7ILSafeguard = false;
 }
 
 update
@@ -177,7 +178,7 @@ reset
 onReset
 {
 	vars.Chpt1ILIntro = false;
-	vars.Chapter7ILRunThroughDoor = false;
+	vars.Chapter7ILSafeguard = false;
 }
 
 exit
