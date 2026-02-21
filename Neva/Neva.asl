@@ -56,7 +56,7 @@ init
 
 		vars.Helper["IsInGame"] = mono.Make<bool>("Home.MainManager", "Instance", "m_IsInGame");
 		vars.Helper["ChapterScenesLoading"] = mono.Make<bool>("Home.MainManager", "Instance", "m_ChapterManager", "m_ChapterScenesLoading");
-		vars.Helper["LastChapterUnlocked"] = mono.Make<int>("Home.MainManager", "Instance", "m_ProgressionManager", "LastChapterUnlocked");
+		vars.Helper["LastChapterUnlocked"] = mono.Make<int>("Home.MainManager", "Instance", "m_ProgressionManager", "m_LastChapterUnlocked");
 		vars.Helper["SkipVideoIsEnabled"] = mono.Make<bool>("Home.MainManager", "Instance", "m_GUICamera", "m_SkipVideoIsEnabled");
 		vars.Helper["ForceKeepPreviousParenting"] = mono.Make<bool>("Home.MainManager", "Instance", "m_Player", "Controller", "m_CharacterControllerState", "ForceKeepPreviousParenting");
 		
