@@ -40,7 +40,7 @@ init
 	vars.Events.FunctionFlag("Chapter2IL", "SEQ_ForestRoad_SnifferEndingSuccess_DirectorBP_C", "SEQ_ForestRoad_SnifferEndingSuccess_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_ForestRoad_SnifferEndingSuccess_DirectorBP");
 	vars.Events.FunctionFlag("Chapter3IL", "SEQ_WaitingOnBus_DirectorBP_C", "SEQ_WaitingOnBus_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_WaitingOnBus_DirectorBP");
 	vars.Events.FunctionFlag("Chapter4IL", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "PuzzleManager_Orphanage_Entrance_FoyerCombat_C", "HIP_HideCrownMesh");
-	vars.Events.FunctionFlag("Chapter5IL", "BP_MilitaryTruckKids_C", "BP_MilitaryTruckKids_C", "CE_HoistPlayerInteract*");
+	vars.Events.FunctionFlag("Chapter5IL", "BP_MilitaryTruckKids_C", "BP_MilitaryTruckBandage_C", "CE_HoistPlayerInteract*");
 	vars.Events.FunctionFlag("Chapter6IL", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "BP_Interaction_SetPiece_HoistPiggybackGirlThroughWindow_C", "");
 	vars.Events.FunctionFlag("Chapter7IL", "BP_Coop_Interaction_SqueezeGap_C", "BP_Coop_Interaction_SqueezeGap_C", "BndEvt__BP_Coop_Interaction_SqueezeGap_InteractionComponent_K2Node_ComponentBoundEvent_0_InteractionComponentEvent__DelegateSignature");
 	vars.Events.FunctionFlag("Chapter7RunThroughTheDoor", "SEQ_RunThroughTheDoor_DirectorBP_C", "SEQ_RunThroughTheDoor_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_RunThroughTheDoor_DirectorBP");
@@ -53,6 +53,7 @@ init
 	vars.Chpt1ILIntro = false;
 	vars.Chapter7ILSafeguard = false;
     vars.Chapter7Split = false;
+	vars.Chapeter8ILSafeguard = false;
 	current.World = "";
 	vars.LastUpdatedWorld = "";
 	current.CheckpointName = "";
@@ -81,6 +82,7 @@ onStart
 	vars.CompletedSplits.Clear();
 	vars.LastUpdatedWorld = "X";
 	vars.Chapter7ILSafeguard = false;
+	vars.Chapter8ILSafeguard = false;
     vars.Chapter7Split = false;
 }
 
@@ -112,6 +114,7 @@ update
 		{ vars.DeathPhase = 0; vars.Loading = false; }
 	if (vars.Resolver.CheckFlag("Chapter7RunThroughTheDoor") && !vars.Chapter7ILSafeguard) vars.Chapter7ILSafeguard = true;
     if (vars.Resolver.CheckFlag("Chapter7IL") && vars.Chapter7ILSafeguard) vars.Chapter7Split = true;
+	if (old.CheckpointName != current.CheckpointName && current.CheckpointName == "BP_CP_WarTown_SheepbeastClimbsHouse") vars.Chapeter8ILSafeguard = true;
 
 }
 
@@ -154,7 +157,8 @@ split
 		{ vars.CompletedSplits.Add("ILChapter6"); return true; }
 	if (vars.Chapter7Split && settings.ContainsKey("ILChapter7") && settings["ILChapter7"] && !vars.CompletedSplits.Contains("ILChapter7")) 
     { vars.CompletedSplits.Add("ILChapter7"); vars.Chapter7Split = false; return true; }
-	if (vars.Resolver.CheckFlag("Chapter8IL") && settings.ContainsKey("ILChapter8") && settings["ILChapter8"] && !vars.CompletedSplits.Contains("ILChapter8")) 
+	if (vars.Resolver.CheckFlag("Chapter8IL") && settings.ContainsKey("ILChapter8") && vars.Chapter8ILSafeguard
+		&& settings["ILChapter8"] && !vars.CompletedSplits.Contains("ILChapter8")) 
 		{ vars.CompletedSplits.Add("ILChapter8"); return true; }
 	if (vars.Resolver.CheckFlag("RabbitEndSplit") && settings.ContainsKey("ILChapter9") && settings["ILChapter9"] && !vars.CompletedSplits.Contains("ILChapter9")) 
 		{ vars.CompletedSplits.Add("ILChapter9"); return true; }
@@ -176,6 +180,7 @@ onReset
 	vars.Chpt1ILIntro = false;
 	vars.Chapter7ILSafeguard = false;
     vars.Chapter7Split = false;
+	vars.Chapter8ILSafeguard = false;
 }
 
 exit
