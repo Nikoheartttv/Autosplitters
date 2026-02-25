@@ -114,8 +114,7 @@ update
 		{ vars.DeathPhase = 0; vars.Loading = false; }
 	if (vars.Resolver.CheckFlag("Chapter7RunThroughTheDoor") && !vars.Chapter7ILSafeguard) vars.Chapter7ILSafeguard = true;
     if (vars.Resolver.CheckFlag("Chapter7IL") && vars.Chapter7ILSafeguard) vars.Chapter7Split = true;
-	if (old.CheckpointName != current.CheckpointName && current.CheckpointName == "BP_CP_WarTown_SheepbeastClimbsHouse") vars.Chapeter8ILSafeguard = true;
-
+	if (old.CheckpointName != current.CheckpointName && current.CheckpointName == "BP_CP_WarTown_SheepbeastClimbsHouse") vars.Chapter8ILSafeguard = true;
 }
 
 split
