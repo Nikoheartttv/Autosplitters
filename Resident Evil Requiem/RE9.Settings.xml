@@ -33,13 +33,13 @@
 			<Setting Id="it60_00_063_A" Label="Pick up Corrosive" State="false" />
 			<Setting Id="it60_00_048_A" Label="Pick up Sun Quartz" State="false" />
 			<Setting Id="it60_00_074_A" Label="Pick up Wrench" State="false " />
+			<Setting Id="it60_00_065_A" Label="Pick up Green Blood Sample (Converged)" State="false" />
 			<Setting Id="it60_00_053_A" Label="Pick up Artifical Lungs" State="false" />
 			<Setting Id="it60_00_051_A" Label="Pick up Artifical Heart" State="false" />
 			<Setting Id="it60_00_068_A" Label="Pick up Lv. 2 ID Wristband" State="false" />
 			<Setting Id="321700" Label="Get Lv. 3 ID Wristband" State="false" />
 			<Setting Id="321800" Label="Get Emily from cell" State="false" />
 			<Setting Id="321900" Label="Defend Emily whilst reading braille" State="false" />
-			<Setting Id="it60_00_065_A" Label="Pick up Green Blood Sample (Converged) - PLACE IN LIST SOMEWHERE" State="false" />
 		</Setting>
 
 		<Setting Id="CCL2" Label="Leon - Care Center Attic" State="false">
