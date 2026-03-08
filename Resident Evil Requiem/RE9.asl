@@ -367,19 +367,20 @@ split
 		return true;
 	}
 
-	if (current.EventName == 530600 && !vars.CompletedSplits.Contains("GoodEndingPhase1"))
+	if (settings["GoodEndingPhase1"] && settings.ContainsKey("GoodEndingPhase1") && current.EventName == 530600 && !vars.CompletedSplits.Contains("GoodEndingPhase1"))
 	{
 		vars.CompletedSplits.Add("GoodEndingPhase1");
 		return true;
 	}
 
-	if (current.EventName == 530800 && !vars.CompletedSplits.Contains("GoodEndingPhase2"))
+	if (settings["GoodEndingPhase2"] && settings.ContainsKey("GoodEndingPhase2") && current.EventName == 530800 && !vars.CompletedSplits.Contains("GoodEndingPhase2"))
 	{
 		vars.CompletedSplits.Add("GoodEndingPhase2");
 		return true;
 	}
 
-	if ((vars.ShouldSplit == "it60_00_115_A" || vars.ShouldSplit == "it60_00_118_A") && !vars.CompletedSplits.Contains("DetonatorItem2"))
+	if (settings["DetonatorItem2"] && settings.ContainsKey("DetonatorItem2") && 
+		(vars.ShouldSplit == "it60_00_115_A" || vars.ShouldSplit == "it60_00_118_A") && !vars.CompletedSplits.Contains("DetonatorItem2"))
 	{
 		vars.CompletedSplits.Add("DetonatorItem2");
 		vars.ShouldSplit = "";
@@ -405,15 +406,17 @@ split
 
 		if (current.StageName == "st30_056" && vars.ShouldSplit == "it60_00_055_R" && !vars.CompletedSplits.Contains("it60_00_055_R"))
 		{
-			vars.CompletedSplits.Add("it60_00_055_R");
-			vars.Uhara.Log("DID I GET HERE???");
-			vars.ShouldSplit = "";
-			return true;
+			if (settings["it60_00_055_R"] && setings.ContainsKey("it60_00_055_R"))
+			{
+				vars.CompletedSplits.Add("it60_00_055_R");
+				vars.ShouldSplit = "";
+				return true;
+			}
 		}
 
 		if (current.EvnStageName == 331900 && vars.ShouldSplit == "Ob_302_020_015_R" && !vars.CompletedSplits.Contains("Ob_302_020_015_R"))
 		{
-			if (settings["ABOb_302_020_015"] && !vars.CompletedSplits.Contains("ABOb_302_020_015"))
+			if (settings["ABOb_302_020_015"] && settings.ContainsKey("ABOb_302_020_015"))
 			{
 				vars.CompletedSplits.Add("ABOb_302_020_015");
 				vars.ShouldSplit = "";
