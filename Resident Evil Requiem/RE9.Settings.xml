@@ -16,7 +16,7 @@
 		</Setting>
 
 		<Setting Id="CCG1" Label="Grace - Care Center Arrival" State="false">
-			<Setting Id="it60_00_039_A" Label="Get Screwddriver" State="false" />
+			<Setting Id="it60_00_039_A" Label="Get Screwdriver" State="false" />
 			<Setting Id="311610" Label="Escape" State="false" />
 		</Setting>
 
