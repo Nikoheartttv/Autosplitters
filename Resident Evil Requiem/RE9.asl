@@ -135,7 +135,7 @@ update
 	vars.Uhara.Update();
 
 	if (current.PlayerContextFast != IntPtr.Zero) {
-		string characterName = vars.Resolver.ReadString(current.PlayerContextFast + 0x40, 0x10, 0x14) ?? "";
+		string characterName = vars.Resolver.ReadString(64, ReadStringType.UTF16, current.PlayerContextFast + 0x40, 0x10, 0x14) ?? "";
 		if (current.CharacterName != characterName) 
 		vars.Uhara.Log("Character Name: " + characterName);
 		current.CharacterName = characterName;
@@ -229,7 +229,7 @@ update
 			{
 				int characterPanelSize = Math.Min(vars.Resolver.Read<int>(characterBase + 0x48, 0x3C), slotSize);
 				for (int i = 0; i < characterPanelSize; i++)
-					characterSlots[i] = vars.Resolver.ReadString(characterBase + 0x48, 0x18, 0x30 + (i * 0x18), 0x10, 0x20, 0x10, 0x14) ?? "";
+					characterSlots[i] = vars.Resolver.ReadString(64, ReadStringType.UTF16, characterBase + 0x48, 0x18, 0x30 + (i * 0x18), 0x10, 0x20, 0x10, 0x14) ?? "";
 			}
 
 			string[] oldSlots = oldInventory.Split('|');
@@ -275,7 +275,7 @@ update
 			IntPtr objData = vars.Resolver.Read<IntPtr>(current.ObjectiveController + 0x10, 0x10, 0x20 + (i * 0x8));
 			if (objData != IntPtr.Zero)
 			{
-				objSlots[i] = vars.Resolver.ReadString(objData + 0x10, 0x10, 0x14) ?? "";
+				objSlots[i] = vars.Resolver.ReadString(64, ReadStringType.UTF16, objData + 0x10, 0x10, 0x14) ?? "";
 				objCounter[i] = vars.Resolver.Read<int>(objData + 0x38);
 			}
 			else
@@ -330,7 +330,7 @@ update
 	{
 		for (int i = 0; i < current.EnemyContextListArrayNum; i++)
 		{
-			string kindID = vars.Resolver.ReadString(256, ReadStringType.UTF16, current.EnemyContextList + ((i * 0x8) + 0x20), 0x40, 0x10, 0x14);
+			string kindID = vars.Resolver.ReadString(64, ReadStringType.UTF16, current.EnemyContextList + ((i * 0x8) + 0x20), 0x40, 0x10, 0x14);
 			if (kindID != "cp_C100" && kindID != "cp_C610") 
 			{
 				continue;
