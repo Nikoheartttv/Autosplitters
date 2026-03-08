@@ -73,7 +73,6 @@
 			<Setting Id="Ob_305_020_040_C1" Label="Restart the Power Distribution units (1/3)" State="false" />
 			<Setting Id="Ob_305_020_040_C2" Label="Restart the Power Distribution units (2/3)" State="false" />
 			<Setting Id="Ob_305_020_040_C3" Label="Restart the Power Distribution units (3/3)" State="false" />
-			<!-- <Setting Id="Ob_305_020_050" Label="Restart the Power Distribution nodes" State="false" /> -->
 			<Setting Id="351700" Label="Open hatch on Girl and Kill" State="false" />
 			<Setting Id="351910" Label="Fight Mutant Emily" State="false" />
 		</Setting>
@@ -104,7 +103,7 @@
 			<Setting Id="441800" Label="Orphanage Flashback - End" State="false" />
 			<Setting Id="Ob_440_030_020_A_C2" Label="Escape R.P.D" State="false" /> 
 			<Setting Id="442700" Label="Tyrant T-501 Dead" State="false" />
-			<!-- <Setting Id="Ob_440_030_020_R" Label="Head to the orphanage" State="false" /> -->
+			<Setting Id="Ob_440_030_020_R" Label="Head to the orphanage" State="false" />
 			<Setting Id="450200" Label="Encounter Plant and fall down in train carriages" State="false" />
 			<Setting Id="450800" Label="Plant 43 Dead" State="false" />
 		</Setting>
@@ -112,17 +111,14 @@
 		<Setting Id="ARK" Label="ARK" State="false">
 			<Setting Id="Ob_440_030_060_R" Label="Leon - Eliminate the Elite Guards" State="false" />
 			<Setting Id="Commander" Label="Leon - Eliminate the commander" State="false" />
-			<!-- <Setting Id="510900" Label="End of Leon 1st section" State="false" /> -->
 			<Setting Id="it60_00_113_A" Label="Grace - Pick up Override Key (Dump Control Room)" State="false" />
 			<Setting Id="it60_00_113_R" Label="Grace - Put Override Key in the Dump Control Room" State="false" />
 			<Setting Id="it60_00_105_A" Label="Grace - Pick up Animus Orb" State="false" />
 			<Setting Id="it60_00_107_A" Label="Grace - Pick up Noblesse Orb" State="false" />
 			<Setting Id="Ob_502_010_020_020_R" Label="Grace - Open the door to the central refining system" State="false" />
-			<!-- <Setting Id="520400" Label="End of Grace 1st Section" State="false" /> -->
 			
 			<Setting Id="it60_00_114_A" Label="Pick up Override Key (Bioweapon Repository 11)" State="false" />
 			<Setting Id="520700" Label="Leon passes outside of Central Refining System" State="false" />
-			<!-- Ob_502_010_040 go to leon -->
 			<Setting Id="EndingSplits" Label="Ending Splits" State="true">
 				<Setting Id="BadEnding" Label="Bad Ending" State="true" />
 				<Setting Id="GoodEndingPhase1" Label="Good Ending - Victor Battle Phase 1" State="true" />
