@@ -406,7 +406,7 @@ split
 
 		if (current.StageName == "st30_056" && vars.ShouldSplit == "it60_00_055_R" && !vars.CompletedSplits.Contains("it60_00_055_R"))
 		{
-			if (settings["it60_00_055_R"] && setings.ContainsKey("it60_00_055_R"))
+			if (settings["it60_00_055_R"] && settings.ContainsKey("it60_00_055_R"))
 			{
 				vars.CompletedSplits.Add("it60_00_055_R");
 				vars.ShouldSplit = "";
