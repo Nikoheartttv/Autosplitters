@@ -56,6 +56,7 @@ init
 	IntPtr CharacterManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 80 ba ?? ?? ?? ?? ?? 0f 85");
 	IntPtr EventSaveManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 44 8b 40 ?? 48 89 f1 41 b9");
 	IntPtr TimelineEventMediator = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 89 f1 41 89 d8");
+	IntPtr GuiManager = vars.Uhara.ScanRel(3, "48 8b 1d ?? ?? ?? ?? 4c 8b 35 ?? ?? ?? ?? 48 89 f1 e8 ?? ?? ?? ?? 48 8b 46");
 
 	vars.Resolver.WatchString("Chapter", MainGameFlowManager, 0x20, 0x80, 0x14);    
 	vars.Resolver.WatchString("View", SceneTransitionManager, 0x28, 0x40, 0x14);
@@ -79,6 +80,8 @@ init
 	vars.Resolver.Watch<byte>("PlayerModeFade", FadeManager, 0x10, 0x48, 0x70);
 	vars.Resolver.Watch<IntPtr>("PlayerContextFast", CharacterManager, 0xB0);
 	vars.Resolver.Watch<int>("EventName", TimelineEventMediator, 0x20, 0x10, 0x20, 0xB4);
+	vars.Resolver.Watch<IntPtr>("SpecialContentMenu", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x10, 0x20);
+	vars.Resolver.Watch<IntPtr>("ChallengesMenu", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x10, 0x20);
 
 	current.View = "";
 	current.PauseType = 0;
@@ -460,7 +463,8 @@ isLoading
             vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
             current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
-            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24;
+            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24 ||
+			current.SpecialContentMenu != IntPtr.Zero || current.ChallengesMenu != IntPtr.Zero;
 }
 
 reset
