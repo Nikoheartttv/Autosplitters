@@ -101,7 +101,7 @@
 			<Setting Id="it60_00_087_A" Label="Orphanage Flashback - Pick up Hatch Key" State="false" />
 			<Setting Id="it60_00_088_A"	 Label="Orphanage Flashback - Pick up Fire Poker" State="false" />
 			<Setting Id="441800" Label="Orphanage Flashback - End" State="false" />
-			<Setting Id="Ob_440_030_020_A_C2" Label="Escape R.P.D" State="false" /> 
+			<Setting Id="EscapeRPD" Label="Escape R.P.D" State="false" /> 
 			<Setting Id="442700" Label="Tyrant T-501 Dead" State="false" />
 			<Setting Id="Ob_440_030_020_R" Label="Head to the orphanage" State="false" />
 			<Setting Id="450200" Label="Encounter Plant and fall down in train carriages" State="false" />

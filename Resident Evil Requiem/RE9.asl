@@ -101,7 +101,6 @@ init
 	vars.ObjList = "";
 	vars.LastCounter = 0;
 	vars.RCCBattery = 0;
-	vars.RRCEscape = 0;
 }
 
 start
@@ -126,7 +125,6 @@ onStart
 	vars.LastCounter = 0;
 	vars.ChunkOldHealth = 0;
 	vars.RCCBattery = 0;
-	vars.RCCEscape = 0;
 	vars.CompletedSplits.Clear();
 }
 
@@ -401,6 +399,15 @@ split
 		}
 	}
 
+	if (old.StageName == "st40_400" && current.StageName == "st40_451" && !vars.CompletedSplits.Contains("EscapeRPD"))
+	{
+		if (settings.ContainsKey("EscapeRPD") && settings["EscapeRPD"])
+		{
+			vars.CompletedSplits.Add("EscapeRPD");
+			return true;
+		}
+	}
+
 	if (!string.IsNullOrEmpty(vars.ShouldSplit)) {
 		if (settings.ContainsKey(vars.ShouldSplit) && settings[vars.ShouldSplit] && !vars.CompletedSplits.Contains(vars.ShouldSplit)) 
 		{
@@ -443,19 +450,6 @@ split
 			}
 		}
 
-		if (vars.ShouldSplit == "Ob_440_030_020_A") {
-			if (vars.RCCEscape < 2)
-			{
-				vars.RCCEscape++;
-				string rccEscape = "Ob_440_030_020_A_C" + vars.RCCEscape;
-				if (settings.ContainsKey(rccEscape) && settings[rccEscape] && !vars.CompletedSplits.Contains(rccEscape)) 
-				{
-					vars.CompletedSplits.Add(rccEscape);
-					vars.ShouldSplit = "";
-					return true;
-				}
-			}	
-		}
 		vars.ShouldSplit = "";
 	}
 }
