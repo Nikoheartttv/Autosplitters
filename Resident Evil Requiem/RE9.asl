@@ -404,11 +404,11 @@ split
 			return true;
 		}
 
-		if (current.StageName == "st30_056" && vars.ShouldSplit == "it60_00_055_R" && !vars.CompletedSplits.Contains("it60_00_055_R"))
+		if (current.StageName == "st30_056" && (vars.ShouldSplit == "it60_00_055_R" || vars.ShouldSplit == "it60_00_068_A")  && !vars.CompletedSplits.Contains("Lv2IDWristband"))
 		{
-			if (settings["it60_00_055_R"] && settings.ContainsKey("it60_00_055_R"))
+			if (settings["Lv2IDWristband"] && settings.ContainsKey("Lv2IDWristband"))
 			{
-				vars.CompletedSplits.Add("it60_00_055_R");
+				vars.CompletedSplits.Add("Lv2IDWristband");
 				vars.ShouldSplit = "";
 				return true;
 			}

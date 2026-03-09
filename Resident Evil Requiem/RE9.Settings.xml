@@ -36,7 +36,7 @@
 			<Setting Id="it60_00_065_A" Label="Pick up Green Blood Sample (Converged)" State="false" />
 			<Setting Id="it60_00_053_A" Label="Pick up Artifical Lungs" State="false" />
 			<Setting Id="it60_00_051_A" Label="Pick up Artifical Heart" State="false" />
-			<Setting Id="it60_00_055_R" Label="Pick up Lv. 2 ID Wristband" State="false" />
+			<Setting Id="Lv2IDWristband" Label="Pick up Lv. 2 ID Wristband" State="false" />
 			<Setting Id="321700" Label="Get Lv. 3 ID Wristband" State="false" />
 			<Setting Id="321800" Label="Get Emily from cell" State="false" />
 			<Setting Id="321900" Label="Defend Emily whilst reading braille" State="false" />
