@@ -161,8 +161,13 @@ update
 		vars.Permaload = true;
 	}
 
-	if (current.EventName == 450900 && old.PauseType == 1 && current.PauseType == 0) vars.Permaload = false;
-	if (vars.ReturnedFromLoadEvents.Contains(current.EventName) && old.PauseType == 8 && current.PauseType == 0) {
+	if (current.EventName == 450900 && old.PauseType == 1 && current.PauseType == 0)
+	{
+		vars.Permaload = false;
+	}
+	if (vars.ReturnedFromLoadEvents.Contains(current.EventName) && old.PauseType == 8 && 
+		(current.EventName == 420502 ? (current.PauseType == 0 || current.PauseType == 2) : current.PauseType == 0)) 
+	{
 		vars.Permaload = false;
 	}
 
