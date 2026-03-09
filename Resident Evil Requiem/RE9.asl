@@ -80,8 +80,8 @@ init
 	vars.Resolver.Watch<byte>("PlayerModeFade", FadeManager, 0x10, 0x48, 0x70);
 	vars.Resolver.Watch<IntPtr>("PlayerContextFast", CharacterManager, 0xB0);
 	vars.Resolver.Watch<int>("EventName", TimelineEventMediator, 0x20, 0x10, 0x20, 0xB4);
-	vars.Resolver.Watch<IntPtr>("SpecialContentMenu", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x10, 0x20);
-	vars.Resolver.Watch<IntPtr>("ChallengesMenu", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x10, 0x20);
+	vars.Resolver.Watch<int>("SpecialContentMenu", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x18);
+	vars.Resolver.Watch<int>("ChallengesMenu", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x18);
 
 	current.View = "";
 	current.PauseType = 0;
@@ -362,6 +362,8 @@ update
 			}
 		}
 	}
+
+	
 }
 
 split
@@ -463,8 +465,8 @@ isLoading
             vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
             current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
-            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24;
-			// current.SpecialContentMenu != IntPtr.Zero || current.ChallengesMenu != IntPtr.Zero;
+            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24 ||
+			current.SpecialContentMenu > 0 || current.ChallengesMenu > 0;
 }
 
 reset
