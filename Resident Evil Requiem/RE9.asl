@@ -463,8 +463,8 @@ isLoading
             vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
             current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
-            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24 ||
-			current.SpecialContentMenu != IntPtr.Zero || current.ChallengesMenu != IntPtr.Zero;
+            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24;
+			// current.SpecialContentMenu != IntPtr.Zero || current.ChallengesMenu != IntPtr.Zero;
 }
 
 reset
