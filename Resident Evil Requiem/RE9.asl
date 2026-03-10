@@ -80,8 +80,15 @@ init
 	vars.Resolver.Watch<byte>("PlayerModeFade", FadeManager, 0x10, 0x48, 0x70);
 	vars.Resolver.Watch<IntPtr>("PlayerContextFast", CharacterManager, 0xB0);
 	vars.Resolver.Watch<int>("EventName", TimelineEventMediator, 0x20, 0x10, 0x20, 0xB4);
-	// vars.Resolver.Watch<int>("SpecialContentMenu", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x18);
-	// vars.Resolver.Watch<int>("ChallengesMenu", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x18);
+
+	vars.Resolver.Watch<int>("InSpecialContextMenuP1", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x10, 0x1C);
+    vars.Uhara["InSpecialContextMenuP1"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	vars.Resolver.Watch<ulong>("InSpecialContextMenuP2", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x10, 0x20);
+    vars.Uhara["InSpecialContextMenuP2"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	vars.Resolver.Watch<int>("InChallengesMenuP1", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x10, 0x1C);
+    vars.Uhara["InChallengesMenuP1"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	vars.Resolver.Watch<ulong>("InChallengesMenuP2", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x10, 0x20);
+    vars.Uhara["InChallengesMenuP2"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
 	current.View = "";
 	current.PauseType = 0;
@@ -461,6 +468,7 @@ split
 
 isLoading
 {
+	if ((current.InChallengesMenuP1 > 0 && current.InChallengesMenuP2 != 0) || (current.InSpecialContextMenuP1 > 0 && current.InSpecialContextMenuP2 != 0)) return true;
     return  vars.bitCheck(current.GameClockTimerBit, vars.timers["LoadSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
