@@ -2,6 +2,27 @@
 	<Setting Id="Main" Label="Main Game" State="true">
 		<Setting Id="NoIntro" Label="No Intro (from Chronic Care Center Save Point)" State="false" />
 		<Setting Id="AutoReset" Label="Reset when returning to Main Menu" State="false" />
+		<Setting Id="ChapterSplits" Label="Chapter Splits" State="false">
+			<Setting Id="FF_01" Label="Grace - Wrenwood Hotel - Get to Bed of Photographs" State="false" />	
+			<Setting Id="Chap1_01" Label="Flashback - Grace and Alyssa Trying to Leave Hotel" State="false" />
+			<Setting Id="Chapt1_10" Label="Grace - Wrenwood Hotel - Escape via Emergency Exit" State="false" />
+			<Setting Id="Chapt3_01" Label="Leon - Wrenwood City Streets" State="false" />
+			<Setting Id="Chapt3_10" Label="Grace - Care Center Arrival" State="false" />
+			<Setting Id="Chap3_02" Label="Leon - Care Center Arrival" State="false" />
+			<Setting Id="Chap3_20" Label="Grace - Care Center - Find the 3 Quartz" State="false" />
+			<Setting Id="Chap3_03" Label="Leon - Care Center Attic" State="false" />
+			<Setting Id="Chap3_40" Label="Grace - Care Center Basement and Courtyard" State="false" />
+			<Setting Id="Chap3_05" Label="Leon - Care Center Chapel" State="false" />
+			<Setting Id="Chap4_00" Label="Grace - Water Treatment Plant" State="false" />
+			<Setting Id="Chap4_30" Label="Leon - Raccoon City East" State="false" />
+			<Setting Id="Chap4_40_Ch1" Label="Leon - Motorbike Section to Raccoon City Center" State="false" />
+			<Setting Id="FF_02" Label="Leon - Raccoon City Center - Discover Grace and Xeno" State="false" />
+			<Setting Id="Chap4_40_Ch2" Label="Flashback - Orphanage" State="false" />
+			<Setting Id="Chap5_10" Label="Leon - Raccoon City Center - Head to ARK" State="false" />
+			<Setting Id="Chap5_02" Label="Leon - Reconvene with Grace and Fall Down in Dump" State="false" />
+			<Setting Id="Chap5_03" Label="Grace - Release Elpis" State="false" />
+		</Setting>
+		 
 		<Setting Id="WrenwoodHotel" Label="Grace - Wrenwood Hotel" State="false">
 			<Setting Id="111100" Label="Head to the Wrenwood Hotel" State="false" />
 			<Setting Id="111220" Label="Investigate the crime scene" State="false" />
@@ -30,6 +51,7 @@
 			<Setting Id="it60_00_047_A" Label="Pick up Red Jewel" State="false" />
 			<Setting Id="it60_00_049_A" Label="Pick up Moon Quartz" State="false" />
 			<Setting Id="it60_00_046_A" Label="Pick up East Wing Keycard" State="false" />
+			<Setting Id="it60_00_064_A" Label="Pick up Blood Specimen (Denatured)" State="false" />
 			<Setting Id="it60_00_063_A" Label="Pick up Corrosive" State="false" />
 			<Setting Id="it60_00_048_A" Label="Pick up Sun Quartz" State="false" />
 			<Setting Id="it60_00_074_A" Label="Pick up Wrench" State="false " />
@@ -50,9 +72,9 @@
 
 		<Setting Id="CCGB" Label="Grace - Care Center Basement" State="false">
 			<Setting Id="it60_00_041_A" Label="Pick up Square Socket Wrench" State="false" />
-			<Setting Id="Ob_303_010_010_010_C2" Label="Pick up Second Joint Plug" State="false" />
+			<Setting Id="SecondJointPlug" Label="Pick up Second Joint Plug" State="false" />
 			<Setting Id="it60_00_042_A" Label="Pick up Forklift Key" State="false" />
-			<Setting Id="Ob_303_010_010_010_C3" Label="Pick up Third Joint Plug" State="false" />
+			<Setting Id="ThirdJointPlug" Label="Pick up Third Joint Plug" State="false" />
 			<Setting Id="331700" Label="Unlock the cells and Rescue Emily" State="false" />
 			<Setting Id="331900" Label="Escape via the elevator" State="false" />
 			<Setting Id="ABOb_302_020_015" Label="Unlock the door in the Central Hall" State="false" />
@@ -89,8 +111,9 @@
 			<Setting Id="it60_00_095_A" Label="Get Gas Can with Fuel" State="false" />
 			<Setting Id="it60_00_103_A" Label="Pick up Rusty Crank" State="false" />
 			<Setting Id="DetonatorItem2" Label="Collect the Detonator parts (2/3)" State="false" />
+			<Setting Id="it60_00_109_A" Label="Get Repair Kit" State="false" />
 			<Setting Id="it60_00_119_A" Label="Collect the Detonator parts (3/3)" State="false" />		
-			<Setting Id="420800" Label="After zombies on bridge desecent" State="false" />
+			<Setting Id="420800" Label="After zombies on bridge descent" State="false" />
 			<Setting Id="420850" Label="Destroy the Gate" State="false" />
 			<Setting Id="430950" Label="Survive Victor's Motorbike Ambush" State="false" />
 		</Setting>
@@ -118,11 +141,11 @@
 			<Setting Id="Ob_502_010_020_020_R" Label="Grace - Open the door to the central refining system" State="false" />
 			
 			<Setting Id="it60_00_114_A" Label="Pick up Override Key (Bioweapon Repository 11)" State="false" />
-			<Setting Id="520700" Label="Leon passes outside of Central Refining System" State="false" />
+			<Setting Id="520700" Label="Leon passes out outside of Central Refining System" State="false" />
 			<Setting Id="EndingSplits" Label="Ending Splits" State="true">
-				<Setting Id="BadEnding" Label="Bad Ending" State="true" />
-				<Setting Id="GoodEndingPhase1" Label="Good Ending - Victor Battle Phase 1" State="true" />
-				<Setting Id="GoodEndingPhase2" Label="Good Ending - Victor Battle Phase 2 (End)" State="true" />
+				<Setting Id="BadEnding" Label="Destroy Elips" State="true" />
+				<Setting Id="GoodEndingPhase1" Label="Release Elpis - Victor Battle Phase 1" State="true" />
+				<Setting Id="GoodEndingPhase2" Label="Release Elpis - Victor Battle Phase 2 (End)" State="true" />
 			</Setting>
 		</Setting>
 	</Setting>
