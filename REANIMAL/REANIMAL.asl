@@ -27,6 +27,8 @@ init
 	vars.Events.FunctionFlag("PlayerDeathHandlerPhase2", "PlayerDeathHandler_*", "PlayerDeathHandler_*", "OnActorDied");
 	vars.Events.FunctionFlag("SimpleRagdollPhase1", "DeathHandler_SimpleRagdoll_C", "DeathHandler_SimpleRagdoll_C", "OnDeathHandlingStarted");
 	vars.Events.FunctionFlag("SimpleRagdollPhase2", "DeathHandler_SimpleRagdoll_C", "DeathHandler_SimpleRagdoll_C", "OnActorDied");
+	vars.Events.FunctionFlag("CritterDeathPhase1", "DeathHandler_CritterKilled_C", "DeathHandler_CritterKilled_C", "OnDeathHandlingStarted");
+	vars.Events.FunctionFlag("CritterDeathPhase2", "DeathHandler_CritterKilled_C", "DeathHandler_CritterKilled_C", "OnActorDied");
 
 	// Return from Death
 	vars.Events.FunctionFlag("FadeFromBlack", "BP_IngameGameMode_C", "BP_IngameGameMode_C", "K2_OnRestartPlayer");
@@ -111,6 +113,8 @@ update
 	if (vars.DeathPhase == 1 && (vars.Resolver.CheckFlag("DeathHandlerPhase2") || vars.Resolver.CheckFlag("PlayerDeathHandlerPhase2")))
 		{ vars.DeathPhase = 2; vars.Loading = true; }
 	if (vars.Resolver.CheckFlag("SimpleRagdollPhase1") || vars.Resolver.CheckFlag("SimpleRagdollPhase2"))
+		{ vars.DeathPhase = 0; vars.Loading = false; }
+	if (vars.Resolver.CheckFlag("CritterDeathPhase1") || vars.Resolver.CheckFlag("CritterDeathPhase2"))
 		{ vars.DeathPhase = 0; vars.Loading = false; }
 	if (vars.Resolver.CheckFlag("Chapter7RunThroughTheDoor") && !vars.Chapter7ILSafeguard) vars.Chapter7ILSafeguard = true;
     if (vars.Resolver.CheckFlag("Chapter7IL") && vars.Chapter7ILSafeguard) vars.Chapter7Split = true;
