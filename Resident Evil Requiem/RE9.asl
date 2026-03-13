@@ -173,6 +173,12 @@ update
 	{
 		vars.Permaload = false;
 	}
+
+	if (current.EventName == 420502 && old.EventName != 420502) 
+	{
+		vars.Permaload = false; // bsaa cutscene returning is a pain, this deserves a comment lol
+	}
+
 	if (vars.ReturnedFromLoadEvents.Contains(current.EventName) &&
 		old.PauseType == 8 && ((current.EventName == 420502 || current.EvnStageName == 331900)
 		? (current.PauseType == 0 || current.PauseType == 2) : current.PauseType == 0))
