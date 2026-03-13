@@ -87,15 +87,7 @@ init
 	vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x50, 0x18);
 	vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x50, 0x3C);
 	vars.Resolver.Watch<bool>("OptionsMenu", GuiManager, 0x1B0, 0x18, 0x18, 0x41);
-
-	// vars.Resolver.Watch<int>("InSpecialContextMenuP1", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x10, 0x1C);
-    // vars.Uhara["InSpecialContextMenuP1"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-	// vars.Resolver.Watch<ulong>("InSpecialContextMenuP2", GuiManager, 0x218, 0x18, 0x18, 0x28, 0x10, 0x20);
-    // vars.Uhara["InSpecialContextMenuP2"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-	// vars.Resolver.Watch<int>("InChallengesMenuP1", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x10, 0x1C);
-    // vars.Uhara["InChallengesMenuP1"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-	// vars.Resolver.Watch<ulong>("InChallengesMenuP2", GuiManager, 0x240, 0x18, 0x18, 0x28, 0x10, 0x20);
-    // vars.Uhara["InChallengesMenuP2"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	vars.Resolver.Watch<bool>("PauseMenu", GuiManager, 0xD8, 0x18, 0x18, 0x41);
 
 	current.View = "";
 	current.PauseType = 0;
@@ -565,13 +557,11 @@ split
 
 isLoading
 {
-	// if ((current.InChallengesMenuP1 > 0 && current.InChallengesMenuP2 != 0) || (current.InSpecialContextMenuP1 > 0 && current.InSpecialContextMenuP2 != 0)) return true;
 	if (current.OptionsMenu) return false;
     return  vars.bitCheck(current.GameClockTimerBit, vars.timers["LoadSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
             vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
-			vars.bitCheck(current.GameClockTimerBit, vars.timers["PauseSpending"]) ||
-            current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
+			current.PauseMenu || current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
             vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24;
 }
 
