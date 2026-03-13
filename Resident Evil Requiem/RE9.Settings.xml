@@ -16,7 +16,7 @@
 			<Setting Id="Chap4_00" Label="Grace - Water Treatment Plant" State="false" />
 			<Setting Id="Chap4_30" Label="Leon - Raccoon City East" State="false" />
 			<Setting Id="Chap4_40_Ch1" Label="Leon - Motorbike Section to Raccoon City Center" State="false" />
-			<Setting Id="FF_02" Label="Leon - Raccoon City Center - Discover Grace and Xeno" State="false" />
+			<Setting Id="FF_02" Label="Leon - Raccoon City Center - Discover Grace and Zeno" State="false" />
 			<Setting Id="Chap4_40_Ch2" Label="Flashback - Orphanage" State="false" />
 			<Setting Id="Chap5_10" Label="Leon - Raccoon City Center - Head to ARK" State="false" />
 			<Setting Id="Chap5_02" Label="Leon - Reconvene with Grace and Fall Down in Dump" State="false" />
