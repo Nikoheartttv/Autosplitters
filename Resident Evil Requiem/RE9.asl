@@ -207,7 +207,7 @@ update
 
 	if (current.InteractLimitType == 32 && 
 		((current.StageName == "st40_122" && Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.02 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 3) ||
-		(current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.02 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 2)))
+		(current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.05 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 4)))
 	{
 		vars.Loading = true;
 	}
