@@ -4,10 +4,10 @@
 		<Setting Id="AutoReset" Label="Reset when returning to Main Menu" State="false" />
 		<Setting Id="ChapterSplits" Label="Chapter Splits" State="false">
 			<Setting Id="FF_01" Label="Grace - Wrenwood Hotel - Get to Bed of Photographs" State="false" />	
-			<Setting Id="Chap1_01" Label="Flashback - Grace and Alyssa Trying to Leave Hotel" State="false" />
-			<Setting Id="Chapt1_10" Label="Grace - Wrenwood Hotel - Escape via Emergency Exit" State="false" />
-			<Setting Id="Chapt3_01" Label="Leon - Wrenwood City Streets" State="false" />
-			<Setting Id="Chapt3_10" Label="Grace - Care Center Arrival" State="false" />
+			<Setting Id="Chap1_01_2" Label="Flashback - Grace and Alyssa Trying to Leave Hotel" State="false" />
+			<Setting Id="Chap1_10" Label="Grace - Wrenwood Hotel - Escape via Emergency Exit" State="false" />
+			<Setting Id="Chap3_01" Label="Leon - Wrenwood City Streets" State="false" />
+			<Setting Id="Chap3_10" Label="Grace - Care Center Arrival" State="false" />
 			<Setting Id="Chap3_02" Label="Leon - Care Center Arrival" State="false" />
 			<Setting Id="Chap3_20" Label="Grace - Care Center - Find the 3 Quartz" State="false" />
 			<Setting Id="Chap3_03" Label="Leon - Care Center Attic" State="false" />
@@ -16,7 +16,7 @@
 			<Setting Id="Chap4_00" Label="Grace - Water Treatment Plant" State="false" />
 			<Setting Id="Chap4_30" Label="Leon - Raccoon City East" State="false" />
 			<Setting Id="Chap4_40_Ch1" Label="Leon - Motorbike Section to Raccoon City Center" State="false" />
-			<Setting Id="FF_02" Label="Leon - Raccoon City Center - Discover Grace and Zeno" State="false" />
+			<Setting Id="FF_02" Label="Leon - Raccoon City Center - Discover Grace and Xeno" State="false" />
 			<Setting Id="Chap4_40_Ch2" Label="Flashback - Orphanage" State="false" />
 			<Setting Id="Chap5_10" Label="Leon - Raccoon City Center - Head to ARK" State="false" />
 			<Setting Id="Chap5_02" Label="Leon - Reconvene with Grace and Fall Down in Dump" State="false" />
@@ -37,28 +37,29 @@
 		</Setting>
 
 		<Setting Id="CCG1" Label="Grace - Care Center Arrival" State="false">
-			<Setting Id="it60_00_039_A" Label="Get Screwdriver" State="false" />
+			<Setting Id="it60_00_039" Label="Get Screwdriver" State="false" />
 			<Setting Id="311610" Label="Escape" State="false" />
 		</Setting>
 
 		<Setting Id="CCL1" Label="Leon - Care Center Arrival" State="false">
-			<Setting Id="Ob_310_020_020_A" Label="Eliminate the infected" State="false" />
+			<Setting Id="Ob_310_020_020" Label="Eliminate the infected" State="false" />
 			<Setting Id="312700" Label="Investigate the care center" State="false" />
 		</Setting>
 
 		<Setting Id="CCG2" Label="Grace - Care Center (Find the 3 Quartz)" State="false">
 			<Setting Id="321020" Label="Get West Wing Keycard" State="false" />
-			<Setting Id="it60_00_047_A" Label="Pick up Red Jewel" State="false" />
-			<Setting Id="it60_00_049_A" Label="Pick up Moon Quartz" State="false" />
-			<Setting Id="it60_00_046_A" Label="Pick up East Wing Keycard" State="false" />
-			<Setting Id="it60_00_064_A" Label="Pick up Blood Specimen (Denatured)" State="false" />
-			<Setting Id="it60_00_063_A" Label="Pick up Corrosive" State="false" />
-			<Setting Id="it60_00_048_A" Label="Pick up Sun Quartz" State="false" />
-			<Setting Id="it60_00_074_A" Label="Pick up Wrench" State="false " />
-			<Setting Id="it60_00_065_A" Label="Pick up Green Blood Sample (Converged)" State="false" />
-			<Setting Id="it60_00_053_A" Label="Pick up Artifical Lungs" State="false" />
-			<Setting Id="it60_00_051_A" Label="Pick up Artifical Heart" State="false" />
-			<Setting Id="Lv2IDWristband" Label="Pick up Lv. 2 ID Wristband" State="false" />
+			<Setting Id="it60_00_049" Label="Pick up Moon Quartz" State="false" />
+			<Setting Id="it60_00_047" Label="Pick up Red Jewel" State="false" />
+			<Setting Id="it60_00_046" Label="Pick up East Wing Keycard" State="false" />
+			<Setting Id="it60_00_064" Label="Pick up Blood Specimen (Denatured)" State="false" />
+			<Setting Id="it60_00_063" Label="Pick up Corrosive" State="false" />
+			<Setting Id="it60_00_048" Label="Pick up Sun Quartz" State="false" />
+			<Setting Id="it60_00_073" Label="Pick up Organ Transplant Box" State="false" />
+			<Setting Id="it60_00_053" Label="Pick up Artifical Lungs" State="false" />
+			<Setting Id="it60_00_074" Label="Pick up Wrench" State="false " />
+			<Setting Id="it60_00_065" Label="Pick up Green Blood Sample (Converged)" State="false" />
+			<Setting Id="it60_00_051" Label="Pick up Artifical Heart" State="false" />
+			<Setting Id="it60_00_068" Label="Pick up Lv. 2 ID Wristband" State="false" />
 			<Setting Id="321700" Label="Get Lv. 3 ID Wristband" State="false" />
 			<Setting Id="321800" Label="Get Emily from cell" State="false" />
 			<Setting Id="321900" Label="Defend Emily whilst reading braille" State="false" />
@@ -66,27 +67,28 @@
 
 		<Setting Id="CCL2" Label="Leon - Care Center Attic" State="false">
 			<Setting Id="AtticChunk" Label="Chunk Dead" State="false" />
-			<Setting Id="Ob_320_020_A" Label="Find Victor's office" State="false" />
+			<Setting Id="Ob_320_020" Label="Find Victor's office" State="false" />
 			<Setting Id="322900" Label="Search Victor's office" State="false" />
 		</Setting>
 
 		<Setting Id="CCGB" Label="Grace - Care Center Basement" State="false">
-			<Setting Id="it60_00_041_A" Label="Pick up Square Socket Wrench" State="false" />
-			<Setting Id="SecondJointPlug" Label="Pick up Second Joint Plug" State="false" />
-			<Setting Id="it60_00_042_A" Label="Pick up Forklift Key" State="false" />
-			<Setting Id="ThirdJointPlug" Label="Pick up Third Joint Plug" State="false" />
+			<Setting Id="it60_00_041" Label="Pick up Square Socket Wrench" State="false" />
+			<Setting Id="Ob_303_010_010_010_C2" Label="Pick up Second Joint Plug" State="false" />
+			<Setting Id="it60_00_042" Label="Pick up Forklift Key" State="false" />
+			<Setting Id="Ob_303_010_010_010_C3" Label="Pick up Third Joint Plug" State="false" />
 			<Setting Id="331700" Label="Unlock the cells and Rescue Emily" State="false" />
 			<Setting Id="331900" Label="Escape via the elevator" State="false" />
-			<Setting Id="ABOb_302_020_015" Label="Unlock the door in the Central Hall" State="false" />
+			<Setting Id="Ob_302_020_015_Cleared" Label="Unlock the door in the Central Hall" State="false" />
 		</Setting>
 
 		<Setting Id="CCGC" Label="Grace - Care Center Courtyard" State="false">
-			<Setting Id="it60_00_081_A" Label="Pick up Helicopter Key" State="false" />
+			<Setting Id="it60_00_086" Label="Pick up Double Helix Model" State="false" />
+			<Setting Id="it60_00_081" Label="Pick up Helicopter Key" State="false" />
 			<Setting Id="341900" Label="Return to Helicopter" State="false" />
 		</Setting>
 
 		<Setting Id="CCLC" Label="Leon - Care Center Chapel" State="false">
-			<Setting Id="Ob_340_030_A" Label="Rescue Grace" State="false" />
+			<Setting Id="Ob_340_030" Label="Rescue Grace" State="false" />
 			<Setting Id="342800" Label="Head to chapel" State="false" />
 			<Setting Id="342900" Label="Fight off the infected" State="false" />
 		</Setting>
@@ -100,47 +102,46 @@
 		</Setting>
 
 		<Setting Id="RCEL" Label="Leon - Raccoon City East" State="false">
-			<Setting Id="Ob_410_010_030_R" Label="Defeat the giant spider" State="false" />
-			<Setting Id="it60_00_094_A" Label="Pick up Cedarbrook Apartments Key" State="false " />
-			<Setting Id="it60_00_097_A" Label="Collect the Detonator parts (1/3)" State="false" /> 
-			<Setting Id="it60_00_092_A_C1" Label="Pick up Battery (1/2)" State="false" />
-			<Setting Id="it60_00_104_A" Label="Pick up Valve Handwheel" State="false" />
-			<Setting Id="it60_00_092_A_C2" Label="Pick up Battery (2/2)" State="false" />
-			<Setting Id="it60_00_091_A" Label="Get BSAA Container Key" State="false" />
-			<Setting Id="Ob_410_010_060_040_R" Label="Eliminate the infected" State="false" />
-			<Setting Id="it60_00_095_A" Label="Get Gas Can with Fuel" State="false" />
-			<Setting Id="it60_00_103_A" Label="Pick up Rusty Crank" State="false" />
+			<Setting Id="GiantSpider" Label="Defeat the giant spider" State="false" />
+			<Setting Id="it60_00_094" Label="Pick up Cedarbrook Apartments Key" State="false " />
+			<Setting Id="it60_00_097" Label="Collect the Detonator parts (1/3)" State="false" /> 
+			<Setting Id="Battery1" Label="Pick up Battery (1/2)" State="false" />
+			<Setting Id="it60_00_104" Label="Pick up Valve Handwheel" State="false" />
+			<Setting Id="Battery2" Label="Pick up Battery (2/2)" State="false" />
+			<Setting Id="it60_00_091" Label="Get BSAA Container Key" State="false" />
+			<Setting Id="Ob_410_010_060_040_Cleared" Label="Eliminate the infected" State="false" />
+			<Setting Id="it60_00_095" Label="Get Gas Can with Fuel" State="false" />
+			<Setting Id="it60_00_103" Label="Pick up Rusty Crank" State="false" />
 			<Setting Id="DetonatorItem2" Label="Collect the Detonator parts (2/3)" State="false" />
-			<Setting Id="it60_00_109_A" Label="Get Repair Kit" State="false" />
-			<Setting Id="it60_00_119_A" Label="Collect the Detonator parts (3/3)" State="false" />		
+			<Setting Id="it60_00_109" Label="Get Repair Kit" State="false" />
+			<Setting Id="it60_00_119" Label="Collect the Detonator parts (3/3)" State="false" />		
 			<Setting Id="420800" Label="After zombies on bridge descent" State="false" />
 			<Setting Id="420850" Label="Destroy the Gate" State="false" />
 			<Setting Id="430950" Label="Survive Victor's Motorbike Ambush" State="false" />
 		</Setting>
 
 		<Setting Id="RCC" Label="Leon - Raccoon City Center" State="false">
-			<Setting Id="it60_00_090_A" Label="Pick up Mechanic Jack" State="false" />
+			<Setting Id="it60_00_090" Label="Pick up Mechanic Jack" State="false" />
 			<Setting Id="440900" Label="Head to the east office" State="false" />
-			<Setting Id="it60_00_087_A" Label="Orphanage Flashback - Pick up Hatch Key" State="false" />
-			<Setting Id="it60_00_088_A"	 Label="Orphanage Flashback - Pick up Fire Poker" State="false" />
+			<Setting Id="it60_00_087" Label="Orphanage Flashback - Pick up Hatch Key" State="false" />
+			<Setting Id="it60_00_088" Label="Orphanage Flashback - Pick up Fire Poker" State="false" />
 			<Setting Id="441800" Label="Orphanage Flashback - End" State="false" />
 			<Setting Id="EscapeRPD" Label="Escape R.P.D" State="false" /> 
-			<Setting Id="442700" Label="Tyrant T-501 Dead" State="false" />
-			<Setting Id="Ob_440_030_020_R" Label="Head to the orphanage" State="false" />
+			<Setting Id="Tyrant" Label="Tyrant T-501 Dead" State="false" />
+			<Setting Id="Ob_440_030_020_Cleared" Label="Head to the orphanage" State="false" />
 			<Setting Id="450200" Label="Encounter Plant and fall down in train carriages" State="false" />
 			<Setting Id="450800" Label="Plant 43 Dead" State="false" />
 		</Setting>
 
 		<Setting Id="ARK" Label="ARK" State="false">
-			<Setting Id="Ob_440_030_060_R" Label="Leon - Eliminate the Elite Guards" State="false" />
+			<Setting Id="Ob_440_030_060_Cleared" Label="Leon - Eliminate the Elite Guards" State="false" />
 			<Setting Id="Commander" Label="Leon - Eliminate the commander" State="false" />
-			<Setting Id="it60_00_113_A" Label="Grace - Pick up Override Key (Dump Control Room)" State="false" />
-			<Setting Id="it60_00_113_R" Label="Grace - Put Override Key in the Dump Control Room" State="false" />
-			<Setting Id="it60_00_105_A" Label="Grace - Pick up Animus Orb" State="false" />
-			<Setting Id="it60_00_107_A" Label="Grace - Pick up Noblesse Orb" State="false" />
-			<Setting Id="Ob_502_010_020_020_R" Label="Grace - Open the door to the central refining system" State="false" />
-			
-			<Setting Id="it60_00_114_A" Label="Pick up Override Key (Bioweapon Repository 11)" State="false" />
+			<Setting Id="it60_00_113" Label="Grace - Pick up Override Key (Dump Control Room)" State="false" />
+			<Setting Id="it60_00_112" Label="Grace - Pick up Magnetic Key" State="false" />
+			<Setting Id="it60_00_105" Label="Grace - Pick up Animus Orb" State="false" />
+			<Setting Id="it60_00_107" Label="Grace - Pick up Noblesse Orb" State="false" />
+			<Setting Id="st50_035" Label="Grace - Enter ARK Monitor Control Room" State="false" />
+			<Setting Id="it60_00_114" Label="Pick up Override Key (Bioweapon Repository 11)" State="false" />
 			<Setting Id="520700" Label="Leon passes out outside of Central Refining System" State="false" />
 			<Setting Id="EndingSplits" Label="Ending Splits" State="true">
 				<Setting Id="BadEnding" Label="Destroy Elips" State="true" />

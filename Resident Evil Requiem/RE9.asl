@@ -17,18 +17,13 @@ startup
 	}
 
 	vars.timers = new Dictionary<string, int> {
-        {"OperatingTime", 0}, {"SystemElapsedTime", 1}, {"GameElapsedTime", 2}, {"GameSystemElapsedTime", 3},
-        {"LoadSpending", 4}, {"SystemMenuSpending", 5}, {"PauseSpending", 6}, {"EventSpending", 7}, {"MovieSpending", 8},
-        {"SaveLoadSpending", 9}, {"PhotoModeSpending", 10}, {"RichTutorialSpending", 11}, {"SubGame1ElapsedTime", 12}
-    };
+		{"OperatingTime", 0}, {"SystemElapsedTime", 1}, {"GameElapsedTime", 2}, {"GameSystemElapsedTime", 3},
+		{"LoadSpending", 4}, {"SystemMenuSpending", 5}, {"PauseSpending", 6}, {"EventSpending", 7}, {"MovieSpending", 8},
+		{"SaveLoadSpending", 9}, {"PhotoModeSpending", 10}, {"RichTutorialSpending", 11}, {"SubGame1ElapsedTime", 12}
+	};
 	vars.bitCheck = new Func<byte, int, bool>((byte val, int b) => (val & (1 << b)) != 0);
 
 	vars.CompletedSplits = new HashSet<string>();
-	vars.GraceInv = "";
-	vars.LeonInv = "";
-	vars.GraceCloneInv = "";
-	vars.ObjList = "";
-
 	vars.CounterObjectives = new HashSet<string> { "Ob_303_010_010_010", "Ob_305_020_040" };
 	vars.ObjCounters = new Dictionary<string, int>();
 
@@ -51,15 +46,15 @@ init
 	IntPtr SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 58");
 	IntPtr PauseManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 8a 98");
 	IntPtr EnvStageManager = vars.Uhara.ScanRel(3, "4c 8b 35 ?? ?? ?? ?? 48 8b 5f ?? 48 8b 7f");
-	IntPtr ObjectiveManager = vars.Uhara.ScanRel(3, "48 8b 0d ?? ?? ?? ?? 48 85 c9 0f 84 ?? ?? ?? ?? 4c 8b 40 ?? c5");
 	IntPtr GameClock = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 8b 41 ?? 48 8b 40 ?? 84 db");
 	IntPtr FadeManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 48 8b 40 ?? 48 85 c0 0f 84 ?? ?? ?? ?? 83 78");
 	IntPtr InventoryManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 83 ec ?? 48 89 f1 4c 8b 7d");
 	IntPtr CharacterManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 80 ba ?? ?? ?? ?? ?? 0f 85");
 	IntPtr EventSaveManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 44 8b 40 ?? 48 89 f1 41 b9");
 	IntPtr TimelineEventMediator = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 89 f1 41 89 d8");
-	IntPtr GuiManager = vars.Uhara.ScanRel(3, "48 8b 1d ?? ?? ?? ?? 4c 8b 35 ?? ?? ?? ?? 48 89 f1 e8 ?? ?? ?? ?? 48 8b 46");
+	IntPtr GuiManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 48 8b 50 ?? 48 85 d2 74 ?? 48 8b 05 ?? ?? ?? ?? 4c 8b 80");
 	IntPtr ItemManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 90 ?? ?? ?? ?? 48 85 d2");
+	IntPtr InteractManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 89 f1 49 89 f8 49 89 d9");
 
 	vars.Resolver.WatchString("Chapter", MainGameFlowManager, 0x20, 0x80, 0x14);    
 	vars.Resolver.WatchString("View", SceneTransitionManager, 0x28, 0x40, 0x14);
@@ -68,19 +63,11 @@ init
 	vars.Resolver.Watch<byte>("GameClockTimerBit", GameClock, 0x20);
 	vars.Resolver.WatchString("SwitchGameSceneName", MainGameFlowManager, 0x20, 0x98, 0x14);
 	vars.Uhara["SwitchGameSceneName"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-	vars.Resolver.Watch<IntPtr>("ObjectiveController", ObjectiveManager, 0x40);
-	// vars.Resolver.WatchString("ObjectiveLatestID", ObjectiveManager, 0x40, 0x18, 0x10, 0x14);
-	vars.Resolver.WatchString("JumpTargetMainSceneName", MainGameFlowManager, 0x20, 0x78);
-    vars.Resolver.WatchString("CurrentMainSceneName", MainGameFlowManager, 0x20, 0x80);
 	vars.Resolver.Watch<IntPtr>("EnemyContextList", CharacterManager, 0xB8, 0x10);
 	vars.Resolver.Watch<int>("EnemyContextListArrayNum", CharacterManager, 0xB8, 0x18);
 	vars.Resolver.Watch<IntPtr>("EventSaveList", EventSaveManager, 0x10, 0x10, 0x10);
 	vars.Resolver.Watch<int>("EventSaveListSize", EventSaveManager, 0x10, 0x10, 0x18);
-	vars.Resolver.Watch<int>("EventFadeState", FadeManager, 0x10, 0x40, 0x70);
-	vars.Resolver.Watch<IntPtr>("Inventory", InventoryManager, 0x58, 0x18);
-	vars.Resolver.Watch<IntPtr>("TransitionTarget", SceneTransitionManager, 0x30);
 	vars.Resolver.Watch<IntPtr>("ActiveEvents", TimelineEventMediator, 0x20);
-	vars.Resolver.Watch<int>("ActiveEventsSize", current.ActiveEvents, 0x18);
 	vars.Resolver.Watch<byte>("PlayerModeFade", FadeManager, 0x10, 0x48, 0x70);
 	vars.Resolver.Watch<IntPtr>("PlayerContextFast", CharacterManager, 0xB0);
 	vars.Resolver.Watch<int>("EventName", TimelineEventMediator, 0x20, 0x10, 0x20, 0xB4);
@@ -88,28 +75,39 @@ init
 	vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x50, 0x3C);
 	vars.Resolver.Watch<bool>("OptionsMenu", GuiManager, 0x1B0, 0x18, 0x18, 0x41);
 	vars.Resolver.Watch<bool>("PauseMenu", GuiManager, 0xD8, 0x18, 0x18, 0x41);
+	vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3AC);
+	vars.Resolver.Watch<bool>("GameLoading", GuiManager, 0x190, 0x18, 0x18, 0x41);
+	vars.Resolver.Watch<int>("InteractLimitType", InteractManager, 0x40);
+	vars.Resolver.Watch<float>("CharacterPositionY", CharacterManager, 0xB0, 0x104);
+	vars.Resolver.Watch<float>("CharacterPositionZ", CharacterManager, 0xB0, 0x108);
+	vars.Resolver.Watch<IntPtr>("ObjectiveGUIController", GuiManager, 0x140, 0x18);
+	vars.Resolver.Watch<IntPtr>("Inventory", InventoryManager, 0x58, 0x18);
 
 	current.View = "";
 	current.PauseType = 0;
 	current.StageName = "";
 	current.GameClockTimerBit = 0;
 	current.SwitchGameSceneName = "";
-	current.JumpTargetMainSceneName = "";
-    current.CurrentMainSceneName = "";
 	current.EvnStageName = 0;
 	current.TimelinePlayState = 1;
 	current.EnemyHealth = 0;
-	current.CharacterName = "";
 	current.ItemPickup = "";
-
+	current.ObjectiveGUIID = "";
+	current.ObjectiveGUICleared = false;
+	current.ObjectiveGUICount = 0;
+	current.LeonInvPanelSize = 0;
+	current.AtticChunk = false;
+	current.Commander = false;
+	current.GiantSpider = false;
+	current.Tyrant = false;
+	current.B700IsEnd = false;
+	current.C510IsEnd = false;
+	current.BatteryPickup = "";
+	current.GameSceneName = "";
 	vars.Loading = false;
 	vars.Permaload = false;
-	vars.ShouldSplit = "";
-	vars.GraceInv = "";
-	vars.LeonInv = "";
-	vars.GraceCloneInv = "";
-	vars.ObjList = "";
 	vars.RCCBattery = 0;
+	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
 }
 
@@ -127,14 +125,18 @@ onStart
 	timer.IsGameTimePaused = true; 
 	vars.Loading = false;
 	vars.Permaload = false;
-	vars.ShouldSplit = "";
-	vars.GraceInv = "";
-	vars.LeonInv = "";
-	vars.GraceCloneInv = "";
-	vars.ObjList = "";
-	vars.ChunkOldHealth = 0;
 	vars.RCCBattery = 0;
+	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
+	current.LeonInvPanelSize = 0;
+	current.AtticChunk = false;
+	current.Commander = false;
+	current.GiantSpider = false;
+	current.Tyrant = false;
+	current.BatteryPickup = "";
+	current.GameSceneName = "";
+	current.B700IsEnd = false;
+	current.C510IsEnd = false;
 	vars.CompletedSplits.Clear();
 }
 
@@ -142,14 +144,26 @@ update
 {
 	vars.Uhara.Update();
 
-	if (current.PlayerContextFast != IntPtr.Zero) {
-		string characterName = vars.Resolver.ReadString(64, ReadStringType.UTF16, current.PlayerContextFast + 0x40, 0x10, 0x14) ?? "";
-		if (current.CharacterName != characterName) 
-		vars.Uhara.Log("Character Name: " + characterName);
-		current.CharacterName = characterName;
+	// Setting up currents
+	current.GameSceneName = string.IsNullOrEmpty(current.SwitchGameSceneName) ? old.GameSceneName : current.SwitchGameSceneName;
+
+	if (current.EventSaveListSize > old.EventSaveListSize && current.EventSaveList != IntPtr.Zero && current.EventSaveListSize > 0)
+	{
+		int eventID = vars.Resolver.Read<int>(current.EventSaveList + ((current.EventSaveListSize - 1) * 0x8) + 0x20, 0x10);
+		current.EvnStageName = eventID;
+	}
+	
+	if (current.ObjectiveGUIController != IntPtr.Zero) {
+		IntPtr objectiveGUIControllerUnit = vars.Resolver.Read<IntPtr>(current.ObjectiveGUIController + 0x18, 0x28, 0x10);
+		int objectiveGUIControllerUnitCont = vars.Resolver.Read<int>(current.ObjectiveGUIController + 0x18, 0x28, 0x1C);
+		if (objectiveGUIControllerUnit != IntPtr.Zero && objectiveGUIControllerUnitCont > 0) {
+
+			current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0x98, 0x10, 0x10, 0x14);
+			current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0x98, 0x28);
+			current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0x98, 0x1C);
+		}
 	}
 
-	// Loading Time Bleed Fix Block
 	if (current.ActiveEvents != IntPtr.Zero) {
 		int size = vars.Resolver.Read<int>(current.ActiveEvents + 0x18);
 		current.TimelinePlayState = 1;
@@ -157,6 +171,18 @@ update
 			byte rawTPS = vars.Resolver.Read<byte>(current.ActiveEvents + 0x10, 0x20, 0xBC);
 			if (rawTPS != 0) current.TimelinePlayState = rawTPS;
 		}
+	}
+
+	if (current.ItemPickedupIDSetSize != old.ItemPickedupIDSetSize && current.ItemPickedupIDSetSize > 0)
+	{
+		int lastIndex = current.ItemPickedupIDSetSize - 1;
+		string lastItemID = vars.Resolver.ReadString(64, ReadStringType.UTF16, current.ItemPickedupIDSet + ((lastIndex * 0x10) + 0x28), 0x10, 0x14);
+		if (lastItemID != old.ItemPickup) current.ItemPickup = lastItemID;
+	}
+
+	// Loading Block
+	if (current.CurrentSituationType != old.CurrentSituationType && current.CurrentSituationType == 0 && vars.ReadyToLoadEvents.Contains(current.EventName)) {
+		vars.Permaload = true;
 	}
 
 	if (current.PauseType == 8 && current.EventName != 0 && vars.ReadyToLoadEvents.Contains(current.EventName)) {
@@ -169,239 +195,150 @@ update
 		vars.Permaload = true;
 	}
 
-	if (current.EventName == 450900 && old.PauseType == 1 && current.PauseType == 0)
-	{
+	if (current.EventName == 450900 && old.PauseType == 1 && current.PauseType == 0) {
 		vars.Permaload = false;
 	}
 
-	if (current.EventName == 420502 && old.EventName != 420502) 
-	{
-		vars.Permaload = false; // bsaa cutscene returning is a pain, this deserves a comment lol
-	}
-
-	if (vars.ReturnedFromLoadEvents.Contains(current.EventName) &&
-		old.PauseType == 8 && ((current.EventName == 420502 || current.EvnStageName == 331900)
-		? (current.PauseType == 0 || current.PauseType == 2) : current.PauseType == 0))
+	if (current.EventName == 420502 && old.EventName != 420502)
 	{
 		vars.Permaload = false;
-	}
-
-	if (current.EventName == 331900 && current.EvnStageName == 331900)
-	{
-		vars.Permaload = false;
-	}
-
-	if (old.PauseType == 0 && current.PauseType == 8) {
 		vars.Loading = true;
 	}
-	if (old.PauseType != current.PauseType) vars.Uhara.Log("PauseType: " + current.PauseType);
 
-	if (old.PlayerModeFade == 2 && current.PlayerModeFade == 3) {
+	if (current.InteractLimitType == 32 && 
+		((current.StageName == "st40_122" && Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.02 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 3) ||
+		(current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.02 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 2)))
+	{
+		vars.Loading = true;
+	}
+
+	if ((vars.ReturnedFromLoadEvents.Contains(current.EventName) && old.PauseType == 8 && 
+		(current.EvnStageName == 331900 ? (current.PauseType == 0 || current.PauseType == 2) : current.PauseType == 0)) ||
+		(current.EventName == 331900 && current.EvnStageName == 331900)) 
+	{
+		vars.Permaload = false;
+	}
+
+	if (current.CurrentSituationType != old.CurrentSituationType && current.CurrentSituationType == 0) 
+	{
+		vars.Loading = true;
+	}
+
+	if (old.PauseType == 0 && current.PauseType == 8) 
+	{
+		vars.Loading = true;
+	}
+
+	if (old.PlayerModeFade == 2 && current.PlayerModeFade == 3) 
+	{
 		vars.Loading = false;
 	}
 
-	bool is64 = current.PauseType == 64 && current.StageName == "st10_005";
-	if (is64) vars.Loading = true;
-
-	if ((old.TimelinePlayState == 8 || old.TimelinePlayState == 10) && current.TimelinePlayState == 1
-	|| current.PauseType == 66 || is64 && old.PauseType == 8 && current.PauseType == 0) {
+	if ((old.TimelinePlayState == 8 || old.TimelinePlayState == 10) && current.TimelinePlayState == 1) 
+	{
 		vars.Loading = false;
 	}
 
-	if (current.EventSaveListSize > old.EventSaveListSize && current.EventSaveList != IntPtr.Zero && current.EventSaveListSize > 0)
+	if (vars.Loading && old.InteractLimitType == 32 && (current.InteractLimitType == 0 || current.InteractLimitType == 64))
 	{
-		int eventID = vars.Resolver.Read<int>(current.EventSaveList + ((current.EventSaveListSize - 1) * 0x8) + 0x20, 0x10);
-		current.EvnStageName = eventID;
-	}
-
-	// Inventory
-	if ((current.PauseType == 0 || current.PauseType == 2) && current.Inventory != IntPtr.Zero)
-	{
-		string[] characterSlots = null;
-		string oldInventory = "";
-		IntPtr characterBase = IntPtr.Zero;
-		int slotSize = 0;
-		string characterLabel = "";
-
-		if (current.CharacterName == "cp_A100") // Grace
-		{
-			characterSlots = new string[16];
-			characterBase = vars.Resolver.Read<IntPtr>(current.Inventory + 0x48);
-			slotSize = 16;
-			oldInventory = vars.GraceInv;
-			characterLabel = "Grace";
-		}
-		else if (current.CharacterName == "cp_A000") // Leon
-		{
-			characterSlots = new string[104];
-			characterBase = vars.Resolver.Read<IntPtr>(current.Inventory + 0x78);
-			slotSize = 104;
-			oldInventory = vars.LeonInv;
-			characterLabel = "Leon";
-		}
-		else if (current.Chapter == "FF_02" && current.CharacterName == "cp_A200") // Grace Clone
-		{
-			characterSlots = new string[4];
-			characterBase = vars.Resolver.Read<IntPtr>(current.Inventory + 0xA8);
-			slotSize = 4;
-			oldInventory = vars.GraceCloneInv;
-			characterLabel = "GraceClone";
-		}
-
-		if (characterSlots != null)
-		{
-			if (characterBase != IntPtr.Zero)
-			{
-				int characterPanelSize = Math.Min(vars.Resolver.Read<int>(characterBase + 0x48, 0x3C), slotSize);
-				for (int i = 0; i < characterPanelSize; i++)
-					characterSlots[i] = vars.Resolver.ReadString(64, ReadStringType.UTF16, characterBase + 0x48, 0x18, 0x30 + (i * 0x18), 0x10, 0x20, 0x10, 0x14) ?? "";
-			}
-
-			string[] oldSlots = oldInventory.Split('|');
-			for (int i = 0; i < slotSize; i++)
-			{
-				string curID = characterSlots[i] ?? "";
-				string oldItem = i < oldSlots.Length ? oldSlots[i] : "";
-				if (curID == oldItem) continue;
-				if (!string.IsNullOrEmpty(vars.ShouldSplit)) continue;
-
-				string id = !string.IsNullOrEmpty(curID) && curID != "None" ? curID : oldItem;
-				char suffix = !string.IsNullOrEmpty(curID) && curID != "None" ? 'A' : 'R';
-
-				if (!string.IsNullOrEmpty(id))
-				{
-					vars.Uhara.Log(characterLabel + " Slot[" + i + "] " + (suffix == 'A' ? "ADDED" : "REMOVED") + ": " + id);
-					vars.ShouldSplit = id + "_" + suffix;
-				}
-			}
-
-			string newInventory = string.Join("|", characterSlots);
-
-			if (current.CharacterName == "cp_A100")
-				vars.GraceInv = newInventory;
-			else if (current.CharacterName == "cp_A000")
-				vars.LeonInv = newInventory;
-			else if (current.Chapter == "FF_02" && current.CharacterName == "cp_A200")
-				vars.GraceCloneInv = newInventory;
-		}
-	}
-
-	// Objectives Tracking
-	if (current.ObjectiveController != IntPtr.Zero)
-	{
-		string[] objSlots = new string[4];
-		int[] objCounter = new int[4];
-		int maxCount = 4;
-
-		int objCount = Math.Min(vars.Resolver.Read<int>(current.ObjectiveController + 0x10, 0x18), maxCount);
-
-		for (int i = 0; i < objCount; i++)
-		{
-			IntPtr objData = vars.Resolver.Read<IntPtr>(current.ObjectiveController + 0x10, 0x10, 0x20 + (i * 0x8));
-			if (objData != IntPtr.Zero)
-			{
-				objSlots[i] = vars.Resolver.ReadString(64, ReadStringType.UTF16, objData + 0x10, 0x10, 0x14) ?? "";
-				objCounter[i] = vars.Resolver.Read<int>(objData + 0x38);
-			}
-			else
-			{
-				objSlots[i] = "";
-				objCounter[i] = 0;
-			}
-		}
-
-		string[] oldObjs = vars.ObjList.Split('|');
-		Dictionary<string, int> oldCounters = vars.ObjCounters ?? new Dictionary<string, int>();
-
-		for (int i = 0; i < maxCount; i++)
-		{
-			string curID = objSlots[i] ?? "";
-			string oldItem = i < oldObjs.Length ? oldObjs[i] : "";
-			int newCounter = objCounter[i];
-
-			if (curID != oldItem)
-			{
-				if (!string.IsNullOrEmpty(curID) && curID != "None")
-				{
-					vars.Uhara.Log("Objective Slot[" + i + "] ADDED: " + curID);
-					if (string.IsNullOrEmpty(vars.ShouldSplit)) vars.ShouldSplit = curID + "_A";
-				}
-				else if (!string.IsNullOrEmpty(oldItem))
-				{
-					vars.Uhara.Log("Objective Slot[" + i + "] REMOVED: " + oldItem);
-					if (string.IsNullOrEmpty(vars.ShouldSplit)) vars.ShouldSplit = oldItem + "_R";
-				}
-			}
-			
-			// COUNTER: ONLY Ob_303_010_010_010 & Ob_305_020_040
-			if (!string.IsNullOrEmpty(curID) && vars.CounterObjectives.Contains(curID))
-			{
-				int prevCounter = oldCounters.ContainsKey(curID) ? oldCounters[curID] : 0;
-				if (newCounter > prevCounter)
-				{
-					vars.Uhara.Log("Objective '" + curID + "' COUNTER: " + prevCounter + "->" + newCounter);
-					if (string.IsNullOrEmpty(vars.ShouldSplit)) 
-						vars.ShouldSplit = curID + "_C" + newCounter;
-				}
-				oldCounters[curID] = newCounter;
-			}
-		}
-
-		vars.ObjList = string.Join("|", objSlots);
-		vars.ObjCounters = oldCounters;
+		vars.Loading = false;
 	}
 
 	// Enemy Checks
-	if (current.EnemyContextList != IntPtr.Zero && current.EnemyContextListArrayNum > 0)
+	if (current.EnemyContextList != IntPtr.Zero && current.EnemyContextListArrayNum > 0 && 
+	(current.StageName == "st30_076" || current.StageName == "st50_010" || current.StageName == "st40_124" || current.StageName == "st40_470")) 
 	{
 		for (int i = 0; i < current.EnemyContextListArrayNum; i++)
 		{
 			string kindID = vars.Resolver.ReadString(64, ReadStringType.UTF16, current.EnemyContextList + ((i * 0x8) + 0x20), 0x40, 0x10, 0x14);
-			if (kindID != "cp_C100" && kindID != "cp_C610") 
-			{
-				continue;
-			}
+			if (kindID != "cp_C100" && kindID != "cp_C610" && kindID != "cp_B700" && kindID != "cp_C510") continue;
 
 			int health = vars.Resolver.Read<int>(current.EnemyContextList + ((i * 0x8) + 0x20), 0x70, 0x10, 0x28);
+				
+			if (kindID == "cp_C100")
+			{
+				current.EnemyHealth = health;
+				if (old.EnemyHealth > 0 && current.EnemyHealth == 0 && !vars.CompletedSplits.Contains("AtticChunk")) current.AtticChunk = true;
+			}
+			if (kindID == "cp_C610")
+			{
+				current.EnemyHealth = health;
+				if (old.EnemyHealth > 0 && current.EnemyHealth == 0 && !vars.CompletedSplits.Contains("Commander")) current.Commander = true;
+			}
+			if (kindID == "cp_B700")
+			{
+				bool SpiderIsEnd = vars.Resolver.Read<bool>(current.EnemyContextList + ((i * 0x8) + 0x20), 0x138, 0x11E);
+				current.B700IsEnd = SpiderIsEnd;
+				if (!old.B700IsEnd && current.B700IsEnd && !vars.CompletedSplits.Contains("GiantSpider")) current.GiantSpider = true;
+			}
+
+			if (kindID == "cp_C510")
+			{
+				bool TyrantIsEnd = vars.Resolver.Read<bool>(current.EnemyContextList + ((i * 0x8) + 0x20), 0x134);
+				current.C510IsEnd = TyrantIsEnd;
+				if (!old.C510IsEnd && current.C510IsEnd && !vars.CompletedSplits.Contains("Tyrant")) current.Tyrant = true;
+			}
+		}
+	}
+
+	// RCC Battery Check
+	if (vars.RCCBattery == 1) {
+		int panelSize = vars.Resolver.Read<int>(current.Inventory + 0x78, 0x48, 0x3C);
+		IntPtr leonInv = vars.Resolver.Read<IntPtr>(current.Inventory + 0x78, 0x48, 0x18);
+		
+		if (leonInv != IntPtr.Zero && panelSize > 0) {
+			int batteryCount = 0;
+			string latestBatterySlot = "";
 			
-			if (kindID == "cp_C100" && current.StageName == "st30_076")
-			{
-				current.EnemyHealth = health;
-				if (current.EnemyHealth != old.EnemyHealth) vars.Uhara.Log("current.EnemyHealth: " + current.EnemyHealth);
-
-				if (old.EnemyHealth > 0 && current.EnemyHealth == 0 && !vars.CompletedSplits.Contains("AtticChunk"))
-					vars.ShouldSplit = "AtticChunk";
+			for (int i = 0; i < panelSize; i++) {
+				string itemId = vars.Resolver.ReadString(64, ReadStringType.UTF16, 
+					leonInv + 0x30 + (i * 0x18), 0x10, 0x20, 0x10, 0x14);
+				
+				if (!string.IsNullOrEmpty(itemId) && itemId.Contains("it60_00_092"))
+				{
+					batteryCount++;
+					latestBatterySlot = itemId + "_slot" + i;
+					
+					if (batteryCount == 2) {
+						vars.RCCBattery = 2;
+						current.BatteryPickup = "it60_00_092_C2";
+						break;
+					}
+				}
 			}
-			if (kindID == "cp_C610" && current.StageName == "st50_010")
-			{
-				current.EnemyHealth = health;
-				if (current.EnemyHealth != old.EnemyHealth) vars.Uhara.Log("current.EnemyHealth: " + current.EnemyHealth);
-
-				if (old.EnemyHealth > 0 && current.EnemyHealth == 0 && !vars.CompletedSplits.Contains("Commander"))
-					vars.ShouldSplit = "Commander";
-			}
+			
+			if (batteryCount == 1 && current.BatteryPickup != latestBatterySlot)
+				current.BatteryPickup = latestBatterySlot;
 		}
 	}
 
-	if (current.ItemPickedupIDSetSize != old.ItemPickedupIDSetSize && current.ItemPickedupIDSetSize > 0) {
-		int lastIndex = current.ItemPickedupIDSetSize - 1;
-		string lastItemID = vars.Resolver.ReadString(64, ReadStringType.UTF16, 
-			current.ItemPickedupIDSet + ((lastIndex * 0x10) + 0x28), 0x10, 0x14);
-		if (lastItemID != old.ItemPickup) {
-			current.ItemPickup = lastItemID;
-		}
-	}
+	if (old.GameSceneName != current.GameSceneName) vars.Uhara.Log("Game Scene Name: " + current.GameSceneName);
 }
 
 split
 {
-	if (old.SwitchGameSceneName != current.SwitchGameSceneName)
+	// Split on Game Scene Name Change - Chapters/Bad Ending
+	if (old.GameSceneName != current.GameSceneName)
 	{
-		if (current.SwitchGameSceneName == "Chap4_40")
+		if (current.GameSceneName == "Chap1_01")
+		{
+			vars.Chap1_01Count++;
+
+			string chapKey = current.GameSceneName + "_" + vars.Chap1_01Count;
+			bool returnChapEnabled = settings.ContainsKey("Chap1_01_2") && settings["Chap1_01_2"];
+
+			if (!vars.CompletedSplits.Contains(chapKey) && vars.Chap1_01Count == 2 && returnChapEnabled)
+			{
+				vars.CompletedSplits.Add(chapKey);
+				return true;
+			}
+		}
+
+		if (current.GameSceneName == "Chap4_40")
 		{
 			vars.Chap4_40Count++;
 			
-			string chapKey = current.SwitchGameSceneName + "_Ch" + vars.Chap4_40Count;
+			string chapKey = current.GameSceneName + "_Ch" + vars.Chap4_40Count;
 			bool ch1Enabled = settings.ContainsKey("Chap4_40_Ch1") && settings["Chap4_40_Ch1"];
 			bool ch2Enabled = settings.ContainsKey("Chap4_40_Ch2") && settings["Chap4_40_Ch2"];
 			
@@ -413,42 +350,22 @@ split
 				return true;
 			}
 		}
-		if (current.SwitchGameSceneName == "Chap5_04" &&
-		!vars.CompletedSplits.Contains(current.SwitchGameSceneName) &&
-		settings.ContainsKey("BadEnding") && settings["BadEnding"])
+		if (current.GameSceneName == "Chap5_04" && !vars.CompletedSplits.Contains(current.GameSceneName) &&
+			settings.ContainsKey("BadEnding") && settings["BadEnding"])
 		{
-			vars.CompletedSplits.Add(current.SwitchGameSceneName);
+			vars.CompletedSplits.Add(current.GameSceneName);
+			return true;
+		}
+
+		if (!vars.CompletedSplits.Contains(current.GameSceneName) &&
+		settings.ContainsKey(current.GameSceneName) && settings[current.GameSceneName])
+		{
+			vars.CompletedSplits.Add(current.GameSceneName);
 			return true;
 		}
 	}
 
-	if (old.SwitchGameSceneName != current.SwitchGameSceneName && current.SwitchGameSceneName == "Chap5_04"
-		&& !vars.CompletedSplits.Contains(current.SwitchGameSceneName) && settings.ContainsKey("BadEnding") && settings["BadEnding"] )
-	{
-		vars.CompletedSplits.Add(current.SwitchGameSceneName);
-		return true;
-	}
-
-	if (settings["GoodEndingPhase1"] && settings.ContainsKey("GoodEndingPhase1") && current.EventName == 530600 && !vars.CompletedSplits.Contains("GoodEndingPhase1"))
-	{
-		vars.CompletedSplits.Add("GoodEndingPhase1");
-		return true;
-	}
-
-	if (settings["GoodEndingPhase2"] && settings.ContainsKey("GoodEndingPhase2") && current.EventName == 530800 && !vars.CompletedSplits.Contains("GoodEndingPhase2"))
-	{
-		vars.CompletedSplits.Add("GoodEndingPhase2");
-		return true;
-	}
-
-	if (settings["DetonatorItem2"] && settings.ContainsKey("DetonatorItem2") && 
-		(vars.ShouldSplit == "it60_00_115_A" || vars.ShouldSplit == "it60_00_118_A") && !vars.CompletedSplits.Contains("DetonatorItem2"))
-	{
-		vars.CompletedSplits.Add("DetonatorItem2");
-		vars.ShouldSplit = "";
-		return true;
-	}
-
+	// Split on Event Stage Name
 	if (old.EvnStageName != current.EvnStageName && !vars.CompletedSplits.Contains(current.EvnStageName.ToString()))
 	{
 		if (settings.ContainsKey(current.EvnStageName.ToString()) && settings[current.EvnStageName.ToString()]) 
@@ -458,6 +375,54 @@ split
 		}
 	}
 
+	// Split on Enemy Kill
+	if (current.AtticChunk && settings.ContainsKey("AtticChunk") && settings["AtticChunk"] && !vars.CompletedSplits.Contains("AtticChunk"))
+	{
+		vars.CompletedSplits.Add("AtticChunk");
+		return true;
+	}
+
+	if (current.Commander && settings.ContainsKey("Commander") && settings["Commander"] && !vars.CompletedSplits.Contains("Commander"))
+	{
+		vars.CompletedSplits.Add("Commander");
+		return true;
+	}
+
+	if (current.GiantSpider && settings.ContainsKey("GiantSpider") && settings["GiantSpider"] && !vars.CompletedSplits.Contains("GiantSpider"))
+	{
+		vars.CompletedSplits.Add("GiantSpider");
+		return true;
+	}
+
+	if (current.Tyrant && settings.ContainsKey("Tyrant") && settings["Tyrant"] && !vars.CompletedSplits.Contains("Tyrant"))
+	{
+		vars.CompletedSplits.Add("Tyrant");
+		return true;
+	}
+
+	// Victor First Phase
+	if (settings["GoodEndingPhase1"] && settings.ContainsKey("GoodEndingPhase1") && current.EventName == 530600 && !vars.CompletedSplits.Contains("GoodEndingPhase1"))
+	{
+		vars.CompletedSplits.Add("GoodEndingPhase1");
+		return true;
+	}
+
+	// Victor Second Phase
+	if (settings["GoodEndingPhase2"] && settings.ContainsKey("GoodEndingPhase2") && current.EventName == 530800 && !vars.CompletedSplits.Contains("GoodEndingPhase2"))
+	{
+		vars.CompletedSplits.Add("GoodEndingPhase2");
+		return true;
+	}
+
+	// Detonator Pickup 2 (2 choices)
+	if (settings["DetonatorItem2"] && settings.ContainsKey("DetonatorItem2") && 
+		(current.ItemPickup == "it60_00_115" || current.ItemPickup == "it60_00_118") && !vars.CompletedSplits.Contains("DetonatorItem2"))
+	{
+		vars.CompletedSplits.Add("DetonatorItem2");
+		return true;
+	}
+
+	// Escape RPD
 	if (old.StageName == "st40_400" && current.StageName == "st40_451" && !vars.CompletedSplits.Contains("EscapeRPD"))
 	{
 		if (settings.ContainsKey("EscapeRPD") && settings["EscapeRPD"])
@@ -467,108 +432,77 @@ split
 		}
 	}
 
-	if (current.StageName == "st30_027" && current.ItemPickup == "it60_00_038" && !vars.CompletedSplits.Contains("SecondJointPlug"))
-		{
-			if (settings["SecondJointPlug"] && settings.ContainsKey("SecondJointPlug"))
-			{
-				vars.CompletedSplits.Add("SecondJointPlug");
-				vars.ShouldSplit = "";
-				return true;
-			}
-		}
-
-	if (old.StageName == "st30_027" && current.StageName == "st30_070" && current.ItemPickup == "it60_00_038" && !vars.CompletedSplits.Contains("ThirdJointPlug"))
-		{
-			if (settings["ThirdJointPlug"] && settings.ContainsKey("ThirdJointPlug"))
-			{
-				vars.CompletedSplits.Add("ThirdJointPlug");
-				vars.ShouldSplit = "";
-				return true;
-			}
-		}
-
-	if (!string.IsNullOrEmpty(current.ItemPickup) && current.ItemPickup != old.ItemPickup) {
-		string pickupKey = current.ItemPickup + "_A";
-		if (settings.ContainsKey(pickupKey) && settings[pickupKey] && !vars.CompletedSplits.Contains(pickupKey)) {
-			vars.CompletedSplits.Add(pickupKey);
+	// Split on Stage Name st50_035
+	if (old.StageName != current.StageName && current.StageName == "st50_035" && !vars.CompletedSplits.Contains("st50_035"))
+	{
+		if (settings.ContainsKey("st50_035") && settings["st50_035"]) {
+			vars.CompletedSplits.Add("st50_035");
 			return true;
 		}
 	}
 
-	if (!string.IsNullOrEmpty(vars.ShouldSplit)) {
-		if (settings.ContainsKey(vars.ShouldSplit) && settings[vars.ShouldSplit] && !vars.CompletedSplits.Contains(vars.ShouldSplit)) 
+	// Split on 2nd RCE Battery
+	if (vars.RCCBattery == 2 && current.BatteryPickup == "it60_00_092_C2")
+	{
+		if (settings.ContainsKey("Battery2") && settings["Battery2"] && !vars.CompletedSplits.Contains("Battery2"))
 		{
-			vars.CompletedSplits.Add(vars.ShouldSplit);
-			vars.ShouldSplit = "";
+			vars.CompletedSplits.Add("Battery2");
 			return true;
 		}
-
-		if (current.StageName == "st30_056" && (current.ItemPickup == "it60_00_068" || vars.ShouldSplit == "it60_00_055_R" || vars.ShouldSplit == "it60_00_068_A")  && !vars.CompletedSplits.Contains("Lv2IDWristband"))
-		{
-			if (settings["Lv2IDWristband"] && settings.ContainsKey("Lv2IDWristband"))
+	}
+	
+	// Check for item pickups
+	if (!string.IsNullOrEmpty(current.ItemPickup) && current.ItemPickup != old.ItemPickup)
+	{
+		if (current.ItemPickup == "it60_00_092") {
+			vars.RCCBattery++;
+			if (vars.RCCBattery == 1 && settings.ContainsKey("Battery1") && settings["Battery1"] && !vars.CompletedSplits.Contains("Battery1")) 
 			{
-				vars.CompletedSplits.Add("Lv2IDWristband");
-				vars.ShouldSplit = "";
+				vars.CompletedSplits.Add("Battery1");
 				return true;
 			}
 		}
+		
+		if (settings.ContainsKey(current.ItemPickup) && settings[current.ItemPickup] && !vars.CompletedSplits.Contains(current.ItemPickup)) {
+			vars.CompletedSplits.Add(current.ItemPickup);
+			return true;
+		}
+	}
 
-		if (current.EvnStageName == 331900 && vars.ShouldSplit == "Ob_302_020_015_R" && !vars.CompletedSplits.Contains("Ob_302_020_015_R"))
+	// Split on Objectives
+	if (!string.IsNullOrEmpty(current.ObjectiveGUIID) && old.ObjectiveGUIID != current.ObjectiveGUIID 
+		&& !vars.CompletedSplits.Contains(current.ObjectiveGUIID)) 
+	{
+		if (current.ObjectiveGUICleared && settings[current.ObjectiveGUIID + "_Cleared"] && settings.ContainsKey(current.ObjectiveGUIID + "_Cleared") &&
+			!vars.CompletedSplits.Contains(current.ObjectiveGUIID + "_Cleared")) 
 		{
-			if (settings["ABOb_302_020_015"] && settings.ContainsKey("ABOb_302_020_015"))
-			{
-				vars.CompletedSplits.Add("ABOb_302_020_015");
-				vars.ShouldSplit = "";
-				return true;
-			}
+			vars.CompletedSplits.Add(current.ObjectiveGUIID + "_Cleared");
+			return true;
 		}
-
-		if (vars.ShouldSplit == "Ob_303_010_010_010_C2" && settings["SecondJointPlug"] && settings.ContainsKey("SecondJointPlug") && !vars.CompletedSplits.Contains("SecondJointPlug"))
+		if (current.ObjectiveGUICount > 0 && settings[current.ObjectiveGUIID + "_C" + current.ObjectiveGUICount] &&
+			settings.ContainsKey(current.ObjectiveGUIID + "_C" + current.ObjectiveGUICount) &&
+			!vars.CompletedSplits.Contains(current.ObjectiveGUIID + "_C" + current.ObjectiveGUICount))
 		{
-			if (settings["SecondJointPlug"] && settings.ContainsKey("SecondJointPlug"))
-			{
-				vars.CompletedSplits.Add("SecondJointPlug");
-				vars.ShouldSplit = "";
-				return true;
-			}
+			vars.CompletedSplits.Add(current.ObjectiveGUIID + "_C" + current.ObjectiveGUICount);
+			return true;
 		}
-
-		if (vars.ShouldSplit == "Ob_303_010_010_010_C3" && settings["ThirdJointPlug"] && settings.ContainsKey("ThirdJointPlug") && !vars.CompletedSplits.Contains("ThirdJointPlug"))
+		if (current.ObjectiveGUICount == 0 && settings[current.ObjectiveGUIID] && settings.ContainsKey(current.ObjectiveGUIID) &&
+			!vars.CompletedSplits.Contains(current.ObjectiveGUIID))
 		{
-			if (settings["ThirdJointPlug"] && settings.ContainsKey("ThirdJointPlug"))
-			{
-				vars.CompletedSplits.Add("ThirdJointPlug");
-				vars.ShouldSplit = "";
-				return true;
-			}
-		}
-
-		if (vars.ShouldSplit == "it60_00_092_A") {
-			if (vars.RCCBattery < 2) 
-			{
-				vars.RCCBattery++;
-				string batteryKey = "it60_00_092_A_C" + vars.RCCBattery;
-				if (settings.ContainsKey(batteryKey) && settings[batteryKey] && !vars.CompletedSplits.Contains(batteryKey)) 
-				{
-					vars.CompletedSplits.Add(batteryKey);
-					vars.ShouldSplit = "";
-					return true;
-				}
-			}
-		}
-
-		vars.ShouldSplit = "";
+			vars.CompletedSplits.Add(current.ObjectiveGUIID);
+			return true;
+		}	
 	}
 }
 
 isLoading
 {
 	if (current.OptionsMenu) return false;
-    return  vars.bitCheck(current.GameClockTimerBit, vars.timers["LoadSpending"]) ||
-            vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
-            vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
+	return  vars.bitCheck(current.GameClockTimerBit, vars.timers["LoadSpending"]) ||
+			vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
+			vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
 			current.PauseMenu || current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
-            vars.Loading || vars.Permaload || current.PauseType == 1 || current.PauseType == 8 || current.PauseType == 24;
+			current.GameLoading || vars.Loading || vars.Permaload;
 }
 
 reset
@@ -580,13 +514,8 @@ onReset
 {
 	vars.Loading = false;
 	vars.Permaload = false;
-	vars.ShouldSplit = "";
-	vars.GraceInv = "";
-	vars.LeonInv = "";
-	vars.GraceCloneInv = "";
-	vars.ObjList = "";
-	vars.ChunkOldHealth = 0;
 	vars.RCCBattery = 0;
+	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
 	vars.CompletedSplits.Clear();
 }
