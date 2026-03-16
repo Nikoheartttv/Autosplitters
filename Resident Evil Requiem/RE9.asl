@@ -1,3 +1,8 @@
+/* Autosplitter by Nikoheart
+* Start, Splits based on Events and Item Ids, Reset and Loadremover
+* Changelog:
+* Updated the final Orphanage split to work with the Orphanage Skip mod - Mysterion352
+*/ 
 state("re9"){}
 
 startup
@@ -150,7 +155,15 @@ update
 	if (current.EventSaveListSize > old.EventSaveListSize && current.EventSaveList != IntPtr.Zero && current.EventSaveListSize > 0)
 	{
 		int eventID = vars.Resolver.Read<int>(current.EventSaveList + ((current.EventSaveListSize - 1) * 0x8) + 0x20, 0x10);
-		current.EvnStageName = eventID;
+
+		// Fallback for Orphanage Skip - One of the 3 ids happen during the cutscene skips, everything is based on timing, hence the fallback
+		// 441800 is the main ID, when someone is not using the skip
+        if (eventID == 441600 || eventID == 442100){
+			vars.chosenEvent = 441800;
+			current.EvnStageName = vars.chosenEvent;
+		} else {
+			current.EvnStageName = eventID;
+		}
 	}
 	
 	if (current.ObjectiveGUIController != IntPtr.Zero) {
