@@ -114,6 +114,7 @@ init
 	vars.RCCBattery = 0;
 	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
+	vars.chosenEvent = 0;
 }
 
 start
@@ -142,6 +143,7 @@ onStart
 	current.GameSceneName = "";
 	current.B700IsEnd = false;
 	current.C510IsEnd = false;
+	vars.chosenEvent = 0;
 	vars.CompletedSplits.Clear();
 }
 
@@ -531,6 +533,7 @@ onReset
 	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
 	vars.CompletedSplits.Clear();
+	vars.chosenEvent = 0;
 }
 
 exit
