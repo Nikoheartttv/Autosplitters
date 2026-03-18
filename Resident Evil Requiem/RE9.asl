@@ -1,7 +1,5 @@
 /* Autosplitter by Nikoheart
-* Start, Splits based on Events and Item Ids, Reset and Loadremover
-* Changelog:
-* Updated the final Orphanage split to work with the Orphanage Skip mod - Mysterion352
+* Start, Splits based on Events, Item Ids, Objectives and HP Values, Reset and Load-Remover
 */ 
 state("re9"){}
 
@@ -114,7 +112,6 @@ init
 	vars.RCCBattery = 0;
 	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
-	vars.chosenEvent = 0;
 }
 
 start
@@ -143,7 +140,6 @@ onStart
 	current.GameSceneName = "";
 	current.B700IsEnd = false;
 	current.C510IsEnd = false;
-	vars.chosenEvent = 0;
 	vars.CompletedSplits.Clear();
 }
 
@@ -157,15 +153,7 @@ update
 	if (current.EventSaveListSize > old.EventSaveListSize && current.EventSaveList != IntPtr.Zero && current.EventSaveListSize > 0)
 	{
 		int eventID = vars.Resolver.Read<int>(current.EventSaveList + ((current.EventSaveListSize - 1) * 0x8) + 0x20, 0x10);
-
-		// Fallback for Orphanage Skip - One of the 3 ids happen during the cutscene skips, everything is based on timing, hence the fallback
-		// 441800 is the main ID, when someone is not using the skip
-        if (eventID == 441600 || eventID == 442100){
-			vars.chosenEvent = 441800;
-			current.EvnStageName = vars.chosenEvent;
-		} else {
-			current.EvnStageName = eventID;
-		}
+		current.EvnStageName = eventID;
 	}
 	
 	if (current.ObjectiveGUIController != IntPtr.Zero) {
@@ -533,7 +521,6 @@ onReset
 	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
 	vars.CompletedSplits.Clear();
-	vars.chosenEvent = 0;
 }
 
 exit

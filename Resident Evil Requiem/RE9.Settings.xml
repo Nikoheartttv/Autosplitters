@@ -123,9 +123,11 @@
 		<Setting Id="RCC" Label="Leon - Raccoon City Center" State="false">
 			<Setting Id="it60_00_090" Label="Pick up Mechanic Jack" State="false" />
 			<Setting Id="440900" Label="Head to the east office" State="false" />
-			<Setting Id="it60_00_087" Label="Orphanage Flashback - Pick up Hatch Key" State="false" />
-			<Setting Id="it60_00_088" Label="Orphanage Flashback - Pick up Fire Poker" State="false" />
-			<Setting Id="441800" Label="Orphanage Flashback - End" State="false" />
+			<Setting Id="OFB" Label="Orphanage Flashback - Deactivate when using mod" State="false">
+                <Setting Id="it60_00_087" Label="Orphanage Flashback - Pick up Hatch Key" State="false" />
+                <Setting Id="it60_00_088" Label="Orphanage Flashback - Pick up Fire Poker" State="false" />
+                <Setting Id="441800" Label="Orphanage Flashback - End" State="false" />
+            </Setting>
 			<Setting Id="EscapeRPD" Label="Escape R.P.D" State="false" /> 
 			<Setting Id="Tyrant" Label="Tyrant T-501 Dead" State="false" />
 			<Setting Id="Ob_440_030_020_Cleared" Label="Head to the orphanage" State="false" />
