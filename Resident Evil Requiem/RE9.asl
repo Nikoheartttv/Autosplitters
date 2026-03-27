@@ -45,6 +45,25 @@ startup
 
 init
 {
+	var pv = modules.First().FileVersionInfo.ProductVersion;
+	print("Game version: " + pv);
+
+	switch (pv)
+	{
+		case "1.0.0.0":
+		case "1.1.0.0":
+		case "1.1.1.0":
+		case "1.1.2.0":
+			version = "Pre-1.2.0.0";
+			break;
+		case "1.2.0.0":
+			version = "1.2.0.0+";
+			break;
+		default:
+			version = "Pre-1.2.0.0";
+			break;
+	}
+
 	IntPtr MainGameFlowManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 80 78 ?? ?? 40 0f 95 c5");
 	IntPtr SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 58");
 	IntPtr PauseManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 8a 98");
@@ -59,7 +78,7 @@ init
 	IntPtr ItemManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 90 ?? ?? ?? ?? 48 85 d2");
 	IntPtr InteractManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 89 f1 49 89 f8 49 89 d9");
 
-	vars.Resolver.WatchString("Chapter", MainGameFlowManager, 0x20, 0x80, 0x14);    
+	vars.Resolver.WatchString("Chapter", MainGameFlowManager, 0x20, 0x80, 0x14);
 	vars.Resolver.WatchString("View", SceneTransitionManager, 0x28, 0x40, 0x14);
 	vars.Resolver.Watch<byte>("PauseType", PauseManager, 0x60);
 	vars.Resolver.WatchString("StageName", EnvStageManager, 0x88, 0x14);
@@ -74,17 +93,27 @@ init
 	vars.Resolver.Watch<byte>("PlayerModeFade", FadeManager, 0x10, 0x48, 0x70);
 	vars.Resolver.Watch<IntPtr>("PlayerContextFast", CharacterManager, 0xB0);
 	vars.Resolver.Watch<int>("EventName", TimelineEventMediator, 0x20, 0x10, 0x20, 0xB4);
-	vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x50, 0x18);
-	vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x50, 0x3C);
 	vars.Resolver.Watch<bool>("OptionsMenu", GuiManager, 0x1B0, 0x18, 0x18, 0x41);
 	vars.Resolver.Watch<bool>("PauseMenu", GuiManager, 0xD8, 0x18, 0x18, 0x41);
-	vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3AC);
 	vars.Resolver.Watch<bool>("GameLoading", GuiManager, 0x190, 0x18, 0x18, 0x41);
 	vars.Resolver.Watch<int>("InteractLimitType", InteractManager, 0x40);
 	vars.Resolver.Watch<float>("CharacterPositionY", CharacterManager, 0xB0, 0x104);
 	vars.Resolver.Watch<float>("CharacterPositionZ", CharacterManager, 0xB0, 0x108);
 	vars.Resolver.Watch<IntPtr>("ObjectiveGUIController", GuiManager, 0x140, 0x18);
 	vars.Resolver.Watch<IntPtr>("Inventory", InventoryManager, 0x58, 0x18);
+
+	if (version == "1.2.0.0+")
+	{
+		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3C8);
+		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x58, 0x18);
+		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x58, 0x3C);
+	} 
+	if (version == "Pre-1.2.0.0") 
+	{
+		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3AC);
+		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x50, 0x18);
+		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x50, 0x3C);
+	}
 
 	current.View = "";
 	current.PauseType = 0;
