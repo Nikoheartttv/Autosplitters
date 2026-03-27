@@ -187,12 +187,23 @@ update
 	
 	if (current.ObjectiveGUIController != IntPtr.Zero) {
 		IntPtr objectiveGUIControllerUnit = vars.Resolver.Read<IntPtr>(current.ObjectiveGUIController + 0x18, 0x28, 0x10);
-		int objectiveGUIControllerUnitCont = vars.Resolver.Read<int>(current.ObjectiveGUIController + 0x18, 0x28, 0x1C);
-		if (objectiveGUIControllerUnit != IntPtr.Zero && objectiveGUIControllerUnitCont > 0) {
+		int objectiveGUIControllerUnitCount = vars.Resolver.Read<int>(current.ObjectiveGUIController + 0x18, 0x28, 0x18);
+		if (objectiveGUIControllerUnit != IntPtr.Zero && objectiveGUIControllerUnitCount > 0) {
 
-			current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0x98, 0x10, 0x10, 0x14);
-			current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0x98, 0x28);
-			current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0x98, 0x1C);
+			if (version == "1.2.0.0+")
+			{
+				current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0xA0, 0x10, 0x10, 0x14);
+				// vars.Uhara.Log("Objective GUI ID: " + current.ObjectiveGUIID);
+				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x28);
+				current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x1C);
+			}
+			else if (version == "Pre-1.2.0.0")
+			{
+				current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0x98, 0x10, 0x10, 0x14);
+				// vars.Uhara.Log("Objective GUI ID: " + current.ObjectiveGUIID);
+				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0x98, 0x28);
+				current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0x98, 0x1C);
+			}
 		}
 	}
 
@@ -502,7 +513,12 @@ split
 	}
 
 	// Split on Objectives
-	if (!string.IsNullOrEmpty(current.ObjectiveGUIID) && old.ObjectiveGUIID != current.ObjectiveGUIID 
+	if (!string.IsNullOrEmpty(current.ObjectiveGUIID) && 
+		(
+			old.ObjectiveGUIID != current.ObjectiveGUIID ||
+			old.ObjectiveGUICleared != current.ObjectiveGUICleared ||
+			old.ObjectiveGUICount != current.ObjectiveGUICount
+		)
 		&& !vars.CompletedSplits.Contains(current.ObjectiveGUIID)) 
 	{
 		if (current.ObjectiveGUICleared && settings[current.ObjectiveGUIID + "_Cleared"] && settings.ContainsKey(current.ObjectiveGUIID + "_Cleared") &&
@@ -523,7 +539,7 @@ split
 		{
 			vars.CompletedSplits.Add(current.ObjectiveGUIID);
 			return true;
-		}	
+		}
 	}
 }
 
