@@ -77,8 +77,6 @@ init
 	IntPtr GuiManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 48 8b 50 ?? 48 85 d2 74 ?? 48 8b 05 ?? ?? ?? ?? 4c 8b 80");
 	IntPtr ItemManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 90 ?? ?? ?? ?? 48 85 d2");
 	IntPtr InteractManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 89 f1 49 89 f8 49 89 d9");
-	IntPtr RankManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 48 8b 3d");
-	IntPtr GameDifficultyManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 4a 8b 54 f3");
 
 	vars.Resolver.WatchString("Chapter", MainGameFlowManager, 0x20, 0x80, 0x14);
 	vars.Resolver.WatchString("View", SceneTransitionManager, 0x28, 0x40, 0x14);
@@ -103,8 +101,6 @@ init
 	vars.Resolver.Watch<float>("CharacterPositionZ", CharacterManager, 0xB0, 0x108);
 	vars.Resolver.Watch<IntPtr>("ObjectiveGUIController", GuiManager, 0x140, 0x18);
 	vars.Resolver.Watch<IntPtr>("Inventory", InventoryManager, 0x58, 0x18);
-	vars.Resolver.WatchString("GameDifficulty", GameDifficultyManager, 0x10, 0x10, 0x14);
-	vars.Resolver.Watch<IntPtr>("DAIntPtr", RankManager, 0x28, 0x10);
 
 	if (version == "1.2.0.0+")
 	{
@@ -179,46 +175,6 @@ onStart
 update
 {
 	vars.Uhara.Update();
-
-	if(settings["NoIntro"]){
-		if(current.StageName == "st30_003" && old.PlayerModeFade == 2 && current.PlayerModeFade == 3 || 
-			current.StageName == "st30_003" && current.GameDifficulty != old.GameDifficulty){
-			switch ((string)current.GameDifficulty){
-				case "ID0010":
-					// Leon
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x14, 1200);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x18, 1);
-					// Grace
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x14, 1200);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x18, 1);
-					break;
-				case "ID0020":
-					// Leon
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x14, 4500);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x18, 4);
-					// Grace
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x14, 4200);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x18, 4);
-					break;
-				case "ID0030":
-					// Leon
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x14, 6500);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x18, 9);
-					// Grace
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x14, 6200);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x18, 9);
-					break;
-				case "ID0040":
-					// Leon
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x14, 9000);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x28) + 0x18, 9);
-					// Grace
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x14, 9000);
-					game.WriteValue<int>(game.ReadPointer((IntPtr)current.DAIntPtr + 0x30) + 0x18, 9);
-					break;
-			}
-		}
-	}
 
 	// Setting up currents
 	current.GameSceneName = string.IsNullOrEmpty(current.SwitchGameSceneName) ? old.GameSceneName : current.SwitchGameSceneName;
