@@ -19,6 +19,33 @@ startup
 		if (timingMessage == DialogResult.Yes) timer.CurrentTimingMethod = TimingMethod.GameTime;
 	}
 
+	vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
+
+	vars.DAText = (Action<object>)(text2 =>
+	{
+		const string FileName = "LiveSplit.Text.dll";
+		const string TextName = "Damage Adjustment";
+		LiveSplit.UI.Components.ILayoutComponent lc;
+
+		if (!vars.lcCache.TryGetValue(TextName, out lc))
+		{
+			lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
+				.FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == TextName)
+				?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
+
+			vars.lcCache[TextName] = lc;
+		}
+
+		if (!timer.Layout.LayoutComponents.Contains(lc))
+			timer.Layout.LayoutComponents.Add(lc);
+
+		dynamic tc = lc.Component;
+		tc.Settings.Text1 = TextName;
+		tc.Settings.Text2 = text2 == null ? "" : text2.ToString();
+	});
+
+	vars.DAText("0");
+
 	vars.timers = new Dictionary<string, int> {
 		{"OperatingTime", 0}, {"SystemElapsedTime", 1}, {"GameElapsedTime", 2}, {"GameSystemElapsedTime", 3},
 		{"LoadSpending", 4}, {"SystemMenuSpending", 5}, {"PauseSpending", 6}, {"EventSpending", 7}, {"MovieSpending", 8},
@@ -77,6 +104,7 @@ init
 	IntPtr GuiManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 48 8b 50 ?? 48 85 d2 74 ?? 48 8b 05 ?? ?? ?? ?? 4c 8b 80");
 	IntPtr ItemManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 90 ?? ?? ?? ?? 48 85 d2");
 	IntPtr InteractManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 48 89 f1 49 89 f8 49 89 d9");
+	IntPtr RankManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 48 8b 3d");
 
 	vars.Resolver.WatchString("Chapter", MainGameFlowManager, 0x20, 0x80, 0x14);
 	vars.Resolver.WatchString("View", SceneTransitionManager, 0x28, 0x40, 0x14);
@@ -101,6 +129,7 @@ init
 	vars.Resolver.Watch<float>("CharacterPositionZ", CharacterManager, 0xB0, 0x108);
 	vars.Resolver.Watch<IntPtr>("ObjectiveGUIController", GuiManager, 0x140, 0x18);
 	vars.Resolver.Watch<IntPtr>("Inventory", InventoryManager, 0x58, 0x18);
+	vars.Resolver.Watch<int>("DARankPoints", RankManager, 0x30, 0x14);
 
 	if (version == "1.2.0.0+")
 	{
@@ -141,6 +170,7 @@ init
 	vars.RCCBattery = 0;
 	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
+	current.DARankPoints = 0;
 }
 
 start
@@ -175,6 +205,9 @@ onStart
 update
 {
 	vars.Uhara.Update();
+
+	if (current.DARankPoints != old.DARankPoints) vars.DAText(current.DARankPoints);
+
 
 	// Setting up currents
 	current.GameSceneName = string.IsNullOrEmpty(current.SwitchGameSceneName) ? old.GameSceneName : current.SwitchGameSceneName;
