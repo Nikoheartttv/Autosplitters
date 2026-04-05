@@ -10,7 +10,7 @@ startup
 		{ "Demo", true, "Demo", null },
 			{ "DemoSplit", true, "Demo Credits Split", "Demo" },
 		{ "FullGame", true, "Full Game", null },
-			{ "FromMemoryLoad", false, "Individual Level - From Memory Load Timer Start", "FullGame" },
+			{ "FromMemoryLoad", false, "From Memory Load Timer Start", "FullGame" },
 			{ "Intro", true, "Intro", "FullGame" },
 				{ "IntroSplit", true, "Enter Basement", "Intro" },
 			{ "Basement", true , "Basement", "FullGame" },
@@ -224,7 +224,7 @@ start
 	if (vars.NewGameStart)
 		return old.CanMove != current.CanMove && current.CanMove;
 
-	if (version.Contains("Full Game") && !vars.NewGameStart && settings["IL"])
+	if (version.Contains("Full Game") && !vars.NewGameStart && settings["FromMemoryLoad"])
     	return current.CanMove && old.Loading && !current.Loading || vars.Resolver.CheckFlag("WW1Start") || vars.Resolver.CheckFlag("WW2Start");
 }
 
