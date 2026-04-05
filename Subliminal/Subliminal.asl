@@ -176,6 +176,9 @@ init
 	}
 	else 
 	{
+		// IL Starts
+		vars.Events.FunctionFlag("WW1Start", "BP_WWIntro_C", "BP_WWIntro_C", "Sequence Finished");
+		vars.Events.FunctionFlag("WW2Start", "BP_WWPt2_Intro_C", "BP_WWSplitDecisionIntro_C", "Scene Finished");
 		vars.Events.FunctionFlag("EmptySpaceStart", "BP_EmptySpace_Intro_C", "BP_EmptySpace_Intro_C", "ExecuteUbergraph_BP_EmptySpace_Intro");
 		vars.Events.FunctionFlag("TitleScreenEnter", "BP_TitleScreen_C", "BP_TitleScreen_C", "ExecuteUbergraph_BP_TitleScreen");
 		// Intro
@@ -221,7 +224,7 @@ start
 		return old.CanMove != current.CanMove && current.CanMove;
 
 	if (version.Contains("Full Game") && !vars.NewGameStart)
-    	return current.CanMove && old.Loading && !current.Loading;
+    	return current.CanMove && old.Loading && !current.Loading || vars.Resolver.CheckFlag("WW1Start") || vars.Resolver.CheckFlag("WW2Start");
 }
 
 onStart
