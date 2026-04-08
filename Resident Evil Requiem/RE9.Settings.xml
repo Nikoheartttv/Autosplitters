@@ -1,5 +1,6 @@
 <Settings>
 	<Setting Id="Main" Label="Main Game" State="true">
+		<Setting Id="DA" Label="Damage Adjustment Layout Addition for Verification" State="true" />
 		<Setting Id="NoIntro" Label="No Intro (from Chronic Care Center Save Point)" State="false" />
 		<Setting Id="AutoReset" Label="Reset when returning to Main Menu" State="false" />
 		<Setting Id="ChapterSplits" Label="Chapter Splits" State="false">

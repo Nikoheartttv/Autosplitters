@@ -19,32 +19,37 @@ startup
 		if (timingMessage == DialogResult.Yes) timer.CurrentTimingMethod = TimingMethod.GameTime;
 	}
 
-	vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
-
-	vars.DAText = (Action<object>)(text2 =>
-	{
-		const string FileName = "LiveSplit.Text.dll";
-		const string TextName = "Damage Adjustment";
-		LiveSplit.UI.Components.ILayoutComponent lc;
-
-		if (!vars.lcCache.TryGetValue(TextName, out lc))
+	#region TextComponent
+		vars.lcCache = new Dictionary<string, LiveSplit.UI.Components.ILayoutComponent>();
+		vars.SetText = (Action<string, object>)((text1, text2) =>
 		{
-			lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
-				.FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == TextName)
-				?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
+			const string FileName = "LiveSplit.Text.dll";
+			LiveSplit.UI.Components.ILayoutComponent lc;
 
-			vars.lcCache[TextName] = lc;
-		}
+			if (!vars.lcCache.TryGetValue(text1, out lc))
+			{
+				lc = timer.Layout.LayoutComponents.Reverse().Cast<dynamic>()
+					.FirstOrDefault(llc => llc.Path.EndsWith(FileName) && llc.Component.Settings.Text1 == text1)
+					?? LiveSplit.UI.Components.ComponentManager.LoadLayoutComponent(FileName, timer);
 
-		if (!timer.Layout.LayoutComponents.Contains(lc))
-			timer.Layout.LayoutComponents.Add(lc);
+				vars.lcCache.Add(text1, lc);
+			}
 
-		dynamic tc = lc.Component;
-		tc.Settings.Text1 = TextName;
-		tc.Settings.Text2 = text2 == null ? "" : text2.ToString();
-	});
-
-	vars.DAText("0");
+			if (!timer.Layout.LayoutComponents.Contains(lc)) timer.Layout.LayoutComponents.Add(lc);
+			dynamic tc = lc.Component;
+			tc.Settings.Text1 = text1;
+			tc.Settings.Text2 = text2.ToString();
+		});
+		vars.RemoveText = (Action<string>)(text1 =>
+		{
+			LiveSplit.UI.Components.ILayoutComponent lc;
+			if (vars.lcCache.TryGetValue(text1, out lc))
+			{
+				timer.Layout.LayoutComponents.Remove(lc);
+				vars.lcCache.Remove(text1);
+			}
+		});
+	#endregion
 
 	vars.timers = new Dictionary<string, int> {
 		{"OperatingTime", 0}, {"SystemElapsedTime", 1}, {"GameElapsedTime", 2}, {"GameSystemElapsedTime", 3},
@@ -171,6 +176,14 @@ init
 	vars.Chap1_01Count = 0;
 	vars.Chap4_40Count = 0;
 	current.DARankPoints = 0;
+
+	#region Text Component
+		vars.SetTextIfEnabled = (Action<string, string, object>)((settingId, label, value) =>
+		{
+			if (settings[settingId]) vars.SetText(label, value);
+			else vars.RemoveText(label);
+		});
+	#endregion
 }
 
 start
@@ -205,9 +218,7 @@ onStart
 update
 {
 	vars.Uhara.Update();
-
-	if (current.DARankPoints != old.DARankPoints) vars.DAText(current.DARankPoints);
-
+	vars.SetTextIfEnabled("DA", "Damage Adjustment", current.DARankPoints);
 
 	// Setting up currents
 	current.GameSceneName = string.IsNullOrEmpty(current.SwitchGameSceneName) ? old.GameSceneName : current.SwitchGameSceneName;
