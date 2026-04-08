@@ -191,6 +191,7 @@ init
 		vars.Events.FunctionFlag("WaterWorks2Split", "BP_WWPt2_Intro_C", "BP_WWSplitDecisionIntro_C", "ExecuteUbergraph_BP_WWPt2_Intro");
 		vars.Events.FunctionFlag("WaterWorks2ROTSplit", "BP_WWPt2_ROTDecisionTrigger_C", "BP_WWPt2_ROTDecisionTrigger_C", "ExecuteUbergraph_BP_WWPt2_ROTDecisionTrigger");
 		vars.Events.FunctionFlag("DarkChildhoodMemories1Split", "BP_CMDarkPt1Intro_C", "BP_CMDarkPt1Intro_C", "ExecuteUbergraph_BP_CMDarkPt1Intro");
+		vars.Events.FunctionFlag("DarkChildhoodMemories1SplitBackup", "BP_CMDarkPt1Intro_C", "CM_Transition_Master_C", "ExecuteUbergraph_BP_CMDarkPt1Intro");
 		vars.Events.FunctionFlag("WaterWorks3Split", "BP_WWPt3Intro_C", "BP_WWMaintenanceDoorNarrationPt2Trigger_C", "ExecuteUbergraph_BP_WWPt3Intro");
 		vars.Events.FunctionFlag("ChildhoodMemories3Split", "BP_CMPt3Intro_Light_C", "BP_CMPt3Intro_Light_C", "ExecuteUbergraph_BP_CMPt3Intro_Light");
 		// Childhood Memories
@@ -260,7 +261,8 @@ split
 	// Water Works
 	if (vars.DoSplit("WaterWorks2Split", settings["WaterWorks2"], "WaterWorks2")) return true;
 	if (vars.DoSplit("WaterWorks2ROTSplit", settings["WaterWorks2ROT"], "WaterWorks2ROT")) return true;
-	if (vars.DoSplit("DarkChildhoodMemories1Split", settings["DarkChildhoodMemories1"], "DarkChildhoodMemories1")) return true;
+	if (vars.DoSplit("DarkChildhoodMemories1Split", settings["DarkChildhoodMemories1"], "DarkChildhoodMemories1")
+		|| vars.DoSplit("DarkChildhoodMemories1BackupSplit", settings["DarkChildhoodMemories1"], "DarkChildhoodMemories1")) return true;
 	if (vars.DoSplit("WaterWorks3Split", settings["WaterWorks3"], "WaterWorks3")) return true;
 	if ((vars.Resolver.CheckFlag("ChildhoodMemories3Split") || current.CurrentLevel == 1) && settings["ChildhoodMemories3"] && !vars.CompletedSplits.Contains("ChildhoodMemories3")) 
 	{
