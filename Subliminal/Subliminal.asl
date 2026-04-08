@@ -275,7 +275,8 @@ split
 	if (vars.DoSplit("PlayplaceMaintenanceHallsSplit", settings["PlayplaceMaintenceHalls"], "PlayplaceMaintenceHalls")) return true;
 	if (vars.DoSplit("EraseIntroTrigger", settings["EraseIntro"], "EraseIntro")) return true;
 	if (vars.EraseEndingTrigger && vars.DoSplit("EraseEndingShutdown", settings["EraseEnding"], "EraseEnding")) return true;
-	if (vars.DoSplit("ChildhoodMemories5Split", settings["ChildhoodMemories5"], "ChildhoodMemories5")) return true;
+	if (vars.DoSplit("ChildhoodMemories5Split", settings["ChildhoodMemories5"], "ChildhoodMemories5")
+		|| vars.DoSplit("ChildhoodMemories5BackupSplit", settings["ChildhoodMemories5"], "ChildhoodMemories5")) return true;
 	if (vars.DoSplit("BounceHousePt1Split", settings["BounceHousePt1"], "BounceHousePt1")) return true;
 
 	// Bounce House
