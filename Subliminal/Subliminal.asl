@@ -202,7 +202,7 @@ init
 		vars.Events.FunctionFlag("EraseEndingTrigger", "BP_EraseEnding_Master_C", "BP_EraseEnding_Master_C", "Full Erase");
 		vars.Events.FunctionFlag("EraseEndingShutdown", "GameInstance_Main_C", "GameInstance_Main_C", "ReceiveShutdown");
 		vars.Events.FunctionFlag("ChildhoodMemories5Split", "BP_CMPt5_Intro_C", "BP_CMPt5_Intro_C", "ExecuteUbergraph_BP_CMPt5_Intro");
-		vars.Events.FunctionFlag("ChildhoodMemories5BackupSplit", "BP_CMPt5_Intro_C", "BP_CMPt5_Intro_C", "");
+		vars.Events.FunctionFlag("ChildhoodMemories5BackupSplit", "BP_CMPt5_Intro_C", "BP_CMPt5_Intro_C", "BndEvt__BP_CMPt5_Intro_Collision_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature");
 		// Bounce House
 		vars.Events.FunctionFlag("BounceHousePt1Split", "BP_BHPt1_Intro_C", "BP_BHPt1_Intro_C", "ExecuteUbergraph_BP_BHPt1_Intro");
 		vars.Events.FunctionFlag("BounceHouseRecollectionSplit", "BP_BHPt3_Intro_C", "BP_BHPt3_Intro_C", "");
@@ -247,45 +247,119 @@ update
 split
 {
 	// Demo
-	if (vars.DoSplit("EndCardTrigger", settings["Demo"], "DemoSplit")) return true;
+	if (vars.DoSplit("EndCardTrigger", settings["Demo"], "DemoSplit")) 
+	{
+		vars.Uhara.Log("Water Works 2 ROT Split");
+		return true;
+	}
 
 	// Full Game
 	// Intro
-	if (vars.DoSplit("TransitionToBasement", settings["Intro"], "IntroSplit")) return true;
+	if (vars.DoSplit("TransitionToBasement", settings["Intro"], "IntroSplit")) 
+	{
+		vars.Uhara.Log("Intro Split");
+		return true;
+	}
 
 	// Basement
-	if (vars.DoSplit("KnockKnockCompleted", settings["KnockKnock"], "KnockKnock")) return true;
-	if (vars.DoSplit("WaterWorks1Split", settings["WaterWorks1"], "WaterWorks1")) return true;
+	if (vars.DoSplit("KnockKnockCompleted", settings["KnockKnock"], "KnockKnock")) 
+	{
+		vars.Uhara.Log("Knock Knock Split");
+		return true;
+	}
+	if (vars.DoSplit("WaterWorks1Split", settings["WaterWorks1"], "WaterWorks1")) 
+	{
+		vars.Uhara.Log("Water Works 1 Split");
+		return true;
+	}
 
 	// Water Works
-	if (vars.DoSplit("WaterWorks2Split", settings["WaterWorks2"], "WaterWorks2")) return true;
-	if (vars.DoSplit("WaterWorks2ROTSplit", settings["WaterWorks2ROT"], "WaterWorks2ROT")) return true;
-	if (vars.DoSplit("DarkChildhoodMemories1Split", settings["DarkChildhoodMemories1"], "DarkChildhoodMemories1")) return true;
-	if (vars.DoSplit("WaterWorks3Split", settings["WaterWorks3"], "WaterWorks3")) return true;
-	if ((vars.Resolver.CheckFlag("ChildhoodMemories3Split") || current.CurrentLevel == 1) && settings["ChildhoodMemories3"] && !vars.CompletedSplits.Contains("ChildhoodMemories3")) 
+	if (vars.DoSplit("WaterWorks2Split", settings["WaterWorks2"], "WaterWorks2")) 
 	{
+		vars.Uhara.Log("Water Works 2 Split");
+		return true;
+	}
+	if (vars.DoSplit("WaterWorks2ROTSplit", settings["WaterWorks2ROT"], "WaterWorks2ROT")) 
+	{
+		vars.Uhara.Log("Water Works 2 ROT Split");
+		return true;
+	}
+	if (vars.DoSplit("DarkChildhoodMemories1Split", settings["DarkChildhoodMemories1"], "DarkChildhoodMemories1"))
+	{
+		vars.Uhara.Log("Dark Childhood Memories 1 Split");
+		return true;
+	}
+	if (vars.DoSplit("WaterWorks3Split", settings["WaterWorks3"], "WaterWorks3"))
+	{
+		vars.Uhara.Log("Water Works 3 Split");
+		return true;
+	}
+	if ((vars.Resolver.CheckFlag("ChildhoodMemories3Split")) && settings["ChildhoodMemories3"] && !vars.CompletedSplits.Contains("ChildhoodMemories3")) 
+	{
+		vars.Uhara.Log("Childhood Memories 3 Split");
 		vars.CompletedSplits.Add("ChildhoodMemories3");
 		return true;
 	}
 
 	// Childhood Memories
-	if (vars.DoSplit("DarkChildhoodMemories2Split", settings["DarkChildhoodMemories2"], "DarkChildhoodMemories2")) return true;
-	if (vars.DoSplit("DarkChildhoodMemories3Split", settings["DarkChildhoodMemories3"], "DarkChildhoodMemories3")) return true;
-	if (vars.DoSplit("PlayplaceMainAreaSplit", settings["PlayplaceMainArea"], "PlayplaceMainArea")) return true;
-	if (vars.DoSplit("PlayplaceMaintenanceHallsSplit", settings["PlayplaceMaintenceHalls"], "PlayplaceMaintenceHalls")) return true;
-	if (vars.DoSplit("EraseIntroTrigger", settings["EraseIntro"], "EraseIntro")) return true;
-	if (vars.EraseEndingTrigger && vars.DoSplit("EraseEndingShutdown", settings["EraseEnding"], "EraseEnding")) return true;
+	if (vars.DoSplit("DarkChildhoodMemories2Split", settings["DarkChildhoodMemories2"], "DarkChildhoodMemories2"))
+	{
+		vars.Uhara.Log("Dark Childhood Memories 2 Split");
+		return true;
+	}
+	if (vars.DoSplit("DarkChildhoodMemories3Split", settings["DarkChildhoodMemories3"], "DarkChildhoodMemories3"))
+	{
+		vars.Uhara.Log("Dark Childhood Memories 3 Split");
+		return true;
+	}
+	if (vars.DoSplit("PlayplaceMainAreaSplit", settings["PlayplaceMainArea"], "PlayplaceMainArea"))
+	{
+		vars.Uhara.Log("Playplace Main Area Split");
+		return true;
+	}
+	if (vars.DoSplit("PlayplaceMaintenanceHallsSplit", settings["PlayplaceMaintenceHalls"], "PlayplaceMaintenceHalls"))
+	{
+		vars.Uhara.Log("Playplace Maintence Halls Split");
+		return true;
+	}
+	if (vars.DoSplit("EraseIntroTrigger", settings["EraseIntro"], "EraseIntro"))
+	{
+		vars.Uhara.Log("Erase Intro Split");
+		return true;
+	}
+	if (vars.EraseEndingTrigger && vars.DoSplit("EraseEndingShutdown", settings["EraseEnding"], "EraseEnding"))
+	{
+		vars.Uhara.Log("Erase Ending Split");
+		return true;
+	}
 	if (vars.DoSplit("ChildhoodMemories5Split", settings["ChildhoodMemories5"], "ChildhoodMemories5")
-		|| vars.DoSplit("ChildhoodMemories5BackupSplit", settings["ChildhoodMemories5"], "ChildhoodMemories5")) return true;
-	if (vars.DoSplit("BounceHousePt1Split", settings["BounceHousePt1"], "BounceHousePt1")) return true;
+		|| vars.DoSplit("ChildhoodMemories5BackupSplit", settings["ChildhoodMemories5"], "ChildhoodMemories5"))
+		{
+		vars.Uhara.Log("Childhood Memories 5 Split");
+		return true;
+	}
+	if (vars.DoSplit("BounceHousePt1Split", settings["BounceHousePt1"], "BounceHousePt1"))
+	{
+		vars.Uhara.Log("Bounce House Pt 1 Split");
+		return true;
+	}
 
 	// Bounce House
-	if (vars.DoSplit("BounceHouseRecollectionSplit", settings["BounceHouseRecollection"], "BounceHouseRecollection")) return true;
-	if (vars.DoSplit("BounceHousePt4Split", settings["BounceHousePt4"], "BounceHousePt4")) return true;
+	if (vars.DoSplit("BounceHouseRecollectionSplit", settings["BounceHouseRecollection"], "BounceHouseRecollection"))
+	{
+		vars.Uhara.Log("Bounce House Recollection Split");
+		return true;
+	}
+	if (vars.DoSplit("BounceHousePt4Split", settings["BounceHousePt4"], "BounceHousePt4"))
+	{
+		vars.Uhara.Log("Bounce House Pt 4 Split");
+		return true;
+	}
 
 	// End Split
 	if (vars.CreditsActive && vars.DoSplit("CreditsSplit", settings["EndSplit"], "EndSplit")) 
 	{
+		vars.Uhara.Log("Credits Split");
 		vars.CreditsActive = false;
 		return true;
 	}
