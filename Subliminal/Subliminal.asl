@@ -104,15 +104,27 @@ init
 		case "47F0AAA11466D2425DF50FC914FABEA6":
 			version = "Demo v1.5.0 (31.03.26)";
 			break;
+		case "98997A71E2D73B58DE5EAAB756D6AC1D":
+			version = "Demo v1.5.2 (14.04.26)";
+			break;
+		case "662361B6119E4A16DAEA0E280B783EB3":
+			version = "Demo v1.5.2.1 (15.04.26)";
+			break;
 		// Full Game
 		case "2D6CD096F55F8236D567DCD3BB125F90":
-			version = "Full Game v1.5";
+			version = "Full Game v1.0";
 			break;
 		case "3144D6CC89DB3932F0E447E1657A15D3":
-			version = "Full Game v1.5.1";
+			version = "Full Game v1.0.1";
+			break;
+		case "085B1558CD428006EEB0CB15CE8F9C9C":
+			version = "Full Game v1.0.2";
+			break;
+		case "04E76A56C0F3391BAA61630E147449B1":
+			version = "Full Game v1.0.2.1";
 			break;
 		default:
-			version = "Full Game v1.5";
+			version = "Full Game v1.0";
 			break;
 	}
 
@@ -156,16 +168,19 @@ init
 			break;
 		case "Demo v1.4.1 (23.03.26)":
 		case "Demo v1.5.0 (31.03.26)":
+		case "Demo v1.5.2 (14.04.26)":
+		case "Demo v1.5.2.1 (15.04.26)":
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8A1);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8B1);
 			break;
-		case "Full Game v1.5":
-		case "Full Game v1.5.1":
+		case "Full Game v1.0":
+		case "Full Game v1.0.1":
+		case "Full Game v1.0.2":
+		case "Full Game v1.0.2.1":
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8A1);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8B1);
 			vars.Resolver.Watch<bool>("Paused", vars.Utils.GEngine, 0x12C8, 0x1E0, 0xAD0);
 			vars.Resolver.Watch<bool>("Loading", vars.Utils.GEngine, 0x12C8, 0x1E0, 0xFF9);
-			vars.Resolver.Watch<int>("CurrentLevel", vars.Utils.GWorld, 0x30, 0xA0, 0xC0, 0x3C8);
 			break;
 	}
 
@@ -213,7 +228,6 @@ init
 	current.CanMove = false;
 	current.World = "";
 	current.Loading = false;
-	current.CurrentLevel = 0;
 	vars.EraseEndingTrigger = false;
 	vars.CreditsActive = false;
 	vars.NewGameStart = false;
