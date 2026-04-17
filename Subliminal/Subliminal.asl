@@ -110,6 +110,9 @@ init
 		case "662361B6119E4A16DAEA0E280B783EB3":
 			version = "Demo v1.5.2.1 (15.04.26)";
 			break;
+		case "D54FC4A4A1949FD9141F89607038AA55":
+			version = "Demo v1.5.2.2 (16.04.26)";
+			break;
 		// Full Game
 		case "2D6CD096F55F8236D567DCD3BB125F90":
 			version = "Full Game v1.0";
@@ -122,6 +125,9 @@ init
 			break;
 		case "04E76A56C0F3391BAA61630E147449B1":
 			version = "Full Game v1.0.2.1";
+			break;
+		case "66C4448B95CB07BC3BF1623402D7BF86":
+			version = "Full Game v1.0.2.2";
 			break;
 		default:
 			version = "Full Game v1.0";
