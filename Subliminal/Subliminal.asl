@@ -176,6 +176,7 @@ init
 		case "Demo v1.5.0 (31.03.26)":
 		case "Demo v1.5.2 (14.04.26)":
 		case "Demo v1.5.2.1 (15.04.26)":
+		case "Demo v1.5.2.2 (16.04.26)":
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8A1);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8B1);
 			break;
@@ -183,6 +184,7 @@ init
 		case "Full Game v1.0.1":
 		case "Full Game v1.0.2":
 		case "Full Game v1.0.2.1":
+		case "Full Game v1.0.2.2":
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8A1);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8B1);
 			vars.Resolver.Watch<bool>("Paused", vars.Utils.GEngine, 0x12C8, 0x1E0, 0xAD0);
