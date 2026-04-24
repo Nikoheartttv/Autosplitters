@@ -1,0 +1,66 @@
+<Settings>
+    <Setting Id="IL_Mode" Label="IL Splitting" State="false" />
+    <Setting Id="SRC" Label="SR.C Run Categories" State="false">
+        <Setting Id="Flawless" Label="100% / Flawless Category" State="false" />
+    </Setting>
+    <Setting Id="Levels" Label="Levels" State="true">
+        <Setting Id="Intro" Label="0-1: Intro" State="true" />
+        <Setting Id="OrientalTechno" Label="1-1: Samurai Techno" State="true" />
+        <Setting Id="OrientalDubstep" Label="1-1N: Samurai Dubstep" State="true" />
+        <Setting Id="Intimate" Label="1-2: Intimate" State="true" />
+        <Setting Id="IntimateH" Label="1-2N: Intimate (Night)" State="true" />
+        <Setting Id="OrientalInsomniac" Label="1-X: Battleworn Insomniac" State="true" />
+        <Setting Id="InsomniacHard" Label="1-XN: Super Battleworn Insomniac" State="true" />
+        <Setting Id="Lofi" Label="2-1: Lo-fi Hip-Hop Beats To Treat Patients To" State="true" />
+        <Setting Id="CareLess" Label="2-1N: wish i could care less" State="true" />
+        <Setting Id="SVT" Label="2-2: Supraventricula Tachycardia" State="true" />
+        <Setting Id="Unreachable" Label="2-2N: Unreachable" State="true" />
+        <Setting Id="Smokin" Label="2-3: Puff Piece" State="true" />
+        <Setting Id="Pomeranian" Label="2-3N: Bomb-Sniffing Pomeranian" State="true" />
+        <Setting Id="SongOfTheSea" Label="2-4: Song of the Sea" State="true" />
+        <Setting Id="SongOfTheSeaH" Label="2-4N: Song of the Sea (Night)" State="true" />
+        <Setting Id="BeansHopper" Label="2-B1: Beans Hopper" State="true" />
+        <Setting Id="Boss2" Label="2-X: All The Times" State="true" />
+        <Setting Id="Bitterness" Label="2-XN: Bitter Times" State="true" />
+        <Setting Id="Garden" Label="3-1: Sleepy Garden" State="true" />
+        <Setting Id="Lounge" Label="3-1N: Lounge" State="true" />
+        <Setting Id="Classy" Label="3-2: Classy" State="true" />
+        <Setting Id="ClassyH" Label="3-2N: Classy (Night)" State="true" />
+        <Setting Id="DistantDuet" Label="3-3: Distant Duet" State="true" />
+        <Setting Id="DistantDuetH" Label="3-3N: Distant Duet (Night)" State="true" />
+        <Setting Id="Lesmis" Label="3-X: One Shift More" State="true" />
+        <Setting Id="Heldbeats" Label="4-1: Training Doctor's Train Ride Performance" State="true" />
+        <Setting Id="Rollerdisco" Label="4-1N: Rollerdisco Rumble" State="true" />
+        <Setting Id="Invisible" Label="4-2: Invisible" State="true" />
+        <Setting Id="InvisibleH" Label="4-2N: Invisible (Night)" State="true" />
+        <Setting Id="Steinway" Label="4-3: Steinway" State="true" />
+        <Setting Id="SteinwayH" Label="4-3N: Steinway Reprise" State="true" />
+        <Setting Id="KnowYou" Label="4-4: Know You" State="true" />
+        <Setting Id="Murmurs" Label="4-4N: Murmurs" State="true" />
+        <Setting Id="LuckyBreak" Label="5-1: Lucky Break" State="true" />
+        <Setting Id="Injury" Label="5-1N: One Slip Too Late" State="true" />
+        <Setting Id="Freezeshot" Label="5-2: Lo-fi Beats For Patients To Chill To" State="true" />
+        <Setting Id="FreezeshotH" Label="5-2N: Unsustainable Inconsolable" State="true" />
+        <Setting Id="AthleteTherapy" Label="5-3: Seventh-Inning Stretch" State="true" />
+        <Setting Id="StevensonsTango" Label="5-3N: Corazones Viejos" State="true" />
+        <Setting Id="RhythmWeightlifter" Label="5-B1: Rhythm Weightlifter" State="false" />
+        <Setting Id="AthleteFinale" Label="5-X: Dreams Don't Stop" State="true" />
+        <Setting Id="HaileyDuet" Label="6-1: Something To Tell You" State="true" />
+        <Setting Id="EdegaRave" Label="6-2: Welcome Back" State="true" />
+        <Setting Id="PaigesReckoning" Label="6-X: Boss Fight" State="true" />
+        <Setting Id="Blurred" Label="7-1: Blurred" State="true" />
+        <Setting Id="Montage" Label="7-X: Miracle Defibrillator" State="true" />
+        <Setting Id="Montage2" Label="7-XN: Miracle Defibrillator (Encore)" State="true" />
+        <Setting Id="BlackestLuxuryCar" Label="MD-1: Blackest Luxury Car" State="true" />
+        <Setting Id="TapeStopNight" Label="MD-2: tape/stop/night" State="true" />
+        <Setting Id="The90sDecision" Label="MD-3: The 90s Decision" State="true" />
+        <Setting Id="HelpingHands" Label="X-0: Helping Hands" State="true" />
+        <Setting Id="ArtExercise" Label="X-1: Art Exercise" State="true" />
+        <Setting Id="Unbeatable" Label="X-WOT: Worn Out Tapes" State="true" />
+        <Setting Id="MeetAndTweet" Label="X-MAT: Meet And Tweet" State="true" />
+        <Setting Id="VividStasis" Label="X-FTS: Fixations Towards the Stars" State="true" />
+        <Setting Id="SparkLine" Label="X-KOB: Kindom of Balloons" State="true" />
+		<Setting Id="Beatblock" Label="X-PBC: público cautivo" State="true" />
+        <Setting Id="Halloween" Label="1-BOO: theme of really spooky bird" State="false" />
+    </Setting>
+</Settings>
