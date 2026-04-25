@@ -10,7 +10,6 @@
         <Setting Id="Intimate" Label="1-2: Intimate" State="true" />
         <Setting Id="IntimateH" Label="1-2N: Intimate (Night)" State="true" />
         <Setting Id="OrientalInsomniac" Label="1-X: Battleworn Insomniac" State="true" />
-        <Setting Id="InsomniacHard" Label="1-XN: Super Battleworn Insomniac" State="true" />
         <Setting Id="Lofi" Label="2-1: Lo-fi Hip-Hop Beats To Treat Patients To" State="true" />
         <Setting Id="CareLess" Label="2-1N: wish i could care less" State="true" />
         <Setting Id="SVT" Label="2-2: Supraventricula Tachycardia" State="true" />
@@ -21,7 +20,6 @@
         <Setting Id="SongOfTheSeaH" Label="2-4N: Song of the Sea (Night)" State="true" />
         <Setting Id="BeansHopper" Label="2-B1: Beans Hopper" State="true" />
         <Setting Id="Boss2" Label="2-X: All The Times" State="true" />
-        <Setting Id="Bitterness" Label="2-XN: Bitter Times" State="true" />
         <Setting Id="Garden" Label="3-1: Sleepy Garden" State="true" />
         <Setting Id="Lounge" Label="3-1N: Lounge" State="true" />
         <Setting Id="Classy" Label="3-2: Classy" State="true" />
@@ -37,6 +35,7 @@
         <Setting Id="SteinwayH" Label="4-3N: Steinway Reprise" State="true" />
         <Setting Id="KnowYou" Label="4-4: Know You" State="true" />
         <Setting Id="Murmurs" Label="4-4N: Murmurs" State="true" />
+        <Setting Id="InsomniacHard" Label="1-XN: Super Battleworn Insomniac" State="true" />
         <Setting Id="LuckyBreak" Label="5-1: Lucky Break" State="true" />
         <Setting Id="Injury" Label="5-1N: One Slip Too Late" State="true" />
         <Setting Id="Freezeshot" Label="5-2: Lo-fi Beats For Patients To Chill To" State="true" />
@@ -49,6 +48,7 @@
         <Setting Id="EdegaRave" Label="6-2: Welcome Back" State="true" />
         <Setting Id="PaigesReckoning" Label="6-X: Boss Fight" State="true" />
         <Setting Id="Blurred" Label="7-1: Blurred" State="true" />
+        <Setting Id="Bitterness" Label="2-XN: Bitter Times" State="true" />
         <Setting Id="Montage" Label="7-X: Miracle Defibrillator" State="true" />
         <Setting Id="Montage2" Label="7-XN: Miracle Defibrillator (Encore)" State="true" />
         <Setting Id="BlackestLuxuryCar" Label="MD-1: Blackest Luxury Car" State="true" />
