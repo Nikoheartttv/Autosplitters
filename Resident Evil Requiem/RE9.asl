@@ -298,14 +298,6 @@ update
 		vars.Permaload = true;
 	}
 
-	if (current.EventName != 0 && vars.ReadyToLoadEvents.Contains(current.EventName)) {
-		vars.Permaload = true;
-	}
-
-	if (old.EventName != current.EventName && vars.ReadyToLoadEvents.Contains(current.EventName)) {
-		vars.Permaload = true;
-	}
-
 	if (current.EventName == 110000 && old.View != "AppTitle" && current.View == "MainGame") {
 		vars.Permaload = true;
 	}
@@ -313,7 +305,7 @@ update
 		vars.Permaload = true;
 	}
 
-	if (current.EventName == 450900 && old.PauseType == 1 && current.PauseType == 0) {
+	if (current.EventName == 450900 && (old.PauseType == 1 && current.PauseType == 0 || old.PlayerModeFade == 2 && current.PlayerModeFade == 3)) {
 		vars.Permaload = false;
 	}
 
@@ -321,13 +313,6 @@ update
 	{
 		vars.Permaload = false;
 		vars.Loading = false;
-	}
-
-	if (current.InteractLimitType == 32 && 
-		((current.StageName == "st40_122" && Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.04 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 4) ||
-		(current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.05 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 4)))
-	{
-		vars.Loading = true;
 	}
 
 	if ((vars.ReturnedFromLoadEvents.Contains(current.EventName) && old.PauseType == 8 && 
@@ -620,8 +605,9 @@ isLoading
 			vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
 			vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
 			current.EventFade == 2 || current.PlayerModeFade == 2 || current.GameStateFade == 2 ||
-			current.InteractLimitType == 32 && (current.StageName == "st40_122" && Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.04 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 4) ||
-			(current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.05 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 4) ||
+			current.InteractLimitType == 32 && (current.StageName == "st40_122" 
+			&& Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.1 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 6) ||
+            (current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.1 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 8) ||
 			current.PauseMenu || current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
 			current.GameLoading || vars.Loading || vars.Permaload;
 }
