@@ -89,15 +89,34 @@ init
 			version = "Pre-1.2.0.0";
 			break;
 		case "1.2.0.0":
-			version = "1.2.0.0+";
+			version = "1.2.0.0";
+			break;
+		case "1.3.0.0":
+			version = "1.3.0.0";
 			break;
 		default:
 			version = "Pre-1.2.0.0";
 			break;
 	}
 
-	IntPtr MainGameFlowManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 80 78 ?? ?? 40 0f 95 c5");
-	IntPtr SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 58");
+	IntPtr MainGameFlowManager;
+	IntPtr SceneTransitionManager;
+
+	if (version == "Pre-1.2.0.0" || version == "1.2.0.0")
+	{
+		MainGameFlowManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 80 78 ?? ?? 40 0f 95 c5");
+		SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 58");
+	}
+	else if (version == "1.3.0.0")
+	{
+		MainGameFlowManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 80 7a ?? ?? 0f 84");
+		SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 7a");
+	}
+	else
+	{
+		return false;
+	}
+
 	IntPtr PauseManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 8a 98");
 	IntPtr EnvStageManager = vars.Uhara.ScanRel(3, "4c 8b 35 ?? ?? ?? ?? 48 8b 5f ?? 48 8b 7f");
 	IntPtr GameClock = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 8b 41 ?? 48 8b 40 ?? 84 db");
@@ -135,19 +154,28 @@ init
 	vars.Resolver.Watch<IntPtr>("ObjectiveGUIController", GuiManager, 0x140, 0x18);
 	vars.Resolver.Watch<IntPtr>("Inventory", InventoryManager, 0x58, 0x18);
 	vars.Resolver.Watch<int>("DARankPoints", RankManager, 0x30, 0x14);
+	vars.Resolver.Watch<byte>("GameStateFade", FadeManager, 0x10, 0x28, 0x70);
+	vars.Resolver.Watch<byte>("EventFade", FadeManager, 0x10, 0x40, 0x70);
 
-	if (version == "1.2.0.0+")
-	{
-		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3C8);
-		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x58, 0x18);
-		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x58, 0x3C);
-	} 
 	if (version == "Pre-1.2.0.0") 
 	{
 		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3AC);
 		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x50, 0x18);
 		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x50, 0x3C);
 	}
+	if (version == "1.2.0.0")
+	{
+		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x3C8);
+		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x58, 0x18);
+		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x58, 0x3C);
+	}
+	if (version == "1.3.0.0")
+	{
+		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x440);
+		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x58, 0x18);
+		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x58, 0x3C);
+	} 
+	
 
 	current.View = "";
 	current.PauseType = 0;
@@ -234,19 +262,17 @@ update
 		int objectiveGUIControllerUnitCount = vars.Resolver.Read<int>(current.ObjectiveGUIController + 0x18, 0x28, 0x18);
 		if (objectiveGUIControllerUnit != IntPtr.Zero && objectiveGUIControllerUnitCount > 0) {
 
-			if (version == "1.2.0.0+")
-			{
-				current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0xA0, 0x10, 0x10, 0x14);
-				// vars.Uhara.Log("Objective GUI ID: " + current.ObjectiveGUIID);
-				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x28);
-				current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x1C);
-			}
-			else if (version == "Pre-1.2.0.0")
+			if (version == "Pre-1.2.0.0")
 			{
 				current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0x98, 0x10, 0x10, 0x14);
-				// vars.Uhara.Log("Objective GUI ID: " + current.ObjectiveGUIID);
 				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0x98, 0x28);
 				current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0x98, 0x1C);
+			}
+			else if (version == "1.2.0.0" || version == "1.3.0.0")
+			{
+				current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0xA0, 0x10, 0x10, 0x14);
+				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x28);
+				current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x1C);
 			}
 		}
 	}
@@ -272,9 +298,14 @@ update
 		vars.Permaload = true;
 	}
 
-	if (current.PauseType == 8 && current.EventName != 0 && vars.ReadyToLoadEvents.Contains(current.EventName)) {
+	if (current.EventName != 0 && vars.ReadyToLoadEvents.Contains(current.EventName)) {
 		vars.Permaload = true;
 	}
+
+	if (old.EventName != current.EventName && vars.ReadyToLoadEvents.Contains(current.EventName)) {
+		vars.Permaload = true;
+	}
+
 	if (current.EventName == 110000 && old.View != "AppTitle" && current.View == "MainGame") {
 		vars.Permaload = true;
 	}
@@ -286,10 +317,10 @@ update
 		vars.Permaload = false;
 	}
 
-	if (current.EventName == 420502 && old.EventName != 420502)
+	if (current.EventName == 420502 && current.EvnStageName == 420502)
 	{
 		vars.Permaload = false;
-		vars.Loading = true;
+		vars.Loading = false;
 	}
 
 	if (current.InteractLimitType == 32 && 
@@ -322,11 +353,6 @@ update
 	}
 
 	if ((old.TimelinePlayState == 8 || old.TimelinePlayState == 10) && current.TimelinePlayState == 1) 
-	{
-		vars.Loading = false;
-	}
-
-	if (vars.Loading && old.InteractLimitType == 32 && (current.InteractLimitType == 0 || current.InteractLimitType == 64))
 	{
 		vars.Loading = false;
 	}
@@ -593,6 +619,9 @@ isLoading
 	return  vars.bitCheck(current.GameClockTimerBit, vars.timers["LoadSpending"]) ||
 			vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
 			vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
+			current.EventFade == 2 || current.PlayerModeFade == 2 || current.GameStateFade == 2 ||
+			current.InteractLimitType == 32 && (current.StageName == "st40_122" && Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.04 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 4) ||
+			(current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.05 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 4) ||
 			current.PauseMenu || current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
 			current.GameLoading || vars.Loading || vars.Permaload;
 }
