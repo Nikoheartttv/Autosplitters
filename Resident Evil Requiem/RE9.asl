@@ -605,9 +605,9 @@ isLoading
 			vars.bitCheck(current.GameClockTimerBit, vars.timers["EventSpending"]) ||
 			vars.bitCheck(current.GameClockTimerBit, vars.timers["MovieSpending"]) ||
 			current.EventFade == 2 || current.PlayerModeFade == 2 || current.GameStateFade == 2 ||
-			current.InteractLimitType == 32 && (current.StageName == "st40_122" 
-			&& Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.1 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 6) ||
-            (current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.1 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 8) ||
+			current.InteractLimitType == 32 && 
+			(current.StageName == "st40_122" && Math.Abs(current.CharacterPositionY - (-3.25f)) <= 0.1 && Math.Abs(current.CharacterPositionZ - (-386f)) <= 6) ||
+            (current.StageName == "st40_202" && Math.Abs(current.CharacterPositionY - (-11.25f)) <= 0.05 && Math.Abs(current.CharacterPositionZ - (-345f)) <= 4) ||
 			current.PauseMenu || current.View == "AppBoot" || current.View == "AppTitle" || current.View == "AppBenchmark" ||
 			current.GameLoading || vars.Loading || vars.Permaload;
 }
