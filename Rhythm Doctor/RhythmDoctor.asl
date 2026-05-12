@@ -336,3 +336,49 @@ split
         }
     }
 }
+
+onSplit
+{
+	vars.Uhara.Log("SPLIT");
+}
+
+isLoading
+{
+	switch((string)vars.Version)
+	{
+		case "v1.0.1+": case "v1.0.0":
+		case "v0.19.0": case "v0.18.1":
+		case "v0.17.0": case "v0.16.1": case "v0.16.0":
+		case "v0.15.1": case "v0.15.0":
+		case "v0.14.0": case "v0.13.1": case "v0.13.0": case "v0.12.0":
+			return current.isLoading;
+			break;
+		case "v0.11.6": case "v0.11.5": case "v0.10.1":
+			return String.IsNullOrWhiteSpace(vars.Helper.Scenes.Active.Name);
+			break;
+	}
+}
+
+reset
+{
+	switch((string)vars.Version)
+	{
+		case "v1.0.1+": case "v1.0.0":
+		case "v0.19.0": case "v0.18.1":
+		case "v0.17.0": case "v0.16.1": case "v0.16.0":
+		case "v0.15.1": case "v0.15.0":
+		case "v0.14.0": case "v0.13.1": case "v0.13.0": case "v0.12.0":
+			return old.inGame && !current.inGame 
+				&& settings["AutoReset"] && current.Level != "HelpingHands";
+			break;
+		case "v0.11.6": case "v0.11.5": case "v0.10.1":
+			return old.Scene != "scnMenu" && current.Scene == "scnMenu" 
+				&& settings["AutoReset"] && current.Level != "HelpingHands";
+			break;
+	}
+}
+
+onReset
+{
+	vars.Uhara.Log("--- RESET");
+}
