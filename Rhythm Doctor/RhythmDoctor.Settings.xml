@@ -63,4 +63,6 @@
 		<Setting Id="Beatblock" Label="X-PBC: público cautivo" State="true" />
         <Setting Id="Halloween" Label="1-BOO: theme of really spooky bird" State="false" />
     </Setting>
+    <Setting Id="AutoReset" Label="Auto Reset when going back to Menu" State="false" />
+    <Setting Id="ExperimentalLoadRemoval" Label="Use Experimental Load Removal" State="false" />
 </Settings>
