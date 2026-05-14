@@ -58,7 +58,7 @@ init
 		case "v1.0.1+": case "v1.0.0":
 		{
 			string[] path0 = vars.Instance.GetPathString("scnGame", "failedLevel");
-			vars.Instance.Watch<int>("failedLevel", "scnBase", "_instance", path0[0]);
+			vars.Instance.Watch<bool>("failedLevel", "scnBase", "_instance", path0[0]);
 			string[] path1 = vars.Instance.GetPathString("scnGame", "mistakesManager", "mistakesCountP1");
 			vars.Instance.Watch<int>("mistakesCountP1", "scnBase", "_instance", path1[0], path1[0]);
 			vars.Instance.Watch<bool>("inGame", "SpeedrunValues", "inGame");
@@ -81,7 +81,7 @@ init
 		case "v0.19.0": case "v0.18.1": 
 		{
 			string[] path0 = vars.Instance.GetPathString("scnGame", "failedLevel");
-			vars.Instance.Watch<int>("failedLevel", "scnBase", "_instance", path0[0]);
+			vars.Instance.Watch<bool>("failedLevel", "scnBase", "_instance", path0[0]);
 			string[] path1 = vars.Instance.GetPathString("scnGame", "mistakesManager", "mistakesCountP1");
 			vars.Instance.Watch<int>("mistakesCountP1", "scnBase", "_instance", path1[0], path1[0]);
 			vars.Instance.Watch<bool>("inGame", "SpeedrunValues", "inGame");
@@ -105,7 +105,7 @@ init
 		case "v0.15.0": case "v0.14.0": case "v0.13.1": case "v0.13.0": case "v0.12.0":
 		{
 			string[] path0 = vars.Instance.GetPathString("scnGame", "failedLevel");
-			vars.Instance.Watch<int>("failedLevel", "scnBase", "_instance", path0[0]);
+			vars.Instance.Watch<bool>("failedLevel", "scnBase", "_instance", path0[0]);
 			string[] path1 = vars.Instance.GetPathString("scnGame", "mistakesManager", "mistakesCountP1");
 			vars.Instance.Watch<int>("mistakesCountP1", "scnBase", "_instance", path1[0], path1[0]);
 			vars.Instance.Watch<bool>("inGame", "SpeedrunValues", "inGame");
@@ -128,7 +128,7 @@ init
 		case "v0.11.6": case "v0.11.5": case "v0.10.1":
 		{
 			string[] path0 = vars.Instance.GetPathString("scnGame", "failedLevel");
-			vars.Instance.Watch<int>("failedLevel", "scnBase", "_instance", path0[0]);
+			vars.Instance.Watch<bool>("failedLevel", "scnBase", "_instance", path0[0]);
 			string[] path1 = vars.Instance.GetPathString("scnGame", "mistakesManager", "mistakesCountP1");
 			vars.Instance.Watch<int>("mistakesCountP1", "scnBase", "_instance", path1[0], path1[0]);
 			string[] path2 = vars.Instance.GetPathString("scnGame", "hud", "mRank");
@@ -177,10 +177,13 @@ init
     ff1[ff1.Length - 1] = ff2[0];
     vars.Resolver.WatchArray<IntPtr>("levels", bs.Base, ff1);
 
+
+	vars.rankShown = false;
 	vars.WLHasShownEnding = false;
 	vars.WLScore = 0;
 	vars.BeansHopperScore = 0;
 	current.ActiveScene = "";
+	current.LoadingScene = "";
 	current.Level = "";
 	current.inGame = false;
 }
@@ -189,10 +192,21 @@ update
 {
 	vars.Uhara.Update();
 
+	current.LoadingScene = vars.Utils.GetLoadingSceneName();
+
 	if (!String.IsNullOrWhiteSpace(vars.Utils.GetActiveSceneName())) current.ActiveScene = vars.Utils.GetActiveSceneName();
+	if (old.LoadingScene != current.LoadingScene) vars.Uhara.Log("LoadingScene changed from " + old.LoadingScene + " to " + current.LoadingScene);
 	if (old.ActiveScene != current.ActiveScene) vars.Uhara.Log("Scene changed from " + old.ActiveScene + " to " + current.ActiveScene);
 	if (old.Level != current.Level) vars.Uhara.Log("Level Change: " + current.Level);
-	if ((old.ActiveScene == "scnLevelSelect" && current.ActiveScene == "scnGame")) vars.levelCompleted = false;
+
+
+	if ((old.ActiveScene == "scnLevelSelect" && current.ActiveScene == "scnGame")) 
+	{
+		vars.rankShown = false;
+		vars.levelCompleted = false;
+	}
+
+	if (old.GameState != 6 && current.GameState == 6) vars.rankShown = true;
 
 	if (current.ActiveScene == "scnRhythmWeightlifter")
 	{
@@ -284,6 +298,14 @@ split
     bool flawlessOn = settings["Flawless"];
     bool ilModeOn = settings["IL_Mode"];
 
+	// Intro split
+	if (old.Level == "Intro" && current.Level == "OrientalTechno")
+	{
+		vars.VisitedLevel.Add("Intro");
+		vars.Uhara.Log("--- SPLIT: Intro");
+		return settings["Intro"];
+	}
+
     if (!ilModeOn)
     {
         if (old.ActiveScene == "scnGame" && current.ActiveScene != "scnGame")
@@ -296,7 +318,7 @@ split
             bool bossSplit = vars.bossLevels.Contains(splitLevel) && vars.levelCompleted;
             bool helpingHandsSplit = splitLevel == "HelpingHands" && (!flawlessOn || localRank == 17);
             bool normalRankSplit = !isNoCompletion && splitLevel != "BeansHopper" 
-									&& splitLevel != "HelpingHands" && localRank >= 10 && (!flawlessOn || localRank == 17);
+									&& splitLevel != "HelpingHands" && vars.rankShown && localRank >= 10 && (!flawlessOn || localRank == 17);
             bool doSplit = isNoCompletion || beansHopperSplit || bossSplit || helpingHandsSplit || normalRankSplit;
 
             if (!vars.VisitedLevel.Contains(splitLevel) && doSplit)
@@ -351,6 +373,7 @@ isLoading
 		case "v0.17.0": case "v0.16.1": case "v0.16.0":
 		case "v0.15.1": case "v0.15.0":
 		case "v0.14.0": case "v0.13.1": case "v0.13.0": case "v0.12.0":
+			if (settings["ExperimentalLoadRemoval"]) return current.isLoading || (current.ActiveScene != current.LoadingScene);
 			return current.isLoading;
 			break;
 		case "v0.11.6": case "v0.11.5": case "v0.10.1":
