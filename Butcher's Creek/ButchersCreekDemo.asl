@@ -44,7 +44,7 @@ split
 	if (old.activeScene != current.activeScene && !vars.CompletedSplits.Contains(current.activeScene.ToString()))
     {
 	    vars.CompletedSplits.Add(current.activeScene);
-	    return settings[current.activeScene.ToString()]
+	    return settings[current.activeScene.ToString()];
 	}
 }
 
