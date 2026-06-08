@@ -30,6 +30,9 @@ init
     vars.WaitForVersion = true;
     vars.DetectedProjectVersion = "";
     vars.Renoir3FinalFightCutscene = false;
+	vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
+	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
+	vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
 
     vars.exeDir = Path.GetDirectoryName(game.MainModule.FileName);
     vars.paksFolder = Path.GetFullPath(Path.Combine(vars.exeDir, "..", "..", "Content", "Paks"));
@@ -116,7 +119,8 @@ init
     vars.Events.FunctionFlag("NGPlusStartGameTriggeredSecond", "WBP_SavePointMenu_C", "WBP_SavePointMenu_C", "OnSecondNewGamePlusPopupAnswered");
     vars.Events.FunctionFlag("LoadingScreenStarted", "WBP_LoadingScreen_Expedition33_C", "LoadingScreenWidget", "StartLoadingScreen");
     vars.Events.FunctionFlag("Renoir3FinalFightCutsceneStarted", "SEQ_Skill_Curator_Finisher_DirectorBP_C", "SEQ_Skill_Curator_Finisher_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_Skill_Curator_Finisher_DirectorBP");
-
+	vars.Renoir3RTDelta = TimeSpan.FromSeconds(13.97);
+    vars.Events.FunctionFlag("Renoir3FinalFightCutsceneMaelleDoneStabbing", "ABP_Facial_Cine_Maelle_C", "ABP_Facial_Cine_Maelle_C", "EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Facial_Cine_Main_AnimGraphNode_TransitionResult_09D0F12D43EE55E3398A2E9FD396BFEF");
     vars.Ready = true;
 }
 
@@ -177,8 +181,23 @@ update
     if (vars.Resolver.CheckFlag("StartGameTriggered")) vars.NewGameStart = true;
     if (vars.Resolver.CheckFlag("NGPlusStartGameTriggeredFirst")) vars.NewGamePlusStart = true;
     if (vars.Resolver.CheckFlag("NGPlusStartGameTriggeredSecond")) vars.NewGamePlusStart = true;
-    if (vars.Resolver.CheckFlag("Renoir3FinalFightCutsceneStarted")) vars.Renoir3FinalFightCutscene = true;
-    if (vars.Renoir3FinalFightCutscene && current.BattleDebugLastFlowState == "StartBattleEndFlow: Victory") vars.Renoir3FinalFightCutscene = false;
+    if (!vars.Renoir3FinalFightCutscene && vars.Resolver.CheckFlag("Renoir3FinalFightCutsceneStarted"))
+	{
+		vars.Renoir3FinalFightCutscene = true;
+		vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
+	} 
+    if (vars.Renoir3FinalFightCutscene)
+	{
+		if (vars.Resolver.CheckFlag("Renoir3FinalFightCutsceneMaelleDoneStabbing")) vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = true;
+		vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = ((TimeSpan)(TimeStamp.Now - vars.Renoir3TimeStampStartStabbing) > vars.Renoir3RTDelta);
+		if (current.BattleDebugLastFlowState == "StartBattleEndFlow: Victory")
+		{
+			vars.Renoir3FinalFightCutscene = false;
+			vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
+			vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
+		}
+		print("R3 final non-CS: " + ((TimeSpan)(TimeStamp.Now - vars.Renoir3TimeStampStartStabbing)).ToString() + "|" + vars.Renoir3RTDelta.ToString() + " Stabbing started: " + vars.Renoir3FinalFightCutsceneMaelleStartedStabbing.ToString() + " done: " + vars.Renoir3FinalFightCutsceneMaelleDoneStabbing.ToString());
+	}
 
     bool validGameplayController = current.PlayerController == "BP_jRPG_Controller_World_C" || current.PlayerController == "BP_PlayerController_WorldMap_C";
     if (validGameplayController)
@@ -223,6 +242,8 @@ onStart
     vars.EncounterWon.Clear();
     vars.BattleWon = false;
     vars.Renoir3FinalFightCutscene = false;
+	vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
+	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
 }
 
 split
@@ -265,7 +286,7 @@ isLoading
                         (current.CurrentCinematic == "CS_CleasFlyingHouse_LampmasterDeath" && current.CS_CinematicSerialNumber == 3 && current.CS_EventBeforePostCinematicTransitionStarted != 0) ||
                         (current.CurrentCinematic == "MCS_MirrorCleaOutro" && current.CS_CinematicSerialNumber == 3 && current.CS_EventBeforePostCinematicTransitionStarted != 0)))))
             || (vars.HasEnteredWorldMap && current.MiniMapActive)
-            || vars.Renoir3FinalFightCutscene;
+            || (vars.Renoir3FinalFightCutscene && vars.Renoir3FinalFightCutsceneMaelleStartedStabbing && !vars.Renoir3FinalFightCutsceneMaelleDoneStabbing);
 }
 
 reset
