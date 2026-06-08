@@ -129,6 +129,7 @@ init
     vars.Events.FunctionFlag("NextCinematicRequested", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnCinematicRequested");
     vars.Events.FunctionFlag("EndCinematicTransiton", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnAfterPostCinematic");
     vars.Events.FunctionFlag("AfterCinematicWorldReturn", "BP_jRPG_Character_World_C", "BP_jRPG_Character_World_C", "ExecuteUbergraph_BP_jRPG_Character_World");
+    vars.Events.FunctionFlag("AfterCinematicIntoBattle", "WBP_HUD_BattleScreen_C", "WBP_HUD_BattleScreen_C", "ExecuteUbergraph_WBP_HUD_BattleScreen");
 
     vars.Ready = true;
 }
@@ -230,6 +231,7 @@ update
     if (vars.Resolver.CheckFlag("EnteringCinematicTransition")) vars.CinematicTransitioning = false;
     if (vars.Resolver.CheckFlag("EndCinematicTransiton")) vars.CinematicTransitioning = true;
     if (vars.Resolver.CheckFlag("AfterCinematicWorldReturn")) vars.CinematicTransitioning = false;
+    if (vars.Resolver.CheckFlag("AfterCinematicIntoBattle")) vars.CinematicTransitioning = false;
 }
 
 start
@@ -290,7 +292,7 @@ isLoading
                         (current.CurrentCinematic == "CS_CleasFlyingHouse_LampmasterDeath" && current.CS_CinematicSerialNumber == 3 && current.CS_EventBeforePostCinematicTransitionStarted != 0) ||
                         (current.CurrentCinematic == "MCS_MirrorCleaOutro" && current.CS_CinematicSerialNumber == 3 && current.CS_EventBeforePostCinematicTransitionStarted != 0)))))
             || (vars.HasEnteredWorldMap && current.MiniMapActive)
-            || current.IsInTransition || vars.CinematicTransitioning
+            || current.CS_IsInTransition || vars.CinematicTransitioning
             || (vars.Renoir3FinalFightCutscene && vars.Renoir3FinalFightCutsceneMaelleStartedStabbing && !vars.Renoir3FinalFightCutsceneMaelleDoneStabbing);
 }
 
