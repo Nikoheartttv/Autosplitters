@@ -33,6 +33,7 @@ init
 	vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
 	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
 	vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
+    vars.CinematicTransitioning = false;
 
     vars.exeDir = Path.GetDirectoryName(game.MainModule.FileName);
     vars.paksFolder = Path.GetFullPath(Path.Combine(vars.exeDir, "..", "..", "Content", "Paks"));
@@ -76,6 +77,8 @@ init
     // InGame
     vars.Resolver.Watch<byte>("CS_CinematicStatus", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x288);
     vars.Uhara["CS_CinematicStatus"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+    vars.Resolver.Watch<bool>("CS_IsInTransition", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x350);
+    vars.Uhara["CS_IsInTransition"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
     vars.Resolver.Watch<uint>("CS_CinematicName", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x290, 0x18);
     vars.Uhara["CS_CinematicName"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
     vars.Resolver.Watch<uint>("CS_CinematicSerialNumber", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x2A8);
@@ -121,6 +124,12 @@ init
     vars.Events.FunctionFlag("Renoir3FinalFightCutsceneStarted", "SEQ_Skill_Curator_Finisher_DirectorBP_C", "SEQ_Skill_Curator_Finisher_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_Skill_Curator_Finisher_DirectorBP");
 	vars.Renoir3RTDelta = TimeSpan.FromSeconds(13.97);
     vars.Events.FunctionFlag("Renoir3FinalFightCutsceneMaelleDoneStabbing", "ABP_Facial_Cine_Maelle_C", "ABP_Facial_Cine_Maelle_C", "EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Facial_Cine_Main_AnimGraphNode_TransitionResult_09D0F12D43EE55E3398A2E9FD396BFEF");
+    
+    vars.Events.FunctionFlag("EnteringCinematicTransition", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnTriggeringCinematic");
+    vars.Events.FunctionFlag("NextCinematicRequested", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnCinematicRequested");
+    vars.Events.FunctionFlag("EndCinematicTransiton", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnAfterPostCinematic");
+    vars.Events.FunctionFlag("AfterCinematicWorldReturn", "BP_jRPG_Character_World_C", "BP_jRPG_Character_World_C", "ExecuteUbergraph_BP_jRPG_Character_World");
+
     vars.Ready = true;
 }
 
@@ -138,22 +147,12 @@ update
 
         switch (projectVersion)
         {
-            case "1.1.1.0":
-            case "1.2.0.0":
-            case "1.2.1.0":
-            case "1.2.2.0":
-            case "1.2.3.0":
-            case "1.3.0.0":
-            case "1.3.1.0":
+            case "1.1.1.0": case "1.2.0.0": case "1.2.1.0": case "1.2.2.0":
+            case "1.2.3.0": case "1.3.0.0": case "1.3.1.0":
                 vars.MiniMapOffsetOld = true;
                 break;
-            case "1.4.0.0":
-            case "1.5.0.0":
-            case "1.5.1.0":
-            case "1.5.2.0":
-            case "1.5.3.0":
-            case "1.5.4.0":
-            case "1.5.5.0":
+            case "1.4.0.0": case "1.5.0.0": case "1.5.1.0": case "1.5.2.0":
+            case "1.5.3.0": case "1.5.4.0": case "1.5.5.0":
                 vars.MiniMapOffsetOld = false;
                 break;
             default:
@@ -196,7 +195,6 @@ update
 			vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
 			vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
 		}
-		print("R3 final non-CS: " + ((TimeSpan)(TimeStamp.Now - vars.Renoir3TimeStampStartStabbing)).ToString() + "|" + vars.Renoir3RTDelta.ToString() + " Stabbing started: " + vars.Renoir3FinalFightCutsceneMaelleStartedStabbing.ToString() + " done: " + vars.Renoir3FinalFightCutsceneMaelleDoneStabbing.ToString());
 	}
 
     bool validGameplayController = current.PlayerController == "BP_jRPG_Controller_World_C" || current.PlayerController == "BP_PlayerController_WorldMap_C";
@@ -226,6 +224,12 @@ update
         current.EncounterName = "None";
         vars.BattleWon = false;
     }
+
+    // New Cinematic Logic
+    if (vars.Resolver.CheckFlag("NextCinematicRequested")) vars.CinematicTransitioning = true;
+    if (vars.Resolver.CheckFlag("EnteringCinematicTransition")) vars.CinematicTransitioning = false;
+    if (vars.Resolver.CheckFlag("EndCinematicTransiton")) vars.CinematicTransitioning = true;
+    if (vars.Resolver.CheckFlag("AfterCinematicWorldReturn")) vars.CinematicTransitioning = false;
 }
 
 start
@@ -286,6 +290,7 @@ isLoading
                         (current.CurrentCinematic == "CS_CleasFlyingHouse_LampmasterDeath" && current.CS_CinematicSerialNumber == 3 && current.CS_EventBeforePostCinematicTransitionStarted != 0) ||
                         (current.CurrentCinematic == "MCS_MirrorCleaOutro" && current.CS_CinematicSerialNumber == 3 && current.CS_EventBeforePostCinematicTransitionStarted != 0)))))
             || (vars.HasEnteredWorldMap && current.MiniMapActive)
+            || current.IsInTransition || vars.CinematicTransitioning
             || (vars.Renoir3FinalFightCutscene && vars.Renoir3FinalFightCutsceneMaelleStartedStabbing && !vars.Renoir3FinalFightCutsceneMaelleDoneStabbing);
 }
 
