@@ -18,6 +18,11 @@ startup
 	vars.HasLocalPlayers = false;
 	vars.MiniMapWatchRegistered = false;
 	vars.paksFolder = "";
+
+	vars.IgnoreEndCinematicTransitions = new HashSet<string>(StringComparer.Ordinal)
+	{
+		"SEQ_IW_Lumiere_EmmaArrives"
+	};
 }
 
 init
@@ -25,6 +30,7 @@ init
 	vars.MiniMapOffset = 0x3C8;
 	vars.PostCineOffset = 0x298;
 	vars.CsIsInTransitionOffset = 0x358;
+
 	vars.BattleWon = false;
 	vars.HasEnteredWorldMap = false;
 	vars.NewGameStart = false;
@@ -36,6 +42,7 @@ init
 	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
 	vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
 	vars.CinematicTransitioning = false;
+	vars.IgnoreEndCinematicTransition = false;
 	vars.exeDir = Path.GetDirectoryName(game.MainModule.FileName);
 	vars.paksFolder = Path.GetFullPath(Path.Combine(vars.exeDir, "..", "..", "Content", "Paks"));
 
@@ -64,6 +71,7 @@ init
 
 	IntPtr GPSAOB = vars.Uhara.ScanRel(3, "48 8d 0d ?? ?? ?? ?? e8 ?? ?? ?? ?? 48 8b 05 ?? ?? ?? ?? 48 83 c4 ?? c3 cc 48 89 5c 24 ?? 57 48 83 ec ?? 48 8b d9 48 8b fa 48 8b 0a");
 	vars.Uhara.Log("GeneralProjectSettings: " + GPSAOB.ToString("X"));
+
 	vars.Resolver.WatchString("ProjectVersion", GPSAOB, 0x110, 0x440 + 0xB8, 0x0);
 
 	// Always on
@@ -81,10 +89,12 @@ init
 	vars.Uhara["CS_CinematicName"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 	vars.Resolver.Watch<uint>("CS_CinematicSerialNumber", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0xA8, 0x2A8);
 	vars.Uhara["CS_CinematicSerialNumber"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+
 	vars.Resolver.Watch<bool>("CS_IsPlayingCinematic", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x238);
 	vars.Uhara["CS_IsPlayingCinematic"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 	vars.Resolver.Watch<bool>("CS_CinematicPaused", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, 0x239);
 	vars.Uhara["CS_CinematicPaused"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+
 	vars.Resolver.Watch<ulong>("BattleManagerEncounterName", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x190);
 	vars.Uhara["BattleManagerEncounterName"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
 	vars.Resolver.Watch<byte>("BattleEndState", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
@@ -223,7 +233,7 @@ update
 	bool validGameplayController = current.PlayerController == "BP_jRPG_Controller_World_C" || current.PlayerController == "BP_PlayerController_WorldMap_C";
 	if (validGameplayController)
 	{
-		current.MiniMapActive = vars.Resolver.Read<bool>("MiniMapActive", vars.Utils.GEngine,0x10A8, 0x38, 0x0, 0x30, 0x980, vars.MiniMapOffset, 0x368);
+		current.MiniMapActive = vars.Resolver.Read<bool>("MiniMapActive", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x980, vars.MiniMapOffset, 0x368);
 		current.CS_IsInTransition = vars.Resolver.Read<bool>("CS_IsInTransition", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.CsIsInTransitionOffset);
 		current.CS_EventBeforePostCinematicTransitionStarted = vars.Resolver.Read<ulong>("CS_EventBeforePostCinematicTransitionStarted", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.PostCineOffset);
 
@@ -253,7 +263,9 @@ update
 	// New Cinematic Logic
 	if (vars.Resolver.CheckFlag("NextCinematicRequested")) vars.CinematicTransitioning = true;
 	if (vars.Resolver.CheckFlag("EnteringCinematicTransition")) vars.CinematicTransitioning = false;
-	if (vars.Resolver.CheckFlag("EndCinematicTransiton")) vars.CinematicTransitioning = true;
+	string cinematicForEndCheck = !string.IsNullOrEmpty(current.CurrentCinematic) && current.CurrentCinematic != "None" ? current.CurrentCinematic: old.CurrentCinematic;
+	vars.IgnoreEndCinematicTransition = vars.IgnoreEndCinematicTransitions.Contains(cinematicForEndCheck);
+	if (vars.Resolver.CheckFlag("EndCinematicTransiton") && !vars.IgnoreEndCinematicTransition) vars.CinematicTransitioning = true;
 	if (vars.Resolver.CheckFlag("AfterCinematicWorldReturn")) vars.CinematicTransitioning = false;
 	if (vars.Resolver.CheckFlag("AfterCinematicIntoBattle")) vars.CinematicTransitioning = false;
 }
@@ -333,6 +345,7 @@ onReset
 	vars.EncounterWon.Clear();
 	vars.BattleWon = false;
 	vars.Renoir3FinalFightCutscene = false;
+	vars.IgnoreEndCinematicTransition = false;
 }
 
 exit
