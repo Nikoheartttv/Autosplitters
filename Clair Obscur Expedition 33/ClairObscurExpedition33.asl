@@ -314,10 +314,9 @@ isLoading
 {
 	if (!vars.Ready || vars.WaitForVersion) return true;
 
-	// if (current.CS_CinematicPaused) return true; 
-	// upon moderator request if the cutscene pausing should be top-level even with the tab menu glitch stuff
+	if (current.CS_IsPlayingCinematic && current.CS_CinematicPaused) return true;
 
-	bool rawLoadingNow = !vars.HasLocalPlayers || current.World == "Map_Game_Bootstrap"
+	bool loadingBlock = !vars.HasLocalPlayers || current.World == "Map_Game_Bootstrap"
 			|| current.IsChangingMap || current.IsChangingArea || current.LSW_HasAppeared
 			|| (current.World != "Level_MainMenu" && current.PCMInGame < 0.5)
 			|| (current.BattleFlowState == 2 && (
@@ -340,7 +339,7 @@ isLoading
 			|| vars.CinematicTransitioning
 			|| (vars.Renoir3FinalFightCutscene && vars.Renoir3FinalFightCutsceneMaelleStartedStabbing && !vars.Renoir3FinalFightCutsceneMaelleDoneStabbing);
 
-	return rawLoadingNow && !vars.KeepTimerUnpaused;
+	return loadingBlock && !vars.KeepTimerUnpaused;
 }
 
 reset
