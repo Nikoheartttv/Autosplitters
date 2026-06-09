@@ -36,7 +36,6 @@ init
 	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
 	vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
 	vars.CinematicTransitioning = false;
-
 	vars.exeDir = Path.GetDirectoryName(game.MainModule.FileName);
 	vars.paksFolder = Path.GetFullPath(Path.Combine(vars.exeDir, "..", "..", "Content", "Paks"));
 
@@ -65,7 +64,6 @@ init
 
 	IntPtr GPSAOB = vars.Uhara.ScanRel(3, "48 8d 0d ?? ?? ?? ?? e8 ?? ?? ?? ?? 48 8b 05 ?? ?? ?? ?? 48 83 c4 ?? c3 cc 48 89 5c 24 ?? 57 48 83 ec ?? 48 8b d9 48 8b fa 48 8b 0a");
 	vars.Uhara.Log("GeneralProjectSettings: " + GPSAOB.ToString("X"));
-
 	vars.Resolver.WatchString("ProjectVersion", GPSAOB, 0x110, 0x440 + 0xB8, 0x0);
 
 	// Always on
@@ -131,12 +129,6 @@ init
 	vars.Events.FunctionFlag("AfterCinematicIntoBattle", "WBP_HUD_BattleScreen_C", "WBP_HUD_BattleScreen_C", "ExecuteUbergraph_WBP_HUD_BattleScreen");
 
 	vars.Ready = true;
-
-	vars.NextCinematicRequestedCount = 0UL;
-	vars.EnteringCinematicTransitionCount = 0UL;
-	vars.EndCinematicTransitonCount = 0UL;
-	vars.AfterCinematicWorldReturnCount = 0UL;
-	vars.AfterCinematicIntoBattleCount = 0UL;
 }
 
 update
@@ -231,27 +223,12 @@ update
 	bool validGameplayController = current.PlayerController == "BP_jRPG_Controller_World_C" || current.PlayerController == "BP_PlayerController_WorldMap_C";
 	if (validGameplayController)
 	{
-		current.MiniMapActive = vars.Resolver.Read<bool>(
-			"MiniMapActive",
-			vars.Utils.GEngine,
-			0x10A8, 0x38, 0x0, 0x30, 0x980, vars.MiniMapOffset, 0x368
-		);
-
-		current.CS_IsInTransition = vars.Resolver.Read<bool>(
-			"CS_IsInTransition",
-			vars.Utils.GEngine,
-			0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.CsIsInTransitionOffset
-		);
-
-		current.CS_EventBeforePostCinematicTransitionStarted = vars.Resolver.Read<ulong>(
-			"CS_EventBeforePostCinematicTransitionStarted",
-			vars.Utils.GEngine,
-			0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.PostCineOffset
-		);
+		current.MiniMapActive = vars.Resolver.Read<bool>("MiniMapActive", vars.Utils.GEngine,0x10A8, 0x38, 0x0, 0x30, 0x980, vars.MiniMapOffset, 0x368);
+		current.CS_IsInTransition = vars.Resolver.Read<bool>("CS_IsInTransition", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.CsIsInTransitionOffset);
+		current.CS_EventBeforePostCinematicTransitionStarted = vars.Resolver.Read<ulong>("CS_EventBeforePostCinematicTransitionStarted", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.PostCineOffset);
 
 		var name = vars.Utils.FNameToString(current.CS_CinematicName);
 		current.CurrentCinematic = !string.IsNullOrEmpty(name) ? name : old.CurrentCinematic;
-
 		var encounter = vars.Utils.FNameToString(current.BattleManagerEncounterName);
 		current.EncounterName = !string.IsNullOrEmpty(encounter) ? encounter : old.EncounterName;
 
