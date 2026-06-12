@@ -306,6 +306,13 @@ split
 		return settings["Intro"];
 	}
 
+	if (old.Level == "EdegaRave" && current.Level == "PaigesReckoning")
+	{
+		vars.VisitedLevel.Add("EdegaRave");
+		vars.Uhara.Log("--- SPLIT: EdegaRave");
+		return settings["EdegaRave"];
+	}
+
     if (!ilModeOn)
     {
         if (old.ActiveScene == "scnGame" && current.ActiveScene != "scnGame")
