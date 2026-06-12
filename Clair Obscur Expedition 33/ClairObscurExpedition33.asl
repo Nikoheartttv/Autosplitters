@@ -133,7 +133,7 @@ init
 	vars.Events.FunctionFlag("FadeOutCompleted", "BP_LatentAction_WaitForGameflowTransitionFadeOut_C", "BP_LatentAction_WaitForGameflowTransitionFadeOut_C", "OnFadeOutCompleted");
 	vars.Events.FunctionFlag("PreCinematicInputLockTimerElapsed", "BP_CinematicSystem_C", "BP_CinematicSystem", "OnPreCinematicInputLockTimerElapsed");
 	vars.Events.FunctionFlag("EnteringCinematicTransition", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnTriggeringCinematic");
-	vars.Events.FunctionFlag("EndCinematicTransiton", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnAfterPostCinematic");
+	vars.Events.FunctionFlag("EndCinematicTransition", "WBP_Exploration_HUD_C", "WBP_Exploration_HUD_C", "OnAfterPostCinematic");
 	vars.Events.FunctionFlag("AfterCinematicWorldReturn", "BP_jRPG_Character_World_C", "BP_jRPG_Character_World_C", "ExecuteUbergraph_BP_jRPG_Character_World");
 	vars.Events.FunctionFlag("AfterCinematicIntoBattle", "WBP_HUD_BattleScreen_C", "WBP_HUD_BattleScreen_C", "ExecuteUbergraph_WBP_HUD_BattleScreen");
 	vars.Events.FunctionFlag("OnSequenceFinished", "BP_CinematicSystem_C", "BP_CinematicSystem", "OnSequenceFinished");
@@ -267,7 +267,8 @@ update
 	if (vars.Resolver.CheckFlag("PreCinematicInputLockTimerElapsed")) vars.CinematicTransitioning = true;
 	if (vars.Resolver.CheckFlag("OnSequenceFinished") && !vars.IgnoreEndCinematicTransition) vars.CinematicTransitioning = true;
 	if (vars.Resolver.CheckFlag("EnteringCinematicTransition")) vars.CinematicTransitioning = false;
-	if (vars.Resolver.CheckFlag("EndCinematicTransiton") && !vars.IgnoreEndCinematicTransition) vars.CinematicTransitioning = true;
+	if (vars.Resolver.CheckFlag("EndCinematicTransition") && !vars.IgnoreEndCinematicTransition) vars.CinematicTransitioning = true;
+
 	if (vars.Resolver.CheckFlag("AfterCinematicWorldReturn")) vars.CinematicTransitioning = false;
 	if (vars.Resolver.CheckFlag("AfterCinematicIntoBattle")) vars.CinematicTransitioning = false;
 
