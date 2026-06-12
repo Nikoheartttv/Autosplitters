@@ -272,7 +272,9 @@ update
 	if (vars.Resolver.CheckFlag("AfterCinematicWorldReturn")) vars.CinematicTransitioning = false;
 	if (vars.Resolver.CheckFlag("AfterCinematicIntoBattle")) vars.CinematicTransitioning = false;
 
-	if (vars.CinematicTransitioning && validGameplayController && !current.IsChangingMap && !current.IsChangingArea && !current.LSW_HasAppeared)
+	// if (vars.CinematicTransitioning && validGameplayController && !current.IsChangingMap && !current.IsChangingArea && !current.LSW_HasAppeared)
+	// if (vars.CinematicTransitioning && validGameplayController && (current.IsChangingMap || current.IsChangingArea || current.LSW_HasAppeared))
+	if (vars.CinematicTransitioning && validGameplayController && old.PlayerController != current.PlayerController && current.PlayerController == "BP_jRPG_Controller_WorldMap_C")
 	{
 		vars.CinematicTransitioning = false;
 	}
@@ -324,6 +326,7 @@ isLoading
 				current.BattleDebugLastFlowState == "InitBattle" ||
 				current.BattleDebugLastFlowState == "LoadDependencies" ||
 				current.BattleDebugLastFlowState == "Dependencies loaded"))
+			|| (current.CS_IsPlayingCinematic && current.CurrentCinematic == "None")
 			|| (current.CS_IsPlayingCinematic && (
 				(!vars.MenuInterruptedCinematic && current.CS_CinematicPaused) ||
 				(current.CS_CinematicStatus == 0
