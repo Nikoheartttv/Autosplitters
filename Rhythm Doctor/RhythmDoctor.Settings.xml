@@ -20,6 +20,7 @@
         <Setting Id="SongOfTheSeaH" Label="2-4N: Song of the Sea (Night)" State="true" />
         <Setting Id="BeansHopper" Label="2-B1: Beans Hopper" State="true" />
         <Setting Id="Boss2" Label="2-X: All The Times" State="true" />
+        <Setting Id="Bitterness" Label="2-XN: Bitter Times" State="true" />
         <Setting Id="Garden" Label="3-1: Sleepy Garden" State="true" />
         <Setting Id="Lounge" Label="3-1N: Lounge" State="true" />
         <Setting Id="Classy" Label="3-2: Classy" State="true" />
@@ -48,7 +49,6 @@
         <Setting Id="EdegaRave" Label="6-2: Welcome Back" State="true" />
         <Setting Id="PaigesReckoning" Label="6-X: Boss Fight" State="true" />
         <Setting Id="Blurred" Label="7-1: Blurred" State="true" />
-        <Setting Id="Bitterness" Label="2-XN: Bitter Times" State="true" />
         <Setting Id="Montage" Label="7-X: Miracle Defibrillator" State="true" />
         <Setting Id="Montage2" Label="7-XN: Miracle Defibrillator (Encore)" State="true" />
         <Setting Id="BlackestLuxuryCar" Label="MD-1: Blackest Luxury Car" State="true" />
