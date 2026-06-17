@@ -313,12 +313,12 @@ split
 		return settings["EdegaRave"];
 	}
 
-	if (old.Level == "Montage" && current.Level == "Montage2")
-	{
-		vars.VisitedLevel.Add("Montage");
-		vars.Uhara.Log("--- SPLIT: Montage");
-		return settings["Montage"];
-	}
+	// if (old.Level == "Montage" && current.Level == "Montage2")
+	// {
+	// 	vars.VisitedLevel.Add("Montage");
+	// 	vars.Uhara.Log("--- SPLIT: Montage");
+	// 	return settings["Montage"];
+	// }
 
     if (!ilModeOn)
     {
