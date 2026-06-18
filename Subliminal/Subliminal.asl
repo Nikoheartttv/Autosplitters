@@ -161,6 +161,8 @@ init
 		case "97FEC6A1858EC9AB3D6F033C239A559F":
 			version = "Full Game v1.0.3.4";
 			break;
+		case "AA934FFFE0F0C42D387978648023BC42":
+			version = "Full Game v1.0.3.5"
 		default:
 			version = "Full Game v1.0";
 			break;
@@ -235,6 +237,7 @@ init
 		case "Full Game v1.0.3.2":
 		case "Full Game v1.0.3.3":
 		case "Full Game v1.0.3.4":
+		case "Full Game v1.0.3.5":
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x12C8, 0x1D0, 0x899);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x12C8, 0x1D0, 0x8A9);
 			vars.Resolver.Watch<bool>("Paused", vars.Utils.GEngine, 0x12C8, 0x1D0, 0xAC0);
