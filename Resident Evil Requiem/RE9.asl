@@ -94,8 +94,19 @@ init
 		case "1.3.0.0":
 			version = "1.3.0.0";
 			break;
+		case "1.3.1.0":
+			version = "1.3.1.0";
+			break;
 		default:
-			version = "Pre-1.2.0.0";
+			version = "1.3.1.0";
+			MessageBox.Show(
+				"This game version (" + pv + ") is not currently recognized by the autosplitter.\n\n" +
+				"The script will try to use a fallback profile, but it may not work correctly.\n\n" +
+				"Please contact Nikoheart on Discord/X so the autosplitter can be updated.",
+				"LiveSplit | Resident Evil Requiem",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Warning
+			);
 			break;
 	}
 
@@ -107,7 +118,7 @@ init
 		MainGameFlowManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 74 ?? 80 78 ?? ?? 40 0f 95 c5");
 		SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 58");
 	}
-	else if (version == "1.3.0.0")
+	else if (version == "1.3.0.0" || version == "1.3.1.0")
 	{
 		MainGameFlowManager = vars.Uhara.ScanRel(3, "48 8b 15 ?? ?? ?? ?? 48 85 d2 0f 84 ?? ?? ?? ?? 80 7a ?? ?? 0f 84");
 		SceneTransitionManager = vars.Uhara.ScanRel(3, "48 8b 05 ?? ?? ?? ?? 48 85 c0 0f 84 ?? ?? ?? ?? 48 89 d6 48 8b 7a");
@@ -175,6 +186,12 @@ init
 		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x58, 0x18);
 		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x58, 0x3C);
 	} 
+	if (version == "1.3.0.0" || version == "1.3.1.0")
+	{
+		vars.Resolver.Watch<int>("CurrentSituationType", GuiManager, 0x440);
+		vars.Resolver.Watch<IntPtr>("ItemPickedupIDSet", ItemManager, 0x58, 0x18);
+		vars.Resolver.Watch<int>("ItemPickedupIDSetSize", ItemManager, 0x58, 0x3C);
+	}
 	
 
 	current.View = "";
