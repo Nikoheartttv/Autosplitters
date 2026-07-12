@@ -333,7 +333,7 @@ split
 
 	// Full Game
 	// Intro
-	if (vars.DoSplit("TransitionToBasement", settings["Intro"], "IntroSplit")) return true;
+	if (vars.DoSplit("TransitionToBasement", settings["IntroSplit"], "IntroSplit")) return true;
 
 	// Basement
 	if (vars.DoSplit("KnockKnockCompleted", settings["KnockKnock"], "KnockKnock")) return true;
