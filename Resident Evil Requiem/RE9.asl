@@ -285,7 +285,7 @@ update
 				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0x98, 0x28);
 				current.ObjectiveGUICount = vars.Resolver.Read<int>(objectiveGUIControllerUnit + 0x20, 0x98, 0x1C);
 			}
-			else if (version == "1.2.0.0" || version == "1.3.0.0")
+			else if (version == "1.2.0.0" || version == "1.3.0.0" || version == "1.3.1.0")
 			{
 				current.ObjectiveGUIID = vars.Resolver.ReadString(objectiveGUIControllerUnit + 0x20, 0xA0, 0x10, 0x10, 0x14);
 				current.ObjectiveGUICleared = vars.Resolver.Read<bool>(objectiveGUIControllerUnit + 0x20, 0xA0, 0x28);
