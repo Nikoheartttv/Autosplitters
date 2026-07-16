@@ -199,7 +199,8 @@ update
                 var currentChapterFName = vars.Resolver.Read<uint>(currentChapterPtr + 0x18);
                 var chapter = vars.Utils.FNameToString(currentChapterFName);
 
-                if (!string.IsNullOrEmpty(chapter) && chapter != "None") current.Chapter = chapter;
+                if (!string.IsNullOrEmpty(chapter) && chapter != "None")
+                    current.Chapter = chapter;
             }
         }
         catch { }
@@ -222,7 +223,8 @@ update
                     current.Event = vars.Resolver.Read<uint>(eventsList + 0x18 * (eventCount - 1));
                     vars.LastEventCount = eventCount;
 
-                    if (current.Event != 0) vars.Uhara.Log("Event occurred: " + vars.Utils.FNameToString(current.Event));
+                    if (current.Event != 0)
+                        vars.Uhara.Log("Event occurred: " + vars.Utils.FNameToString(current.Event));
                 }
             }
             else
