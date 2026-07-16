@@ -93,8 +93,9 @@ update
         vars.Uhara.Log("Returned to MainMenu, cached world state cleared");
     }
 
-    // Resolve P9ChaptersManager from GameInstance subsystem collection
-    if (vars.ChaptersManager == IntPtr.Zero && !string.IsNullOrEmpty(current.World) && current.World != "None"
+    // Resolve P9ChaptersManager / P9EventsSubsystem from GameInstance subsystem collection
+    if ((vars.ChaptersManager == IntPtr.Zero || vars.EventsSubsystem == IntPtr.Zero)
+        && !string.IsNullOrEmpty(current.World) && current.World != "None"
         && current.World != "MainMenu" && current.World != "PsoPrecompilationScreenLevel")
     {
         try
@@ -116,17 +117,24 @@ update
 
                     if (string.IsNullOrEmpty(subsystemName) || subsystemName == "None") continue;
 
-                    if (subsystemName.StartsWith("P9ChaptersManager"))
-                    if (subsystemName.StartsWith("P9EventsSubsystem"))
-					{
-						vars.EventsSubsystem = subsystem;
+                    if (vars.ChaptersManager == IntPtr.Zero && subsystemName.StartsWith("P9ChaptersManager"))
+                    {
+                        vars.ChaptersManager = subsystem;
+                        vars.Uhara.Log("P9ChaptersManager found at " + subsystem.ToString("X"));
+                    }
 
-						try { vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30); }
-						catch { vars.LastEventCount = 0; }
+                    if (vars.EventsSubsystem == IntPtr.Zero && subsystemName.StartsWith("P9EventsSubsystem"))
+                    {
+                        vars.EventsSubsystem = subsystem;
 
-						vars.Uhara.Log("P9EventsSubsystem found at " + subsystem.ToString("X"));
-						break;
-					}
+                        try { vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30); }
+                        catch { vars.LastEventCount = 0; }
+
+                        vars.Uhara.Log("P9EventsSubsystem found at " + subsystem.ToString("X"));
+                    }
+
+                    if (vars.ChaptersManager != IntPtr.Zero && vars.EventsSubsystem != IntPtr.Zero)
+                        break;
                 }
                 catch { }
             }
@@ -164,7 +172,10 @@ update
                         if (subsystemName.StartsWith("P9EventsSubsystem"))
                         {
                             vars.EventsSubsystem = subsystem;
-                            vars.LastEventCount = 0;
+
+                            try { vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30); }
+                            catch { vars.LastEventCount = 0; }
+
                             vars.Uhara.Log("P9EventsSubsystem found at " + subsystem.ToString("X"));
                             break;
                         }
@@ -179,15 +190,19 @@ update
     // Read current chapter directly from P9ChaptersManager->CurrentChapter->NamePrivate
     if (vars.ChaptersManager != IntPtr.Zero)
     {
-        var currentChapterPtr = vars.Resolver.Read<IntPtr>(vars.ChaptersManager + 0x138);
-
-        if (currentChapterPtr != IntPtr.Zero)
+        try
         {
-            var currentChapterFName = vars.Resolver.Read<uint>(currentChapterPtr + 0x18);
-            var chapter = vars.Utils.FNameToString(currentChapterFName);
+            var currentChapterPtr = vars.Resolver.Read<IntPtr>(vars.ChaptersManager + 0x138);
 
-            if (!string.IsNullOrEmpty(chapter) && chapter != "None") current.Chapter = chapter;
+            if (currentChapterPtr != IntPtr.Zero)
+            {
+                var currentChapterFName = vars.Resolver.Read<uint>(currentChapterPtr + 0x18);
+                var chapter = vars.Utils.FNameToString(currentChapterFName);
+
+                if (!string.IsNullOrEmpty(chapter) && chapter != "None") current.Chapter = chapter;
+            }
         }
+        catch { }
     }
 
     if (old.Chapter != current.Chapter) vars.Uhara.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
@@ -195,20 +210,28 @@ update
     // Read newest event from P9EventsSubsystem->EventRecorder->Records
     if (vars.EventsSubsystem != IntPtr.Zero)
     {
-        var eventsList = vars.Resolver.Read<IntPtr>(vars.EventsSubsystem + 0xF0, 0x28);
-        var eventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
-
-        if (eventsList != IntPtr.Zero && eventCount > 0)
+        try
         {
-            if (eventCount != vars.LastEventCount)
-            {
-                current.Event = vars.Resolver.Read<uint>(eventsList + 0x18 * (eventCount - 1));
-                vars.LastEventCount = eventCount;
+            var eventsList = vars.Resolver.Read<IntPtr>(vars.EventsSubsystem + 0xF0, 0x28);
+            var eventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
 
-                if (current.Event != 0) vars.Uhara.Log("Event occurred: " + vars.Utils.FNameToString(current.Event));
+            if (eventsList != IntPtr.Zero && eventCount > 0)
+            {
+                if (eventCount != vars.LastEventCount)
+                {
+                    current.Event = vars.Resolver.Read<uint>(eventsList + 0x18 * (eventCount - 1));
+                    vars.LastEventCount = eventCount;
+
+                    if (current.Event != 0) vars.Uhara.Log("Event occurred: " + vars.Utils.FNameToString(current.Event));
+                }
+            }
+            else
+            {
+                current.Event = default(ulong);
+                vars.LastEventCount = 0;
             }
         }
-        else
+        catch
         {
             current.Event = default(ulong);
             vars.LastEventCount = 0;
@@ -220,7 +243,6 @@ update
         vars.LastEventCount = 0;
     }
 }
-
 
 start
 {
