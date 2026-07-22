@@ -57,6 +57,9 @@ init
 
 	// Core world name watcher
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
+	
+	// Temp Loading Screen
+	vars.Resolver.Watch<int>("Loading", vars.Utils.GEngine, 0x1220, 0x210, 0x50);
 
 	// Load Removal watchers
 	vars.Resolver.Watch<bool>("bIsGameWindowFocused", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0x8D0);
@@ -317,7 +320,7 @@ onStart
 
 isLoading
 {
-	return current.CutsceneOverlay != IntPtr.Zero
+	return current.Loading != 0 ||current.CutsceneOverlay != IntPtr.Zero
 		|| (current.bIsGameWindowFocused && current.IsPauseMenuOpen == IntPtr.Zero && current.PauseState != 0)
 		|| (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
 }
