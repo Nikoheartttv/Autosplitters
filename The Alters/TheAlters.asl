@@ -59,9 +59,6 @@ init
 	// Core world name watcher
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
 	
-	// Temp Loading Screen
-	vars.Resolver.Watch<int>("Loading", vars.Utils.GEngine, 0x1220, 0x210, 0x50);
-
 	// Load Removal watchers
 	vars.Resolver.Watch<bool>("bIsGameWindowFocused", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0x8D0);
 	vars.Resolver.Watch<IntPtr>("CutsceneOverlay", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0x358, 0x760);
