@@ -45,6 +45,7 @@ startup
 	vars.TimeSystem = IntPtr.Zero;
 	vars.LoadingSubsystem = IntPtr.Zero;
 	vars.LastEventCount = 0;
+	vars.NeedsSubsystemRefresh = false;
 }
 
 init
@@ -66,6 +67,10 @@ init
 	vars.Resolver.Watch<IntPtr>("IsPauseMenuOpen", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0xCA0);
 	vars.Uhara["IsPauseMenuOpen"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
+	// Subsystem initialization
+	vars.Events.FunctionFlag("MainGameSubsystemInit", "BP_PlayableGameMode_BaseGame_C", "BP_PlayableGameMode_C", "InitializeSubsystems");
+	vars.Events.FunctionFlag("DLCSubsystemInit", "BP_PlayableGameMode_DLC1_C", "BP_PlayableGameMode_DLC1_C", "InitializeSubsystems");
+
 	// Subsystem variable setup
 	vars.ChaptersManager = IntPtr.Zero;
 	vars.EventsSubsystem = IntPtr.Zero;
@@ -78,23 +83,17 @@ init
 	// Action to clear cached state of Subsystems/Variables/Events/Chapters/Cycles/Cutscenes/Time/etc
 	vars.ClearCachedState = (Action)(() =>
 	{
-		vars.ChaptersManager = IntPtr.Zero;
 		vars.EventsSubsystem = IntPtr.Zero;
 		vars.CycleSubsystem = IntPtr.Zero;
 		vars.CutsceneManager = IntPtr.Zero;
 		vars.TimeSystem = IntPtr.Zero;
 		vars.LastEventCount = 0;
 
-		current.Chapter = "";
 		current.Event = default(ulong);
 		current.CycleIndex = -1;
 		current.CutsceneName = "";
-		current.CutsceneOverlay = IntPtr.Zero;
 		current.CurrentDate = 0;
 		current.PauseState = 0;
-
-		current.bIsGameWindowFocused = false;
-		current.IsPauseMenuOpen = IntPtr.Zero;
 	});
 
 	// Subsystem finder
@@ -142,6 +141,7 @@ init
 
 	// Clear current world on initial load
 	current.World = "";
+	current.Chapter = "";
 	current.bIsLoading = false;
 }
 
@@ -176,28 +176,6 @@ update
 		if (vars.ChaptersManager != IntPtr.Zero) vars.Uhara.Log("P9ChaptersManager found at " + vars.ChaptersManager.ToString("X"));
 	}
 
-	if (vars.CutsceneManager == IntPtr.Zero)
-	{
-		vars.CutsceneManager = vars.FindSubsystem("World", "P9CutsceneSystem");
-		if (vars.CutsceneManager != IntPtr.Zero) vars.Uhara.Log("P9CutsceneSystem found at " + vars.CutsceneManager.ToString("X"));
-	}
-
-	if (vars.TimeSystem == IntPtr.Zero)
-	{
-		vars.TimeSystem = vars.FindSubsystem("World", "P9TimeSystem");
-		if (vars.TimeSystem != IntPtr.Zero) vars.Uhara.Log("P9TimeSystem found at " + vars.TimeSystem.ToString("X"));
-	}
-
-	if (vars.EventsSubsystem == IntPtr.Zero)
-	{
-		vars.EventsSubsystem = vars.FindSubsystem("World", "P9EventsSubsystem");
-		if (vars.EventsSubsystem != IntPtr.Zero)
-		{
-			vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
-			vars.Uhara.Log("P9EventsSubsystem found at " + vars.EventsSubsystem.ToString("X"));
-		}
-	}
-
 	if (vars.LoadingSubsystem == IntPtr.Zero)
 	{
 		vars.LoadingSubsystem = vars.FindSubsystem("Engine", "P9LoadingSubsystem");
@@ -205,11 +183,49 @@ update
 			vars.Uhara.Log("P9LoadingSubsystem found at " + vars.LoadingSubsystem.ToString("X"));
 	}
 
-	// Find DLC subsystem
-	if (isDLC && vars.CycleSubsystem == IntPtr.Zero)
+	// Clear cached state on subsystem initialization
+	if (vars.Resolver.CheckFlag("MainGameSubsystemInit") || vars.Resolver.CheckFlag("DLCSubsystemInit"))
 	{
-		vars.CycleSubsystem = vars.FindSubsystem("World", "P9CycleSubsystem");
-		if (vars.CycleSubsystem != IntPtr.Zero) vars.Uhara.Log("P9CycleSubsystem found at " + vars.CycleSubsystem.ToString("X"));
+		vars.ClearCachedState();
+		vars.NeedsSubsystemRefresh = true;
+		vars.Uhara.Log("InitializeSubsystems detected, cleared cached world state");
+	}
+
+	if (vars.NeedsSubsystemRefresh)
+	{
+		if (vars.EventsSubsystem == IntPtr.Zero)
+		{
+			vars.EventsSubsystem = vars.FindSubsystem("World", "P9EventsSubsystem");
+			if (vars.EventsSubsystem != IntPtr.Zero) vars.Uhara.Log("P9EventsSubsystem found at " + vars.EventsSubsystem.ToString("X"));
+		}
+
+
+		if (vars.CutsceneManager == IntPtr.Zero)
+		{
+			vars.CutsceneManager = vars.FindSubsystem("World", "P9CutsceneSystem");
+			if (vars.CutsceneManager != IntPtr.Zero) vars.Uhara.Log("P9CutsceneSystem found at " + vars.CutsceneManager.ToString("X"));
+		}
+
+		if (vars.TimeSystem == IntPtr.Zero)
+		{
+			vars.TimeSystem = vars.FindSubsystem("World", "P9TimeSystem");
+			if (vars.TimeSystem != IntPtr.Zero) vars.Uhara.Log("P9TimeSystem found at " + vars.TimeSystem.ToString("X"));
+		}
+
+		// Find DLC subsystem
+		if (isDLC && vars.CycleSubsystem == IntPtr.Zero)
+		{
+			vars.CycleSubsystem = vars.FindSubsystem("World", "P9CycleSubsystem");
+			if (vars.CycleSubsystem != IntPtr.Zero) vars.Uhara.Log("P9CycleSubsystem found at " + vars.CycleSubsystem.ToString("X"));
+		}
+
+		if (vars.EventsSubsystem != IntPtr.Zero
+			&& vars.CutsceneManager != IntPtr.Zero
+			&& vars.TimeSystem != IntPtr.Zero
+			&& (!isDLC || vars.CycleSubsystem != IntPtr.Zero))
+		{
+			vars.NeedsSubsystemRefresh = false;
+		}
 	}
 
 	// Chapter name
@@ -328,12 +344,19 @@ onStart
 	vars.Uhara.Log("Run started");
 }
 
+// isLoading
+// {
+//     return current.bIsLoading
+//         || current.CutsceneOverlay != IntPtr.Zero
+//         || (!current.bIsGameWindowFocused && current.PauseState != 0)
+//         || (current.IsPauseMenuOpen == IntPtr.Zero && current.PauseState != 0)
+//         || (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
+// }
+
 isLoading
 {
     return current.bIsLoading
         || current.CutsceneOverlay != IntPtr.Zero
-        || (current.bIsGameWindowFocused && current.PauseState != 0)
-        || (current.IsPauseMenuOpen == IntPtr.Zero && current.PauseState != 0)
         || (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
 }
 
