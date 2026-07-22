@@ -1,4 +1,4 @@
-state("TheAlters-Win64-Shipping") {}
+state("TheAlters-Win64-Shipping") { }
 
 startup
 {
@@ -9,7 +9,6 @@ startup
 	{
 		{ "AutoReset", false, "Auto Reset when returning to Main Menu", null },
 		{ "WakeUpDay", false, "Split upon when you wake up next day", null },
-
 		{ "MainGame", true, "Main Game", null },
 			{ "ChapterSplits", true, "Chapter Splits - On Completion", "MainGame" },
 				{ "BP_ACT0_Prologue_Chapter_C", true, "Prologue", "ChapterSplits" },
@@ -23,7 +22,6 @@ startup
 				{ "BP_ACT3_Chapter_C", false, "Act 3", "ChapterSplits" },
 				{ "BP_ACT3_FinalDay_Chapter_C", false, "Act 3 - Final Day", "ChapterSplits" },
 				{ "P9GameplayEvent /Game/P9Playable/Systems/FinalDay/GE_EpilogStarted.GE_EpilogStarted", false, "Epilogue", "ChapterSplits" },
-
 			{ "EndingSplits", true, "Ending Splits", "MainGame" },
 				{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/LastGoobyes/Events/GE_Act3FD_LG_EveryAlterHidden.GE_Act3FD_LG_EveryAlterHidden", false, "Alters Hide in Ark Sarcophogus", "EndingSplits" },
 				{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_FinishTheGameInTheMaxwellsPath.GE_Act3FD_SA_Achievement_FinishTheGameInTheMaxwellsPath", true, "ENDING - Maxwell's Path", "EndingSplits" },
@@ -31,9 +29,9 @@ startup
 				{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_BetrayEverybodyAsTheBotanist.GE_Act3FD_SA_Achievement_BetrayEverybodyAsTheBotanist", true, "ENDING - The Things We Do for Love", "EndingSplits" },
 				{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_BlowUpTheBase.GE_Act3FD_SA_Achievement_BlowUpTheBase", true, "ENDING - It Ends In Flames", "EndingSplits" },
 				{ "P9GameplayEvent /Game/P9Playable/Narration/NarrativeQuestLines/Act3_FinalDay/SpacecraftArrives/Events/GE_Act3FD_SA_Achievement_ComeBackToEarthAsTheBotanist.GE_Act3FD_SA_Achievement_ComeBackToEarthAsTheBotanist", true, "ENDING - I Deserved This More", "EndingSplits" },
-
 		{ "LastVariable", true, "Last Variable DLC", null },
-			{ "DLCCycleSplits", false, "Split on DLC cycle advance", "LastVariable" }
+			{ "DLCCycleSplits", false, "Split on DLC cycle advance", "LastVariable" },
+				{ "BP_DLC1_Epilogue_Chapter_C", true, "ZPE Activated", "DLCCycleSplits" },
 	};
 	vars.Uhara.Settings.Create(_settings);
 
@@ -43,6 +41,8 @@ startup
 	vars.ChaptersManager = IntPtr.Zero;
 	vars.EventsSubsystem = IntPtr.Zero;
 	vars.CycleSubsystem = IntPtr.Zero;
+	vars.CutsceneManager = IntPtr.Zero;
+	vars.TimeSystem = IntPtr.Zero;
 	vars.LastEventCount = 0;
 }
 
@@ -58,231 +58,184 @@ init
 	// Core world name watcher
 	vars.Resolver.Watch<uint>("GWorldName", vars.Utils.GWorld, 0x18);
 
-	// Load removal watchers
-	vars.Resolver.Watch<int>("Loading", vars.Utils.GEngine, 0x1220, 0x210, 0x50);
-	vars.Resolver.Watch<byte>("CutsceneActive", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0x358, 0x760, 0x1DC);
-	vars.Uhara["CutsceneActive"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	// Load Removal watchers
+	vars.Resolver.Watch<bool>("bIsGameWindowFocused", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0x8D0);
+	vars.Resolver.Watch<IntPtr>("CutsceneOverlay", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0x358, 0x760);
+	vars.Uhara["CutsceneOverlay"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+	vars.Resolver.Watch<IntPtr>("IsPauseMenuOpen", vars.Utils.GEngine, 0x1220, 0x38, 0x0, 0x30, 0xCA0);
+	vars.Uhara["IsPauseMenuOpen"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
-	// Day progression watcher
-	vars.Resolver.Watch<int>("WakeUpDay", vars.Utils.GWorld, 0x158, 0x748, 0xE0);
-	vars.Uhara["WakeUpDay"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
+	// Subsystem variable setup
 	vars.ChaptersManager = IntPtr.Zero;
 	vars.EventsSubsystem = IntPtr.Zero;
 	vars.CycleSubsystem = IntPtr.Zero;
+	vars.CutsceneManager = IntPtr.Zero;
+	vars.TimeSystem = IntPtr.Zero;
 	vars.LastEventCount = 0;
 
+	// Action to clear cached state of Subsystems/Variables/Events/Chapters/Cycles/Cutscenes/Time/etc
+	vars.ClearCachedState = (Action)(() =>
+	{
+		vars.ChaptersManager = IntPtr.Zero;
+		vars.EventsSubsystem = IntPtr.Zero;
+		vars.CycleSubsystem = IntPtr.Zero;
+		vars.CutsceneManager = IntPtr.Zero;
+		vars.TimeSystem = IntPtr.Zero;
+		vars.LastEventCount = 0;
+
+		current.Chapter = "";
+		current.Event = default(ulong);
+		current.CycleIndex = -1;
+		current.CutsceneName = "";
+		current.CutsceneOverlay = IntPtr.Zero;
+		current.CurrentDate = 0;
+		current.PauseState = 0;
+
+		current.bIsGameWindowFocused = false;
+		current.IsPauseMenuOpen = IntPtr.Zero;
+	});
+
+	// Subsystem finder
+	vars.FindSubsystem = (Func<string, string, IntPtr>)((source, prefix) =>
+	{
+		try
+		{
+			int subsystemCount = 0;
+
+			if (source == "Engine") subsystemCount = vars.Resolver.Read<int>(vars.Utils.GEngine, 0x1220, 0x110);
+			else if (source == "World") subsystemCount = vars.Resolver.Read<int>(vars.Utils.GWorld, 0x868);
+			else return IntPtr.Zero;
+
+			for (int i = 0; i < subsystemCount; i++)
+			{
+				IntPtr subsystem = IntPtr.Zero;
+
+				try
+				{
+					if (source == "Engine")
+						subsystem = vars.Resolver.Read<IntPtr>(vars.Utils.GEngine, 0x1220, 0x108, 0x18 * i + 0x8);
+					else
+						subsystem = vars.Resolver.Read<IntPtr>(vars.Utils.GWorld, 0x860, 0x18 * i + 0x8);
+				}
+				catch { continue; }
+
+				if (subsystem == IntPtr.Zero) continue;
+
+				string subsystemName = "";
+				try { subsystemName = vars.Utils.FNameToString(vars.Resolver.Read<uint>(subsystem + 0x18)); }
+				catch { continue; }
+
+				if (string.IsNullOrEmpty(subsystemName) || subsystemName == "None") continue;
+
+				if (subsystemName.StartsWith(prefix)) return subsystem;
+			}
+		}
+		catch { }
+
+		return IntPtr.Zero;
+	});
+
+	// Clear cached state on initial load
+	vars.ClearCachedState();
+
+	// Clear current world on initial load
 	current.World = "";
-	current.Chapter = "";
-	current.WakeUpDay = 0;
-	current.Event = default(ulong);
-	current.CycleIndex = -1;
 }
 
 update
 {
 	vars.Uhara.Update();
 
+	// World name
 	var world = vars.Utils.FNameToString(current.GWorldName);
 	if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
 	if (old.World != current.World) vars.Uhara.Log("World: " + current.World);
 
-	// Reset cached runtime state when returning to main menu
+	// Clear cached state on return to main menu
 	if (current.World == "MainMenu" && old.World != "MainMenu")
 	{
-		vars.ChaptersManager = IntPtr.Zero;
-		vars.EventsSubsystem = IntPtr.Zero;
-		vars.CycleSubsystem = IntPtr.Zero;
-		vars.LastEventCount = 0;
-
-		current.Chapter = "";
-		current.Event = default(ulong);
-		current.CycleIndex = -1;
-
+		vars.ClearCachedState();
 		vars.Uhara.Log("Returned to MainMenu, cached world state cleared");
 	}
 
-	// Resolve P9ChaptersManager / P9EventsSubsystem from GameInstance subsystem collection
-	if ((vars.ChaptersManager == IntPtr.Zero || vars.EventsSubsystem == IntPtr.Zero)
-		&& !string.IsNullOrEmpty(current.World) && current.World != "None"
-		&& current.World != "MainMenu" && current.World != "PsoPrecompilationScreenLevel")
+	// Check if we're in a game world
+	bool inGameWorld = current.World == "StartLevel" || current.World == "StartLevel_DLC1";
+	// Check if we're in a DLC
+	bool isDLC = current.World == "StartLevel_DLC1";
+
+	// If we're not in a game world, return
+	if (!inGameWorld) return;
+
+	// Find subsystems
+	if (vars.ChaptersManager == IntPtr.Zero)
 	{
-		try
-		{
-			var subsystemCount = vars.Resolver.Read<int>(vars.Utils.GEngine, 0x1220, 0x110);
-
-			for (int i = 0; i < subsystemCount; i++)
-			{
-				IntPtr subsystem;
-
-				try { subsystem = vars.Resolver.Read<IntPtr>(vars.Utils.GEngine, 0x1220, 0x108, 0x18 * i + 0x8); }
-				catch { continue; }
-
-				if (subsystem == IntPtr.Zero) continue;
-
-				try
-				{
-					var subsystemName = vars.Utils.FNameToString(vars.Resolver.Read<uint>(subsystem + 0x18));
-
-					if (string.IsNullOrEmpty(subsystemName) || subsystemName == "None") continue;
-
-					if (vars.ChaptersManager == IntPtr.Zero && subsystemName.StartsWith("P9ChaptersManager"))
-					{
-						vars.ChaptersManager = subsystem;
-						vars.Uhara.Log("P9ChaptersManager found at " + subsystem.ToString("X"));
-					}
-
-					if (vars.EventsSubsystem == IntPtr.Zero && subsystemName.StartsWith("P9EventsSubsystem"))
-					{
-						vars.EventsSubsystem = subsystem;
-
-						try { vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30); }
-						catch { vars.LastEventCount = 0; }
-
-						vars.Uhara.Log("P9EventsSubsystem found at " + subsystem.ToString("X"));
-					}
-
-					if (vars.ChaptersManager != IntPtr.Zero && vars.EventsSubsystem != IntPtr.Zero)
-						break;
-				}
-				catch { }
-			}
-		}
-		catch { }
+		vars.ChaptersManager = vars.FindSubsystem("Engine", "P9ChaptersManager");
+		if (vars.ChaptersManager != IntPtr.Zero) vars.Uhara.Log("P9ChaptersManager found at " + vars.ChaptersManager.ToString("X"));
 	}
 
-	// Resolve P9EventsSubsystem from the world-side subsystem root
-	if (vars.EventsSubsystem == IntPtr.Zero && !string.IsNullOrEmpty(current.World) && current.World != "None"
-		&& current.World != "MainMenu" && current.World != "PsoPrecompilationScreenLevel")
+	if (vars.CutsceneManager == IntPtr.Zero)
 	{
-		try
-		{
-			var worldSubsystemsRoot = vars.Resolver.Read<IntPtr>(vars.Utils.GWorld, 0x860);
-
-			if (worldSubsystemsRoot != IntPtr.Zero)
-			{
-				int[] eventsSubsystemOffsets = { 0x4E8, 0x518 };
-
-				foreach (var offset in eventsSubsystemOffsets)
-				{
-					IntPtr subsystem;
-
-					try { subsystem = vars.Resolver.Read<IntPtr>(worldSubsystemsRoot + offset); }
-					catch { continue; }
-
-					if (subsystem == IntPtr.Zero) continue;
-
-					try
-					{
-						var subsystemName = vars.Utils.FNameToString(vars.Resolver.Read<uint>(subsystem + 0x18));
-
-						if (string.IsNullOrEmpty(subsystemName) || subsystemName == "None") continue;
-
-						if (subsystemName.StartsWith("P9EventsSubsystem"))
-						{
-							vars.EventsSubsystem = subsystem;
-
-							try { vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30); }
-							catch { vars.LastEventCount = 0; }
-
-							vars.Uhara.Log("P9EventsSubsystem found at " + subsystem.ToString("X"));
-							break;
-						}
-					}
-					catch { }
-				}
-			}
-		}
-		catch { }
+		vars.CutsceneManager = vars.FindSubsystem("World", "P9CutsceneSystem");
+		if (vars.CutsceneManager != IntPtr.Zero) vars.Uhara.Log("P9CutsceneSystem found at " + vars.CutsceneManager.ToString("X"));
 	}
 
-	// Resolve P9CycleSubsystem from the world-side subsystem root (DLC only)
-	if (vars.CycleSubsystem == IntPtr.Zero && current.World == "StartLevel_DLC1")
+	if (vars.TimeSystem == IntPtr.Zero)
 	{
-		try
-		{
-			var worldSubsystemsRoot = vars.Resolver.Read<IntPtr>(vars.Utils.GWorld, 0x860);
-
-			if (worldSubsystemsRoot != IntPtr.Zero)
-			{
-				int[] cycleSubsystemOffsets = { 0x4E8, 0x518 };
-
-				foreach (var offset in cycleSubsystemOffsets)
-				{
-					IntPtr subsystem;
-
-					try { subsystem = vars.Resolver.Read<IntPtr>(worldSubsystemsRoot + offset); }
-					catch { continue; }
-
-					if (subsystem == IntPtr.Zero) continue;
-
-					try
-					{
-						var subsystemName = vars.Utils.FNameToString(vars.Resolver.Read<uint>(subsystem + 0x18));
-
-						if (string.IsNullOrEmpty(subsystemName) || subsystemName == "None") continue;
-
-						if (subsystemName.StartsWith("P9CycleSubsystem"))
-						{
-							vars.CycleSubsystem = subsystem;
-							vars.Uhara.Log("P9CycleSubsystem found at " + subsystem.ToString("X"));
-							break;
-						}
-					}
-					catch { }
-				}
-			}
-		}
-		catch { }
+		vars.TimeSystem = vars.FindSubsystem("World", "P9TimeSystem");
+		if (vars.TimeSystem != IntPtr.Zero) vars.Uhara.Log("P9TimeSystem found at " + vars.TimeSystem.ToString("X"));
 	}
 
-	// Read current chapter directly from P9ChaptersManager->CurrentChapter->NamePrivate
+	if (vars.EventsSubsystem == IntPtr.Zero)
+	{
+		vars.EventsSubsystem = vars.FindSubsystem("World", "P9EventsSubsystem");
+		if (vars.EventsSubsystem != IntPtr.Zero)
+		{
+			vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
+			vars.Uhara.Log("P9EventsSubsystem found at " + vars.EventsSubsystem.ToString("X"));
+		}
+	}
+
+	// Find DLC subsystem
+	if (isDLC && vars.CycleSubsystem == IntPtr.Zero)
+	{
+		vars.CycleSubsystem = vars.FindSubsystem("World", "P9CycleSubsystem");
+		if (vars.CycleSubsystem != IntPtr.Zero) vars.Uhara.Log("P9CycleSubsystem found at " + vars.CycleSubsystem.ToString("X"));
+	}
+
+	// Chapter name
 	if (vars.ChaptersManager != IntPtr.Zero)
 	{
-		try
+		IntPtr currentChapterPtr = vars.Resolver.Read<IntPtr>(vars.ChaptersManager + 0x138);
+
+		if (currentChapterPtr != IntPtr.Zero)
 		{
-			var currentChapterPtr = vars.Resolver.Read<IntPtr>(vars.ChaptersManager + 0x138);
+			uint currentChapterFName = vars.Resolver.Read<uint>(currentChapterPtr + 0x18);
+			string chapter = vars.Utils.FNameToString(currentChapterFName);
 
-			if (currentChapterPtr != IntPtr.Zero)
-			{
-				var currentChapterFName = vars.Resolver.Read<uint>(currentChapterPtr + 0x18);
-				var chapter = vars.Utils.FNameToString(currentChapterFName);
-
-				if (!string.IsNullOrEmpty(chapter) && chapter != "None")
-					current.Chapter = chapter;
-			}
+			if (!string.IsNullOrEmpty(chapter) && chapter != "None") current.Chapter = chapter;
 		}
-		catch { }
 	}
 
+	// Chapter change log
 	if (old.Chapter != current.Chapter) vars.Uhara.Log("Chapter: " + old.Chapter + " -> " + current.Chapter);
 
-	// Read newest event from P9EventsSubsystem->EventRecorder->Records
+	// Latest event occurred
 	if (vars.EventsSubsystem != IntPtr.Zero)
 	{
-		try
+		IntPtr eventsList = vars.Resolver.Read<IntPtr>(vars.EventsSubsystem + 0xF0, 0x28);
+		int eventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
+
+		if (eventsList != IntPtr.Zero && eventCount > 0)
 		{
-			var eventsList = vars.Resolver.Read<IntPtr>(vars.EventsSubsystem + 0xF0, 0x28);
-			var eventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
-
-			if (eventsList != IntPtr.Zero && eventCount > 0)
+			if (eventCount != vars.LastEventCount)
 			{
-				if (eventCount != vars.LastEventCount)
-				{
-					current.Event = vars.Resolver.Read<uint>(eventsList + 0x18 * (eventCount - 1));
-					vars.LastEventCount = eventCount;
+				current.Event = vars.Resolver.Read<uint>(eventsList + 0x18 * (eventCount - 1));
+				vars.LastEventCount = eventCount;
 
-					if (current.Event != 0)
-						vars.Uhara.Log("Event occurred: " + vars.Utils.FNameToString(current.Event));
-				}
-			}
-			else
-			{
-				current.Event = default(ulong);
-				vars.LastEventCount = 0;
+				if (current.Event != 0) vars.Uhara.Log("Event occurred: " + vars.Utils.FNameToString(current.Event));
 			}
 		}
-		catch
+		else
 		{
 			current.Event = default(ulong);
 			vars.LastEventCount = 0;
@@ -294,25 +247,52 @@ update
 		vars.LastEventCount = 0;
 	}
 
-	// Read current DLC cycle index: 0 = Cycle 1, 1 = Cycle 2, etc.
-	if (current.World == "StartLevel_DLC1" && vars.CycleSubsystem != IntPtr.Zero)
+	// Cycle Number
+	if (isDLC && vars.CycleSubsystem != IntPtr.Zero)
 	{
-		try
-		{
-			current.CycleIndex = vars.Resolver.Read<int>(vars.CycleSubsystem + 0x100);
-		}
-		catch
-		{
-			current.CycleIndex = -1;
-		}
+		current.CycleIndex = vars.Resolver.Read<int>(vars.CycleSubsystem + 0x100);
+	}
+	else { current.CycleIndex = -1; }
+
+	// Cycle Number change log
+	if (old.CycleIndex != current.CycleIndex && current.CycleIndex >= 0)
+		vars.Uhara.Log("CycleIndex: " + current.CycleIndex + " (Cycle " + (current.CycleIndex + 1) + ")");
+
+	// Date and Pause State
+	if (vars.TimeSystem != IntPtr.Zero)
+	{
+		current.CurrentDate = vars.Resolver.Read<int>(vars.TimeSystem + 0x130);
+		current.PauseState = vars.Resolver.Read<byte>(vars.TimeSystem + 0x140);
 	}
 	else
 	{
-		current.CycleIndex = -1;
+		current.CurrentDate = 0;
+		current.PauseState = 0;
 	}
 
-	if (old.CycleIndex != current.CycleIndex && current.CycleIndex >= 0)
-		vars.Uhara.Log("CycleIndex: " + current.CycleIndex + " (Cycle " + (current.CycleIndex + 1) + ")");
+	// Cutscene Name
+	if (vars.CutsceneManager != IntPtr.Zero)
+	{
+		uint currentCutsceneFName = vars.Resolver.Read<uint>(vars.CutsceneManager + 0x120, 0x2E8, 0x290, 0x18);
+		string cutsceneName = vars.Utils.FNameToString(currentCutsceneFName);
+
+		if (!string.IsNullOrEmpty(cutsceneName) && cutsceneName != "None") current.CutsceneName = cutsceneName;
+		else current.CutsceneName = "";
+	}
+	else
+	{
+		current.CutsceneName = "";
+	}
+
+	// Logs for changes of Cutscene Name, Cutscene Overlay and Current Date
+	if (old.CutsceneName != current.CutsceneName)
+		vars.Uhara.Log("CutsceneName: " + old.CutsceneName + " -> " + current.CutsceneName);
+
+	if (old.CutsceneOverlay != current.CutsceneOverlay)
+		vars.Uhara.Log("CutsceneOverlay: " + old.CutsceneOverlay.ToString("X") + " -> " + current.CutsceneOverlay.ToString("X"));
+
+	if (old.CurrentDate != current.CurrentDate)
+		vars.Uhara.Log("CurrentDate: " + old.CurrentDate + " -> " + current.CurrentDate);
 }
 
 start
@@ -328,52 +308,49 @@ onStart
 	vars.ProcessedEvents.Clear();
 	vars.LastEventCount = 0;
 
-	old.World = "";
 	old.Chapter = "";
 	old.Event = default(ulong);
-	old.WakeUpDay = 0;
 	old.CycleIndex = -1;
-
-	current.CycleIndex = -1;
-
+	old.CurrentDate = 0;
 	vars.Uhara.Log("Run started");
 }
 
 isLoading
 {
-	return current.Loading != 0 || current.CutsceneActive == 1 || (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
+	return current.CutsceneOverlay != IntPtr.Zero
+		|| (current.bIsGameWindowFocused && current.IsPauseMenuOpen == IntPtr.Zero && current.PauseState != 0)
+		|| (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
 }
 
 split
 {
-	// Split when completing a chapter
-	if (!string.IsNullOrEmpty(old.Chapter) && old.Chapter != "None" && old.Chapter != current.Chapter)
+	bool inGameWorld = current.World == "StartLevel" || current.World == "StartLevel_DLC1";
+
+	// Split on chapter change
+	if (inGameWorld && !string.IsNullOrEmpty(old.Chapter) && old.Chapter != "None" && old.Chapter != current.Chapter)
 	{
-		if (settings[old.Chapter]) return true;
+		if (settings.ContainsKey(old.Chapter) && settings[old.Chapter]) return true;
 	}
 
-	// Split when waking up on a new day
-	if (settings["WakeUpDay"] && old.WakeUpDay != 0 && old.WakeUpDay != current.WakeUpDay)
+	// Split on change of day waking up
+	if (inGameWorld && settings["WakeUpDay"] && old.CurrentDate != 0 && old.CurrentDate != current.CurrentDate)
 	{
-		if (vars.CompletedDays.Add(current.WakeUpDay)) return true;
+		if (vars.CompletedDays.Add(current.CurrentDate)) return true;
 	}
 
-	// Split on selected final-day ending events
-	if (current.Chapter == "BP_ACT3_FinalDay_Chapter_C" && old.Event != current.Event && current.Event != 0)
+	// Split on event occurance
+	if (inGameWorld && current.Chapter == "BP_ACT3_FinalDay_Chapter_C" && old.Event != current.Event && current.Event != 0)
 	{
 		var eventName = vars.Utils.FNameToString(current.Event);
 
 		if (!string.IsNullOrEmpty(eventName) && eventName != "None" && vars.ProcessedEvents.Add(current.Event))
 		{
-			if (settings[eventName]) return true;
+			if (settings.ContainsKey(eventName) && settings[eventName]) return true;
 		}
 	}
 
-	// Split on DLC cycle advance
-	if (settings["DLCCycleSplits"] && old.CycleIndex >= 0 && current.CycleIndex > old.CycleIndex)
-	{
-		return true;
-	}
+	// Split on cycle change (DLC only - to be changed)
+	// if (inGameWorld && settings["DLCCycleSplits"] && old.CycleIndex >= 0 && current.CycleIndex > old.CycleIndex) return true;
 }
 
 reset
@@ -383,23 +360,14 @@ reset
 
 onReset
 {
-	old.World = "";
 	old.Chapter = "";
 	old.Event = default(ulong);
-	old.WakeUpDay = 0;
 	old.CycleIndex = -1;
+	old.CurrentDate = 0;
 
-	vars.ChaptersManager = IntPtr.Zero;
-	vars.EventsSubsystem = IntPtr.Zero;
-	vars.CycleSubsystem = IntPtr.Zero;
-	vars.LastEventCount = 0;
-
+	vars.ClearCachedState();
 	vars.CompletedDays.Clear();
 	vars.ProcessedEvents.Clear();
-
-	current.Chapter = "";
-	current.Event = default(ulong);
-	current.CycleIndex = -1;
 
 	vars.Uhara.Log("Run reset");
 }
