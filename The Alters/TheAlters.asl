@@ -43,6 +43,7 @@ startup
 	vars.CycleSubsystem = IntPtr.Zero;
 	vars.CutsceneManager = IntPtr.Zero;
 	vars.TimeSystem = IntPtr.Zero;
+	vars.LoadingSubsystem = IntPtr.Zero;
 	vars.LastEventCount = 0;
 }
 
@@ -74,6 +75,7 @@ init
 	vars.CycleSubsystem = IntPtr.Zero;
 	vars.CutsceneManager = IntPtr.Zero;
 	vars.TimeSystem = IntPtr.Zero;
+	vars.LoadingSubsystem = IntPtr.Zero;
 	vars.LastEventCount = 0;
 
 	// Action to clear cached state of Subsystems/Variables/Events/Chapters/Cycles/Cutscenes/Time/etc
@@ -143,6 +145,7 @@ init
 
 	// Clear current world on initial load
 	current.World = "";
+	current.bIsLoading = false;
 }
 
 update
@@ -196,6 +199,13 @@ update
 			vars.LastEventCount = vars.Resolver.Read<int>(vars.EventsSubsystem + 0xF0, 0x30);
 			vars.Uhara.Log("P9EventsSubsystem found at " + vars.EventsSubsystem.ToString("X"));
 		}
+	}
+
+	if (vars.LoadingSubsystem == IntPtr.Zero)
+	{
+		vars.LoadingSubsystem = vars.FindSubsystem("Engine", "P9LoadingSubsystem");
+		if (vars.LoadingSubsystem != IntPtr.Zero)
+			vars.Uhara.Log("P9LoadingSubsystem found at " + vars.LoadingSubsystem.ToString("X"));
 	}
 
 	// Find DLC subsystem
@@ -256,6 +266,9 @@ update
 		current.CycleIndex = vars.Resolver.Read<int>(vars.CycleSubsystem + 0x100);
 	}
 	else { current.CycleIndex = -1; }
+
+	if (vars.LoadingSubsystem != IntPtr.Zero) current.bIsLoading = vars.Resolver.Read<bool>(vars.LoadingSubsystem + 0x48);
+	else current.bIsLoading = false;
 
 	// Cycle Number change log
 	if (old.CycleIndex != current.CycleIndex && current.CycleIndex >= 0)
@@ -320,9 +333,11 @@ onStart
 
 isLoading
 {
-	return current.Loading != 0 ||current.CutsceneOverlay != IntPtr.Zero
-		|| (current.bIsGameWindowFocused && current.IsPauseMenuOpen == IntPtr.Zero && current.PauseState != 0)
-		|| (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
+    return current.bIsLoading
+        || current.CutsceneOverlay != IntPtr.Zero
+        || (current.bIsGameWindowFocused && current.PauseState != 0)
+        || (current.IsPauseMenuOpen == IntPtr.Zero && current.PauseState != 0)
+        || (current.World != "StartLevel" && current.World != "StartLevel_DLC1");
 }
 
 split
