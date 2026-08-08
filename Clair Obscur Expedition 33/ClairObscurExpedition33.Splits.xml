@@ -45,6 +45,7 @@
                 <Setting Id="Level_Main_ForgottenBattlefield_V2-FB_Chalier_GradientCounterTutorial*1" Label="Chalier" State="false" />
                 <Setting Id="Level_Main_ForgottenBattlefield_V2-FB_DuallisteLR" Label="Dualliste" State="true" />
             </Setting>
+            <Setting Id="Level_WorldMap_Main_V2-WM_Troubadour_Gault_Demineur" Label="(World Map) Troubadour, Gault &amp; Demineur" State="false" />
             <Setting Id="Level_MonocoStation" Label="Monoco's Station" State="true">
                 <Setting Id="Level_MonocoStation-MS_Monoco" Label="Monoco" State="true" />
                 <Setting Id="Level_MonocoStation-MM_Stalact_GradientAttackTutorial*1" Label="Stalact" State="true" />
@@ -65,6 +66,7 @@
             </Setting>
             <Setting Id="TheMonolith" Label="The Monolith" State="true">
                 <Setting Id="FakePaintress" Label="Fake Paintress" State="false" />
+                <Setting Id="CS_GPE_MonolithInterior_Locomotive_MonocoToLumiere" Label="Train cutscene" State="false" />
                 <Setting Id="Level_Monolith_Interior_Climb_Main-MM_MirrorRenoir" Label="Renoir" State="true" />
                 <Setting Id="Level_Monolith_Exterior_Peak_Main-L_Boss_Paintress_P1_Phase1" Label="The Paintress Phase 1" State="false" />
                 <Setting Id="Level_Monolith_Exterior_Peak_Main-L_Boss_Paintress_P1" Label="The Paintress Phase 2" State="true" />
@@ -72,6 +74,7 @@
         </Setting>
         <Setting Id="Act3" Label="Act 3" State="true">
             <Setting Id="Level_Lumiere_Main_V2-Act3" Label="Return To Lumière" State="true">
+                <Setting Id="MCS_TomorrowComes" Label="Entering Lumiere (cutscene)" State="false" />
                 <Setting Id="Level_Lumiere_Main_V2-L_Boss_Curator_P1_Phase1" Label="Renoir Phase 1" State="false" />
                 <Setting Id="Level_Lumiere_Main_V2-L_Boss_Curator_P1" Label="Renoir Phase 2" State="true" />
                 <Setting Id="Level_Lumiere_Main_V2-FinalBossVerso" Label="Verso" State="true" />
