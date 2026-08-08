@@ -54,6 +54,9 @@
                 <Setting Id="Level_OldLumiere_Main-OL_MirrorRenoir_FirstFight" Label="Renoir" State="true" />
             </Setting>
             <Setting Id="Level_Visages_Main_V1-Visages" Label="Visages" State="true">
+                <Setting Id="Level_Visages_Main_V1-MF_JOY_Moissonneuse_MaskJoy*3_1" Label="Joy Mask" State="false" />
+                <Setting Id="Level_Visages_Main_V1-MF_SADNESS_Chapelier_MaskSadness*3" Label="Sadness Mask" State="false" />
+                <Setting Id="Level_Visages_Main_V1-MF_ANGRY_BoucheclierMaskAnger*3_1" Label="Anger Mask" State="false" />
                 <Setting Id="Level_Visages_Main_V1-MF_Axon_Visages" Label="Mask Keeper" State="true" />
             </Setting>
             <Setting Id="Level_Sirene_Main_V2" Label="Sirène" State="true">
@@ -75,6 +78,17 @@
                 <Setting Id="Level_Lumiere_Main_V2-FinalBossMaelle" Label="Maelle" State="true" />
             </Setting>
         </Setting>
+    </Setting>
+    <Setting Id="PositionSplits" Label="Splits on entering / leaving locations (leaving unless noted)" State="false">
+        <Setting Id="Level_SpringMeadows_Main_V2-worldLeave" Label="Spring Meadows" State="false" />
+        <Setting Id="Level_Goblu_Main_V5-worldLeave" Label="Flying Water (Goblu skip)" State="true" />
+        <Setting Id="Level_AncientSanctuary_Main_V2-worldLeave" Label="Ancient Sanctuary" State="false" />
+        <Setting Id="Level_Main_GestralVillage_V2-worldLeave" Label="Gestral Village" State="false" />
+        <Setting Id="LevelMain_EsquieNest-worldLeave" Label="Esquie's Nest" State="true" />
+        <Setting Id="Level_Main_ForgottenBattlefield_V2-worldLeave" Label="Forgotten Battlefield (Dualliste skip)" State="true" />
+        <Setting Id="Level_MonocoStation-worldLeave" Label="Monoco's Station" State="false" />
+        <Setting Id="Level_OldLumiere_Main-worldLeave" Label="Old Lumière" State="false" />
+        <Setting Id="Level_Visages_Main_V1-worldEnter" Label="Visages (enter)" State="true" />
     </Setting>
     <Setting Id="OptionalEncounterSplits" Label="Optional Encounter Splits" State="false">
         <Setting Id="Level_WorldMap_Main_V2-OE" Label="World Map" State="false">
