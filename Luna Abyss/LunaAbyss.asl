@@ -475,7 +475,8 @@ split
 	}
 
 	// Full Game End Split
-	if (vars.Resolver.CheckFlag("EndGameFinalDialogueFinished") && settings.ContainsKey("EndGameFinalDialogue") && !vars.CompletedSplits.Contains("EndGameFinalDialogue"))
+	if (current.CheckpointName == "AfterAtticusBoss" && vars.Resolver.CheckFlag("EndGameFinalDialogueFinished") 
+	&& settings.ContainsKey("EndGameFinalDialogue") && !vars.CompletedSplits.Contains("EndGameFinalDialogue"))
 	{
 		vars.CompletedSplits.Add("EndGameFinalDialogue");
 		return settings["EndGameFinalDialogue"];
