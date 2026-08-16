@@ -15,7 +15,6 @@ startup
 	vars.Helper.AlertLoadless();
 	vars.TimerModel = new TimerModel { CurrentState = timer };
 	vars.EncounterWon = new List<string>();
-	vars.WorldTransitionsEncountered = new List<string>();
 	vars.paksFolder = ""; // read in onStart, so should be initialized
 }
 
@@ -383,7 +382,6 @@ onStart
 	vars.BattleWon = false;
 	vars.HasEnteredWorldMap = false;
 	vars.EncounterWon.Clear();
-	vars.WorldTransitionsEncountered.Clear();
 }
 
 
@@ -478,22 +476,6 @@ split
 		vars.EncounterWon.Add(worldEncounter);
 		vars.BattleWon = false;
 		if (settings.ContainsKey(worldEncounter) && settings[worldEncounter]) return true;
-	}
-
-	// Leaving World splits
-	string worldTransition = old.World + "-worldLeave";
-	if ((current.World == "Level_Camp_Main" || current.World == "Level_WorldMap_Main_V2") && !vars.WorldTransitionsEncountered.Contains(worldTransition))
-	{
-		vars.WorldTransitionsEncountered.Add(worldTransition);
-		if (settings.ContainsKey(worldTransition) && settings[worldTransition]) return true;
-	}
-
-	// Entering World splits
-	worldTransition = current.World + "-worldEnter";
-	if (old.World == "Level_WorldMap_Main_V2" && !vars.WorldTransitionsEncountered.Contains(worldTransition))
-	{
-		vars.WorldTransitionsEncountered.Add(worldTransition);
-		if (settings.ContainsKey(worldTransition) && settings[worldTransition]) return true;
 	}
 
 	// Act Splits
