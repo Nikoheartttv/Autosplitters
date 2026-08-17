@@ -2,188 +2,232 @@
     <Setting Id="AutoReset" Label="Auto-Reset" State="false" />
     <Setting Id="ILSplitting" Label="Individual Levels Splitting" State="false" />
     <Setting Id="Splits" Label="Splits" State="true">
-        <Setting Id="Chapter1" Label="Chapter 1 - Dead In The Water" State="true">
-            <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_01" Label="Chapter 1 Split" State="true" />
-            <Setting Id="Chapter1Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_BoatCP_Forest_WaterPathStart" Label="Find Mine in Water" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_Exterior" Label="Land on Shore of Mill Exterior" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_SewersFanTunnel" Label="Sewers Fan Tunnel" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_Sewers" Label="Inside Sewers" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_BoilerSoftSave" Label="Rotating Boiler Puzzle Start" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_EastRooms" Label="After Rotating Boiler Puzzle" State="true" /> 
-                <Setting Id="BP_CP_Forest_Mill_EastHall" Label="East Hall" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_UndergroundPath" Label="Underground Path to Outside" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_Backyard" Label="Backyard" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_Courtyard" Label="Courtyard" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_WestRooms_01" Label="West Rooms" State="true" />
-                <Setting Id="BP_CP_Forest_Mill_WestRooms_02" Label="Pick Up Wheel in West Rooms and Leave" State="true" />
-                <Setting Id="BP_CP_Forest_WreckedTrain_TrainTunnel" Label="Reach Wrecked Train in Tunnel" State="true" />
-                <Setting Id="BP_CP_Forest_WreckedTrain_TrainYard_03" Label="After Stealth Section in between Trains" State="true" />
-                <Setting Id="BP_CP_Forest_WreckedTrain_TrainYard_04" Label="Approaching Levers in Train" State="true" />
-                <Setting Id="BP_CP_Forest_WreckedTrain_TrainBridge" Label="Running over Train Bridge" State="true" />
-                <Setting Id="BP_CP_Forest_SkinsForest_TrainBridgeEnd" Label="Reach end of Train Bridge" State="true" />
-                <Setting Id="BP_CP_Forest_SkinsForest_SkinChaseStart" Label="Skin Chase Start" State="true" />
-                <Setting Id="BP_CP_Forest_SkinsForest_SkinChase_02" Label="Skin Chase Part 2 Start" State="true" />
-                <Setting Id="BP_CP_Forest_SkinsForest_SawTree" Label="Grab Saw and Saw Tree" State="true" />
-                <Setting Id="BP_CP_Forest_SkinsForest_IceCreamTruckChase" Label="Ice Cream Truck Chase" State="true" />
+        <Setting Id="MainGame" Label="Main Game" State="true">
+            <Setting Id="Chapter1" Label="Chapter 1 - Dead In The Water" State="true">
+                <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_01" Label="Chapter 1 Split" State="true" />
+                <Setting Id="Chapter1Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_BoatCP_Forest_WaterPathStart" Label="Find Mine in Water" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_Exterior" Label="Land on Shore of Mill Exterior" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_SewersFanTunnel" Label="Sewers Fan Tunnel" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_Sewers" Label="Inside Sewers" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_BoilerSoftSave" Label="Rotating Boiler Puzzle Start" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_EastRooms" Label="After Rotating Boiler Puzzle" State="true" /> 
+                    <Setting Id="BP_CP_Forest_Mill_EastHall" Label="East Hall" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_UndergroundPath" Label="Underground Path to Outside" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_Backyard" Label="Backyard" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_Courtyard" Label="Courtyard" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_WestRooms_01" Label="West Rooms" State="true" />
+                    <Setting Id="BP_CP_Forest_Mill_WestRooms_02" Label="Pick Up Wheel in West Rooms and Leave" State="true" />
+                    <Setting Id="BP_CP_Forest_WreckedTrain_TrainTunnel" Label="Reach Wrecked Train in Tunnel" State="true" />
+                    <Setting Id="BP_CP_Forest_WreckedTrain_TrainYard_03" Label="After Stealth Section in between Trains" State="true" />
+                    <Setting Id="BP_CP_Forest_WreckedTrain_TrainYard_04" Label="Approaching Levers in Train" State="true" />
+                    <Setting Id="BP_CP_Forest_WreckedTrain_TrainBridge" Label="Running over Train Bridge" State="true" />
+                    <Setting Id="BP_CP_Forest_SkinsForest_TrainBridgeEnd" Label="Reach end of Train Bridge" State="true" />
+                    <Setting Id="BP_CP_Forest_SkinsForest_SkinChaseStart" Label="Skin Chase Start" State="true" />
+                    <Setting Id="BP_CP_Forest_SkinsForest_SkinChase_02" Label="Skin Chase Part 2 Start" State="true" />
+                    <Setting Id="BP_CP_Forest_SkinsForest_SawTree" Label="Grab Saw and Saw Tree" State="true" />
+                    <Setting Id="BP_CP_Forest_SkinsForest_IceCreamTruckChase" Label="Ice Cream Truck Chase" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter2" Label="Chapter 2 - The Cleaning House" State="true">
+                <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="Chapter 2 Split" State="true" />
+                <Setting Id="Chapter2Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_02" Label="Enter Village" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_MainStreetSquare_FirstTime" Label="Enter Main Street Square" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_OutsideCinema" Label="Outside Cinema" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_BackAlleyBoltcutters" Label="Get Boltcutters" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_CinemaRoom" Label="Enter Cinema Room" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_CinemaRoom_FarSide" Label="Reach Far Side of Cinema Room" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_Playground" Label="Reach Playground" State="false" />
+                    <Setting Id="BP_CP_Forest_Village_SkinmakingRoom" Label="Enter Skinmaking Room" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_PlaygroundChase" Label="Playground Chase" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_CinemaReturn" Label="Leave Cinema" State="true" />
+                    <Setting Id="BP_PS_Forest_Village_SnifferTricycle" Label="Tricycle Sniffer" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_BackAlley" Label="Enter Back Alley of Gas Station" State="true" />
+                    <Setting Id="BP_CP_Forest_Village_MainStreetSquare_HasGas" Label="Reach Van and Put Gas In" State="true" />
+                    <Setting Id="BP_CP_Forest_ForestRoad_TruckChaseStart" Label="Truck Chase Start" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter3" Label="Chapter 3 - After The Flood" State="true">
+                <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_1" Label="Chapter 3 Split" State="true" />
+                <Setting Id="Chapter3Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_Forest_WaterDamEntrance" Label="On top of Water Dam" State="true" />
+                    <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_24" Label="[048] BP_Checkpoint_SIG_C_0 (wheel on dam turney thing)" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_Watermines" Label="More Mines in Water" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_Store" Label="Enter the Store" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_StoreBackyard" Label="Backyard of Store" State="true" />
+                    <Setting Id="BP_CP_Overworld_FloodedStreets_BeforeHarpoon" Label="Enter Flooded Streets to get Harpoons" State="true" />
+                    <Setting Id="BP_CP_Overworld_FloodedStreets_Mines" Label="Use Harpoons to Explode Mines" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_Hotel" Label="Enter Hotel" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_Hotel_ElevatorHall" Label="Hotel Elevator Hall" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_Hotel_Corridor" Label="Hotel Corridor" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_HotelExit" Label="Exit Hotel" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_CannonIslandFirstTime_Safety" Label="First Time Finding Cannon Island" State="true" /> 
+                    <Setting Id="BP_CP_Overworld_StartBeachToPigsty" Label="Land on Beach to head to Pigsty" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_GrassField_ToPigsty" Label="Grass Field" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_PigstyExterior" Label="Get Key from Trash Bin outside Pigsty" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_PigstyInteriorEntrance" Label="Enter Interior of Pigsty" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_PigstyInteriorExit" Label="Reach Massive Pig" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_Fields" Label="Exit Left of Pigsty Towards Lighthouse" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_FirstTimeLighthouseOutside" Label="Reach Outside of Lighthouse" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_LighthouseInside" Label="Reach Top of Lighthouse" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_LighthouseOutside_Chase" Label="Chase Start outside from Lighthouse" State="true" />
+                    <Setting Id="BP_CP_PelicanQuest_LighthouseBarn_Chase" Label="Reach Barn during Chase" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter4" Label="Chapter 4 - No Shelter" State="true">
+                <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_5" Label="Chapter 4 Split" State="true" />
+                <Setting Id="Chapter4Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_Orphanage_ClocktowerOutside" Label="Outside of Clocktower" State="true" />
+                    <Setting Id="BP_CP_Orphanage_ClocktowerInside" Label="Inside Clocktower" State="true" />
+                    <Setting Id="BP_CP_Orphanage_BrokenCorridor" Label="Broken Corridor" State="true" />
+                    <Setting Id="BP_CP_Orphanage_FoodHall" Label="Food Hall" State="true" />
+                    <Setting Id="BP_CP_Orphanage_FoyerBalcony" Label="Foyer Balcony" State="true" />
+                    <Setting Id="BP_CP_Orphanage_LightRoomCorridor" Label="Light Room Corridor" State="true" />
+                    <Setting Id="BP_CP_Orphanage_LightRoomCombat" Label="Light Room Combat" State="true" />
+                    <Setting Id="BP_CP_Orphanage_EndOfLightroomCorridor" Label="End of Light Room Corridor" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Attic_SleepingSpiderkids" Label="Sleep Spider Kids in Attic" State="true" />
+                    <Setting Id="BP_CP_Orphanage_SpiralStairs_Puzzle" Label="Spiral Stairs Puzzle" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter5" Label="Chapter 5 - Down In A Hole" State="true">
+                <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="Chapter 5 Split" State="true" />
+                <Setting Id="Chapter5Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_Orphanage_Sandcity_Start" Label="Sandcity Start" State="true" />
+                    <Setting Id="BP_CP_Orphanage_SandCity_BrokenPathPuzzle" Label="Broken Path Puzzle" State="true" />
+                    <Setting Id="BP_CP_Orphanage_SandCity_AfterBrokenPath" Label="After Broken Path Puzzle" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Caves_PigHideoutEnd" Label="Pig Hideout End" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Return_InteriorFacade" Label="Return to Interior Facade" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Return_ExteriorFacade" Label="Exterior Facade" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Return_DustSpiderkidAttic" Label="Get key from Dusty Spiderkids in Attic" State="true" />
+                    <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="Sneak Around Mother in Dining Room" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Return_DiningRoomExit" Label="Exit Dining Room" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Return_FacadeMotherChase" Label="Facade Mother Chase" State="true" />
+                    <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_18" Label="Start of Mother Boss Fight" State="true" />
+                    <Setting Id="BP_CP_Orphanage_Return_MotherDeathRoom" Label="Mother Death Room" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter6" Label="Chapter 6 - Nobody Left Behind" State="true">
+                <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_37" Label="Chapter 6 Split" State="true" />
+                <Setting Id="Chapter6Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_Overworld_CodeBunker" Label="Code Bunker" State="true" />
+                    <Setting Id="BP_CP_Overworld_BeachAfterCodeBunker" Label="Beach After Code Bunker" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_ChurchBlownUp" Label="Church Blown Up" State="true" />
+                    <Setting Id="BP_BoatCP_WhaleQuest_BuildingRuins" Label="Approaching Shipwreck" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_ShipwreckExterior_FirstTime" Label="Land on Shipwreck Beach" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_Entrance" Label="Enter Shipwreck Interior" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_TalkToWhale" Label="Talk To Whale" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_DivingCage" Label="Put on Diving Suits and Call Diving Cage" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_UnderwaterArrival" Label="Land on Ocean Floor" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_Underwater_02" Label="Exploring Underwater Buildings" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_Underwater_PryBrookhorseEye" Label="Pry Brookhorse Eye" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_Underwater_ChaseStart" Label="Brookhorse Chase Start" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_Underwater_ChaseFinished" Label="Brookhorse Chase Finished" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_DivingCage_HasEye" Label="Jump out of Diving Cage with Eye" State="true" />
+                    <Setting Id="BP_CP_WhaleQuest_ShipwreckExterior_End" Label="Shipwreck Exterior End" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_Highway" Label="Leave Shipwreck towards Broken Highway" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_CarTunnel" Label="Outside Car Tunnel" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_CarTunnelInside" Label="Inside Car Tunnel" State="true" />
+                    <Setting Id="BP_BoatCP_Overworld_WarTownMines" Label="Approaching War Town" State="true" />
+                    <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="Arrive at Broken Basement" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter7" Label="Chapter 7 - The Spoils" State="true">
+                <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_5" Label="Chapter 7  Split" State="true" />
+                <Setting Id="Chapter7Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_WarTown_TrenchesMiddle" Label="Half-way through Trenches" State="true" />
+                    <Setting Id="BP_CP_WarTown_TrenchesMachineGun" Label="Machine Gun Stealth" State="true" />
+                    <Setting Id="BP_CP_WarTown_TrenchRun" Label="Sheep Chase through Trenches" State="true" />
+                    <Setting Id="BP_CP_WarTown_HospitalBunker" Label="Hospital Bunker" State="true" />
+                    <Setting Id="BP_CP_WarTown_HospitalElevator" Label="Hospital Elevator" State="true" />
+                    <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_3" Label="Hospital Escape from War Skin Men" State="true" />
+                    <Setting Id="BP_CP_WarTown_HospitalSheepbeast" Label="Encoutering Sheepbeast" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter8" Label="Chapter 8 - The Watcher" State="true">
+                <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_30" Label="Chapter 8 Split" State="true" />
+                <Setting Id="Chapter8Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_WarTown_SniperApartments_PianoMan" Label="Piano Man Gets Sniped" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperApartments_02" Label="Avoiding Sniper in Apartments - Phase 1" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperApartments_03" Label="Avoiding Sniper in Apartments - Phase 2" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperApartments_04" Label="Avoiding Sniper in Apartments - Phase 3" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperApartments_05" Label="Avoiding Sniper in Apartments - Phase 4" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperApartments_06" Label="Avoiding Sniper in Apartments - Phase 5" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperApartments_07" Label="Avoiding Sniper in Apartments - Phase 6" State="true" />
+                    <Setting Id="BP_CP_WarTown_ShootingWarehouse" Label="Shooting Warehouse" State="true" />
+                    <Setting Id="BP_CP_WarTown_SheepbeastClimbsHouse" Label="Sheepbeast Stealth and Climbs House" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperParkingGarage" Label="Avoding Sniper in Parking Garage - Phase 1" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperParkingGarage_02" Label="Avoding Sniper in Parking Garage - Phase 2" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperBridgeStart" Label="Avoiding Sniper on Bridge - Start" State="true" />
+                    <Setting Id="BP_CP_WarTown_SniperBridgeEnd" Label="Avoiding Sniper on Bridge - End" State="true" />
+                    <Setting Id="BP_CP_WarTown_Battlefield" Label="Battlefield" State="true" />
+                    <Setting Id="BP_CP_WarTown_TankAreaStart" Label="Avoding Tank Artillery Start" State="true" />
+                    <Setting Id="BP_CP_WarTown_TankEncounter" Label="Tank Encounter" State="true" />
+                </Setting>
+            </Setting>
+            <Setting Id="Chapter9" Label="Chapter 9 - All-Consuming Past" State="true">
+                <Setting Id="EndSplit" Label="Chapter 9 Split (End)" State="true" />
+                <Setting Id="Chapter9Checkpoints" Label="Checkpoint Splits" State="false">
+                    <Setting Id="BP_CP_WarTown_TankMayhem_OperaEntrance" Label="Drive Through Opera House Entrance" State="true" />
+                    <Setting Id="BP_CP_WarTown_TankMayhem_Opera" Label="Exit Out of Opera House" State="true" />
+                    <Setting Id="BP_CP_WarTown_TankSheepBeastChase" Label="Sheepbeast Chasing Tank" State="true" />
+                    <Setting Id="BP_CP_WarTown_TankChase_Finale" Label="Sheepbeast Finale" State="true" />
+                </Setting>
             </Setting>
         </Setting>
-        <Setting Id="Chapter2" Label="Chapter 2 - The Cleaning House" State="true">
-            <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="Chapter 2 Split" State="true" />
-            <Setting Id="Chapter2Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_Forest_SkinsForest_ForestRoad_02" Label="Enter Village" State="true" />
-                <Setting Id="BP_CP_Forest_Village_MainStreetSquare_FirstTime" Label="Enter Main Street Square" State="true" />
-                <Setting Id="BP_CP_Forest_Village_OutsideCinema" Label="Outside Cinema" State="true" />
-                <Setting Id="BP_CP_Forest_Village_BackAlleyBoltcutters" Label="Get Boltcutters" State="true" />
-                <Setting Id="BP_CP_Forest_Village_CinemaRoom" Label="Enter Cinema Room" State="true" />
-                <Setting Id="BP_CP_Forest_Village_CinemaRoom_FarSide" Label="Reach Far Side of Cinema Room" State="true" />
-                <Setting Id="BP_CP_Forest_Village_Playground" Label="Reach Playground" State="false" />
-                <Setting Id="BP_CP_Forest_Village_SkinmakingRoom" Label="Enter Skinmaking Room" State="true" />
-                <Setting Id="BP_CP_Forest_Village_PlaygroundChase" Label="Playground Chase" State="true" />
-                <Setting Id="BP_CP_Forest_Village_CinemaReturn" Label="Leave Cinema" State="true" />
-                <Setting Id="BP_PS_Forest_Village_SnifferTricycle" Label="Tricycle Sniffer" State="true" />
-                <Setting Id="BP_CP_Forest_Village_BackAlley" Label="Enter Back Alley of Gas Station" State="true" />
-                <Setting Id="BP_CP_Forest_Village_MainStreetSquare_HasGas" Label="Reach Van and Put Gas In" State="true" />
-                <Setting Id="BP_CP_Forest_ForestRoad_TruckChaseStart" Label="Truck Chase Start" State="true" />
+        <Setting Id="DLC" Label="DLC" State="true">
+            <Setting Id="ThePrisoner" Label="1. The Prisoner" State="true">
+                <Setting Id="DLC1Chapter1" Label="Sub-Chapter 1 - The Slow Descent" State="true">
+                    <Setting Id="BP_CP_Town_TownMayhem" Label="Landed in Town" State="true" />
+                    <Setting Id="BP_CP_Town_TripwiresIntro" Label="Enter Tripwire Area" State="true" />
+                    <Setting Id="BP_CP_Town_MallEntrance" Label="Approaching The Mall Entrance" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_BrokenWalkway" Label="Reach Broken Walkway" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_GetCamera" Label="Enter Room to Grab Camera" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_PhotoRoomReturn" Label="Return to Photo Room" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_MannequinKey" Label="Mannequin Presents Key" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_Store" Label="Enter Mall Store" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_Videostore" Label="Escape Flamethrower Man and Enter Videostore" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_Warehouse" Label="Enter Warehouse" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_Warehouse_ClimbedUp" Label="Climbed up ladder in Warehouse" State="true" />
+                    <Setting Id="BP_CP_Town_Mall_LobbyWithTank" Label="Heading towards Lobby with Tank" State="true" />
+                    <Setting Id="BP_CP_Town_FlamethrowerApartments" Label="Reach Apartments" State="true" />
+                </Setting> 
+                <Setting Id="DLC1Chapter2" Label="Sub-Chapter 2 - Scorched Earth" State="true">
+                    <Setting Id="BP_CP_Town_FlamethrowerBossfight" Label="Start of Flamethrower Guy Boss Fight" State="true" />
+                    <Setting Id="BP_CP_Town_Apartments_Livingroom" Label="Boss Fight Over and Inside Living Room" State="true" />
+                    <Setting Id="BP_CP_Town_Apartments_DarkCorridor" Label="Enter Door in Bookshelf" State="true" />
+                    <Setting Id="BP_CP_Town_Apartments_DarkCorridor_Tripwires" Label="Approaching Tripwires in Dark Corridor" State="true" />
+                    <Setting Id="BP_CP_Town_Apartments_BombExplosion" Label="Bombs Dropping Outside Apartment" State="true" />
+                    <Setting Id="BP_CP_Crater_SubwayPlatform_StartStation" Label="Reach Subway Platform" State="true" />
+                    <Setting Id="BP_CP_Crater_SubwayPlatform_AxeTrain" Label="On top of train to get Axe" State="true" />
+                    <Setting Id="BP_CP_Crater_SubwayTrain" Label="Get to First Train Car" State="true" />
+                    <Setting Id="BP_CP_Crater_SubwayTrainEnd" Label="Flashed all Spider Kids and through Train Car Door" State="true" />
+                    <Setting Id="BP_CP_Crater_SubwayPlatform_EndStation" Label="Leave train and enter Station" State="true" />
+                </Setting>
+                <Setting Id="DLC1Chapter3" Label="Sub-Chapter 3 - By Your Side" State="true">
+                    <Setting Id="BP_CP_Crater_TurnstilePuzzle_Start" Label="Reach top of Station stairs" State="true" />
+                    <Setting Id="BP_CP_SandCity_SubwayStairs" Label="Leave Subway" State="true" />
+                    <Setting Id="BP_CP_SandCity_HighwayPillars" Label="Highway Pillars (rename?)" State="true" />
+                    <Setting Id="BP_CP_SandCity_FindBike" Label="Find the Bike" State="true" />
+                    <Setting Id="BP_CP_Sandcity_BikeHighway" Label="Jumped over Highway with Bike" State="true" />
+                    <Setting Id="BP_CP_SandCity_ChaseStart" Label="Mother Chase" State="true" />
+                    <Setting Id="BP_CP_Sandcity_Chase_2ndPart" Label="Mother Chase Part 2" State="true" />
+                    <Setting Id="DLC1EndSplit" Label="DLC 1 - Prisoner (End)" State="true" />
+                </Setting>
             </Setting>
         </Setting>
-        <Setting Id="Chapter3" Label="Chapter 3 - After The Flood" State="true">
-            <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_1" Label="Chapter 3 Split" State="true" />
-            <Setting Id="Chapter3Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_Forest_WaterDamEntrance" Label="On top of Water Dam" State="true" />
-                <Setting Id="SLVL_ForestIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_24" Label="[048] BP_Checkpoint_SIG_C_0 (wheel on dam turney thing)" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_Watermines" Label="More Mines in Water" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_Store" Label="Enter the Store" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_StoreBackyard" Label="Backyard of Store" State="true" />
-                <Setting Id="BP_CP_Overworld_FloodedStreets_BeforeHarpoon" Label="Enter Flooded Streets to get Harpoons" State="true" />
-                <Setting Id="BP_CP_Overworld_FloodedStreets_Mines" Label="Use Harpoons to Explode Mines" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_Hotel" Label="Enter Hotel" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_Hotel_ElevatorHall" Label="Hotel Elevator Hall" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_Hotel_Corridor" Label="Hotel Corridor" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_HotelExit" Label="Exit Hotel" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_CannonIslandFirstTime_Safety" Label="First Time Finding Cannon Island" State="true" /> 
-                <Setting Id="BP_CP_Overworld_StartBeachToPigsty" Label="Land on Beach to head to Pigsty" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_GrassField_ToPigsty" Label="Grass Field" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_PigstyExterior" Label="Get Key from Trash Bin outside Pigsty" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_PigstyInteriorEntrance" Label="Enter Interior of Pigsty" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_PigstyInteriorExit" Label="Reach Massive Pig" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_Fields" Label="Exit Left of Pigsty Towards Lighthouse" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_FirstTimeLighthouseOutside" Label="Reach Outside of Lighthouse" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_LighthouseInside" Label="Reach Top of Lighthouse" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_LighthouseOutside_Chase" Label="Chase Start outside from Lighthouse" State="true" />
-                <Setting Id="BP_CP_PelicanQuest_LighthouseBarn_Chase" Label="Reach Barn during Chase" State="true" />
+        <Setting Id="ILSplits" Label="Individual Level Splits" State="false">
+            <Setting Id="ILSplitsMain" Label="Main Game" State="false">
+                <Setting Id="ILChapter1" Label="Chapter 1" State="true" />
+                <Setting Id="ILChapter2" Label="Chapter 2" State="true" />
+                <Setting Id="ILChapter3" Label="Chapter 3" State="true" />
+                <Setting Id="ILChapter4" Label="Chapter 4" State="true" />
+                <Setting Id="ILChapter5" Label="Chapter 5" State="true" />
+                <Setting Id="ILChapter6" Label="Chapter 6" State="true" />
+                <Setting Id="ILChapter7" Label="Chapter 7" State="true" />
+                <Setting Id="ILChapter8" Label="Chapter 8" State="true" />
+                <Setting Id="ILChapter9" Label="Chapter 9" State="true" />
             </Setting>
         </Setting>
-        <Setting Id="Chapter4" Label="Chapter 4 - No Shelter" State="true">
-            <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmPlayerStart_C_5" Label="Chapter 4 Split" State="true" />
-            <Setting Id="Chapter4Checkpoints" Label="Checkpoint Splits" State="false">
-            <Setting Id="BP_CP_Orphanage_ClocktowerOutside" Label="Outside of Clocktower" State="true" />
-            <Setting Id="BP_CP_Orphanage_ClocktowerInside" Label="Inside Clocktower" State="true" />
-            <Setting Id="BP_CP_Orphanage_BrokenCorridor" Label="Broken Corridor" State="true" />
-            <Setting Id="BP_CP_Orphanage_FoodHall" Label="Food Hall" State="true" />
-            <Setting Id="BP_CP_Orphanage_FoyerBalcony" Label="Foyer Balcony" State="true" />
-            <Setting Id="BP_CP_Orphanage_LightRoomCorridor" Label="Light Room Corridor" State="true" />
-            <Setting Id="BP_CP_Orphanage_LightRoomCombat" Label="Light Room Combat" State="true" />
-            <Setting Id="BP_CP_Orphanage_EndOfLightroomCorridor" Label="End of Light Room Corridor" State="true" />
-            <Setting Id="BP_CP_Orphanage_Attic_SleepingSpiderkids" Label="Sleep Spider Kids in Attic" State="true" />
-            <Setting Id="BP_CP_Orphanage_SpiralStairs_Puzzle" Label="Spiral Stairs Puzzle" State="true" />
-            
-            </Setting>
-        </Setting>
-        <Setting Id="Chapter5" Label="Chapter 5 - Down In A Hole" State="true">
-            <Setting Id="SLVL_Overworld_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="Chapter 5 Split" State="true" />
-            <Setting Id="Chapter5Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_Orphanage_Sandcity_Start" Label="Sandcity Start" State="true" />
-                <Setting Id="BP_CP_Orphanage_SandCity_BrokenPathPuzzle" Label="Broken Path Puzzle" State="true" />
-                <Setting Id="BP_CP_Orphanage_SandCity_AfterBrokenPath" Label="After Broken Path Puzzle" State="true" />
-                <Setting Id="BP_CP_Orphanage_Caves_PigHideoutEnd" Label="Pig Hideout End" State="true" />
-                <Setting Id="BP_CP_Orphanage_Return_InteriorFacade" Label="Return to Interior Facade" State="true" />
-                <Setting Id="BP_CP_Orphanage_Return_ExteriorFacade" Label="Exterior Facade" State="true" />
-                <Setting Id="BP_CP_Orphanage_Return_DustSpiderkidAttic" Label="Get key from Dusty Spiderkids in Attic" State="true" />
-                <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_15" Label="Sneak Around Mother in Dining Room" State="true" />
-                <Setting Id="BP_CP_Orphanage_Return_DiningRoomExit" Label="Exit Dining Room" State="true" />
-                <Setting Id="BP_CP_Orphanage_Return_FacadeMotherChase" Label="Facade Mother Chase" State="true" />
-                <Setting Id="SLVL_OrphanageIsland_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_18" Label="Start of Mother Boss Fight" State="true" />
-                <Setting Id="BP_CP_Orphanage_Return_MotherDeathRoom" Label="Mother Death Room" State="true" />
-            </Setting>
-        </Setting>
-        <Setting Id="Chapter6" Label="Chapter 6 - Nobody Left Behind" State="true">
-            <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_37" Label="Chapter 6 Split" State="true" />
-            <Setting Id="Chapter6Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_Overworld_CodeBunker" Label="Code Bunker" State="true" />
-                <Setting Id="BP_CP_Overworld_BeachAfterCodeBunker" Label="Beach After Code Bunker" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_ChurchBlownUp" Label="Church Blown Up" State="true" />
-                <Setting Id="BP_BoatCP_WhaleQuest_BuildingRuins" Label="Approaching Shipwreck" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_ShipwreckExterior_FirstTime" Label="Land on Shipwreck Beach" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_Entrance" Label="Enter Shipwreck Interior" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_TalkToWhale" Label="Talk To Whale" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_DivingCage" Label="Put on Diving Suits and Call Diving Cage" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_UnderwaterArrival" Label="Land on Ocean Floor" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_Underwater_02" Label="Exploring Underwater Buildings" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_Underwater_PryBrookhorseEye" Label="Pry Brookhorse Eye" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_Underwater_ChaseStart" Label="Brookhorse Chase Start" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_Underwater_ChaseFinished" Label="Brookhorse Chase Finished" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_ShipwreckInterior_DivingCage_HasEye" Label="Jump out of Diving Cage with Eye" State="true" />
-                <Setting Id="BP_CP_WhaleQuest_ShipwreckExterior_End" Label="Shipwreck Exterior End" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_Highway" Label="Leave Shipwreck towards Broken Highway" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_CarTunnel" Label="Outside Car Tunnel" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_CarTunnelInside" Label="Inside Car Tunnel" State="true" />
-                <Setting Id="BP_BoatCP_Overworld_WarTownMines" Label="Approaching War Town" State="true" />
-                <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_27" Label="Arrive at Broken Basement" State="true" />
-            </Setting>
-        </Setting>
-        <Setting Id="Chapter7" Label="Chapter 7 - The Spoils" State="true">
-            <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_5" Label="Chapter 7  Split" State="true" />
-            <Setting Id="Chapter7Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_WarTown_TrenchesMiddle" Label="Half-way through Trenches" State="true" />
-                <Setting Id="BP_CP_WarTown_TrenchesMachineGun" Label="Machine Gun Stealth" State="true" />
-                <Setting Id="BP_CP_WarTown_TrenchRun" Label="Sheep Chase through Trenches" State="true" />
-                <Setting Id="BP_CP_WarTown_HospitalBunker" Label="Hospital Bunker" State="true" />
-                <Setting Id="BP_CP_WarTown_HospitalElevator" Label="Hospital Elevator" State="true" />
-                <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_3" Label="Hospital Escape from War Skin Men" State="true" />
-                <Setting Id="BP_CP_WarTown_HospitalSheepbeast" Label="Encoutering Sheepbeast" State="true" />
-            </Setting>
-        </Setting>
-        <Setting Id="Chapter8" Label="Chapter 8 - The Watcher" State="true">
-            <Setting Id="SLVL_WarTown_AlwaysLoaded:PersistentLevel.BP_EverholmCo-opPlayerStart_C_30" Label="Chapter 8 Split" State="true" />
-            <Setting Id="Chapter8Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_WarTown_SniperApartments_PianoMan" Label="Piano Man Gets Sniped" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperApartments_02" Label="Avoiding Sniper in Apartments - Phase 1" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperApartments_03" Label="Avoiding Sniper in Apartments - Phase 2" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperApartments_04" Label="Avoiding Sniper in Apartments - Phase 3" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperApartments_05" Label="Avoiding Sniper in Apartments - Phase 4" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperApartments_06" Label="Avoiding Sniper in Apartments - Phase 5" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperApartments_07" Label="Avoiding Sniper in Apartments - Phase 6" State="true" />
-                <Setting Id="BP_CP_WarTown_ShootingWarehouse" Label="Shooting Warehouse" State="true" />
-                <Setting Id="BP_CP_WarTown_SheepbeastClimbsHouse" Label="Sheepbeast Stealth and Climbs House" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperParkingGarage" Label="Avoding Sniper in Parking Garage - Phase 1" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperParkingGarage_02" Label="Avoding Sniper in Parking Garage - Phase 2" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperBridgeStart" Label="Avoiding Sniper on Bridge - Start" State="true" />
-                <Setting Id="BP_CP_WarTown_SniperBridgeEnd" Label="Avoiding Sniper on Bridge - End" State="true" />
-                <Setting Id="BP_CP_WarTown_Battlefield" Label="Battlefield" State="true" />
-                <Setting Id="BP_CP_WarTown_TankAreaStart" Label="Avoding Tank Artillery Start" State="true" />
-                <Setting Id="BP_CP_WarTown_TankEncounter" Label="Tank Encounter" State="true" />
-            </Setting>
-        </Setting>
-        <Setting Id="Chapter9" Label="Chapter 9 - All-Consuming Past" State="true">
-            <Setting Id="EndSplit" Label="Chapter 9 Split (End)" State="true" />
-            <Setting Id="Chapter9Checkpoints" Label="Checkpoint Splits" State="false">
-                <Setting Id="BP_CP_WarTown_TankMayhem_OperaEntrance" Label="Drive Through Opera House Entrance" State="true" />
-                <Setting Id="BP_CP_WarTown_TankMayhem_Opera" Label="Exit Out of Opera House" State="true" />
-                <Setting Id="BP_CP_WarTown_TankSheepBeastChase" Label="Sheepbeast Chasing Tank" State="true" />
-                <Setting Id="BP_CP_WarTown_TankChase_Finale" Label="Sheepbeast Finale" State="true" />
-            </Setting>
-        </Setting>
-    </Setting>
-    <Setting Id="ILSplits" Label="Individual Level Splits" State="false">
-        <Setting Id="ILChapter1" Label="Chapter 1" State="true" />
-        <Setting Id="ILChapter2" Label="Chapter 2" State="true" />
-        <Setting Id="ILChapter3" Label="Chapter 3" State="true" />
-        <Setting Id="ILChapter4" Label="Chapter 4" State="true" />
-        <Setting Id="ILChapter5" Label="Chapter 5" State="true" />
-        <Setting Id="ILChapter6" Label="Chapter 6" State="true" />
-        <Setting Id="ILChapter7" Label="Chapter 7" State="true" />
-        <Setting Id="ILChapter8" Label="Chapter 8" State="true" />
-        <Setting Id="ILChapter9" Label="Chapter 9" State="true" />
     </Setting>
 </Settings>
