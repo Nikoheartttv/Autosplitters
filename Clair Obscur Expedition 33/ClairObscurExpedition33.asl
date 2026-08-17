@@ -37,11 +37,8 @@ init
     vars.BattleLoadingGate = false;
     vars.PostCineTransitionActive = false; // latch post-cinematic transition
     vars.CinematicGapLatched = false; // latch for the bad gap window
-
-    vars.Renoir3FinalFightCutscene = false;
-	vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
-	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
-	vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
+    vars.Renoir3FinalStabSequenceReady = false; // ready to receive final hit sequence
+    vars.Renoir3FinalStabSequenceLoad = false; // load removal for final hit sequence
 
     // Mod Detection
     vars.exeDir = Path.GetDirectoryName(game.MainModule.FileName);
@@ -118,7 +115,11 @@ init
     vars.Uhara["BattleManagerEncounterName"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
     vars.Resolver.Watch<byte>("BattleEndState", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
     vars.Uhara["BattleEndState"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
-    // only in Vxxx
+    vars.Resolver.Watch<IntPtr>("BattleManagerEnemiesArray", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0xC8, 0x0);
+    vars.Uhara["BattleManagerEnemiesArray"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+    vars.Resolver.Watch<ulong>("BattleManagerSequenceFName", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0xC8, 0x0, 0xBB8, 0x2A0, 0x18);
+
+    // only in V1.2.0.0+
     vars.Resolver.WatchString("BattleDebugLastFlowState", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x9D8, 0x0);
     vars.Uhara["BattleDebugLastFlowState"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
 
@@ -293,24 +294,6 @@ update
     current.GFTS_TransitionType = vars.Resolver.Read<byte>("GFTS_TransitionType", vars.Utils.GWorld, 0x158, vars.GFTSIntermediateOffset, 0xA8);
     current.GFTS_Phase = vars.Resolver.Read<byte>("GFTS_Phase", vars.Utils.GWorld, 0x158, vars.GFTSIntermediateOffset, 0xB8);
 
-    if (!vars.Renoir3FinalFightCutscene && vars.Resolver.CheckFlag("Renoir3FinalFightCutsceneStarted"))
-	{
-		vars.Renoir3FinalFightCutscene = true;
-		vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
-	}
-
-	if (vars.Renoir3FinalFightCutscene)
-	{
-		if (vars.Resolver.CheckFlag("Renoir3FinalFightCutsceneMaelleDoneStabbing")) vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = true;
-		vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = ((TimeSpan)(TimeStamp.Now - vars.Renoir3TimeStampStartStabbing) > vars.Renoir3RTDelta);
-		if (current.BattleDebugLastFlowState == "StartBattleEndFlow: Victory")
-		{
-			vars.Renoir3FinalFightCutscene = false;
-			vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
-			vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
-		}
-	}
-
     // Controller-specific reads
     if (current.PlayerController == "BP_jRPG_Controller_World_C" || current.PlayerController == "BP_PlayerController_WorldMap_C")
     {
@@ -355,6 +338,24 @@ update
         current.CS_HasInputLockFromPreCinematic = false;
         vars.BattleWon = false;
     }
+
+    // Load Removal Logic for Renoir 3 Final Stab Sequence
+    if (!vars.Renoir3FinalStabSequenceReady && current.CurrentCinematic == "MCS_RenoirFightPhase2to3_PartLumiere" && current.BattleManagerEnemiesArray != IntPtr.Zero)
+        vars.Renoir3FinalStabSequenceReady = vars.FNameToString(vars.Resolver.Read<ulong>(current.BattleManagerEnemiesArray + 0x18)).StartsWith("BP_EnemyBattle_Curator");
+
+    if (vars.Renoir3FinalStabSequenceReady && current.BattleManagerEnemiesArray != IntPtr.Zero)
+    {
+        string sequenceName = vars.FNameToString(current.BattleManagerSequenceFName);
+
+        if (sequenceName.StartsWith("SEQ_Skill_Curator_Finisher"))
+        {
+            byte sequenceStatus = vars.Resolver.Read<byte>(current.BattleManagerEnemiesArray + 0xBB8, 0x330, 0x2D0, 0x288);
+            int currentFrame = vars.Resolver.Read<int>(current.BattleManagerEnemiesArray + 0xBB8, 0x330, 0x2D0, 0x384);
+
+            vars.Renoir3FinalStabSequenceLoad = sequenceStatus == 1 && currentFrame >= 629 && currentFrame <= 868;
+        }
+    }
+
 
     // Latch post-cinematic transition when TransitionType == 1
     if (current.CS_PostCineTransitionType == 1) vars.PostCineTransitionActive = true;
@@ -493,6 +494,7 @@ isLoading
     bool battleLoadingWithDebugFlowState = vars.DetectedProjectVersion != "1.1.1.0" && current.BattleFlowState == 2 &&
         vars.PreBattleLoadStates.Contains(current.BattleDebugLastFlowState);
 
+    // Generic world or battle loading
     bool worldOrBattleLoading = !vars.HasLocalPlayers || current.World == "Map_Game_Bootstrap" ||
         current.IsChangingMap || current.IsChangingArea || current.LSW_HasAppeared ||
         (current.World != "Level_MainMenu" && current.PCMInGame < 0.5) ||
@@ -501,12 +503,12 @@ isLoading
     // Only treat non-black GFTS transitions as a load when we're in a cinematic context
     bool inCinematicBlackScreen = current.GFTS_TransitionType > 1 && (current.CS_IsPlayingCinematic || current.CS_CinematicPaused);
 
+    // Cinematic loading if black screen, pre-cinematic lock, or if paused
     bool cinematicLoading = inCinematicBlackScreen || current.CS_HasInputLockFromPreCinematic ||
         (!current.CS_IsInTransition && current.CS_IsPlayingCinematic && current.CS_CinematicPaused);
 
-    bool renoir3FinalFightCutscene = vars.Renoir3FinalFightCutscene && vars.Renoir3FinalFightCutsceneMaelleStartedStabbing && !vars.Renoir3FinalFightCutsceneMaelleDoneStabbing;
-
-    return worldOrBattleLoading || battleLoadingWithoutDebugFlowState || cinematicLoading || cinematicFinishing || cinematicGapHold || renoir3FinalFightCutscene;
+    // inclusion of Renoir 3 Final Stab section
+    return worldOrBattleLoading || battleLoadingWithoutDebugFlowState || cinematicLoading || cinematicFinishing || cinematicGapHold || vars.Renoir3FinalStabSequenceLoad;;
 }
 
 reset
@@ -523,10 +525,8 @@ onReset
     vars.PostCineTransitionActive = false;
     vars.CinematicGapLatched = false;
     vars.BattleLoadingGate = false;
-    vars.Renoir3FinalFightCutscene = false;
-	vars.Renoir3FinalFightCutsceneMaelleStartedStabbing = false;
-	vars.Renoir3FinalFightCutsceneMaelleDoneStabbing = false;
-    vars.Renoir3TimeStampStartStabbing = TimeStamp.Now;
+    vars.Renoir3FinalStabSequenceReady = false;
+    vars.Renoir3FinalStabSequenceLoad = false;
     vars.EncounterWon.Clear();
     vars.WorldTransitionsEncountered.Clear();
 }
