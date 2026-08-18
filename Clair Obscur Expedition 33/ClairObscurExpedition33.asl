@@ -177,7 +177,6 @@ update
         if (string.IsNullOrEmpty(projectVersion)) return;
 
         vars.DetectedProjectVersion = projectVersion;
-        vars.Uhara.Log("Detected Project Version: " + projectVersion);
 
         switch (projectVersion)
         {
@@ -262,7 +261,6 @@ update
     {
         var world = vars.Utils.FNameToString(current.GWorldName);
         if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
-        if (old.World != current.World) vars.Uhara.Log("World: " + current.World);
     }
 
     // Player Controller Name
@@ -314,8 +312,6 @@ update
         if (old.BattleDebugLastFlowState != current.BattleDebugLastFlowState && current.BattleDebugLastFlowState == "StartBattleEndFlow: Victory" ||
             old.BattleEndState != current.BattleEndState && current.BattleEndState == 1) vars.BattleWon = true;
 
-        if (old.BattleFlowState != current.BattleFlowState) vars.Uhara.Log("BattleFlowState: " + current.BattleFlowState);
-        if (old.BattleDebugLastFlowState != current.BattleDebugLastFlowState) vars.Uhara.Log("BattleDebugLastFlowState: " + current.BattleDebugLastFlowState);
     }
     else
     {
