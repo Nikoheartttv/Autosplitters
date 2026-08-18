@@ -43,7 +43,6 @@
     </Setting>
     <Setting Id="Act2" Label="Act 2" State="true">
       <Setting Id="Level_Main_ForgottenBattlefield_V2" Label="Forgotten Battlefield" State="true">
-        <Setting Id="Level_Main_ForgottenBattlefield_V2-GO_LusterAlpha" Label="Chromatic Luster" State="false" />
         <Setting Id="Level_Main_ForgottenBattlefield_V2-FB_Chalier_GradientCounterTutorial*1" Label="Chalier" State="false" />
         <Setting Id="Level_Main_ForgottenBattlefield_V2-FB_DuallisteLR" Label="Dualliste" State="true" />
       </Setting>
@@ -52,21 +51,15 @@
         <Setting Id="Level_MonocoStation-MM_Stalact_GradientAttackTutorial*1" Label="Stalact" State="true" />
       </Setting>
       <Setting Id="Level_OldLumiere_Main" Label="Old Lumière" State="true">
-        <Setting Id="Level_OldLumiere_Main-MM_DanseuseAlpha*1" Label="Chromatic Danseuse" State="false" />
-        <Setting Id="Level_OldLumiere_Main-LU_EchassierAlpha*1" Label="Chromatic Échassier" State="false" />
-        <Setting Id="Level_OldLumiere_Main-OL_VersoDisappears_Chevaliere*2" Label="Ceramic &amp; Steel Chevalière" State="false" />
         <Setting Id="Level_OldLumiere_Main-OL_MirrorRenoir_FirstFight" Label="Renoir" State="true" />
       </Setting>
       <Setting Id="Level_Visages_Main_V1" Label="Visages" State="true">
-        <Setting Id="Level_Visages_Main_V1-MF_Mime*1" Label="Mime" State="false" />
-        <Setting Id="Level_Visages_Main_V1-FB_RamasseurALPHA" Label="Chromatic Ramasseur" State="false" />
         <Setting Id="Level_Visages_Main_V1-MF_JOY_Moissonneuse_MaskJoy*3_1" Label="Joy Mask" State="false" />
         <Setting Id="Level_Visages_Main_V1-MF_SADNESS_Chapelier_MaskSadness*3" Label="Sadness Mask" State="false" />
         <Setting Id="Level_Visages_Main_V1-MF_ANGRY_BoucheclierMaskAnger*3_1" Label="Anger Mask" State="false" />
         <Setting Id="Level_Visages_Main_V1-MF_Axon_Visages" Label="Mask Keeper" State="true" />
       </Setting>
       <Setting Id="Level_Sirene_Main_V2" Label="Sirène" State="true">
-        <Setting Id="Level_Sirene_Main_V2-SC_CultistHeavy_Alpha" Label="Chromatic Greatsword Cultist" State="false" />
         <Setting Id="Level_Sirene_Main_V2-SI_Tisseur" Label="Tisseur" State="false" />
         <Setting Id="Level_Sirene_Main_V2-SI_Glissando*1" Label="Glissando" State="false" />
         <Setting Id="Level_Sirene_Main_V2-SI_Axon_Sirene" Label="Sirène" State="true" />
@@ -77,7 +70,6 @@
         <Setting Id="Level_Monolith_Interior_Climb_Main-MM_MirrorRenoir" Label="Renoir" State="true" />
         <Setting Id="Level_Monolith_Exterior_Peak_Main-L_Boss_Paintress_P1_Phase1" Label="The Paintress Phase 1" State="false" />
         <Setting Id="Level_Monolith_Exterior_Peak_Main-L_Boss_Paintress_P1" Label="The Paintress Phase 2" State="true" />
-        <Setting Id="Level_Monolith_Exterior_Peak_Main-MM_ClairObscurAlpha" Label="Chromatic Clair Obscur" State="false" />
       </Setting>
     </Setting>
     <Setting Id="Act3" Label="Act 3" State="true">
@@ -183,6 +175,19 @@
       <Setting Id="Level_SeaCliff_Main_V2-OE-Merchant_SeaCliff" Label="Merchant - Jerijeri" State="false" />
       <Setting Id="Level_SeaCliff_Main_V2-OE-Petank_Orange" Label="Pétank - Orange" State="false" />
     </Setting>
+    <Setting Id="Level_Main_ForgottenBattlefield_V2-OE" Label="Forgotten Battlefield" State="false">
+      <Setting Id="Level_Main_ForgottenBattlefield_V2-GO_LusterAlpha" Label="Chromatic Luster" State="false" />
+    </Setting>
+    <Setting Id="Level_OldLumiere_Main-OE" Label="Old Lumière" State="false">
+      <Setting Id="Level_OldLumiere_Main-OL_VersoDisappears_Chevaliere*2" Label="Ceramic &amp; Steel Chevalière" State="false" />
+    </Setting>
+    <Setting Id="Level_Visages_Main_V1-OE" Label="Visages" State="true">
+      <Setting Id="Level_Visages_Main_V1-MF_Mime*1" Label="Mime" State="false" />
+      <Setting Id="Level_Visages_Main_V1-FB_RamasseurALPHA" Label="Chromatic Ramasseur" State="false" />
+    </Setting>
+    <Setting Id="Level_Sirene_Main_V2-OE" Label="Sirène" State="true">
+      <Setting Id="Level_Sirene_Main_V2-SC_CultistHeavy_Alpha" Label="Chromatic Greatsword Cultist" State="false" />
+    </Setting>
     <Setting Id="Level_Side_CleasWorkShop_V2-OE" Label="Painting Workshop" State="false">
       <Setting Id="Level_Side_CleasWorkShop_V2-CW_Boss_LampmasterAlpha" Label="Lampmaster" State="false" />
     </Setting>
@@ -266,6 +271,9 @@
       <Setting Id="Level_Side_TwilightSanctuary-TS_PotatoBagBossTwilight*1_Tank*1_Ranger*1" Label="Ultimate Sakapatate" State="false" />
       <Setting Id="Level_Side_TwilightSanctuary-GO_CrulerALPHA*1_1" Label="Chromatic Cruler" State="false" />
       <Setting Id="Level_Side_TwilightSanctuary-Merchant_TwilightSanctuary" Label="Merchant (Anthonypo)" State="false" />
+    </Setting>
+    <Setting Id="TheMonolith-OE" Label="The Monolith" State="true">
+      <Setting Id="Level_Monolith_Exterior_Peak_Main-MM_ClairObscurAlpha" Label="Chromatic Clair Obscur" State="false" />
     </Setting>
     <Setting Id="Level_Monolith_Floor-OE" Label="Renoir's Drafts" State="false">
       <Setting Id="Level_Cave_InvisibleCave-RD_CreationAlpha" Label="Chromatic Creation" State="false" />
