@@ -181,11 +181,11 @@
     <Setting Id="Level_OldLumiere_Main-OE" Label="Old Lumière" State="false">
       <Setting Id="Level_OldLumiere_Main-OL_VersoDisappears_Chevaliere*2" Label="Ceramic &amp; Steel Chevalière" State="false" />
     </Setting>
-    <Setting Id="Level_Visages_Main_V1-OE" Label="Visages" State="true">
+    <Setting Id="Level_Visages_Main_V1-OE" Label="Visages" State="false">
       <Setting Id="Level_Visages_Main_V1-MF_Mime*1" Label="Mime" State="false" />
       <Setting Id="Level_Visages_Main_V1-FB_RamasseurALPHA" Label="Chromatic Ramasseur" State="false" />
     </Setting>
-    <Setting Id="Level_Sirene_Main_V2-OE" Label="Sirène" State="true">
+    <Setting Id="Level_Sirene_Main_V2-OE" Label="Sirène" State="false">
       <Setting Id="Level_Sirene_Main_V2-SC_CultistHeavy_Alpha" Label="Chromatic Greatsword Cultist" State="false" />
     </Setting>
     <Setting Id="Level_Side_CleasWorkShop_V2-OE" Label="Painting Workshop" State="false">
@@ -272,7 +272,7 @@
       <Setting Id="Level_Side_TwilightSanctuary-GO_CrulerALPHA*1_1" Label="Chromatic Cruler" State="false" />
       <Setting Id="Level_Side_TwilightSanctuary-Merchant_TwilightSanctuary" Label="Merchant (Anthonypo)" State="false" />
     </Setting>
-    <Setting Id="TheMonolith-OE" Label="The Monolith" State="true">
+    <Setting Id="TheMonolith-OE" Label="The Monolith" State="false">
       <Setting Id="Level_Monolith_Exterior_Peak_Main-MM_ClairObscurAlpha" Label="Chromatic Clair Obscur" State="false" />
     </Setting>
     <Setting Id="Level_Monolith_Floor-OE" Label="Renoir's Drafts" State="false">
