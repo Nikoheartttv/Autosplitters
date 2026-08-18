@@ -1,21 +1,9 @@
-// Made by Nikoheart & TheDementedSalad
-// Big shoutouts to the Ero for assistance within the Items logic and splitting
-// Shoutouts to Rumii & Hntd for their assistance within for all the efforts of finding some of the values needed
-// Extra shoutout to Rumii for adding code to finally fix the cutscene issues
-state("ProjectNeon-Win64-Shipping", "1.0.0.648-20240516") { 
-	byte loading : 0x56062E4;
-	byte results : 0x55B7848;
-}
-
-state("ProjectNeon-Win64-Shipping", "1.0.1.649-20240527") { 
-	byte loading : 0x539D138;
-	byte results : 0x55B8848;
-}
+state("ProjectNeon-Win64-Shipping") {}
 
 startup
 {
-	Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-	vars.Helper.GameName = "RKGK / Rakugaki";
+    Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
+    vars.Uhara.AlertLoadless();
 
 	dynamic[,] _settings =
 	{
@@ -67,97 +55,47 @@ startup
 		{ "AutoReset", false, "Auto Reset when returning to Main Menu", null },
 	};
 
-	vars.Helper.Settings.Create(_settings);
-	vars.CompletedSplits = new HashSet<string>();
-	vars.stopwatch = null;
+    vars.Uhara.Settings.Create(_settings);
+    vars.CompletedSplits = new HashSet<string>();
 }
 
 init
 {
-	byte[] exeMD5HashBytes = new byte[0];
-	using (var md5 = System.Security.Cryptography.MD5.Create())
-    {
-        using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        {
-            exeMD5HashBytes = md5.ComputeHash(s);
-        }
-    }
+    vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
+    vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
-	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
-    vars.MD5Hash = MD5Hash;
-    print("MD5: " + MD5Hash);
+    if (vars.Utils.GEngine != IntPtr.Zero) vars.Uhara.Log("GEngine found at " + vars.Utils.GEngine.ToString("X"));
+    if (vars.Utils.GWorld != IntPtr.Zero) vars.Uhara.Log("GWorld found at " + vars.Utils.GWorld.ToString("X"));
+    if (vars.Utils.FNames != IntPtr.Zero) vars.Uhara.Log("FNames found at " + vars.Utils.FNames.ToString("X"));
 
-	switch(MD5Hash){
-		case "C0851CDE0F095EC05124EFF834C10617" :
-			version = "1.0.0.648-20240516";
-			break;
-		case "C6A54A424739CF2C086E14F855C18928" :
-			version = "1.0.1.649-20240527";
-			break;
-		default:
-			version = "Unknown Version";
-            MessageBox.Show(timer.Form,
-                "RKGK / Rakugaki Autosplitter Error:\n\n"
-                + "This autosplitter does not support this game version.\n"
-                + "Please contact Nikoheart (@nikoheart on Discord)\n"
-                + "with the following string and the game's version number.\n\n"
-                + "MD5Hash: " + MD5Hash + "\n\n"
-                + "Defaulting to the most recent known memory addesses...",
-                  "RKGK / Rakugaki Autosplitter Error",
-                  MessageBoxButtons.OK,
-                  MessageBoxIcon.Error);
-			break;
-	}
+    vars.Resolver.Watch<ulong>("GWorldName", vars.Utils.GWorld, 0x18);
 
-	IntPtr gEngine = vars.Helper.ScanRel(3, "48 89 05 ?? ?? ?? ?? 48 85 c9 74 ?? e8 ?? ?? ?? ?? 48 8d 4d");
-	IntPtr fNames = vars.Helper.ScanRel(13, "89 5C 24 ?? 89 44 24 ?? 74 ?? 48 8D 15");
+    current.World = "";
+    vars.Loading = false;
 
-	// if (gWorld == IntPtr.Zero || gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
-    if (gEngine == IntPtr.Zero || fNames == IntPtr.Zero)
-	{
-		const string Msg = "Not all required addresses could be found by scanning.";
-		throw new Exception(Msg);
-	}
+    vars.Events.FunctionFlag("ShowLoading", "WBP_Loading_C", "WBP_Loading_C", "ShowLoadingScreen");
+    vars.Events.FunctionFlag("HideLoading", "WBP_Loading_C", "WBP_Loading_C", "HideLoadingScreen");
+    vars.Events.FunctionFlag("ResultsShown", "WBP_EndLevelView_C", "WBP_EndLevelView_C", "ExecuteUbergraph_WBP_EndLevelView");
 
-	// GWorld.Name
-	vars.Helper["GWorldName"] = vars.Helper.Make<ulong>(gEngine, 0x780, 0x78, 0x18);
-	
-	vars.FNameToString = (Func<ulong, string>)(fName =>
+    vars.FNameToString = (Func<ulong, string>)(fName =>
 	{
 		var nameIdx = (fName & 0x000000000000FFFF) >> 0x00;
 		var chunkIdx = (fName & 0x00000000FFFF0000) >> 0x10;
 		var number = (fName & 0xFFFFFFFF00000000) >> 0x20;
 
-		IntPtr chunk = vars.Helper.Read<IntPtr>(fNames + 0x10 + (int)chunkIdx * 0x8);
+		IntPtr chunk = vars.Resolver.Read<IntPtr>(vars.Utils.FNames + 0x10 + (int)chunkIdx * 0x8);
 		IntPtr entry = chunk + (int)nameIdx * sizeof(short);
 
-		int length = vars.Helper.Read<short>(entry) >> 6;
-		string name = vars.Helper.ReadString(length, ReadStringType.UTF8, entry + sizeof(short));
+		int length = vars.Resolver.Read<short>(entry) >> 6;
+		string name = vars.Resolver.ReadString(length, ReadStringType.UTF8, entry + sizeof(short));
 
 		return number == 0 ? name : name + "_" + number;
 	});
-
-	current.World = "";
-}
-
-update
-{
-	vars.Helper.Update();
-	vars.Helper.MapPointers();
-
-	var world = vars.FNameToString(current.GWorldName);
-	if (!string.IsNullOrEmpty(world) && world != "None")
-		current.World = world;
-	if (old.World != current.World) vars.Log("GWorldName: " + current.World.ToString());
-	if (old.World != current.World) vars.stopwatch = Stopwatch.StartNew();
 }
 
 onStart
 {
-	vars.stopwatch = Stopwatch.StartNew();
 	vars.CompletedSplits.Clear();
-
-	// This makes sure the timer always starts at 0.00
 	timer.IsGameTimePaused = true;
 }
 
@@ -166,14 +104,25 @@ start
 	return old.World == "MainMenu" && current.World == "Level_1_2";
 }
 
+update
+{
+    vars.Uhara.Update();
+
+    var world = vars.FNameToString(current.GWorldName);
+    if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
+    if (old.World != current.World) vars.Uhara.Log("World: " + current.World);
+
+    if (vars.Resolver.CheckFlag("ShowLoading")) vars.Loading = true;
+    if (vars.Resolver.CheckFlag("HideLoading")) vars.Loading = false;
+}
+
 split
 {	
 	if (current.World != "Level_7_6")
 	{
-		if (old.World != current.World && (current.World != "MainMenu" || current.World != "Hideout") && settings.ContainsKey(current.World)
-		&& (!vars.CompletedSplits.Contains(current.World)))
+		if (old.World != current.World && (current.World != "MainMenu" || current.World != "Hideout") 
+            && settings.ContainsKey(current.World) && (!vars.CompletedSplits.Contains(current.World)))
 		{
-			vars.stopwatch = Stopwatch.StartNew();
 			vars.CompletedSplits.Add(current.World);
 			return true;
 		}
@@ -181,9 +130,8 @@ split
 	else if (current.World == "Level_7_6")
 	{
 		if (settings.ContainsKey(current.World) && (!vars.CompletedSplits.Contains(current.World))
-			&& old.results == 0 && current.results == 1 && vars.stopwatch.ElapsedMilliseconds >= 30000)
+			&& vars.Resolver.CheckFlag("ResultsShown"))
 		{
-			vars.stopwatch = Stopwatch.StartNew();
 			vars.CompletedSplits.Add(current.World);
 			return true;
 		}
@@ -192,12 +140,11 @@ split
 
 isLoading
 {
-	return current.loading == 0;
+    return vars.Loading;
 }
 
 reset
 {
-	
 	return settings["AutoReset"] && old.World != "MainMenu" && current.World == "MainMenu";
 }
 
