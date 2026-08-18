@@ -18,6 +18,7 @@ startup
     vars.PreBattleLoadStates = new HashSet<string>() { "InitBattle", "LoadDependencies", "Dependencies loaded" };
     vars.EncounterWon = new HashSet<string>();
     vars.WorldTransitionsEncountered = new HashSet<string>();
+    vars.CinematicsPlayed = new HashSet<string>();
 }
 
 init
@@ -160,11 +161,6 @@ init
 
     // Versions without BattleDebugLastFlowState use this event-based battle gate.
     vars.Events.FunctionFlag("BattleStartWithoutDebugFlowState", "WBP_HUD_BattleScreen_C", "WBP_HUD_BattleScreen_C", "ExecuteUbergraph_WBP_HUD_BattleScreen");
-
-    // Final Renoir Third Fight Load Removal
-    vars.Events.FunctionFlag("Renoir3FinalFightCutsceneStarted", "SEQ_Skill_Curator_Finisher_DirectorBP_C", "SEQ_Skill_Curator_Finisher_DirectorBP_C", "SequenceEvent__ENTRYPOINTSEQ_Skill_Curator_Finisher_DirectorBP");
-	vars.Renoir3RTDelta = TimeSpan.FromSeconds(13.97);
-	vars.Events.FunctionFlag("Renoir3FinalFightCutsceneMaelleDoneStabbing", "ABP_Facial_Cine_Maelle_C", "ABP_Facial_Cine_Maelle_C", "EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Facial_Cine_Main_AnimGraphNode_TransitionResult_09D0F12D43EE55E3398A2E9FD396BFEF");
 
     vars.Ready = true;
 }
@@ -396,24 +392,27 @@ split
     string worldEncounter = current.World + "-" + old.EncounterName;
     string phase1Key = worldEncounter + "_Phase1";
 
-    // Leaving World splits
-    string worldTransition = old.World + "-worldLeave";
-    if ((current.World == "Level_Camp_Main" || current.World == "Level_WorldMap_Main_V2") &&
-        !vars.WorldTransitionsEncountered.Contains(worldTransition))
+    if (old.World != current.World)
     {
-        vars.WorldTransitionsEncountered.Add(worldTransition);
-        if (settings.ContainsKey(worldTransition) && settings[worldTransition])
-            return true;
-    }
+        // Leaving World splits
+        string worldTransition = old.World + "-worldLeave";
+        if ((current.World == "Level_Camp_Main" || current.World == "Level_WorldMap_Main_V2") &&
+            !vars.WorldTransitionsEncountered.Contains(worldTransition))
+        {
+            vars.WorldTransitionsEncountered.Add(worldTransition);
+            if (settings.ContainsKey(worldTransition) && settings[worldTransition])
+                return true;
+        }
 
-    // Entering World splits
-    worldTransition = current.World + "-worldEnter";
-    if (old.World == "Level_WorldMap_Main_V2" &&
-        !vars.WorldTransitionsEncountered.Contains(worldTransition))
-    {
-        vars.WorldTransitionsEncountered.Add(worldTransition);
-        if (settings.ContainsKey(worldTransition) && settings[worldTransition])
-            return true;
+        // Entering World splits
+        worldTransition = current.World + "-worldEnter";
+        if (old.World == "Level_WorldMap_Main_V2" &&
+            !vars.WorldTransitionsEncountered.Contains(worldTransition))
+        {
+            vars.WorldTransitionsEncountered.Add(worldTransition);
+            if (settings.ContainsKey(worldTransition) && settings[worldTransition])
+                return true;
+        }
     }
 
     // Eveque Split
@@ -456,8 +455,8 @@ split
     }
 
     // Duolliste Phase 2 / final victory
-    if (settings.ContainsKey("Level_Side_CleasTower-Boss_Duolliste_P1") && settings["Level_Side_CleasTower-Boss_Duolliste_P1"] && current.World == "Level_Side_CleasTower" &&
-        old.EncounterName == "Boss_Duolliste_P1" && vars.DuollistePhase2Seen && vars.BattleWon && current.EncounterName == "None" && !vars.EncounterWon.Contains("DuollistePhase2"))
+    if (current.World == "Level_Side_CleasTower" && old.EncounterName == "Boss_Duolliste_P1" && vars.DuollistePhase2Seen && vars.BattleWon && current.EncounterName == "None" && 
+        settings.ContainsKey("Level_Side_CleasTower-Boss_Duolliste_P1") && settings["Level_Side_CleasTower-Boss_Duolliste_P1"] && !vars.EncounterWon.Contains("DuollistePhase2"))
     {
         vars.EncounterWon.Add("DuollistePhase2");
         vars.DuollistePhase2Seen = false;
@@ -472,9 +471,13 @@ split
         return true;
     }
 
-    // Act splits
-    if (old.CurrentCinematic != current.CurrentCinematic && !string.IsNullOrEmpty(current.CurrentCinematic) &&
-        settings.ContainsKey(current.CurrentCinematic) && settings[current.CurrentCinematic]) return true;
+    // Cinematic splits (Act splits + some others)
+    if (old.CurrentCinematic != current.CurrentCinematic && !string.IsNullOrEmpty(current.CurrentCinematic) && !vars.CinematicsPlayed.Contains(current.CurrentCinematic))
+    {
+        vars.CinematicsPlayed.Add(current.CurrentCinematic);
+        if (settings.ContainsKey(current.CurrentCinematic) && settings[current.CurrentCinematic])
+            return true;
+    }
 }
 
 isLoading
@@ -508,7 +511,7 @@ isLoading
         (!current.CS_IsInTransition && current.CS_IsPlayingCinematic && current.CS_CinematicPaused);
 
     // inclusion of Renoir 3 Final Stab section
-    return worldOrBattleLoading || battleLoadingWithoutDebugFlowState || cinematicLoading || cinematicFinishing || cinematicGapHold || vars.Renoir3FinalStabSequenceLoad;;
+    return worldOrBattleLoading || battleLoadingWithoutDebugFlowState || cinematicLoading || cinematicFinishing || cinematicGapHold || vars.Renoir3FinalStabSequenceLoad;
 }
 
 reset
@@ -529,6 +532,7 @@ onReset
     vars.Renoir3FinalStabSequenceLoad = false;
     vars.EncounterWon.Clear();
     vars.WorldTransitionsEncountered.Clear();
+    vars.CinematicsPlayed.Clear();
 }
 
 exit
