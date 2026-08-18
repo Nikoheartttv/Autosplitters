@@ -92,6 +92,7 @@ init
     vars.Uhara["PlayerControllerFName"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
     vars.Resolver.Watch<bool>("IsChangingMap", vars.Utils.GEngine, 0x10A8, 0x1D0);
     vars.Resolver.Watch<bool>("IsChangingArea", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0xDE8);
+	vars.Uhara["IsChangingArea"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
     vars.Resolver.Watch<bool>("LSW_HasAppeared", vars.Utils.GEngine, 0x10A8, 0xB08, 0x300);
 
     // bPlayerIsWaiting (used for post-cutscene load)
@@ -116,9 +117,8 @@ init
     vars.Uhara["BattleManagerEncounterName"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
     vars.Resolver.Watch<byte>("BattleEndState", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x910);
     vars.Uhara["BattleEndState"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
-    vars.Resolver.Watch<IntPtr>("BattleManagerEnemiesArray", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0xC8, 0x0);
-    vars.Uhara["BattleManagerEnemiesArray"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
-    vars.Resolver.Watch<ulong>("BattleManagerSequenceFName", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0xC8, 0x0, 0xBB8, 0x2A0, 0x18);
+    vars.Resolver.Watch<IntPtr>("BattleManagerEnemiesArrayFirstEntry", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0xC8, 0x0);
+	vars.Uhara["BattleManagerEnemiesArrayFirstEntry"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
     // only in V1.2.0.0+
     vars.Resolver.WatchString("BattleDebugLastFlowState", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x920, 0x9D8, 0x0);
@@ -146,6 +146,7 @@ init
     current.GFTS_TransitionType = 0;
     current.GFTS_Phase = 0;
     current.CS_PostCineTransitionType = 0;
+	current.Renoir3SequenceName = "";
     current.ProjectVersion = "";
 
     // Game Start events
@@ -181,20 +182,20 @@ update
         switch (projectVersion)
         {
             case "1.1.1.0":
+            case "1.2.0.0": case "1.2.1.0":
+            case "1.2.2.0": case "1.2.3.0": 
                 vars.MiniMapOffset = 0x3C8;
                 vars.IsInTransitionOffset = 0x358;
                 vars.HasInputLockOffset = 0x291;
                 vars.SequenceStartedOffset = 0x290;
                 vars.GFTSIntermediateOffset = 0x340;
                 break;
-            case "1.2.0.0": case "1.2.1.0":
-            case "1.2.2.0": case "1.2.3.0": case "1.3.0.0":
-            case "1.3.1.0":
-                vars.MiniMapOffset = 0x3C8;
+			case "1.3.0.0": case "1.3.1.0":
+				vars.MiniMapOffset = 0x3C8;
                 vars.IsInTransitionOffset = 0x358;
                 vars.HasInputLockOffset = 0x291;
                 vars.SequenceStartedOffset = 0x290;
-                vars.GFTSIntermediateOffset = 0x340;
+                vars.GFTSIntermediateOffset = 0x350;
                 break;
             case "1.4.0.0":
                 vars.MiniMapOffset = 0x3D0;
@@ -203,10 +204,15 @@ update
                 vars.SequenceStartedOffset = 0x290;
                 vars.GFTSIntermediateOffset = 0x350;
                 break;
-            case "1.5.0.0": case "1.5.1.0": case "1.5.2.0":
-            case "1.5.3.0": case "1.5.4.0":
-            case "1.5.5.0":
-            case "1.5.6.0":
+            case "1.5.0.0":
+				vars.MiniMapOffset = 0x3D0;
+                vars.IsInTransitionOffset = 0x360;
+                vars.HasInputLockOffset = 0x299;
+                vars.SequenceStartedOffset = 0x298;
+                vars.GFTSIntermediateOffset = 0x350;
+                break;
+			case "1.5.1.0": case "1.5.2.0": case "1.5.3.0": 
+			case "1.5.4.0": case "1.5.5.0": case "1.5.6.0":
                 vars.MiniMapOffset = 0x3D0;
                 vars.IsInTransitionOffset = 0x350;
                 vars.HasInputLockOffset = 0x299;
@@ -222,8 +228,7 @@ update
                     "If this version has not yet been updated for the autosplitter, please contact @Nikoheart " +
                     "in #lrt-autosplitter-dev in the speedrunning Discord.",
                     "Unsupported Game Version Detected",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 var cleanVersion = projectVersion.Replace(".", "");
                 int parsedVersion;
                 if (int.TryParse(cleanVersion, out parsedVersion))
@@ -244,15 +249,9 @@ update
     // Versions without BattleDebugLastFlowState use the event-based battle gate.
     if (vars.DetectedProjectVersion == "1.1.1.0")
     {
-        if (!vars.BattleLoadingGate && old.BattleFlowState == 0 && current.BattleFlowState == 2)
-        {
-            vars.BattleLoadingGate = true;
-        }
+        if (!vars.BattleLoadingGate && old.BattleFlowState == 0 && current.BattleFlowState == 2) vars.BattleLoadingGate = true;
 
-        if (vars.BattleLoadingGate && vars.Resolver.CheckFlag("BattleStartWithoutDebugFlowState"))
-        {
-            vars.BattleLoadingGate = false;
-        }
+        if (vars.BattleLoadingGate && vars.Resolver.CheckFlag("BattleStartWithoutDebugFlowState")) vars.BattleLoadingGate = false;
     }
 
     // Check if Player Controller has an address
@@ -267,10 +266,7 @@ update
     }
 
     // Player Controller Name
-    if (!vars.HasLocalPlayers || current.PlayerControllerFName == 0)
-    {
-        current.PlayerController = "";
-    }
+    if (!vars.HasLocalPlayers || current.PlayerControllerFName == 0) current.PlayerController = "";
     else if (current.PlayerControllerFName != old.PlayerControllerFName || string.IsNullOrEmpty(current.PlayerController))
     {
         var pc = vars.Utils.FNameToString(current.PlayerControllerFName);
@@ -298,8 +294,6 @@ update
         current.CS_HasInputLockFromPreCinematic = vars.Resolver.Read<bool>("CS_HasInputLockFromPreCinematic", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.HasInputLockOffset);
         current.CS_SequenceStarted = vars.Resolver.Read<bool>("CS_SequenceStarted", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8A8, vars.SequenceStartedOffset);
 
-        if (old.BattleEndState == 0 && current.BattleEndState == 1) vars.BattleWon = true;
-
         if (current.CS_CinematicName != old.CS_CinematicName)
         {
             var name = vars.Utils.FNameToString(current.CS_CinematicName);
@@ -318,10 +312,7 @@ update
         }
 
         if (old.BattleDebugLastFlowState != current.BattleDebugLastFlowState && current.BattleDebugLastFlowState == "StartBattleEndFlow: Victory" ||
-            old.BattleEndState != current.BattleEndState && current.BattleEndState == 1)
-        {
-            vars.BattleWon = true;
-        }
+            old.BattleEndState != current.BattleEndState && current.BattleEndState == 1) vars.BattleWon = true;
 
         if (old.BattleFlowState != current.BattleFlowState) vars.Uhara.Log("BattleFlowState: " + current.BattleFlowState);
         if (old.BattleDebugLastFlowState != current.BattleDebugLastFlowState) vars.Uhara.Log("BattleDebugLastFlowState: " + current.BattleDebugLastFlowState);
@@ -336,40 +327,37 @@ update
     }
 
     // Load Removal Logic for Renoir 3 Final Stab Sequence
-    if (!vars.Renoir3FinalStabSequenceReady && current.CurrentCinematic == "MCS_RenoirFightPhase2to3_PartLumiere" && current.BattleManagerEnemiesArray != IntPtr.Zero)
-        vars.Renoir3FinalStabSequenceReady = vars.FNameToString(vars.Resolver.Read<ulong>(current.BattleManagerEnemiesArray + 0x18)).StartsWith("BP_EnemyBattle_Curator");
+	if (current.BattleManagerEnemiesArrayFirstEntry != IntPtr.Zero)
+	{
+		if (!vars.Renoir3FinalStabSequenceReady && current.CurrentCinematic == "MCS_RenoirFightPhase2to3_PartLumiere")
+			vars.Renoir3FinalStabSequenceReady = vars.FNameToString(vars.Resolver.Read<ulong>(current.BattleManagerEnemiesArrayFirstEntry + 0x10, 0x18)) == "BP_EnemyBattle_Curator_C";
+	}
+	else vars.Renoir3FinalStabSequenceReady = false;
 
-    if (vars.Renoir3FinalStabSequenceReady && current.BattleManagerEnemiesArray != IntPtr.Zero)
+    if (vars.Renoir3FinalStabSequenceReady && current.BattleManagerEnemiesArrayFirstEntry != IntPtr.Zero)
     {
-        string sequenceName = vars.FNameToString(current.BattleManagerSequenceFName);
+        current.Renoir3SequenceName = vars.FNameToString(vars.Resolver.Read<ulong>(current.BattleManagerEnemiesArrayFirstEntry + 0xBB8, 0x2A0, 0x18));
 
-        if (sequenceName.StartsWith("SEQ_Skill_Curator_Finisher"))
+        if (current.Renoir3SequenceName == "SEQ_Skill_Curator_Finisher")
         {
-            byte sequenceStatus = vars.Resolver.Read<byte>(current.BattleManagerEnemiesArray + 0xBB8, 0x330, 0x2D0, 0x288);
-            int currentFrame = vars.Resolver.Read<int>(current.BattleManagerEnemiesArray + 0xBB8, 0x330, 0x2D0, 0x384);
+            byte sequenceStatus = vars.Resolver.Read<byte>(current.BattleManagerEnemiesArrayFirstEntry + 0xBB8, 0x330, 0x2D0, 0x288);
+            int currentFrame = vars.Resolver.Read<int>(current.BattleManagerEnemiesArrayFirstEntry + 0xBB8, 0x330, 0x2D0, 0x384);
 
             vars.Renoir3FinalStabSequenceLoad = sequenceStatus == 1 && currentFrame >= 629 && currentFrame <= 868;
         }
     }
-
 
     // Latch post-cinematic transition when TransitionType == 1
     if (current.CS_PostCineTransitionType == 1) vars.PostCineTransitionActive = true;
 
     // Clear the post-cine latch only when the transition is fully over and no cinematic context remains
     if (current.GFTS_TransitionType == 0 && !current.CS_IsPlayingCinematic && !current.CS_CinematicPaused &&
-        (string.IsNullOrEmpty(current.CurrentCinematic) || current.CurrentCinematic == "None"))
-    {
-        vars.PostCineTransitionActive = false;
-    }
+        (string.IsNullOrEmpty(current.CurrentCinematic) || current.CurrentCinematic == "None")) vars.PostCineTransitionActive = false;
 
     // Latch the cinematic gap when we're in a post-cine transition,
     // GFTS black-screen, and the player is in the wait state (9 or 15).
     if (vars.PostCineTransitionActive && current.GFTS_TransitionType == 1 &&
-        (current.bPlayerIsWaiting == 9 || current.bPlayerIsWaiting == 15))
-    {
-        vars.CinematicGapLatched = true;
-    }
+        (current.bPlayerIsWaiting == 9 || current.bPlayerIsWaiting == 15)) vars.CinematicGapLatched = true;
 
     // Clear the gap latch once the black-screen is over or CinematicSystem is clearly active again
     if (current.GFTS_TransitionType == 0 || current.CS_IsPlayingCinematic || current.CS_CinematicPaused) vars.CinematicGapLatched = false;
@@ -396,22 +384,18 @@ split
     {
         // Leaving World splits
         string worldTransition = old.World + "-worldLeave";
-        if ((current.World == "Level_Camp_Main" || current.World == "Level_WorldMap_Main_V2") &&
-            !vars.WorldTransitionsEncountered.Contains(worldTransition))
+        if ((current.World == "Level_Camp_Main" || current.World == "Level_WorldMap_Main_V2") && !vars.WorldTransitionsEncountered.Contains(worldTransition))
         {
             vars.WorldTransitionsEncountered.Add(worldTransition);
-            if (settings.ContainsKey(worldTransition) && settings[worldTransition])
-                return true;
+            if (settings.ContainsKey(worldTransition) && settings[worldTransition]) return true;
         }
 
         // Entering World splits
         worldTransition = current.World + "-worldEnter";
-        if (old.World == "Level_WorldMap_Main_V2" &&
-            !vars.WorldTransitionsEncountered.Contains(worldTransition))
+        if (old.World == "Level_WorldMap_Main_V2" && !vars.WorldTransitionsEncountered.Contains(worldTransition))
         {
             vars.WorldTransitionsEncountered.Add(worldTransition);
-            if (settings.ContainsKey(worldTransition) && settings[worldTransition])
-                return true;
+            if (settings.ContainsKey(worldTransition) && settings[worldTransition]) return true;
         }
     }
 
@@ -475,8 +459,7 @@ split
     if (old.CurrentCinematic != current.CurrentCinematic && !string.IsNullOrEmpty(current.CurrentCinematic) && !vars.CinematicsPlayed.Contains(current.CurrentCinematic))
     {
         vars.CinematicsPlayed.Add(current.CurrentCinematic);
-        if (settings.ContainsKey(current.CurrentCinematic) && settings[current.CurrentCinematic])
-            return true;
+        if (settings.ContainsKey(current.CurrentCinematic) && settings[current.CurrentCinematic]) return true;
     }
 }
 
@@ -499,7 +482,7 @@ isLoading
 
     // Generic world or battle loading
     bool worldOrBattleLoading = !vars.HasLocalPlayers || current.World == "Map_Game_Bootstrap" ||
-        current.IsChangingMap || current.IsChangingArea || current.LSW_HasAppeared ||
+        current.IsChangingMap || current.IsChangingArea && current.World != "Level_MainMenu" || current.LSW_HasAppeared ||
         (current.World != "Level_MainMenu" && current.PCMInGame < 0.5) ||
         battleLoadingWithDebugFlowState || (current.World == "Level_WorldMap_Main_V2" && current.MiniMapActive);
 
