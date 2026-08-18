@@ -445,8 +445,10 @@ split
     }
 
     // Generic encounter split
-    if (current.World != "Level_MainMenu" && vars.BattleWon && old.EncounterName != "None" && current.EncounterName == "None" && settings.ContainsKey(worldEncounter) && settings[worldEncounter])
+    if (current.World != "Level_MainMenu" && vars.BattleWon && old.EncounterName != "None" && current.EncounterName == "None" 
+        && settings.ContainsKey(worldEncounter) && settings[worldEncounter] && !vars.EncounterWon.Contains(worldEncounter))
     {
+        vars.EncounterWon.Add(worldEncounter);
         vars.BattleWon = false;
         return true;
     }
