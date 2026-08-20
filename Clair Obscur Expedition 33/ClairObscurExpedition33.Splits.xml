@@ -83,40 +83,41 @@
     </Setting>
   </Setting>
   <Setting Id="PositionSplits" Label="Splits on entering / leaving locations (leaving unless noted)" State="false">
-        <Setting Id="Level_SpringMeadows_Main_V2-worldLeave" Label="Spring Meadows" State="false" />
-        <Setting Id="Level_Goblu_Main_V5-worldLeave" Label="Flying Water (Goblu skip)" State="true" />
-        <Setting Id="Level_AncientSanctuary_Main_V2-worldLeave" Label="Ancient Sanctuary" State="false" />
-        <Setting Id="Level_Main_GestralVillage_V2-worldLeave" Label="Gestral Village" State="false" />
-        <Setting Id="LevelMain_EsquieNest-worldLeave" Label="Esquie's Nest" State="true" />
-        <Setting Id="Level_Main_ForgottenBattlefield_V2-worldLeave" Label="Forgotten Battlefield (Dualliste skip)" State="true" />
-        <Setting Id="Level_MonocoStation-worldLeave" Label="Monoco's Station" State="false" />
-        <Setting Id="Level_OldLumiere_Main-worldLeave" Label="Old Lumière" State="false" />
-        <Setting Id="Level_Visages_Main_V1-worldEnter" Label="Visages (enter)" State="true" />
+    <Setting Id="Level_SpringMeadows_Main_V2-worldLeave" Label="Spring Meadows" State="false" />
+    <Setting Id="Level_Goblu_Main_V5-worldLeave" Label="Flying Water (Goblu skip)" State="true" />
+    <Setting Id="Level_AncientSanctuary_Main_V2-worldLeave" Label="Ancient Sanctuary" State="false" />
+    <Setting Id="Level_Main_GestralVillage_V2-worldLeave" Label="Gestral Village" State="false" />
+    <Setting Id="LevelMain_EsquieNest-worldLeave" Label="Esquie's Nest" State="true" />
+    <Setting Id="Level_Main_ForgottenBattlefield_V2-worldLeave" Label="Forgotten Battlefield (Dualliste skip)" State="true" />
+    <Setting Id="Level_MonocoStation-worldLeave" Label="Monoco's Station" State="false" />
+    <Setting Id="Level_OldLumiere_Main-worldLeave" Label="Old Lumière" State="false" />
+    <Setting Id="Level_Visages_Main_V1-worldEnter" Label="Visages (enter)" State="true" />
   </Setting>
   <Setting Id="OptionalEncounterSplits" Label="Optional Encounter Splits" State="false">
     <Setting Id="Level_WorldMap_Main_V2-OE" Label="World Map" State="false">
-        <Setting Id="Level_WorldMap_Main_V2-WM_Troubadour_Gault_Demineur" Label="Troubadour/ Gault / Démineur" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Hexga_Glaise_Veilleur" Label="Hexga / Glaise / Veilleur" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Rocher_Potier" Label="Bourgeon / Rocher / Potier" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Volester_Gault" Label="Bourgeon / Volester / Gault" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Benisseur_OrphelinNailBig" Label="Bourgeon / Bénisseur / Orphelin" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Ramasseur_Danseuse" Label="Bourgeon / Ramasseur / Danseuse" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Sprong" Label="Sprong" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Serpenphare" Label="Serpenphare" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_GrossTete" Label="Grosse Tête" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_EvequeLighting_Alpha" Label="Thunder Évêque" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_EvequeIce_Alpha" Label="Frost Évêque" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_BenisseurAlpha" Label="Chromatic Bénisseur" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Portier_Alpha" Label="Chromatic Portier" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-L_Aberration_Alpha" Label="Chromatic Aberration" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-YF_JarALPHA" Label="Chromatic Jar" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Bruler_Alpha" Label="Chromatic Bruler" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Petank_Alpha" Label="Chromatic Pétank" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_CultistFlying_Alpha" Label="Chromatic Reaper Cultist" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Demineur_Alpha" Label="Chromatic Démineur" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Goblu_Alpha" Label="Chromatic Goblu" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_MoissoneuseAlpha" Label="Chromatic Moissonneuse" State="false" />
-        <Setting Id="Level_WorldMap_Main_V2-WM_Mime_Mime" Label="Mime x2" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Cruler_Lancelier_Demineur" Label="Cruel / Lancelier / Démineur" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Troubadour_Gault_Demineur" Label="Troubadour/ Gault / Démineur" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Hexga_Glaise_Veilleur" Label="Hexga / Glaise / Veilleur" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Rocher_Potier" Label="Bourgeon / Rocher / Potier" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Volester_Gault" Label="Bourgeon / Volester / Gault" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Benisseur_OrphelinNailBig" Label="Bourgeon / Bénisseur / Orphelin" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Bourgeon_Ramasseur_Danseuse" Label="Bourgeon / Ramasseur / Danseuse" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Sprong" Label="Sprong" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Serpenphare" Label="Serpenphare" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_GrossTete" Label="Grosse Tête" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_EvequeLighting_Alpha" Label="Thunder Évêque" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_EvequeIce_Alpha" Label="Frost Évêque" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_BenisseurAlpha" Label="Chromatic Bénisseur" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Portier_Alpha" Label="Chromatic Portier" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-L_Aberration_Alpha" Label="Chromatic Aberration" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-YF_JarALPHA" Label="Chromatic Jar" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Bruler_Alpha" Label="Chromatic Bruler" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Petank_Alpha" Label="Chromatic Pétank" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_CultistFlying_Alpha" Label="Chromatic Reaper Cultist" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Demineur_Alpha" Label="Chromatic Démineur" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Goblu_Alpha" Label="Chromatic Goblu" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_MoissoneuseAlpha" Label="Chromatic Moissonneuse" State="false" />
+      <Setting Id="Level_WorldMap_Main_V2-WM_Mime_Mime" Label="Mime x2" State="false" />
     </Setting>
     <Setting Id="Level_SpringMeadows_Main_V2-OE" Label="Spring Meadows" State="false">
       <Setting Id="Level_SpringMeadows_Main_V2-SM_Lancelier_Alpha" Label="Chromatic Lancelier" State="false" />
@@ -192,7 +193,7 @@
       <Setting Id="Level_Side_CleasWorkShop_V2-CW_Boss_LampmasterAlpha" Label="Lampmaster" State="false" />
     </Setting>
     <Setting Id="SmallLevel_Cavern_CrushingWalls-OE" Label="Crushing Cavern" State="false">
-        <Setting Id="SmallLevel_Cavern_CrushingWalls-SL_Sapling_CrushingWalls_1" Label="Giant Sapling" State="false" />
+      <Setting Id="SmallLevel_Cavern_CrushingWalls-SL_Sapling_CrushingWalls_1" Label="Giant Sapling" State="false" />
     </Setting>
     <Setting Id="Level_CleaFlyingHouse_Main-OE" Label="Flying Manor" State="false">
       <Setting Id="Level_CleaFlyingHouse_Main-CFH_Mime*1" Label="Mime" State="false" />
@@ -213,28 +214,28 @@
       <Setting Id="SmallLevel_FB_Zone_01-QUEST_TroubadourCantPlay*1" Label="Troubadour Can't Play" State="false" />
     </Setting>
     <Setting Id="Level_RedForest_Main-OE" Label="Crimson Forest" State="false">
-        <Setting Id="Level_RedForest_Main-RF_ChevaliereCAlpha_Clair_Obscur" Label="Chromatic Gold Chevalière" State="false" />
+      <Setting Id="Level_RedForest_Main-RF_ChevaliereCAlpha_Clair_Obscur" Label="Chromatic Gold Chevalière" State="false" />
     </Setting>
     <Setting Id="ConceptLevel_SeaCliff_V1-OE" Label="Stone Wave Cliffs Cave" State="false">
-        <Setting Id="ConceptLevel_SeaCliff_V1-SC_Hexga_Alpha*1" Label="Chromatic Hexga" State="false" />
+      <Setting Id="ConceptLevel_SeaCliff_V1-SC_Hexga_Alpha*1" Label="Chromatic Hexga" State="false" />
     </Setting>
     <Setting Id="SmallLevel_Cemetery_Blockout-OE" Label="Floating Cemetery" State="false">
-        <Setting Id="SmallLevel_Cemetery_Blockout-FC_ChalierSpear*1" Label="Chalier - Spear" State="false" />
-        <Setting Id="SmallLevel_Cemetery_Blockout-FC_ChalierSword*1" Label="Chalier - Sword" State="false" />
-        <Setting Id="SmallLevel_Cemetery_Blockout-FC_ChalierHammer*1" Label="Chalier - Hammer" State="false" />
+      <Setting Id="SmallLevel_Cemetery_Blockout-FC_ChalierSpear*1" Label="Chalier - Spear" State="false" />
+      <Setting Id="SmallLevel_Cemetery_Blockout-FC_ChalierSword*1" Label="Chalier - Sword" State="false" />
+      <Setting Id="SmallLevel_Cemetery_Blockout-FC_ChalierHammer*1" Label="Chalier - Hammer" State="false" />
     </Setting>
     <Setting Id="Level_OraneForest_Main-OE" Label="Falling Leaves" State="false">
-        <Setting Id="Level_OraneForest_Main-OF_BalletAlpha" Label="Chromatic Ballet" State="false" />
-        <Setting Id="Level_OraneForest_Main-YF_Scavenger" Label="Scavenger" State="false" />
+      <Setting Id="Level_OraneForest_Main-OF_BalletAlpha" Label="Chromatic Ballet" State="false" />
+      <Setting Id="Level_OraneForest_Main-YF_Scavenger" Label="Scavenger" State="false" />
     </Setting>
     <Setting Id="SmallLevel_FA_Zone_01-OE" Label="Sky Island" State="false">
-        <Setting Id="SmallLevel_FA_Zone_01-YF_GlaiseALPHA" Label="Chromatic Glaise" State="false" />
+      <Setting Id="SmallLevel_FA_Zone_01-YF_GlaiseALPHA" Label="Chromatic Glaise" State="false" />
     </Setting>
     <Setting Id="SmallLevel_DoorMaze_Blockout-OE" Label="Esoteric Ruins" State="false">
-        <Setting Id="SmallLevel_DoorMaze_Blockout-Portier_DoorSoul" Label="Portier" State="false" />
+      <Setting Id="SmallLevel_DoorMaze_Blockout-Portier_DoorSoul" Label="Portier" State="false" />
     </Setting>
     <Setting Id="SmallLevel_RZ_Zone_01-OE" Label="The Crows" State="false">
-        <Setting Id="SmallLevel_RZ_Zone_01-MF_ChapelieALPHA" Label="Chromatic Chapelier" State="false" />
+      <Setting Id="SmallLevel_RZ_Zone_01-MF_ChapelieALPHA" Label="Chromatic Chapelier" State="false" />
     </Setting>
     <Setting Id="Level_Side_FrozenHeart-OE" Label="Frozen Hearts" State="false">
       <Setting Id="Level_Side_FrozenHeart-QUEST_Danseuse_DanceClass*1" Label="Danseuse Teacher" State="false" />
