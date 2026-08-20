@@ -131,8 +131,6 @@ init
     vars.Uhara["PCMInGame"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
 
     // Interaction Manager
-    // vars.Events.FunctionFlag("SWC_RopeSplit", "BP_GPE_Rope_C", "BP_GPE_Rope_C_UAID_18C04D921BEF17DB01", "BndEvt__BP_GPE_Rope_EntryTriggerSphere_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature");
-    // vars.Events.FunctionFlag("SWC_GrappleSplit", "BP_GrapplePoint_C", "BP_GrapplePoint_C_UAID_C87F5409F1ECB1D201", "ExecuteUbergraph_BP_GrapplePoint");
     vars.Resolver.Watch<ulong>("IM_ActiveInteractionFName", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8E0, 0xC8, 0x18);
     vars.Uhara["BattleDebugLastFlowState"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
     vars.Resolver.Watch<bool>("IM_IsInteracting", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8E0, 0x1A8);
