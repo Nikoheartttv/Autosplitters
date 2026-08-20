@@ -285,6 +285,33 @@
       <Setting Id="SmallLevel_SimonArea-Boss_SimonPhase2*1" Label="Simon Phase 2" State="false" />
     </Setting>
   </Setting>
+  <Setting Id="OptionalInteractionSplits" Label="Optional Interaction Splits" State="false">
+    <Setting Id="Level_SeaCliff_Main_V2-OIE" Label="Stone Wave Cliffs" State="false">
+      <Setting Id="Level_SeaCliff_Main_V2-BP_GPE_Rope_C_UAID_C87F5409F1EC1DD201_1695345130" Label="Rope Interaction to Old Farm" State="false" />
+      <Setting Id="Level_SeaCliff_Main_V2-BP_GPE_Rope_C_UAID_18C04D921BEF17DB01_1696025927" Label="Rope Interaction to Lampmaster" State="false" />
+      <Setting Id="Level_SeaCliff_Main_V2-BP_GrapplePoint_C_UAID_C87F5409F1ECB1D201_1159779929" Label="Grapple Interaction to Lampmaster" State="false" />
+    </Setting>
+    <Setting Id="Level_Main_ForgottenBattlefield_V2-OIE" Label="Forgotten Battlefield" State="false">
+      <Setting Id="Level_Main_ForgottenBattlefield_V2-BP_GPE_Rope_C_UAID_C87F5409F1ECE7BA01_1466670333" Label="Rope Interaction to Merchant" State="false" />
+    </Setting>
+    <Setting Id="Level_OldLumiere_Main-OIE" Label="Old Lumière" State="false">
+      <Setting Id="Level_OldLumiere_Main-BP_GrapplePoint_C_UAID_C87F5409F1EC3AB501_1228224965" Label="Grapple before Renoir" State="false" />
+    </Setting>
+    <Setting Id="Level_Visages_Main_V1-OIE" Label="Visages" State="false">
+      <Setting Id="Level_Visages_Main_V1-BP_GrapplePoint_C_UAID_C87F5409F1ECD28201_1370490168" Label="Grapple before Boss Fight" State="false" />
+    </Setting>
+    <Setting Id="Level_Sirene_Main_V2-OIE" Label="Sirène" State="false">
+      <Setting Id="Level_Sirene_Main_V2-BP_GPE_Rope_C_UAID_C87F5409F1EC12F301_1350309732" Label="Rope before Glissando" State="false" />
+    </Setting>
+    <Setting Id="Label_Monolith_InteriorClimb-OIE" Label="The Monolith" State="false">
+      <Setting Id="Level_Monolith_Interior_Climb_Main-BP_GPE_Rope_C_UAID_581122C6E7A54AD301_1087253231" Label="Rope to Tainted Sanctuary" State="false" />
+      <Setting Id="Level_Monolith_Interior_Climb_Main-BP_GrapplePoint_C_UAID_C87F5409F1ECF5A201_1168196139" Label="Grapple to Tainted Battlefield" State="false" />
+    </Setting>
+    <Setting Id="Level_Lumiere_Main_V2-OIE" Label="Lumière" State="false">
+      <Setting Id="Level_Lumiere_Main_V2-BP_GPE_Rope_C_UAID_C87F5409F1ECFA0F02_2034103336" Label="Rope after Abberations" State="false" />
+      <Setting Id="Level_Lumiere_Main_V2-BP_GrapplePoint_C_UAID_C87F5409F1EC1AAB01_1882769056" Label="Grapple before Merchant" State="false" />
+    </Setting>
+  </Setting>
   <Setting Id="DLC" Label="DLCs" State="false">
     <Setting Id="Level_Side_VersosDraft-OE" Label="Verso's Drafts" State="false">
       <Setting Id="Level_Side_VersosDraft-VD_Mime*1" Label="Mime" State="false" />

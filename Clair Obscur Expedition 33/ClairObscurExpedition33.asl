@@ -19,6 +19,7 @@ startup
     vars.EncounterWon = new HashSet<string>();
     vars.WorldTransitionsEncountered = new HashSet<string>();
     vars.CinematicsPlayed = new HashSet<string>();
+    vars.IMInteractionStopwatch = new Stopwatch(); // latch for interaction is interacting extended
 }
 
 init
@@ -40,6 +41,7 @@ init
     vars.CinematicGapLatched = false; // latch for the bad gap window
     vars.Renoir3FinalStabSequenceReady = false; // ready to receive final hit sequence
     vars.Renoir3FinalStabSequenceLoad = false; // load removal for final hit sequence
+    vars.IMInteractionIsInteractingExtended = false; // latch for interaction is interacting extended
 
     // Mod Detection
     vars.exeDir = Path.GetDirectoryName(game.MainModule.FileName);
@@ -128,6 +130,14 @@ init
     vars.Resolver.Watch<float>("PCMInGame", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x1390);
     vars.Uhara["PCMInGame"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
 
+    // Interaction Manager
+    // vars.Events.FunctionFlag("SWC_RopeSplit", "BP_GPE_Rope_C", "BP_GPE_Rope_C_UAID_18C04D921BEF17DB01", "BndEvt__BP_GPE_Rope_EntryTriggerSphere_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature");
+    // vars.Events.FunctionFlag("SWC_GrappleSplit", "BP_GrapplePoint_C", "BP_GrapplePoint_C_UAID_C87F5409F1ECB1D201", "ExecuteUbergraph_BP_GrapplePoint");
+    vars.Resolver.Watch<ulong>("IM_ActiveInteractionFName", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8E0, 0xC8, 0x18);
+    vars.Uhara["BattleDebugLastFlowState"].FailAction = MemoryWatcher.ReadFailAction.DontUpdate;
+    vars.Resolver.Watch<bool>("IM_IsInteracting", vars.Utils.GEngine, 0x10A8, 0x38, 0x0, 0x30, 0x8E0, 0x1A8);
+
+
     // Set up default values
     current.World = "";
     current.PlayerController = "";
@@ -145,6 +155,7 @@ init
     current.BattleDebugLastFlowState = "None";
     current.GFTS_TransitionType = 0;
     current.GFTS_Phase = 0;
+    current.IM_ActiveInteractionName = "";
     current.CS_PostCineTransitionType = 0;
 	current.Renoir3SequenceName = "";
     current.ProjectVersion = "";
@@ -311,6 +322,13 @@ update
 
         if (old.BattleDebugLastFlowState != current.BattleDebugLastFlowState && current.BattleDebugLastFlowState == "StartBattleEndFlow: Victory" ||
             old.BattleEndState != current.BattleEndState && current.BattleEndState == 1) vars.BattleWon = true;
+        
+        if (old.IM_ActiveInteractionFName != current.IM_ActiveInteractionFName)
+        {
+            var interaction = vars.FNameToString(current.IM_ActiveInteractionFName);
+            if (!string.IsNullOrEmpty(interaction)) current.IM_ActiveInteractionName = interaction;
+            // else current.InteractionName = "None";
+        }
 
     }
     else
@@ -343,6 +361,8 @@ update
         }
     }
 
+    if (old.EncounterName != current.EncounterName) vars.Uhara.Log("Encounter changed from " + old.EncounterName + " to " + current.EncounterName);
+
     // Latch post-cinematic transition when TransitionType == 1
     if (current.CS_PostCineTransitionType == 1) vars.PostCineTransitionActive = true;
 
@@ -357,6 +377,25 @@ update
 
     // Clear the gap latch once the black-screen is over or CinematicSystem is clearly active again
     if (current.GFTS_TransitionType == 0 || current.CS_IsPlayingCinematic || current.CS_CinematicPaused) vars.CinematicGapLatched = false;
+
+    // if (old.IM_ActiveInteractionName != current.IM_ActiveInteractionName) vars.Uhara.Log("Interaction Name: " + current.World + "-" + current.IM_ActiveInteractionName);
+    // Store key setting check for readability
+
+    // Restart timer on interaction start
+    if (current.IM_IsInteracting) vars.IMInteractionStopwatch.Restart();
+
+    if (vars.IMInteractionStopwatch.IsRunning)
+    {
+        // Maintain half a second stopwatch buffer if interaction is active
+        if (vars.IMInteractionStopwatch.ElapsedMilliseconds <= 500) vars.IMInteractionIsInteractingExtended = true;
+        else
+        {
+            vars.IMInteractionIsInteractingExtended = false;
+            current.IM_ActiveInteractionName = "None";
+            vars.IMInteractionStopwatch.Reset();
+        }
+    }
+    else vars.IMInteractionIsInteractingExtended = false;  
 }
 
 onStart
@@ -442,6 +481,18 @@ split
         vars.DuollistePhase2Seen = false;
         vars.BattleWon = false;
         return true;
+    }
+
+    // Interaction Splits for Stone Wave Clifs
+    if (old.IM_ActiveInteractionName != current.IM_ActiveInteractionName)
+    {
+        // if (old.IM_ActiveInteractionName != current.IM_ActiveInteractionName) vars.Uhara.Log("Interaction Name: " + current.World + "-" + current.IM_ActiveInteractionName);
+        if (vars.IMInteractionIsInteractingExtended && settings.ContainsKey(current.World + "-" + current.IM_ActiveInteractionName) && 
+            settings[current.World + "-" + current.IM_ActiveInteractionName] && !vars.EncounterWon.Contains(current.World + "-" + current.IM_ActiveInteractionName))
+        {
+            vars.EncounterWon.Add(current.World + "-" + current.IM_ActiveInteractionName);
+            return true;
+        }
     }
 
     // Generic encounter split
