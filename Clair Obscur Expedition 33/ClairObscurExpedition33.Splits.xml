@@ -173,9 +173,9 @@
       <Setting Id="Level_YellowForest_Main-RE_OrphelinAlpha" Label="Chromatic Orphelin" State="false" />
     </Setting>
     <Setting Id="Level_SeaCliff_Main_V2-OE" Label="Stone Wave Cliffs" State="false">
-      <Setting Id="Level_SeaCliff_Main_V2-OE-Merchant_SeaCliff" Label="Merchant - Jerijeri" State="false" />
-      <Setting Id="Level_SeaCliff_Main_V2-OE-SC_CultistHeavy*1Flying*2" Label="Greatsword Cultist / Reaper Cultist x 2" State="false" />
-      <Setting Id="Level_SeaCliff_Main_V2-OE-Petank_Orange" Label="Pétank - Orange" State="false" />
+      <Setting Id="Level_SeaCliff_Main_V2-Merchant_SeaCliff" Label="Merchant - Jerijeri" State="false" />
+      <Setting Id="Level_SeaCliff_Main_V2-SC_CultistHeavy*1Flying*2" Label="Greatsword Cultist / Reaper Cultist x 2" State="false" />
+      <Setting Id="Level_SeaCliff_Main_V2-Petank_Orange" Label="Pétank - Orange" State="false" />
     </Setting>
     <Setting Id="Level_Main_ForgottenBattlefield_V2-OE" Label="Forgotten Battlefield" State="false">
       <Setting Id="Level_Main_ForgottenBattlefield_V2-GO_LusterAlpha" Label="Chromatic Luster" State="false" />
