@@ -10,6 +10,24 @@ startup
 
 init
 {
+    vars.SpawnFadeDataFadeAmount = 0x750;
+    string MD5Hash;
+	using (var md5 = System.Security.Cryptography.MD5.Create())
+	using (var s = File.Open(modules.First().FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+	MD5Hash = md5.ComputeHash(s).Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
+	print("Hash is: " + MD5Hash);
+	
+	switch(MD5Hash){
+        case "32E8C699071E08366ECE8EBF63C64227": 
+            version = "Steam (Version 356579)";
+            vars.SpawnFadeDataFadeAmount = 0x700;
+            break;
+		default: 
+            version = "Steam";
+            vars.SpawnFadeDataFadeAmount = 0x750;
+            break;
+	}
+
     vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
     vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
@@ -24,7 +42,7 @@ init
     vars.Resolver.Watch<int>("PersistentActorsNum", vars.Utils.GWorld, 0x30, 0xA8);
     vars.Resolver.Watch<IntPtr>("LevelsData", vars.Utils.GWorld, 0x88);
     vars.Resolver.Watch<int>("LevelsNum", vars.Utils.GWorld, 0x90);
-    vars.Resolver.Watch<double>("SpawnFadeData_FadeAmount", vars.Utils.GWorld, 0x160, 0x750);
+    vars.Resolver.Watch<double>("SpawnFadeData_FadeAmount", vars.Utils.GWorld, 0x160, vars.SpawnFadeDataFadeAmount);
 
     vars.IsAllowedDeathHandler = (Func<string, bool>)(name =>
     {
