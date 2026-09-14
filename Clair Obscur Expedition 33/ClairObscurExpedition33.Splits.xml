@@ -327,7 +327,7 @@
       <Setting Id="Level_Side_VersosDraft-VD_licornapieds*1" Label="Licornapieds" State="false" />
     </Setting>
     <Setting Id="Level_Small_EsquieRealCousin-OE" Label="Verso's Drafts - Esquie's Real Cousin" State="false">
-      <Setting Id="Level_Small_EsquieRealCoustin-VD_Osquio*1" Label="Osquio" State="false" />
+      <Setting Id="Level_Small_EsquieRealCousin-VD_Osquio*1" Label="Osquio" State="false" />
     </Setting>
     <Setting Id="Level_Side_CleasTower-OE" Label="Endless Tower" State="false">
       <Setting Id="Level_Side_CleasTower-TowerBattle_2" Label="Stage 1 - Trial 1" State="false" />
