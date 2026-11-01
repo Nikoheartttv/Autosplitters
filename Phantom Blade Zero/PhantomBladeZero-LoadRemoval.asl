@@ -36,9 +36,8 @@ init
     vars.Events.FunctionFlag("TempLoadingStart", "WB_TempLoadingScreen_C", null, "BP_OnActivated");
     vars.Events.FunctionFlag("TempLoadingEnd", "WB_TempLoadingScreen_C", null, "OnDisappeared");
 
-    vars.Events.FunctionParentPtr<IntPtr>("SequenceNode", "PlayLevelSequence_C", null, "ExecuteUbergraph_PlayLevelSequence");
-    vars.Events.FunctionParentPtr<IntPtr>("QTESequenceNode", "PlayLevelSequence_QTE_C", null, null);
-    vars.Events.FunctionParentPtr<IntPtr>("ExSequenceNode", "PlayLevelSequenceEx_C", null, null);
+    // Wildcard catches all PlayLevelSequence variants
+    vars.Events.FunctionParentPtr<IntPtr>("SequenceNode", "PlayLevelSequence*", null, null);
     vars.Events.FunctionParentPtr<IntPtr>("QTEBase", "W_QTEBase_C", null, null);
 
     current.World = "";
@@ -46,13 +45,9 @@ init
     current.LoadingScreen = false;
 
     current.SequenceNode = IntPtr.Zero;
-    current.QTESequenceNode = IntPtr.Zero;
-    current.ExSequenceNode = IntPtr.Zero;
     current.QTEBase = IntPtr.Zero;
 
-    current.StandardSequenceStatus = false;
-    current.QTESequenceStatus = false;
-    current.ExSequenceStatus = false;
+    current.SequenceStatus = false;
     current.CutscenePlaying = false;
 
     current.QTEExited = -1;
@@ -98,12 +93,9 @@ update
     if (vars.Resolver.CheckFlag("EndLoadingScreen")) current.LoadingScreen = false;
     if (vars.Resolver.CheckFlag("TempLoadingEnd")) current.LoadingScreen = false;
 
-    // Sequence playback
-    current.StandardSequenceStatus = current.SequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.SequenceNode + 0x1F0, 0x290) == 1;
-    current.QTESequenceStatus = current.QTESequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.QTESequenceNode + 0x1F0, 0x290) == 1;
-    current.ExSequenceStatus = current.ExSequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.ExSequenceNode + 0x1F0, 0x290) == 1;
-
-    current.CutscenePlaying = current.StandardSequenceStatus || current.QTESequenceStatus || current.ExSequenceStatus;
+    // Sequence playback (unified wildcard)
+    current.SequenceStatus = current.SequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.SequenceNode + 0x1F0, 0x290) == 1;
+    current.CutscenePlaying = current.SequenceStatus;
 
     // QTE override - Exited takes priority over Countdown and LongPress
     current.QTEExited = current.QTEBase != IntPtr.Zero ? vars.Resolver.Read<byte>(current.QTEBase + 0x490) : -1;
