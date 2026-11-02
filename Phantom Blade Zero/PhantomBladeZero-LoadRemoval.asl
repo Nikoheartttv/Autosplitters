@@ -36,8 +36,6 @@ init
     vars.Events.FunctionFlag("TempLoadingStart", "WB_TempLoadingScreen_C", null, "BP_OnActivated");
     vars.Events.FunctionFlag("TempLoadingEnd", "WB_TempLoadingScreen_C", null, "OnDisappeared");
 
-    vars.Events.FunctionFlag("LiftFadeIn", "BlackScreenForLift_C", null, "FadeInFinish");
-    vars.Events.FunctionFlag("LiftFadeOut", "BlackScreenForLift_C", null, "ExecuteUbergraph_BlackScreenForLift");
     vars.Events.FunctionFlag("BlackScreenActivated", "WB_BlackScreen_Flow_C", null, "BP_OnActivated");
     vars.Events.FunctionFlag("BlackScreenDeactivated", "WB_BlackScreen_Flow_C", null, "BP_OnDeactivated");
 
@@ -98,8 +96,6 @@ update
     if (vars.Resolver.CheckFlag("StartLoadingScreen")) current.LoadingScreen = true;
     if (vars.Resolver.CheckFlag("TempLoadingStart")) current.LoadingScreen = true;
     if (vars.Resolver.CheckFlag("BlackScreenActivated")) current.BlackScreen = true;
-    if (vars.Resolver.CheckFlag("LiftFadeIn")) current.LoadingScreen = true;
-    if (vars.Resolver.CheckFlag("LiftFadeOut")) current.LoadingScreen = false;
 
     // Loading ends
     if (vars.Resolver.CheckFlag("EndLoadingScreen")) current.LoadingScreen = false;
