@@ -36,8 +36,8 @@ init
     vars.Events.FunctionFlag("TempLoadingStart", "WB_TempLoadingScreen_C", null, "BP_OnActivated");
     vars.Events.FunctionFlag("TempLoadingEnd", "WB_TempLoadingScreen_C", null, "OnDisappeared");
 
-    vars.Events.FunctionFlag("BlackScreenActivated", "WB_BlackScreen_Flow_C", null, "BP_OnActivated");
-    vars.Events.FunctionFlag("BlackScreenDeactivated", "WB_BlackScreen_Flow_C", null, "BP_OnDeactivated");
+    vars.Events.FunctionFlag("BlackScreenActivated", "WB_BlackScreen*", null, "BP_OnActivated");
+    vars.Events.FunctionFlag("BlackScreenDeactivated", "WB_BlackScreen*", null, "BP_OnDeactivated");
 
     // Wildcard catches all PlayLevelSequence variants
     vars.Events.FunctionParentPtr<IntPtr>("LevelSequenceNode", "PlayLevelSequence*", null, null);
