@@ -24,9 +24,8 @@ init
     vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
     vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
-    if (vars.Utils.GWorld == IntPtr.Zero) throw new Exception("GWorld not found");
-    if (vars.Utils.GEngine == IntPtr.Zero) throw new Exception("GEngine not found");
-    if (vars.Utils.FNames == IntPtr.Zero) throw new Exception("FNamePool not found");
+    if (vars.Utils.GWorld == IntPtr.Zero || vars.Utils.GEngine == IntPtr.Zero || vars.Utils.FNames == IntPtr.Zero)
+        throw new Exception("GWorld, GEngine or FNamePool not found");
 
     vars.Resolver.Watch<ulong>("GWorldName", vars.Utils.GWorld, 0x18);
     vars.Resolver.Watch<bool>("IsLoadingLevel", vars.Utils.GEngine, 0x12E0, 0x7A2);
@@ -35,30 +34,26 @@ init
     vars.Events.FunctionFlag("EndLoadingScreen", null, null, "EndPBZLoadingScreen");
     vars.Events.FunctionFlag("TempLoadingStart", "WB_TempLoadingScreen_C", null, "BP_OnActivated");
     vars.Events.FunctionFlag("TempLoadingEnd", "WB_TempLoadingScreen_C", null, "OnDisappeared");
-
     vars.Events.FunctionFlag("BlackScreenActivated", "WB_BlackScreen*", null, "BP_OnActivated");
     vars.Events.FunctionFlag("BlackScreenDeactivated", "WB_BlackScreen*", null, "BP_OnDeactivated");
 
-    // Wildcard catches all PlayLevelSequence variants
-    vars.Events.FunctionParentPtr<IntPtr>("LevelSequenceNode", "PlayLevelSequence*", null, null);
-    vars.Events.FunctionParentPtr<IntPtr>("QTEBase", "W_QTEBase_C", null, null);
+    vars.Events.FunctionParentPtr<IntPtr>("SeqNode_Capture", "PlayLevelSequence*", null, null);
+    vars.Events.FunctionParentPtr<IntPtr>("QTEBase", "W_QTE*", null, null);
 
     current.World = "";
     current.IsLoadingLevel = false;
     current.LoadingScreen = false;
     current.BlackScreen = false;
 
-    current.LevelSequenceNode = IntPtr.Zero;
+    current.SeqNode_Capture = IntPtr.Zero;
     current.SequenceNode = IntPtr.Zero;
-    current.QTEBase = IntPtr.Zero;
-
-    current.SequenceStatus = false;
     current.CutscenePlaying = false;
-    current.SequenceFName = 0UL;
-    current.SequenceName = "";
 
+    current.QTEBase = IntPtr.Zero;
+    current.QTEClass = "";
     current.QTEExited = -1;
     current.QTECountdown = -1;
+    current.QTERepeatedPress = -1;
     current.QTELongPress = -1;
     current.QTEActive = false;
 }
@@ -92,71 +87,92 @@ update
         if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
     }
 
-    // Loading starts
+    // Loading screens
     if (vars.Resolver.CheckFlag("StartLoadingScreen")) current.LoadingScreen = true;
     if (vars.Resolver.CheckFlag("TempLoadingStart")) current.LoadingScreen = true;
-    if (vars.Resolver.CheckFlag("BlackScreenActivated")) current.BlackScreen = true;
-
-    // Loading ends
     if (vars.Resolver.CheckFlag("EndLoadingScreen")) current.LoadingScreen = false;
     if (vars.Resolver.CheckFlag("TempLoadingEnd")) current.LoadingScreen = false;
+    if (vars.Resolver.CheckFlag("BlackScreenActivated")) current.BlackScreen = true;
     if (vars.Resolver.CheckFlag("BlackScreenDeactivated")) current.BlackScreen = false;
 
-    // Validate captured node: only update SequenceNode if we have a valid one
-    if (current.LevelSequenceNode != IntPtr.Zero)
+    // Accept a captured sequence only when its loaded sequence and name are valid.
+    bool captureAccepted = false;
+
+    if (current.SeqNode_Capture != IntPtr.Zero)
     {
-        IntPtr loadedSeq = vars.Resolver.Read<IntPtr>(current.LevelSequenceNode + 0x1B8);
-        if (loadedSeq != IntPtr.Zero)
+        IntPtr ls = vars.Resolver.Read<IntPtr>(current.SeqNode_Capture + 0x1B8);
+        if (ls != IntPtr.Zero)
         {
-            ulong fName = vars.Resolver.Read<ulong>(loadedSeq + 0x18);
-            string seqName = vars.Utils.FNameToString(fName);
-            if (!string.IsNullOrEmpty(seqName) && seqName != "None")
+            string sn = vars.Utils.FNameToString(vars.Resolver.Read<ulong>(ls + 0x18));
+
+            if (!string.IsNullOrEmpty(sn) && sn != "None")
             {
-                if (current.SequenceNode == IntPtr.Zero)
-                {
-                    current.SequenceNode = current.LevelSequenceNode;
-                    current.SequenceName = seqName;
-                }
-                else
-                {
-                    current.SequenceNode = current.LevelSequenceNode;
-                    current.SequenceFName = fName;
-                }
+                current.SequenceNode = current.SeqNode_Capture;
+                captureAccepted = true;
             }
         }
-        current.LevelSequenceNode = IntPtr.Zero;
+
+        current.SeqNode_Capture = IntPtr.Zero;
     }
 
-    // Validate stored node: clear if no valid LoadedLevelSequence or name
-    if (current.SequenceNode != IntPtr.Zero)
+    // Avoid revalidating a newly accepted capture in the same update.
+    if (!captureAccepted && current.SequenceNode != IntPtr.Zero)
     {
-        IntPtr loadedSeq = vars.Resolver.Read<IntPtr>(current.SequenceNode + 0x1B8);
-        if (loadedSeq == IntPtr.Zero)
+        IntPtr ls = vars.Resolver.Read<IntPtr>(current.SequenceNode + 0x1B8);
+
+        if (ls == IntPtr.Zero) current.SequenceNode = IntPtr.Zero;
+        else
         {
-            current.SequenceNode = IntPtr.Zero;
+            string sn = vars.Utils.FNameToString(vars.Resolver.Read<ulong>(ls + 0x18));
+            if (string.IsNullOrEmpty(sn) || sn == "None") current.SequenceNode = IntPtr.Zero;
+        }
+    }
+
+    current.CutscenePlaying = current.SequenceNode != IntPtr.Zero;
+
+    // QTE: only read the known layout on supported widget classes.
+    if (current.QTEBase == IntPtr.Zero)
+    {
+        current.QTEClass = "";
+        current.QTEExited = -1;
+        current.QTECountdown = -1;
+        current.QTERepeatedPress = -1;
+        current.QTELongPress = -1;
+        current.QTEActive = false;
+    }
+    else
+    {
+        if (current.QTEBase != old.QTEBase || string.IsNullOrEmpty(current.QTEClass))
+        {
+            current.QTEClass = "";
+            IntPtr classPtr = vars.Resolver.Read<IntPtr>(current.QTEBase + 0x10);
+
+            if (classPtr != IntPtr.Zero) current.QTEClass = vars.Utils.FNameToString(vars.Resolver.Read<ulong>(classPtr + 0x18));
+        }
+
+        if (current.QTEBase != old.QTEBase || current.QTEClass != old.QTEClass) current.QTEActive = false;
+
+        if (current.QTEClass == "W_QTEBase_C" || current.QTEClass == "W_QTERepatedPressed_C")
+        {
+            current.QTEExited = vars.Resolver.Read<byte>(current.QTEBase + 0x490);
+            current.QTECountdown = vars.Resolver.Read<byte>(current.QTEBase + 0x491);
+            current.QTERepeatedPress = vars.Resolver.Read<byte>(current.QTEBase + 0x492);
+            current.QTELongPress = vars.Resolver.Read<byte>(current.QTEBase + 0x493);
+
+            // Exit takes priority. Otherwise preserve the existing active latch.
+            if (current.QTEExited != 0) current.QTEActive = false;
+            else if (current.QTECountdown == 1 || current.QTERepeatedPress == 1 || current.QTELongPress == 1) current.QTEActive = true;
+            else if (current.QTECountdown != 0 || current.QTERepeatedPress != 0 || current.QTELongPress != 0) current.QTEActive = false;
         }
         else
         {
-            ulong fName = vars.Resolver.Read<ulong>(loadedSeq + 0x18);
-            string seqName = vars.Utils.FNameToString(fName);
-            if (string.IsNullOrEmpty(seqName) || seqName == "None") current.SequenceNode = IntPtr.Zero;
+            current.QTEExited = -1;
+            current.QTECountdown = -1;
+            current.QTERepeatedPress = -1;
+            current.QTELongPress = -1;
+            current.QTEActive = false;
         }
     }
-
-    // Sequence status: node presence = cutscene active
-    current.SequenceStatus = current.SequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.SequenceNode + 0x1F0, 0x290) == 1;
-    current.CutscenePlaying = current.SequenceNode != IntPtr.Zero;
-
-    // QTE override - Exited takes priority over Countdown and LongPress
-    current.QTEExited = current.QTEBase != IntPtr.Zero ? vars.Resolver.Read<byte>(current.QTEBase + 0x490) : -1;
-    current.QTECountdown = current.QTEBase != IntPtr.Zero ? vars.Resolver.Read<byte>(current.QTEBase + 0x491) : -1;
-    current.QTELongPress = current.QTEBase != IntPtr.Zero ? vars.Resolver.Read<byte>(current.QTEBase + 0x493) : -1;
-
-    if (current.QTEBase != old.QTEBase) current.QTEActive = false;
-
-    if (current.QTEBase == IntPtr.Zero || current.QTEExited == 1 || current.QTEExited < 0) current.QTEActive = false;
-    else if (current.QTECountdown == 1 || current.QTELongPress == 1) current.QTEActive = true;
-    else if (current.QTECountdown < 0 || current.QTELongPress < 0) current.QTEActive = false;
 }
 
 isLoading
@@ -167,7 +183,6 @@ isLoading
         || current.World == "ServerCheck" || current.World == "PBZ_StartMenu_CE_WP"
         || (current.CutscenePlaying && !current.QTEActive);
 }
-
 
 exit
 {
