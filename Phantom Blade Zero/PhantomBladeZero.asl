@@ -3,7 +3,24 @@ state("PBZ") {}
 startup
 {
     Assembly.Load(File.ReadAllBytes("Components/uhara10-PBZ")).CreateInstance("Main");
-    vars.Uhara.Settings.CreateFromXml("Components/PhantomBladeZero.Splits.xml");
+    string __componentDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Components");
+    string __culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+    string __settingsPath = Path.Combine(__componentDir, "PhantomBladeZero.Splits." + __culture + ".xml");
+    if (!File.Exists(__settingsPath))
+    {
+        string __language = __culture.Split('-')[0];
+        __settingsPath = Path.Combine(__componentDir, "PhantomBladeZero.Splits." + __language + ".xml");
+    }
+    if (!File.Exists(__settingsPath))
+        __settingsPath = Path.Combine(__componentDir, "PhantomBladeZero.Splits.xml");
+    try
+    {
+        vars.Uhara.Settings.CreateFromXml(__settingsPath);
+    }
+    catch
+    {
+        vars.Uhara.Settings.CreateFromXml(Path.Combine(__componentDir, "PhantomBladeZero.Splits.xml"));
+    }
     vars.Uhara.AlertLoadless();
 
     vars.CompletedSplits = new HashSet<string>();
@@ -24,6 +41,13 @@ init
 
     vars.IsLaunched = false;
 
+    // Game version from exe resources (no memory read needed)
+    string fullVersion = modules.First().FileVersionInfo.ProductVersion;
+    string[] versionParts = fullVersion.Split('_');
+    vars.Changelist = versionParts[0]; // "CL-302256"
+    vars.BuildNumber = versionParts.Length > 1 ? versionParts[1] : ""; // "JKS-17280"
+    vars.Uhara.Log("Game version: " + vars.Changelist + " Build: " + vars.BuildNumber);
+
     vars.Utils = vars.Uhara.CreateTool("UnrealEngine", "Utils");
     vars.Events = vars.Uhara.CreateTool("UnrealEngine", "Events");
 
@@ -42,6 +66,20 @@ init
     vars.Events.FunctionFlag("TempLoadingEnd", "WB_TempLoadingScreen_C", null, "OnDisappeared");
     vars.Events.FunctionFlag("BlackScreenActivated", "WB_BlackScreen*", null, "BP_OnActivated");
     vars.Events.FunctionFlag("BlackScreenDeactivated", "WB_BlackScreen*", null, "BP_OnDeactivated");
+
+    // PBZGameSystem instance capture (per-world WorldSubsystem).
+    // Slot is the address Uhara writes the matched object pointer into.
+    vars.GameSystemSlot = vars.Events.InstancePtr("PBZGameSystem", null);
+    vars.GameSystemLast = IntPtr.Zero;
+    if (vars.GameSystemSlot != IntPtr.Zero)
+    {
+        vars.Resolver.Watch<IntPtr>("GameSystemPtr", vars.GameSystemSlot);
+        vars.Resolver.Watch<bool>("IsFinishGame", vars.GameSystemSlot, 0, 0x2D0);
+    }
+    else
+    {
+        vars.Uhara.Log("InstanceCreation PBZGameSystem | registration FAILED (slot=0)");
+    }
 
     vars.Events.FunctionParentPtr<IntPtr>("SeqNode_Capture", "PlayLevelSequence*", null, null);
     vars.Events.FunctionParentPtr<IntPtr>("QTEBase", "W_QTE*", null, null);
@@ -64,6 +102,7 @@ init
     current.QTERepeatedPress = -1;
     current.QTELongPress = -1;
     current.QTEActive = false;
+    current.IsFinishGame = false;
     vars.BossFightName = "";
     vars.BossFightClass = "";
     vars.BossFightNode = IntPtr.Zero;
@@ -131,6 +170,31 @@ update
         if (!string.IsNullOrEmpty(world) && world != "None") current.World = world;
     }
 
+    if (!string.IsNullOrEmpty(old.World) && old.World != current.World && !string.IsNullOrEmpty(current.World))
+    {
+        string slotNow = "n/a";
+        if (vars.GameSystemSlot != IntPtr.Zero)
+            slotNow = vars.Resolver.Read<IntPtr>(vars.GameSystemSlot).ToString();
+        vars.Uhara.Log("World changed -> " + current.World + " | gameSystemSlot=" + slotNow);
+    }
+
+    // PBZGameSystem instance capture (per-world WorldSubsystem).
+    // The slot is a pointer slot: Read(slot, off) dereferences it first.
+    if (vars.GameSystemSlot != IntPtr.Zero) {
+        IntPtr gs = vars.Resolver.Read<IntPtr>(vars.GameSystemSlot);
+        if (gs != vars.GameSystemLast) {
+            vars.GameSystemLast = gs;
+            if (gs == IntPtr.Zero) {
+                vars.Uhara.Log("InstanceCreation PBZGameSystem -> 0x0 world=" + current.World);
+            } else {
+                ulong gsName = vars.Resolver.Read<ulong>(vars.GameSystemSlot, 0x18);
+                vars.Uhara.Log("InstanceCreation PBZGameSystem -> " + gs.ToString()
+                    + " name=" + vars.Utils.FNameToString(gsName)
+                    + " world=" + current.World);
+            }
+        }
+    }
+
     // Loading screens
     if (vars.Resolver.CheckFlag("StartLoadingScreen")) current.LoadingScreen = true;
     if (vars.Resolver.CheckFlag("TempLoadingStart")) current.LoadingScreen = true;
@@ -182,7 +246,8 @@ update
     if (current.SequenceName.Contains("VisageTree") && !old.SequenceName.Contains("VisageTree")) vars.ExpectingVisage = true;
 
     // QTE: only read the known layout on supported widget classes.
-    if (current.QTEBase == IntPtr.Zero)
+    // QTE: only read the known layout while a sequence/cutscene is active.
+    if (!current.CutscenePlaying || current.QTEBase == IntPtr.Zero)
     {
         current.QTEClass = "";
         current.QTEExited = -1;
@@ -289,8 +354,7 @@ update
     var presentClasses = new HashSet<string>();
     var presentNodes = new Dictionary<string, IntPtr>();
 
-    if (settings["BossSplits"] && current.BeHatredList != IntPtr.Zero
-        && current.BeHatredListSize > 0 && current.BeHatredListSize <= 128)
+    if (settings["BossSplits"] && current.BeHatredList != IntPtr.Zero && current.BeHatredListSize > 0 && current.BeHatredListSize <= 128)
     {
         for (int i = 0; i < current.BeHatredListSize; i++)
         {
@@ -301,9 +365,7 @@ update
             string className = classPtr == IntPtr.Zero ? "" : vars.Utils.FNameToString(vars.Resolver.Read<ulong>(classPtr + 0x18));
 
             if (string.IsNullOrEmpty(className) || className == "None") continue;
-
             if (presentClasses.Add(className)) presentNodes[className] = actor;
-
             if (firstMatchedNode != IntPtr.Zero) continue;
 
             string settingName = "Boss_" + className;
@@ -567,6 +629,17 @@ split
         vars.CompletedSplits.Add(sequence);
         vars.Uhara.Log("Split: " + sequence);
         return true;
+    }
+
+    // Game completion split (bIsFinishGame on PBZGameSystem)
+    if (current.IsFinishGame && !old.IsFinishGame)
+    {
+        if (settings.ContainsKey("FinishGame") && settings["FinishGame"] && !vars.CompletedSplits.Contains("FinishGame"))
+        {
+            vars.CompletedSplits.Add("FinishGame");
+            vars.Uhara.Log("Split: Game Finished");
+            return true;
+        }
     }
 }
 

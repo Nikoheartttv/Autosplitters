@@ -1,0 +1,146 @@
+<Settings>
+    <Setting Id="BossSplits" Label="Boss 击杀自动分割" State="true">
+        <Setting Id="Prologue" Label="序章" State="true">
+            <Setting Id="Seq001-2b-C01-Seq005-1" Label="“组织”冥主：左殇" State="true" />
+            <Setting Id="Boss_BP_Monster_HookMan_HorseCartCombat_C" Label="“组织”猎杀者：追命（马车战）" State="true" />
+        </Setting>
+
+        <Setting Id="WeepingCreek" Label="悲泣溪谷" State="true">
+            <Setting Id="WeepingCreek_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_MobMan_Elite_Sword_C" Label="痴狂暴徒：残钢" State="true" />
+                <Setting Id="Boss_BP_Monster_PengMeng_Axe_C" Label="斧老大：彭猛" State="true" />
+                <Setting Id="Boss_BP_Monster_HookMan_C" Label="“组织”猎杀者：追命" State="true" />
+                <Setting Id="Boss_BP_Monster_HookMan_P2_C" Label="追命：六绝凶镰" State="true" />
+            </Setting>
+            <Setting Id="WeepingCreek_Optional" Label="可选 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_YuCong_FirstTime_C" Label="三张脸的诡异魔偶" State="true" />
+                <Setting Id="Boss_BP_Monster_AHua_GuiTouDao_C" Label="新娘阿花" State="true" />
+                <Setting Id="Boss_BP_Monster_Scavenger_C" Label="活人偶清道夫" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_01_C" Label="金面具黑衣人 (1)" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_C" Label="暗魔天堡之主：魔渊" State="true" />
+                <Setting Id="BossDuo_BP_Monster_QiShu_Bing_C+BP_Monster_Scavenger_C" Label="活人偶清道夫 &amp; 弟子寒髓" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="CrimsonForest" Label="血色森林" State="true">
+            <Setting Id="CrimsonForest_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_HuaQianXIao_C" Label="剑痴：花千笑" State="true" />
+                <Setting Id="Boss_BP_Monster_JingYe_C" Label="亡命徒：荆野" State="true" />
+                <Setting Id="Boss_BP_Monster_LuanShi_C" Label="拳痴：铁狂" State="true" />
+                <Setting Id="Boss_BP_Monster_ChiLian_C" Label="双蛇夫人：白赤练" State="true" />
+                <Setting Id="Boss_BP_Monster_ChiLian_P2_C" Label="白赤练：献祭之蛇" State="true" />
+            </Setting>
+            <Setting Id="CrimsonForest_Optional" Label="可选 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_JingYe_C_Visage" Label="亡命徒：荆野（幻象）" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_03_C" Label="金面具黑衣人 (3)" State="true" />
+                <Setting Id="Boss_BP_Monster_YuCong_C" Label="34号·扭曲偶：羽聪" State="true" />
+                <Setting Id="BossDuo_BP_Monster_TieGui_C+BP_Monster_Yuu_C" Label="铁魔 &amp; 碧舞，少主守护者二人组" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="VillageOfLu" Label="陆家村地区" State="true">
+            <Setting Id="VillageOfLu_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_Zhuobi_C" Label="守门人拙壁" State="true" />
+                <Setting Id="Boss_BP_Monster_BiYuan_C" Label="天玄派：毕远掌门残躯" State="true" />
+                <Setting Id="Boss_BP_Monster_CanQu_BiHai_C" Label="苦叶寺：碧海大师残躯" State="true" />
+                <Setting Id="Boss_BP_Monster_FemaleVessel_YuZan_C" Label="三号·乐师偶：“玉瓒”" State="true" />
+                <Setting Id="Boss_BP_Monster_MuXiaoKui_C" Label="“组织”少主：沐小葵" State="true" />
+                <Setting Id="Seq046-1" Label="沐小葵：铁玉女王" State="true" />
+                <Setting Id="Seq046-2-QTE-Goal-Seq047" Label="碧舞 &amp; 铁魔，少主守护者" State="true" />
+            </Setting>
+            <Setting Id="VillageOfLu_Optional" Label="可选 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_BiYuan_C_Visage" Label="天玄派：毕远掌门残躯（幻象）" State="true" />
+                <Setting Id="Boss_BP_Monster_Danghui_C" Label="操偶师：荡秽" State="true" />
+                <Setting Id="Boss_BP_Monster_QiShu_Huo_C" Label="灭法之法：炎茹" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="Pangzhen" Label="庞镇地区" State="true">
+            <Setting Id="Pangzhen_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_GuiChai_Red_C" Label="鬼差队长：火流星" State="true" />
+                <Setting Id="Boss_BP_Monster_GuiChai_Red_P2_C" Label="火流星：磷火意识" State="true" />
+                <Setting Id="Boss_BP_Monster_GuiChai_Yellow_MoDao_C" Label="鬼差高手：斩骑" State="true" />
+                <Setting Id="Boss_BP_Monster_WuXuan_C" Label="堕落将军：武轩" State="true" />
+                <Setting Id="Boss_BP_Monster_GuWanYue_C" Label="女妖：骨婉约" State="true" />
+                <Setting Id="Boss_BP_Monster_Maddoctor_Elite_C" Label="神医：谢秋冬" State="true" />
+                <Setting Id="Boss_BP_Monster_ChangHong_Spear_C" Label="“雷枪”：长鸿" State="true" />
+                <Setting Id="Boss_BP_Monster_ChangHong_P2_C" Label="长鸿：雷电枪骑" State="true" />
+                <Setting Id="Boss_BP_Monster_LionDancer_C" Label="被面具控制的舞狮尊主：烈焰" State="true" />
+                <Setting Id="Boss_BP_Monster_LionDancer_P2_C" Label="舞狮尊主的最后一舞" State="true" />
+                <Setting Id="Boss_BP_Monster_GuiChai_Yellow_ShuangGou_C" Label="鬼差高手：勾魂" State="true" />
+            </Setting>
+            <Setting Id="Pangzhen_Optional" Label="可选 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_QiShu_Lei_C" Label="灭法之法：雷婷" State="true" />
+                <Setting Id="Boss_BP_Monster_YouLong_SecondBrother_C" Label="黑水船帮头领：游龙" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="MandateEncampment" Label="正道大营" State="true">
+            <Setting Id="MandateEncampment_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_WanJun_JinGua_C" Label="铜锤：万钧" State="true" />
+                <Setting Id="Boss_BP_Monster_HuaShan_Blue_C" Label="七星阵首席弟子" State="true" />
+                <Setting Id="Boss_BP_Monster_HuaShan_JianOu_C" Label="绝望之剑：首席弟子" State="true" />
+                <Setting Id="Boss_BP_Monster_WuLengShuang_C" Label="软剑：吴冷霜" State="true" />
+                <Setting Id="Boss_BP_Monster_YuBi_C" Label="廿一号·剑偶：“玉璧”" State="true" />
+            </Setting>
+            <Setting Id="MandateEncampment_Optional" Label="可选 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_XiaoXue_C" Label="食尸者：薛" State="true" />
+                <Setting Id="Boss_BP_Monster_EMei_Sword_Top_C" Label="神秘剑客：红" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="MeiguLake" Label="梅谷湖" State="true">
+            <Setting Id="MeiguLake_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_GuiChai_Cyan_ShuangYue_C" Label="鬼差高手：断肠" State="true" />
+                <Setting Id="Boss_BP_Monster_HuaShan_RedTroop_BigBro_C" Label="悲痛欲绝的阿瑾" State="true" />
+                <Setting Id="Boss_BP_Monster_YouLong_Harpoon_C" Label="黑水船帮头领：游龙（狂暴）" State="true" />
+                <Setting Id="Boss_BP_Monster_YanQianSui_C" Label="琴女：烟千岁" State="true" />
+            </Setting>
+            <Setting Id="MeiguLake_Optional" Label="可选 Boss" State="true">
+                <Setting Id="BossDuo_BP_Monster_GuiChai_Yellow_MoDao_C+BP_Monster_GuiChai_Yellow_ShuangGou_C" Label="鬼差高手：斩骑 &amp; 勾魂（幻象）" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_02_C" Label="金面具黑衣人 (2)" State="true" />
+                <Setting Id="Boss_BP_Monster_DuYanBoss_C" Label="独眼射手" State="true" />
+                <Setting Id="Boss_BP_Monster_QiShu_Du_C" Label="灭法之法：蛊鹤" State="true" />
+                <Setting Id="Boss_BP_Monster_HuoDaoDuiZhang_C" Label="灼热之刃：祝渊" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_04_C" Label="金面具黑衣人 (4)" State="true" />
+                <Setting Id="Boss_BP_Monster_FengXueDaoKe_C" Label="风雪刀客" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="MountainOfImprisonment" Label="枷笼山" State="true">
+            <Setting Id="MountainOfImprisonment_Main" Label="主线 Boss" State="true">
+                <Setting Id="Boss_BP_Monster_MobMan_Elite_C" Label="痴狂暴徒：铁屠" State="true" />
+                <Setting Id="Boss_BP_Monster_GreatBladeMan_C" Label="巨刃指挥官：毕峰" State="true" />
+                <Setting Id="Boss_BP_Monster_YanYan_Club_C" Label="疯婆子：奎艳艳" State="true" />
+                <Setting Id="Boss_BP_Monster_JadeMaskMan_C" Label="玉面郎君" State="true" />
+                <Setting Id="Boss_BP_Monster_MBoss_C" Label="昆仑叛教者：荒行子" State="true" />
+                <Setting Id="Boss_BP_Monster_MBossVariants_C" Label="荒行子：撕裂锯轮" State="true" />
+            </Setting>
+            <Setting Id="MountainOfImprisonment_Optional" Label="可选 Boss" State="true">
+                <Setting Id="BossDuo_BP_Monster_MobMan_Elite_C+BP_Monster_MobMan_Elite_Sword_C" Label="痴狂暴徒：残钢 &amp; 铁屠（幻象）" State="true" />
+            </Setting>
+        </Setting>
+
+        <Setting Id="MirageEstate" Label="戏梦山庄" State="true">
+            <Setting Id="Boss_BP_Monster_FemaleVessel_YuDing_C" Label="十二号·偃月刀偶：“玉鼎”" State="true" />
+            <Setting Id="Boss_BP_Monster_YingMei_RedShadowBoneBlade_C" Label="赤影骨刃：囚锋" State="true" />
+            <Setting Id="Boss_BP_Monster_LeiDang_C" Label="“虎炮”：雷当" State="true" />
+            <Setting Id="Boss_BP_Monster_LeiDang_P2_C" Label="雷当：独臂虎" State="true" />
+        </Setting>
+
+        <Setting Id="MountSoulrend" Label="断魂山" State="true">
+            <Setting Id="Boss_BP_Monster_PowerMan_C" Label="力者和锯者" State="true" />
+            <Setting Id="Boss_BP_Monster_PowerMan_P2_C" Label="力者：石破天惊之态" State="true" />
+            <!-- Boss Rush -->
+            <Setting Id="Boss_BP_Monster_Scavenger_LengTu_C" Label="活人偶清道夫（梦差试炼）" State="true" />
+            <Setting Id="BossDuo_BP_Monster_GuiChai_Cyan_ShuangYue_LengTu_C+BP_Monster_GuiChai_Yellow_MoDao_LengTu_C" Label="鬼差高手：断肠 &amp; 斩骑（梦差试炼）" State="true" />
+            <Setting Id="BossDuo_BP_Monster_FemaleVessel_YuDing_LengTu_C+BP_Monster_YuBi_LengTu_C" Label="玉鼎 &amp; 玉璧（梦差试炼）" State="true" />
+            <Setting Id="Boss_BP_Monster_LengTu_C" Label="梦差：冷荼" State="true" />
+            <Setting Id="Boss_BP_Monster_MengHua_C" Label="救苦救难梦华圣母娘娘" State="true" />
+            <!-- Final fights -->
+            <Setting Id="Boss_BP_Monster_ZuoShang_Ending_C" Label="“组织”冥主：左殇（结局战）" State="true" />
+            <Setting Id="Boss_BP_Monster_ZuoShang_P2_C" Label="左殇：真龙之躯" State="true" />
+        </Setting>
+    </Setting>
+    <Setting Id="FinishGame" Label="游戏通关分割" State="true" />
+</Settings>

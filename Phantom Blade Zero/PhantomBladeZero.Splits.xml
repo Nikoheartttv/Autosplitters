@@ -1,108 +1,134 @@
 <Settings>
     <Setting Id="BossSplits" Label="Boss Splits" State="true">
         <Setting Id="Prologue" Label="Prologue" State="true">
-            <Setting Id="Seq001-2b-C01-Seq005-1" Label="Zuo Shang, the Order's Shadow Sovereign" State="true" /> 
-            <Setting Id="Boss_BP_Monster_HookMan_HorseCartCombat_C" Label="The Hunt, Hunter of the Order (Carriage Battle)" State="true" /> 
+            <Setting Id="Seq001-2b-C01-Seq005-1" Label="Zuo Shang, the Order's Shadow Sovereign" State="true" />
+            <Setting Id="Boss_BP_Monster_HookMan_HorseCartCombat_C" Label="The Hunt, Hunter of the Order (Carriage Battle)" State="true" />
         </Setting>
 
         <Setting Id="WeepingCreek" Label="Weeping Creek Valley" State="true">
-            <Setting Id="Boss_BP_Monster_YuCong_FirstTime_C" Label="Aberrant Three-faced Puppet" State="true" />  
-            <Setting Id="Boss_BP_Monster_MobMan_Elite_Sword_C" Label="Jagged Steel, the Frenzied Brute" State="true" /> 
-            <Setting Id="Boss_BP_Monster_PengMeng_Axe_C" Label="Peng Meng, the Axemaster" State="true" /> 
-            <Setting Id="Boss_BP_Monster_AHua_GuiTouDao_C" Label="Hua, Deadly Betrothed" State="true" /> 
-            <Setting Id="Boss_BP_Monster_HookMan_C" Label="The Hunt, Hunter of the Order" State="true" /> 
-            <Setting Id="Boss_BP_Monster_HookMan_P2_C" Label="The Hunt, Sixfold Scythe" State="true" /> 
-            <Setting Id="Boss_BP_Monster_Scavenger_C" Label="The Puppet Scavenger" State="true" />
-            <Setting Id="Boss_BP_Monster_MoTian_LongZhu_01_C" Label="The Gold-Masked One (1)" State="true" />  
-            <Setting Id="Boss_BP_Monster_MoTian_C" Label="Mó Yuan, Leader of the Bastion of Mó" State="true" />
-            <Setting Id="BossDuo_BP_Monster_QiShu_Bing_C+BP_Monster_Scavenger_C" Label="The Puppet Scavenger &amp; Acolyte Hansui" State="true" />
+            <Setting Id="WeepingCreek_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_MobMan_Elite_Sword_C" Label="Jagged Steel, the Frenzied Brute" State="true" />
+                <Setting Id="Boss_BP_Monster_PengMeng_Axe_C" Label="Peng Meng, the Axemaster" State="true" />
+                <Setting Id="Boss_BP_Monster_HookMan_C" Label="The Hunt, Hunter of the Order" State="true" />
+                <Setting Id="Boss_BP_Monster_HookMan_P2_C" Label="The Hunt, Sixfold Scythe" State="true" />
+            </Setting>
+            <Setting Id="WeepingCreek_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_YuCong_FirstTime_C" Label="Aberrant Three-faced Puppet" State="true" />
+                <Setting Id="Boss_BP_Monster_AHua_GuiTouDao_C" Label="Hua, Deadly Betrothed" State="true" />
+                <Setting Id="Boss_BP_Monster_Scavenger_C" Label="The Puppet Scavenger" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_01_C" Label="The Gold-Masked One (1)" State="true" />
+                <Setting Id="BossDuo_BP_Monster_QiShu_Bing_C+BP_Monster_Scavenger_C" Label="The Puppet Scavenger &amp; Acolyte Hansui" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_C" Label="Mó Yuan, Leader of the Bastion of Mó" State="true" />
+            </Setting>
         </Setting>
 
         <Setting Id="CrimsonForest" Label="Crimson Forest" State="true">
-            <Setting Id="Boss_BP_Monster_HuaQianXIao_C" Label="Hua Qianxiao, the Sword Fanatic" State="true" /> 
-            <Setting Id="Boss_BP_Monster_JingYe_C" Label="Jing Ye, the Outlaw" State="true" />
-            <Setting Id="Boss_BP_Monster_JingYe_C_Visage" Label="Jing Ye, the Outlaw (Visage)" State="true" /> 
-            <Setting Id="Boss_BP_Monster_LuanShi_C" Label="Stone Hand Iron Fever" State="true" /> 
-            <Setting Id="Boss_BP_Monster_MoTian_LongZhu_03_C" Label="The Gold-Masked One (3)" State="true" /> 
-            <Setting Id="Boss_BP_Monster_ChiLian_C" Label="Bai Chilian, Lady of the Twin Serpents" State="true" /> 
-            <Setting Id="Boss_BP_Monster_ChiLian_P2_C" Label="Bai Chilian, the Sacrificial Serpent" State="true" /> 
-            <!-- <Setting Id="Boss_BP_Monster_YuCong_P1_C" Label="Yucong, No. 34 Twisted Puppet" State="true" /> --> BP_Monster_YuCong_C
-            <Setting Id="Boss_BP_Monster_YuCong_C" Label="Yucong, No. 34 Twisted Puppet" State="true" /> 
-            <Setting Id="BossDuo_BP_Monster_TieGui_C+BP_Monster_Yuu_C" Label="Iron Fiend &amp; Jade Dancer, Young Mistress's Guardian Duo" State="true" />
+            <Setting Id="CrimsonForest_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_HuaQianXIao_C" Label="Hua Qianxiao, the Sword Fanatic" State="true" />
+                <Setting Id="Boss_BP_Monster_JingYe_C" Label="Jing Ye, the Outlaw" State="true" />
+                <Setting Id="Boss_BP_Monster_LuanShi_C" Label="Stone Hand Iron Fever" State="true" />
+                <Setting Id="Boss_BP_Monster_ChiLian_C" Label="Bai Chilian, Lady of the Twin Serpents" State="true" />
+                <Setting Id="Boss_BP_Monster_ChiLian_P2_C" Label="Bai Chilian, the Sacrificial Serpent" State="true" />
+            </Setting>
+            <Setting Id="CrimsonForest_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_JingYe_C_Visage" Label="Jing Ye, the Outlaw (Visage)" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_03_C" Label="The Gold-Masked One (3)" State="true" />
+                <Setting Id="Boss_BP_Monster_YuCong_C" Label="Yucong, No. 34 Twisted Puppet" State="true" />
+                <Setting Id="BossDuo_BP_Monster_TieGui_C+BP_Monster_Yuu_C" Label="Iron Fiend &amp; Jade Dancer, Young Mistress's Guardian Duo" State="true" />
+            </Setting>
         </Setting>
 
         <Setting Id="VillageOfLu" Label="Village Of Lu" State="true">
-            <Setting Id="Boss_BP_Monster_Zhuobi_C" Label="Zhuo Bi, the Gatekeeper" State="true" /> 
-            <Setting Id="Boss_BP_Monster_BiYuan_C" Label="Master Bi Yuan of the Tianxuan Sect" State="true" /> 
-            <Setting Id="Boss_BP_Monster_BiYuan_C_Visage" Label="Masta Bi Yuan of the Tianxuan Sect (Visage)" State="true" />
-            <Setting Id="Boss_BP_Monster_CanQu_BiHai_C" Label="Master Bi Hai of Kuye Temple" State="true" /> 
-            <Setting Id="Boss_BP_Monster_FemaleVessel_YuZan_C" Label="Yuzan, No. 3 Musician Puppet" State="true" /> 
-            <Setting Id="Boss_BP_Monster_MuXiaoKui_C" Label="Mu Xiaokui, Young Mistress of the Order" State="true" /> 
-            <!-- <Setting Id="Boss_BP_Monster_MuXiaoKui_P2_C" Label="Mu Xiaokui, Queen of Iron and Jade" State="true" />  -->
-            <Setting Id="Seq046-1" Label="Mu Xiaokui, Queen of Iron and Jade" State="true" /> 
-            <Setting Id="Seq046-2-QTE-Goal-Seq047" Label="Jade Dancer &amp; Iron Fiend, Young Mistress's Guardian" State="true" /> 
-            <Setting Id="Boss_BP_Monster_Danghui_C" Label="Dusk, the Puppeteer" State="true" /> 
-            <Setting Id="Boss_BP_Monster_QiShu_Huo_C" Label="Acolyte Yanru" State="true" />  
+            <Setting Id="VillageOfLu_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_Zhuobi_C" Label="Zhuo Bi, the Gatekeeper" State="true" />
+                <Setting Id="Boss_BP_Monster_BiYuan_C" Label="Master Bi Yuan of the Tianxuan Sect" State="true" />
+                <Setting Id="Boss_BP_Monster_CanQu_BiHai_C" Label="Master Bi Hai of Kuye Temple" State="true" />
+                <Setting Id="Boss_BP_Monster_FemaleVessel_YuZan_C" Label="Yuzan, No. 3 Musician Puppet" State="true" />
+                <Setting Id="Boss_BP_Monster_MuXiaoKui_C" Label="Mu Xiaokui, Young Mistress of the Order" State="true" />
+                <Setting Id="Seq046-1" Label="Mu Xiaokui, Queen of Iron and Jade" State="true" />
+                <Setting Id="Seq046-2-QTE-Goal-Seq047" Label="Jade Dancer &amp; Iron Fiend, Young Mistress's Guardian" State="true" />
+            </Setting>
+            <Setting Id="VillageOfLu_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_BiYuan_C_Visage" Label="Masta Bi Yuan of the Tianxuan Sect (Visage)" State="true" />
+                <Setting Id="Boss_BP_Monster_Danghui_C" Label="Dusk, the Puppeteer" State="true" />
+                <Setting Id="Boss_BP_Monster_QiShu_Huo_C" Label="Acolyte Yanru" State="true" />
+            </Setting>
         </Setting>
 
         <Setting Id="Pangzhen" Label="Pangzhen" State="true">
-            <Setting Id="Boss_BP_Monster_GuiChai_Red_C" Label="Blaze, Shadow Warden Captain" State="true" /> 
-            <Setting Id="Boss_BP_Monster_GuiChai_Red_P2_C" Label="Blaze, Phosphor Consciousness" State="true" /> 
-            <Setting Id="Boss_BP_Monster_GuiChai_Yellow_MoDao_C" Label="Cavalrybane, Elite Shadow Warden" State="true" /> 
-            <Setting Id="Boss_BP_Monster_WuXuan_C" Label="Wu Xuan, the Fallen General" State="true" /> 
-            <Setting Id="Boss_BP_Monster_GuWanYue_C" Label="Gu Wanyue, the Wailing Wraith" State="true" />  
-            <Setting Id="Boss_BP_Monster_Maddoctor_Elite_C" Label="Xie Qiudong, the Divine Healer" State="true" /> 
-            <Setting Id="Boss_BP_Monster_ChangHong_Spear_C" Label="Chang Hong, the Thunder Spear" State="true" /> 
-            <Setting Id="Boss_BP_Monster_ChangHong_P2_C" Label="Chang Hong, the Thunder Lancer" State="true" /> 
-            <Setting Id="Boss_BP_Monster_LionDancer_C" Label="Flame, the Mask-Bound Lion Dance Grandmaster" State="true" /> 
-            <Setting Id="Boss_BP_Monster_LionDancer_P2_C" Label="The Lion Dance Grandmaster's Final Dance" State="true" /> 
-            <Setting Id="Boss_BP_Monster_GuiChai_Yellow_ShuangGou_C" Label="Soulclaimer, Elite Shadow Warden" State="true" /> 
-            <Setting Id="Boss_BP_Monster_QiShu_Lei_C" Label="Acolyte Lei Ting" State="true" />
-            <Setting Id="Boss_BP_Monster_YouLong_SecondBrother_C" Label="Yoo Long, Leader of the Blackwater Crew" State="true" />
+            <Setting Id="Pangzhen_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_GuiChai_Red_C" Label="Blaze, Shadow Warden Captain" State="true" />
+                <Setting Id="Boss_BP_Monster_GuiChai_Red_P2_C" Label="Blaze, Phosphor Consciousness" State="true" />
+                <Setting Id="Boss_BP_Monster_GuiChai_Yellow_MoDao_C" Label="Cavalrybane, Elite Shadow Warden" State="true" />
+                <Setting Id="Boss_BP_Monster_WuXuan_C" Label="Wu Xuan, the Fallen General" State="true" />
+                <Setting Id="Boss_BP_Monster_GuWanYue_C" Label="Gu Wanyue, the Wailing Wraith" State="true" />
+                <Setting Id="Boss_BP_Monster_Maddoctor_Elite_C" Label="Xie Qiudong, the Divine Healer" State="true" />
+                <Setting Id="Boss_BP_Monster_ChangHong_Spear_C" Label="Chang Hong, the Thunder Spear" State="true" />
+                <Setting Id="Boss_BP_Monster_ChangHong_P2_C" Label="Chang Hong, the Thunder Lancer" State="true" />
+                <Setting Id="Boss_BP_Monster_LionDancer_C" Label="Flame, the Mask-Bound Lion Dance Grandmaster" State="true" />
+                <Setting Id="Boss_BP_Monster_LionDancer_P2_C" Label="The Lion Dance Grandmaster's Final Dance" State="true" />
+                <Setting Id="Boss_BP_Monster_GuiChai_Yellow_ShuangGou_C" Label="Soulclaimer, Elite Shadow Warden" State="true" />
+            </Setting>
+            <Setting Id="Pangzhen_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_QiShu_Lei_C" Label="Acolyte Lei Ting" State="true" />
+                <Setting Id="Boss_BP_Monster_YouLong_SecondBrother_C" Label="You Loong, Leader of the Blackwater Crew" State="true" />
+            </Setting>
         </Setting>
 
-        <Setting Id="MapMandateEncampment" Label="Mandate Encampment" State="true">
-            <Setting Id="Boss_BP_Monster_XiaoXue_C" Label="Corpse-Eating Xue" State="true" />
-            <Setting Id="Boss_BP_Monster_WanJun_JinGua_C" Label="Wan Jun, The Coppermaul" State="true" />
-            <Setting Id="Boss_BP_Monster_WuLengShuang_C" Label="Wu Lengshuang, The Soft Sword" State="true" />
-            <Setting Id="Boss_BP_Monster_EMei_Sword_Top_C" Label="Red, The Mysterious Swordsman" State="true" />
-            <Setting Id="Boss_BP_Monster_HuaShan_Blue_C" Label="Chief Disciple of the Seven-Stars Formation" State="true" />
-            <Setting Id="Boss_BP_Monster_HuaShan_JianOu_C" Label="Chief Disciple, Sword of Despair" State="true" />
-            <Setting Id="Boss_BP_Monster_YuBi_C" Label="Yubi, No. 21 Swordfighter Puppet" State="true" />
+        <Setting Id="MandateEncampment" Label="Mandate Encampment" State="true">
+            <Setting Id="MandateEncampment_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_WanJun_JinGua_C" Label="Wan Jun, The Coppermaul" State="true" />
+                <Setting Id="Boss_BP_Monster_HuaShan_Blue_C" Label="Chief Disciple of the Seven-Stars Formation" State="true" />
+                <Setting Id="Boss_BP_Monster_HuaShan_JianOu_C" Label="Chief Disciple, Sword of Despair" State="true" />
+                <Setting Id="Boss_BP_Monster_WuLengShuang_C" Label="Wu Lengshuang, The Soft Sword" State="true" />
+                <Setting Id="Boss_BP_Monster_YuBi_C" Label="Yubi, No. 21 Swordfighter Puppet" State="true" />
+            </Setting>
+            <Setting Id="MandateEncampment_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_XiaoXue_C" Label="Corpse-Eating Xue" State="true" />
+                <Setting Id="Boss_BP_Monster_EMei_Sword_Top_C" Label="Red, The Mysterious Swordsman" State="true" />
+            </Setting>
         </Setting>
 
-        <Setting Id="MapMeiguLake" Label="Meigu Lake" State="true">
-            <Setting Id="BossDuo_BP_Monster_GuiChai_Yellow_MoDao_C+BP_Monster_GuiChai_Yellow_ShuangGou_C" Label="Cavalrybane &amp; Soulclaimer, Elite Shadow Wardens Duo (Visage)" State="true" />
-            <Setting Id="Boss_BP_Monster_MoTian_LongZhu_02_C" Label="The Gold-Masked One (2)" State="true" />
-            <Setting Id="Boss_BP_Monster_HuaShan_RedTroop_BigBro_C" Label="Grief-Stricken Jin" State="true" />
-            <Setting Id="Boss_BP_Monster_DuYanBoss_C" Label="One-Eyed Archer" State="true" />
-            <Setting Id="Boss_BP_Monster_GuiChai_Cyan_ShuangYue_C" Label="Heartpiercer, Elite Shadow Warden" State="true" />
-            <Setting Id="Boss_BP_Monster_YouLong_Harpoon_C" Label="Yoo Loong, The Frenzied Blackwater Crew Leader" State="true" />
-            <Setting Id="Boss_BP_Monster_YanQianSui_C" Label="Yan Qiansui, the Zither Maiden" State="true" />
-            <Setting Id="Boss_BP_Monster_QiShu_Du_C" Label="Acolyte Guhe" State="true" />
-            <Setting Id="Boss_BP_Monster_HuoDaoDuiZhang_C" Label="Zhu Yuan, The Searing Blade" State="true" />
-            <Setting Id="Boss_BP_Monster_MoTian_LongZhu_04_C" Label="The Gold-Masked One (4)" State="true" />
-            <Setting Id="Boss_BP_Monster_FengXueDaoKe_C" Label="Blizzard Blademaster" State="true" />
+        <Setting Id="MeiguLake" Label="Meigu Lake" State="true">
+            <Setting Id="MeiguLake_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_GuiChai_Cyan_ShuangYue_C" Label="Heartpiercer, Elite Shadow Warden" State="true" />
+                <Setting Id="Boss_BP_Monster_HuaShan_RedTroop_BigBro_C" Label="Grief-Stricken Jin" State="true" />
+                <Setting Id="Boss_BP_Monster_YouLong_Harpoon_C" Label="Yoo Loong, The Frenzied Blackwater Crew Leader" State="true" />
+                <Setting Id="Boss_BP_Monster_YanQianSui_C" Label="Yan Qiansui, the Zither Maiden" State="true" />
+            </Setting>
+            <Setting Id="MeiguLake_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="BossDuo_BP_Monster_GuiChai_Yellow_MoDao_C+BP_Monster_GuiChai_Yellow_ShuangGou_C" Label="Cavalrybane &amp; Soulclaimer, Elite Shadow Wardens Duo (Visage)" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_02_C" Label="The Gold-Masked One (2)" State="true" />
+                <Setting Id="Boss_BP_Monster_DuYanBoss_C" Label="One-Eyed Archer" State="true" />
+                <Setting Id="Boss_BP_Monster_QiShu_Du_C" Label="Acolyte Guhe" State="true" />
+                <Setting Id="Boss_BP_Monster_HuoDaoDuiZhang_C" Label="Zhu Yuan, The Searing Blade" State="true" />
+                <Setting Id="Boss_BP_Monster_MoTian_LongZhu_04_C" Label="The Gold-Masked One (4)" State="true" />
+                <Setting Id="Boss_BP_Monster_FengXueDaoKe_C" Label="Blizzard Blademaster" State="true" />
+            </Setting>
         </Setting>
 
-        <Setting Id="MapMountainOfImprisonment" Label="Mountain Of Imprisonment" State="true">
-            <Setting Id="Boss_BP_Monster_MobMan_Elite_C" Label="Iron Butcher, The Frenzied Brute" State="true" />
-            <Setting Id="Boss_BP_Monster_GreatBladeMan_C" Label="Bi Feng, Giant Saber Commander" State="true" />
-            <Setting Id="Boss_BP_Monster_YanYan_Club_C" Label="Kui Yanyan, the Deranged" State="true" />
-            <Setting Id="BossDuo_BP_Monster_MobMan_Elite_C+BP_Monster_MobMan_Elite_Sword_C" Label="Iron Butcher &amp; The Frenzied Brute Duo (Visage)" State="true" />
-            <Setting Id="Boss_BP_Monster_JadeMaskMan_C" Label="Jade-Face" State="true" />
-            <Setting Id="Boss_BP_Monster_MBoss_C" Label="Huangxing, the Kunlun Renegade" State="true" />
-            <Setting Id="Boss_BP_Monster_MBossVariants_C" Label="Huangxing, the Whirling Executioner" State="true" />
+        <Setting Id="MountainOfImprisonment" Label="Mountain Of Imprisonment" State="true">
+            <Setting Id="MountainOfImprisonment_Main" Label="Main Bosses" State="true">
+                <Setting Id="Boss_BP_Monster_MobMan_Elite_C" Label="Iron Butcher, The Frenzied Brute" State="true" />
+                <Setting Id="Boss_BP_Monster_GreatBladeMan_C" Label="Bi Feng, Giant Saber Commander" State="true" />
+                <Setting Id="Boss_BP_Monster_YanYan_Club_C" Label="Kui Yanyan, the Deranged" State="true" />
+                <Setting Id="Boss_BP_Monster_JadeMaskMan_C" Label="Jade-Face" State="true" />
+                <Setting Id="Boss_BP_Monster_MBoss_C" Label="Huangxing, the Kunlun Renegade" State="true" />
+                <Setting Id="Boss_BP_Monster_MBossVariants_C" Label="Huangxing, the Whirling Executioner" State="true" />
+            </Setting>
+            <Setting Id="MountainOfImprisonment_Optional" Label="Optional Bosses" State="true">
+                <Setting Id="BossDuo_BP_Monster_MobMan_Elite_C+BP_Monster_MobMan_Elite_Sword_C" Label="Iron Butcher &amp; The Frenzied Brute Duo (Visage)" State="true" />
+            </Setting>
         </Setting>
 
-        <Setting Id="MapMirageEstate" Label="Mirage Estate" State="true">
+        <Setting Id="MirageEstate" Label="Mirage Estate" State="true">
             <Setting Id="Boss_BP_Monster_FemaleVessel_YuDing_C" Label="Yuding, No.12, Crescent Blade Puppet" State="true" />
             <Setting Id="Boss_BP_Monster_YingMei_RedShadowBoneBlade_C" Label="Qiu Feng, the Crimson Boneblade" State="true" />
             <Setting Id="Boss_BP_Monster_LeiDang_C" Label="Lei Dang, the Tiger Cannon" State="true" />
             <Setting Id="Boss_BP_Monster_LeiDang_P2_C" Label="Lei Dang, One-Armed Tiger" State="true" />
         </Setting>
 
-        <Setting Id="MapMountSoulrend" Label="Mount Soulrend" State="true">
+        <Setting Id="MountSoulrend" Label="Mount Soulrend" State="true">
             <Setting Id="Boss_BP_Monster_PowerMan_C" Label="The Crusher and the Saw" State="true" />
             <Setting Id="Boss_BP_Monster_PowerMan_P2_C" Label="The Crusher, Earthshattering Form" State="true" />
             <!-- Boss Rush -->
@@ -116,4 +142,5 @@
             <Setting Id="Boss_BP_Monster_ZuoShang_P2_C" Label="Zuo Shang, the True Lóng" State="true" />
         </Setting>
     </Setting>
+    <Setting Id="FinishGame" Label="Game Completion Split" State="true" />
 </Settings>
