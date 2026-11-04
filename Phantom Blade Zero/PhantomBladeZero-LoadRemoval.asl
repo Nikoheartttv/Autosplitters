@@ -130,8 +130,8 @@ update
 
     current.CutscenePlaying = current.SequenceNode != IntPtr.Zero;
 
-    // QTE: only read the known layout on supported widget classes.
-    if (current.QTEBase == IntPtr.Zero)
+    // QTE: only read the known layout while a sequence/cutscene is active.
+    if (!current.CutscenePlaying || current.QTEBase == IntPtr.Zero)
     {
         current.QTEClass = "";
         current.QTEExited = -1;
