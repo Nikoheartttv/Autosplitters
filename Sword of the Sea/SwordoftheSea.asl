@@ -60,6 +60,27 @@ init
 	IntPtr IntroCutscene = vars.Events.InstancePtr("Intro_DirectorBP_C", "Intro_DirectorBP_C");
 	vars.Resolver.Watch<bool>("IntroCutsceneStatus", IntroCutscene, 0x38, 0x2A8);
 
+	try
+	{
+		var uharaAssembly = vars.Uhara.GetType().Assembly;
+		var mainType = uharaAssembly.GetType("Main") ?? vars.Uhara.GetType();
+		var getCache = mainType.GetMethod("GetProcessCache",
+			System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+		var setCache = mainType.GetMethod("SetProcessCache",
+			System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+		foreach (string key in new string[] { "F_UObjectBeginDestroy", "D_FNamePoolAddress" })
+		{
+			string value = (string)getCache.Invoke(null, new object[] { "wznwkjje", key });
+			if (value != null) setCache.Invoke(null, new object[] { "cjuvgtrc", key, value });
+			vars.Uhara.Log("FunctionCall " + key + ": " + (value ?? "not cached"));
+		}
+	}
+	catch (Exception e)
+	{
+		vars.Uhara.Log("FunctionCall cache handoff failed: " + e.Message);
+	}
+
 	// Steles
 	IntPtr SteleSlot = vars.Events.FunctionParentPtr("LoreAncientStele_BP_C", null, "ExecuteUbergraph_LoreObject_BP");
 	vars.Uhara.Log("SteleSlot: " + SteleSlot.ToString("X"));
