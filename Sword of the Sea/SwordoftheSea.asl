@@ -8,6 +8,7 @@ startup
 	vars.CompletedSteles = new HashSet<string>();
 	vars.LastSteleInstance = IntPtr.Zero;
 	vars.LastSteleName = "";
+	vars.ShellSplitArmed = true;
 
 	dynamic[,] _settings =
 	{
@@ -147,6 +148,15 @@ update
 	if (old.IntroCutsceneStatus != current.IntroCutsceneStatus) vars.Uhara.Log("IntroCutsceneStatus: " + current.IntroCutsceneStatus);
 	if (old.LoadingScreen != current.LoadingScreen) vars.Uhara.Log("LoadingScreen: " + current.LoadingScreen);
 
+	if (current.World == "MainMenu" || current.LoadingScreen || old.World == "MainMenu" || old.LoadingScreen)
+	{
+		vars.ShellSplitArmed = false;
+	}
+	else if (!vars.ShellSplitArmed && current.ShellCount == old.ShellCount)
+	{
+		vars.ShellSplitArmed = true;
+	}
+
 	if (current.SteleInstance != IntPtr.Zero)
 	{
 		// FName layout: low 32 bits = comparison index, high 32 bits = number.
@@ -165,13 +175,13 @@ update
 	}
 
 	if (vars.LastSteleInstance == null) vars.LastSteleInstance = IntPtr.Zero;
-	if ((IntPtr)vars.LastSteleInstance != current.SteleInstance)
+	if (vars.LastSteleInstance != current.SteleInstance)
 	{
 		vars.Uhara.Log("SteleInstance: " + current.SteleInstance.ToString("X"));
 		vars.LastSteleInstance = current.SteleInstance;
 	}
 	if (vars.LastSteleName == null) vars.LastSteleName = "";
-	if ((string)vars.LastSteleName != current.SteleName.ToString())
+	if (vars.LastSteleName != current.SteleName.ToString())
 	{
 		vars.Uhara.Log("SteleName: " + current.SteleName);
 		vars.LastSteleName = current.SteleName;
@@ -201,7 +211,8 @@ split
 		if (settings.ContainsKey("AllFrogs") && settings["AllFrogs"]) return true;
 	}
 
-	if (old.ShellCount != current.ShellCount && current.ShellCount == 50 && !vars.CompletedSplits.Contains("50Shells") 
+	if (vars.ShellSplitArmed && !current.LoadingScreen && current.World != "MainMenu"
+		&& old.ShellCount < 50 && current.ShellCount >= 50 && !vars.CompletedSplits.Contains("50Shells")
 		&& settings.ContainsKey("50Shells") && settings["50Shells"])
 	{
 		vars.CompletedSplits.Add("50Shells");
