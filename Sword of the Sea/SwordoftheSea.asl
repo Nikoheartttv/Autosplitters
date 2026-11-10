@@ -6,6 +6,8 @@ startup
 	vars.Uhara.AlertLoadless();
 	vars.CompletedSplits = new HashSet<string>();
 	vars.CompletedSteles = new HashSet<string>();
+	vars.LastSteleInstance = IntPtr.Zero;
+	vars.LastSteleName = "";
 
 	dynamic[,] _settings =
 	{
@@ -47,8 +49,7 @@ init
 			"8B 41 0C 33 F6 3B 05 ?? ?? ?? ?? 4D 8B F0 48 8B FA 4C 8B F9 7D 1E");
 
 		vars.Utils.ExpandScanUtilitySignatures("UObject_BeginDestroy",
-			"40 53 48 83 EC ?? 8B 41 08 48 8B D9 0F BA E0 0F 72 ??" +
-			"48 8B 41 18 48 8D 54 24 30");
+			"4C 8D 0D 1A D9 68 06 4C 8D 05 53 1D 72 06");
 
 		vars.Utils.ExpandScanUtilitySignatures("StaticConstructObject_Internal",
 			"48 89 5C 24 10 48 89 6C 24 18 56 57 41 54 41 56 41 57 48 81 EC F0 02 00 00");
@@ -148,13 +149,32 @@ update
 
 	if (current.SteleInstance != IntPtr.Zero)
 	{
-		current.SteleNameIndex = vars.Resolver.Read<ulong>(current.SteleInstance + 0x18);
-		current.SteleName = current.SteleNameIndex != 0 ? (vars.Utils.FNameToString(current.SteleNameIndex) ?? "") : "";
+		// FName layout: low 32 bits = comparison index, high 32 bits = number.
+		// FNameToString needs the base index only; append the number ourselves.
+		ulong nameValue = vars.Resolver.Read<ulong>(current.SteleInstance + 0x18);
+		current.SteleNameIndex = nameValue;
+		ulong baseIndex = nameValue & 0xFFFFFFFF;
+		uint nameNumber = (uint)((nameValue >> 32) & 0xFFFFFFFF);
+		string baseName = baseIndex != 0 ? (vars.Utils.FNameToString(baseIndex) ?? "") : "";
+		current.SteleName = nameNumber != 0 ? baseName + "_" + nameNumber : baseName;
 	}
 	else
 	{
 		current.SteleNameIndex = 0;
 		current.SteleName = "";
+	}
+
+	if (vars.LastSteleInstance == null) vars.LastSteleInstance = IntPtr.Zero;
+	if ((IntPtr)vars.LastSteleInstance != current.SteleInstance)
+	{
+		vars.Uhara.Log("SteleInstance: " + current.SteleInstance.ToString("X"));
+		vars.LastSteleInstance = current.SteleInstance;
+	}
+	if (vars.LastSteleName == null) vars.LastSteleName = "";
+	if ((string)vars.LastSteleName != current.SteleName.ToString())
+	{
+		vars.Uhara.Log("SteleName: " + current.SteleName);
+		vars.LastSteleName = current.SteleName;
 	}
 }
 
