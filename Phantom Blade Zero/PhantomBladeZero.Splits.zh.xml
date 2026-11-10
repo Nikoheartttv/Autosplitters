@@ -28,7 +28,7 @@
                 <Setting Id="Boss_BP_Monster_HuaQianXIao_C" Label="剑痴：花千笑" State="true" />
                 <Setting Id="Boss_BP_Monster_JingYe_C" Label="亡命徒：荆野" State="true" />
                 <Setting Id="Boss_BP_Monster_LuanShi_C" Label="拳痴：铁狂" State="true" />
-                <Setting Id="Boss_BP_Monster_ChiLian_C" Label="双蛇夫人：白赤练" State="true" />
+                <Setting Id="Seq035" Label="双蛇夫人：白赤练" State="true" />
                 <Setting Id="Boss_BP_Monster_ChiLian_P2_C" Label="白赤练：献祭之蛇" State="true" />
             </Setting>
             <Setting Id="CrimsonForest_Optional" Label="可选 Boss" State="true">

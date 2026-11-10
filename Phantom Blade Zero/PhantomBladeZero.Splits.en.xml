@@ -28,7 +28,7 @@
                 <Setting Id="Boss_BP_Monster_HuaQianXIao_C" Label="Hua Qianxiao, the Sword Fanatic" State="true" />
                 <Setting Id="Boss_BP_Monster_JingYe_C" Label="Jing Ye, the Outlaw" State="true" />
                 <Setting Id="Boss_BP_Monster_LuanShi_C" Label="Stone Hand Iron Fever" State="true" />
-                <Setting Id="Boss_BP_Monster_ChiLian_C" Label="Bai Chilian, Lady of the Twin Serpents" State="true" />
+                <Setting Id="Seq035" Label="Bai Chilian, Lady of the Twin Serpents" State="true" />
                 <Setting Id="Boss_BP_Monster_ChiLian_P2_C" Label="Bai Chilian, the Sacrificial Serpent" State="true" />
             </Setting>
             <Setting Id="CrimsonForest_Optional" Label="Optional Bosses" State="true">
