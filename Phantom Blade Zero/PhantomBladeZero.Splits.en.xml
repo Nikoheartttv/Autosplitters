@@ -1,4 +1,5 @@
 <Settings>
+    <Setting Id="NGPlus" Label="New Game Plus Start Timing" State="false" />
     <Setting Id="BossSplits" Label="Boss Splits" State="true">
         <Setting Id="Prologue" Label="Prologue" State="true">
             <Setting Id="Seq001-2b-C01-Seq005-1" Label="Zuo Shang, the Order's Shadow Sovereign" State="true" />

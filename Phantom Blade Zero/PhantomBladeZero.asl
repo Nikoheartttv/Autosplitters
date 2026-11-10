@@ -74,7 +74,8 @@ init
     if (vars.GameSystemSlot != IntPtr.Zero)
     {
         vars.Resolver.Watch<IntPtr>("GameSystemPtr", vars.GameSystemSlot);
-        vars.Resolver.Watch<bool>("IsFinishGame", vars.GameSystemSlot, 0, 0x2D0);
+        vars.Resolver.Watch<int>("CycleCount", vars.GameSystemSlot, 0x238);
+        vars.Resolver.Watch<bool>("IsFinishGame", vars.GameSystemSlot, 0x2D0);
     }
     else
     {
@@ -120,11 +121,25 @@ init
     vars.DuoMembers = new string[0];
     vars.DuoRequiresReentry = false;
     vars.DuoReentrySeen = false;
+    vars.NGPlusStartArmed = false;
 }
 
 start
 {
     if (vars.IsLaunched) return false;
+    if (settings.ContainsKey("NGPlus") && settings["NGPlus"])
+    {
+        if (old.CycleCount < current.CycleCount)
+        {
+            vars.NGPlusStartArmed = true;
+        }
+
+        if (vars.NGPlusStartArmed && current.World == "PBZ_Xigu_WP")
+        {
+            vars.NGPlusStartArmed = false;
+            return true;
+        }
+    }
 
     return old.World == "PBZ_StartMenu_CE_WP" && (current.World == "PBZ_WP_ZhuLinGuWu" || current.World == "PBZ_Xigu_WP");
 }

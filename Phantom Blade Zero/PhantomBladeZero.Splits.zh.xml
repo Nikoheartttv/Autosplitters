@@ -1,4 +1,5 @@
 <Settings>
+    <Setting Id="NGPlus" Label="二周目开始计时" State="false" />
     <Setting Id="BossSplits" Label="Boss 击杀自动分割" State="true">
         <Setting Id="Prologue" Label="序章" State="true">
             <Setting Id="Seq001-2b-C01-Seq005-1" Label="“组织”冥主：左殇" State="true" />
