@@ -9,6 +9,8 @@ startup
 	vars.LastSteleInstance = IntPtr.Zero;
 	vars.LastSteleName = "";
 	vars.ShellSplitArmed = true;
+	vars.SteleSplitPrev = IntPtr.Zero;
+	vars.SteleArmed = false;
 
 	dynamic[,] _settings =
 	{
@@ -36,6 +38,17 @@ startup
 
 init
 {
+	int moduleSize = modules.First().ModuleMemorySize;
+	vars.Uhara.Log("Module size: " + moduleSize);
+
+    if (moduleSize < 2000000)
+    {
+        vars.IsLaunched = true;
+        timer.IsGameTimePaused = true;
+        vars.Uhara.Reject(moduleSize);
+        return;
+    }
+
 	var vi = game.MainModule.FileVersionInfo;
 	bool useUe58Patterns = vi.FileMajorPart > 5 || (vi.FileMajorPart == 5 && vi.FileMinorPart >= 8);
 	vars.Uhara.Log("Game version: " + vi.FileMajorPart + "." + vi.FileMinorPart + "." + vi.FileBuildPart + "." + vi.FilePrivatePart);
@@ -50,7 +63,8 @@ init
 			"8B 41 0C 33 F6 3B 05 ?? ?? ?? ?? 4D 8B F0 48 8B FA 4C 8B F9 7D 1E");
 
 		vars.Utils.ExpandScanUtilitySignatures("UObject_BeginDestroy",
-			"4C 8D 0D 1A D9 68 06 4C 8D 05 53 1D 72 06");
+			"40 53 48 83 EC ?? 8B 41 08 48 8B D9 0F BA E0 0F 72 ??" +
+			"48 8B 41 18 48 8D 54 24 30");
 
 		vars.Utils.ExpandScanUtilitySignatures("StaticConstructObject_Internal",
 			"48 89 5C 24 10 48 89 6C 24 18 56 57 41 54 41 56 41 57 48 81 EC F0 02 00 00");
@@ -135,6 +149,13 @@ onStart
 	timer.IsGameTimePaused = true;
 	vars.CompletedSplits.Clear();
 	vars.CompletedSteles.Clear();
+	vars.SteleArmed = false;
+}
+
+onReset
+{
+	vars.CompletedSplits.Clear();
+	vars.CompletedSteles.Clear();
 }
 
 update
@@ -159,8 +180,6 @@ update
 
 	if (current.SteleInstance != IntPtr.Zero)
 	{
-		// FName layout: low 32 bits = comparison index, high 32 bits = number.
-		// FNameToString needs the base index only; append the number ourselves.
 		ulong nameValue = vars.Resolver.Read<ulong>(current.SteleInstance + 0x18);
 		current.SteleNameIndex = nameValue;
 		ulong baseIndex = nameValue & 0xFFFFFFFF;
@@ -190,46 +209,78 @@ update
 
 split
 {
-	if (old.World != current.World && !string.IsNullOrEmpty(old.World) && !vars.CompletedSplits.Contains(old.World) && settings.ContainsKey(old.World))
+	bool wantSplit = false;
+
+	if (current.World != "MainMenu" && old.World != current.World
+		&& !string.IsNullOrEmpty(old.World) && !vars.CompletedSplits.Contains(old.World)
+		&& settings.ContainsKey(old.World))
 	{
 		vars.CompletedSplits.Add(old.World);
 
-		if (settings[old.World]) return true;
+		if (settings[old.World])
+		{
+			vars.Uhara.Log("Split (chapter): " + old.World);
+			wantSplit = true;
+		}
 	}
 
-	if (current.World == "BossMasterLevel" && !vars.CompletedSplits.Contains(current.World) && vars.Resolver.CheckFlag("EndCutscene"))
+	if (!wantSplit && current.World == "BossMasterLevel" && !vars.CompletedSplits.Contains(current.World) && vars.Resolver.CheckFlag("EndCutscene"))
 	{
 		vars.CompletedSplits.Add(current.World);
 
-		if (settings.ContainsKey(current.World) && settings[current.World]) return true;
+		if (settings.ContainsKey(current.World) && settings[current.World])
+		{
+			vars.Uhara.Log("Split (end cutscene): " + current.World);
+			wantSplit = true;
+		}
 	}
 
-	if (current.World == "BoilingCavern" && !vars.CompletedSplits.Contains(current.World) && vars.Resolver.CheckFlag("AllFrogs"))
+	if (!wantSplit && current.World == "BoilingCavern" && !vars.CompletedSplits.Contains(current.World) && vars.Resolver.CheckFlag("AllFrogs"))
 	{
 		vars.CompletedSplits.Add("AllFrogs");
 
-		if (settings.ContainsKey("AllFrogs") && settings["AllFrogs"]) return true;
+		if (settings.ContainsKey("AllFrogs") && settings["AllFrogs"])
+		{
+			vars.Uhara.Log("Split (all frogs): " + current.World);
+			wantSplit = true;
+		}
 	}
 
-	if (vars.ShellSplitArmed && !current.LoadingScreen && current.World != "MainMenu"
+	// 50 Shells Splits
+	if (!wantSplit && vars.ShellSplitArmed && !current.LoadingScreen && current.World != "MainMenu"
 		&& old.ShellCount < 50 && current.ShellCount >= 50 && !vars.CompletedSplits.Contains("50Shells")
 		&& settings.ContainsKey("50Shells") && settings["50Shells"])
 	{
 		vars.CompletedSplits.Add("50Shells");
-		return true;
+		vars.Uhara.Log("Split (50 shells): " + current.ShellCount);
+		wantSplit = true;
 	}
 
+	// All Steles Splits
+	if (!vars.SteleArmed)
+	{
+		vars.SteleArmed = true;
+		vars.SteleSplitPrev = current.SteleInstance;
+	}
+
+	bool steleActivated = current.SteleInstance != IntPtr.Zero
+		&& current.SteleInstance != vars.SteleSplitPrev
+		&& old.World == current.World
+		&& !current.LoadingScreen;
+
 	// Final Stele Split
-	if (current.SteleName == "LoreAncientStele_BP_C_6" && current.World == "BoilingCavern"
+	if (!wantSplit && steleActivated && current.SteleName == "LoreAncientStele_BP_C_6" && current.World == "BoilingCavern"
 		&& !vars.CompletedSplits.Contains("AllSteles") && settings.ContainsKey("AllSteles") && settings["AllSteles"])
 	{
 		vars.CompletedSplits.Add("AllSteles");
 		vars.CompletedSteles.Add(current.World + "/" + current.SteleName);
-		return true;
+		vars.Uhara.Log("Split (all steles): " + current.World + "/" + current.SteleName);
+		wantSplit = true;
 	}
 
 	// Split on every Stele
-	if (current.SteleName != "" && !string.IsNullOrEmpty(current.World) && settings.ContainsKey("SteleSplits") && settings["SteleSplits"])
+	if (!wantSplit && steleActivated && current.SteleName != "" && !string.IsNullOrEmpty(current.World)
+		&& settings.ContainsKey("SteleSplits") && settings["SteleSplits"])
 	{
 		string steleKey = current.World + "/" + current.SteleName;
 		bool ownedByAllSteles = settings.ContainsKey("AllSteles") && settings["AllSteles"]
@@ -237,9 +288,13 @@ split
 		if (!ownedByAllSteles && !vars.CompletedSteles.Contains(steleKey))
 		{
 			vars.CompletedSteles.Add(steleKey);
-			return true;
+			vars.Uhara.Log("Split (stele): " + steleKey);
+			wantSplit = true;
 		}
 	}
+
+	vars.SteleSplitPrev = current.SteleInstance;
+	return wantSplit;
 }
 
 isLoading
