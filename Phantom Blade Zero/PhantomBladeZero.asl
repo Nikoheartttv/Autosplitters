@@ -134,7 +134,7 @@ start
             vars.NGPlusStartArmed = true;
         }
 
-        if (vars.NGPlusStartArmed && current.World == "PBZ_Xigu_WP")
+        if (vars.NGPlusStartArmed && (current.World == "PBZ_WP_ZhuLinGuWu" || current.World == "PBZ_Xigu_WP"))
         {
             vars.NGPlusStartArmed = false;
             return true;
