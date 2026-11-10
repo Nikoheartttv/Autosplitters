@@ -45,7 +45,7 @@
                 <Setting Id="Boss_BP_Monster_BiYuan_C" Label="Master Bi Yuan of the Tianxuan Sect" State="true" />
                 <Setting Id="Boss_BP_Monster_CanQu_BiHai_C" Label="Master Bi Hai of Kuye Temple" State="true" />
                 <Setting Id="Boss_BP_Monster_FemaleVessel_YuZan_C" Label="Yuzan, No. 3 Musician Puppet" State="true" />
-                <Setting Id="Boss_BP_Monster_MuXiaoKui_C" Label="Mu Xiaokui, Young Mistress of the Order" State="true" />
+                <Setting Id="Seq046new" Label="Mu Xiaokui, Young Mistress of the Order" State="true" />
                 <Setting Id="Seq046-1" Label="Mu Xiaokui, Queen of Iron and Jade" State="true" />
                 <Setting Id="Seq046-2-QTE-Goal-Seq047" Label="Jade Dancer &amp; Iron Fiend, Young Mistress's Guardian" State="true" />
             </Setting>

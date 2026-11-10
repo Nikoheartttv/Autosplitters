@@ -256,7 +256,11 @@ update
     current.SequenceStatus = current.SequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.SequenceNode + 0x1F0, 0x290) == 1;
     current.CutscenePlaying = current.SequenceNode != IntPtr.Zero;
 
-    if (current.SequenceFName != old.SequenceFName)  current.SequenceName = vars.Utils.FNameToString(current.SequenceFName);
+    if (current.SequenceFName != old.SequenceFName)  
+    {
+        current.SequenceName = vars.Utils.FNameToString(current.SequenceFName);
+        vars.Uhara.Log("Sequence changed -> " + current.SequenceName);
+    }
     if (string.IsNullOrEmpty(current.SequenceName) || current.SequenceName == "None") current.SequenceName = "";
     if (current.SequenceName.Contains("VisageTree") && !old.SequenceName.Contains("VisageTree")) vars.ExpectingVisage = true;
 
