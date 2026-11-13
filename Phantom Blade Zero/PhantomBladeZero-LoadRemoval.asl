@@ -48,6 +48,8 @@ init
     current.SeqNode_Capture = IntPtr.Zero;
     current.SequenceNode = IntPtr.Zero;
     current.CutscenePlaying = false;
+    current.SequenceStatus = false;
+    current.SequenceName = "";
 
     current.QTEBase = IntPtr.Zero;
     current.QTEClass = "";
@@ -108,6 +110,7 @@ update
             if (!string.IsNullOrEmpty(sn) && sn != "None")
             {
                 current.SequenceNode = current.SeqNode_Capture;
+                current.SequenceName = sn;
                 captureAccepted = true;
             }
         }
@@ -124,11 +127,21 @@ update
         else
         {
             string sn = vars.Utils.FNameToString(vars.Resolver.Read<ulong>(ls + 0x18));
-            if (string.IsNullOrEmpty(sn) || sn == "None") current.SequenceNode = IntPtr.Zero;
+            if (string.IsNullOrEmpty(sn) || sn == "None")
+            {
+                current.SequenceNode = IntPtr.Zero;
+                current.SequenceName = "";
+            }
+            else
+            {
+                current.SequenceName = sn;
+            }
         }
     }
 
     current.CutscenePlaying = current.SequenceNode != IntPtr.Zero;
+    current.SequenceStatus = current.SequenceNode != IntPtr.Zero && vars.Resolver.Read<byte>(current.SequenceNode + 0x1F0, 0x290) == 1;
+    if (current.SequenceNode == IntPtr.Zero) current.SequenceName = "";
 
     // QTE: only read the known layout while a sequence/cutscene is active.
     if (!current.CutscenePlaying || current.QTEBase == IntPtr.Zero)
@@ -181,7 +194,7 @@ isLoading
 
     return current.IsLoadingLevel || current.LoadingScreen || current.BlackScreen
         || current.World == "ServerCheck" || current.World == "PBZ_StartMenu_CE_WP"
-        || (current.CutscenePlaying && !current.QTEActive);
+        || (current.CutscenePlaying && !current.QTEActive && (current.SequenceName != "Seqs004" || current.SequenceStatus));
 }
 
 exit

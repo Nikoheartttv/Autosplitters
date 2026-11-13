@@ -602,9 +602,16 @@ split
     string sequence = "";
 
     if (current.SequenceStatus && (!old.SequenceStatus || current.SequenceName != old.SequenceName)
-        && !string.IsNullOrEmpty(current.SequenceName) && settings.ContainsKey(current.SequenceName)
-        && settings[current.SequenceName] && !vars.CompletedSplits.Contains(current.SequenceName))
-        sequence = current.SequenceName;
+    && !string.IsNullOrEmpty(current.SequenceName))
+    {
+        if ((current.SequenceName == "Seq046-1" || current.SequenceName == "Seq047")
+            && settings.ContainsKey("MuXiaokui2ndPhase") && settings["MuXiaokui2ndPhase"]
+            && !vars.CompletedSplits.Contains("MuXiaokui2ndPhase"))
+            sequence = "MuXiaokui2ndPhase";
+        else if (settings.ContainsKey(current.SequenceName)
+            && settings[current.SequenceName] && !vars.CompletedSplits.Contains(current.SequenceName))
+            sequence = current.SequenceName;
+    }
 
     if (string.IsNullOrEmpty(sequence) && vars.EnemyDeathSplit)
     {
@@ -668,7 +675,7 @@ isLoading
 
     return current.IsLoadingLevel || current.LoadingScreen || current.BlackScreen
         || current.World == "ServerCheck" || current.World == "PBZ_StartMenu_CE_WP"
-        || (current.CutscenePlaying && !current.QTEActive);
+        || (current.CutscenePlaying && !current.QTEActive && (current.SequenceName != "Seqs004" || current.SequenceStatus));
 }
 
 onReset

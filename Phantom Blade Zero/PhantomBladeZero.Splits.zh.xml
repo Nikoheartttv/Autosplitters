@@ -46,7 +46,7 @@
                 <Setting Id="Boss_BP_Monster_CanQu_BiHai_C" Label="苦叶寺：碧海大师残躯" State="true" />
                 <Setting Id="Boss_BP_Monster_FemaleVessel_YuZan_C" Label="三号·乐师偶：“玉瓒”" State="true" />
                 <Setting Id="Seq046new" Label="“组织”少主：沐小葵" State="true" />
-                <Setting Id="Seq046-1" Label="沐小葵：铁玉女王" State="true" />
+                <Setting Id="MuXiaokui2ndPhase" Label="沐小葵：铁玉女王" State="true" />
                 <Setting Id="Seq046-2-QTE-Goal-Seq047" Label="碧舞 &amp; 铁魔，少主守护者" State="true" />
             </Setting>
             <Setting Id="VillageOfLu_Optional" Label="可选 Boss" State="true">
