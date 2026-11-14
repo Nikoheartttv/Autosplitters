@@ -9,6 +9,7 @@ startup
     vars.PendingSplits = new List<string>();
     vars.ItemNames = new List<string>();
     vars.ItemCounts = new List<int>();
+    vars.PrevStashEntries = new List<IntPtr>();
     vars.SheriffSeen = false;
     vars.TotalTime = 0.0f;
     vars.LastPlaytime = 0.0f;
@@ -114,6 +115,7 @@ init
     vars.Instance.Watch<IntPtr>("InventoryItems", "CarpenterScripts::GlobalReferences", "m_instance", "DataStore", "m_characterInventory", "m_items");
     vars.Instance.Watch<IntPtr>("SpecialItems", "CarpenterScripts::GlobalReferences", "m_instance", "DataStore", "m_characterInventory", "m_specialItems");
     vars.Instance.Watch<IntPtr>("Mementos", "CarpenterScripts::GlobalReferences", "m_instance", "DataStore", "m_characterInventory", "m_artifactItems");
+    vars.Instance.Watch<IntPtr>("StashItems", "CarpenterScripts::GlobalReferences", "m_instance", "StashInventory", "m_items");
     vars.Instance.Watch<bool>("SewerFlowAOpen", "CarpenterScripts::GlobalReferences", "m_instance", "Variables", "Progression", "PV_Sewer_Flow_A_Open", "m_value");
     vars.Instance.Watch<bool>("SewerFlowBOpen", "CarpenterScripts::GlobalReferences", "m_instance", "Variables", "Progression", "PV_Sewer_Flow_B_Open", "m_value");
     vars.Instance.Watch<bool>("SewerFlowCOpen", "CarpenterScripts::GlobalReferences", "m_instance", "Variables", "Progression", "PV_Sewer_Flow_C_Open", "m_value");    
@@ -141,6 +143,7 @@ init
     current.InvSize = -1;
     current.SpecialSize = -1;
     current.MementoSize = -1;
+    current.StashSize = -1;
 }
 
 start
@@ -163,6 +166,8 @@ onStart
     current.InvSize = -1;
     current.SpecialSize = -1;
     current.MementoSize = -1;
+    current.StashSize = -1;
+    vars.PrevStashEntries.Clear();
     vars.SheriffSeen = false;
 }
 
@@ -192,6 +197,8 @@ update
             current.InvSize = -1;
             current.SpecialSize = -1;
             current.MementoSize = -1;
+            current.StashSize = -1;
+            vars.PrevStashEntries.Clear();
             vars.SheriffSeen = false;
         }
         else if (current.Playtime < vars.LastPlaytime)
@@ -200,6 +207,22 @@ update
         }
 
         vars.LastPlaytime = current.Playtime;
+
+        // Item box/stash guard: taking an item out of the box increases the
+        // player inventory size and looks like a pickup; skip stash transfers.
+        IntPtr stash = current.StashItems;
+        int stashSize = stash != IntPtr.Zero ? vars.Resolver.Read<int>(stash + 0x18) : 0;
+        current.StashSize = stashSize;
+        bool stashMovedOut = old.StashSize >= 0 && stashSize < old.StashSize;
+
+        var currentStashEntries = new List<IntPtr>();
+        if (stash != IntPtr.Zero)
+        {
+            IntPtr stashArray = vars.Resolver.Read<IntPtr>(stash + 0x10);
+            if (stashArray != IntPtr.Zero && stashSize >= 0 && stashSize <= 128)
+                for (int s = 0; s < stashSize; s++)
+                    currentStashEntries.Add(vars.Resolver.Read<IntPtr>(stashArray + 0x20 + s * 8));
+        }
 
         // Inventory Items
         if (current.InventoryItems != IntPtr.Zero)
@@ -217,6 +240,7 @@ update
                 {
                     IntPtr entry = vars.Resolver.Read<IntPtr>(array + 0x20 + i * 8);
                     if (entry == IntPtr.Zero) break;
+                    if (stashMovedOut || vars.PrevStashEntries.Contains(entry)) continue;
 
                     IntPtr def = vars.Resolver.Read<IntPtr>(entry + 0x18);
                     IntPtr cached = def != IntPtr.Zero ? vars.Resolver.Read<IntPtr>(def + 0x10) : IntPtr.Zero;
@@ -396,12 +420,17 @@ update
                 }
             }
         }
+
+        vars.PrevStashEntries.Clear();
+        for (int s = 0; s < currentStashEntries.Count; s++) vars.PrevStashEntries.Add(currentStashEntries[s]);
     }
     else
     {
         current.InvSize = -1;
         current.SpecialSize = -1;
         current.MementoSize = -1;
+        current.StashSize = -1;
+        vars.PrevStashEntries.Clear();
         vars.PendingSplits.Clear();
     }
 }
