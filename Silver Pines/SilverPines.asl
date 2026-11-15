@@ -622,22 +622,22 @@ split
             }
         }
 
-        // Leave ending
-        if (current.EndingState == 1 && !vars.CompletedSplits.Contains("Ending_Leave"))
-        {
-            vars.CompletedSplits.Add("Ending_Leave");
-
-            if (settings.ContainsKey("Ending_Leave") && settings["Ending_Leave"] && settings["Choice_Leave"] && settings["EndingsSplits"]) 
-            {
-                vars.Uhara.Log("Split fired: Ending_Leave");
-                return true; 
-            }
-        }
-
         // Sluice gate flows
         if (current.SewerFlowAOpen && settings.ContainsKey("Sewer_Flow_A") && settings["Sewer_Flow_A"] && !vars.CompletedSplits.Contains("Sewer_Flow_A")) { vars.CompletedSplits.Add("Sewer_Flow_A"); vars.Uhara.Log("Split fired: Sewer_Flow_A"); return true; }
         if (current.SewerFlowBOpen && settings.ContainsKey("Sewer_Flow_B") && settings["Sewer_Flow_B"] && !vars.CompletedSplits.Contains("Sewer_Flow_B")) { vars.CompletedSplits.Add("Sewer_Flow_B"); vars.Uhara.Log("Split fired: Sewer_Flow_B"); return true; }
         if (current.SewerFlowCOpen && settings.ContainsKey("Sewer_Flow_C") && settings["Sewer_Flow_C"] && !vars.CompletedSplits.Contains("Sewer_Flow_C")) { vars.CompletedSplits.Add("Sewer_Flow_C"); vars.Uhara.Log("Split fired: Sewer_Flow_C"); return true; }
+    }
+
+    // Leave ending
+    if (old.EndingState != 1 && current.EndingState == 1 && !vars.CompletedSplits.Contains("Ending_Leave"))
+    {
+        vars.CompletedSplits.Add("Ending_Leave");
+
+        if (settings.ContainsKey("Ending_Leave") && settings["Ending_Leave"] && settings["Choice_Leave"] && settings["EndingsSplits"])
+        {
+            vars.Uhara.Log("Split fired: Ending_Leave");
+            return true;
+        }
     }
 }
 
