@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Run version="1.7.0">
+  <GameIcon />
+  <GameName>Silver Pines</GameName>
+  <CategoryName>Any%</CategoryName>
+  <LayoutPath>
+  </LayoutPath>
+  <Metadata>
+    <Run id="" />
+    <Platform usesEmulator="False">PC</Platform>
+    <Region>
+    </Region>
+    <Variables>
+      <Variable name="Platform">PC</Variable>
+      <Variable name="Ending">Leave</Variable>
+      <Variable name="Difficulty">Relaxed</Variable>
+    </Variables>
+    <CustomVariables />
+  </Metadata>
+  <Offset>00:00:00</Offset>
+  <AttemptCount>0</AttemptCount>
+  <AttemptHistory />
+  <Segments>
+    <Segment>
+      <Name>Crimson Bear Motel Check-in Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Grizzly Suite Keycard</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Grime Covered Object (Doorknob)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Rabbit Hole Cutscene</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Flashlight</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat Deputy Roberts</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Cable Station Bell (A)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Elevator 4A Button</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Apartment 4B Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat the Union Apartment Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Cable Station Bell (D)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Damaged Compass Memento</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Metal Cube 1 (Funeral Home)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Sledgehammer</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Crank Handle</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Metal Cube (Well)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Metal Cube (Church)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat the Church Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Cable Station Bell (B)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Heavy Mechanical Cog</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Sluice Gate Flow A</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Sluice Gate Flow C</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Sluice Gate Flow B</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat the Sewers Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Cable Station Bell (E)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Weeping Mask</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Fireplace Tongs</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Empty Mold</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Blissful Mask</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Malformed Mask</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat the Town Hall Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Cable Station Bell (F)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Cable Car Arrived on Mountain</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Backdoor Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Yellow Lens</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Magenta Lens</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat the Thelend Broadcasting Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Red Cassette Tape</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Spike 1</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Spike 2</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Wire Cutter</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Spike 3</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Defeat Strange Tree Boss</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Shoot Eddie</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Leave (Ending)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+  </Segments>
+  <AutoSplitterSettings>
+    <Version>1.5</Version>
+    <ScriptPath>C:\Users\niksy\Desktop\LiveSplit_1.8.37 (1)\Components\SilverPines.asl</ScriptPath>
+    <Start>True</Start>
+    <Split>True</Split>
+    <CustomSettings>
+      <Setting id="AutoReset" type="bool">False</Setting>
+      <Setting id="Splits" type="bool">True</Setting>
+      <Setting id="Key_Outskirts_Checkin" type="bool">True</Setting>
+      <Setting id="Misc_Fuses_40A_1" type="bool">True</Setting>
+      <Setting id="Key_Motel_Alley" type="bool">False</Setting>
+      <Setting id="Key_Card_Grizzly_Suite" type="bool">True</Setting>
+      <Setting id="Misc_Motel_Door_Knob_Grime" type="bool">True</Setting>
+      <Setting id="RabbitHoleCutscene" type="bool">True</Setting>
+      <Setting id="Boss_Mantis" type="bool">True</Setting>
+      <Setting id="Key_Downtown_Alley" type="bool">True</Setting>
+      <Setting id="Key_Riverside_Path" type="bool">False</Setting>
+      <Setting id="Tool_Flashlight" type="bool">True</Setting>
+      <Setting id="Melee_Crowbar" type="bool">True</Setting>
+      <Setting id="Boss_Sheriff" type="bool">True</Setting>
+      <Setting id="Misc_Station_Bell_A" type="bool">True</Setting>
+      <Setting id="Misc_Apartment_Stairwell_Key" type="bool">False</Setting>
+      <Setting id="misc_terpentine" type="bool">False</Setting>
+      <Setting id="Misc_Elevator_Button" type="bool">True</Setting>
+      <Setting id="Key_Apartment_4B" type="bool">True</Setting>
+      <Setting id="Boss_Apartment" type="bool">True</Setting>
+      <Setting id="Misc_Station_Bell_D" type="bool">True</Setting>
+      <Setting id="Artifact_FasterSprint_Compass" type="bool">True</Setting>
+      <Setting id="Key_Church_Flower" type="bool">True</Setting>
+      <Setting id="Key_Church_Hill_Crematorium" type="bool">True</Setting>
+      <Setting id="Key_Church_Cemetary" type="bool">False</Setting>
+      <Setting id="Misc_Parish_Cube_1" type="bool">True</Setting>
+      <Setting id="Melee_Sledgehammer" type="bool">True</Setting>
+      <Setting id="Misc_Church_Lever" type="bool">True</Setting>
+      <Setting id="Misc_Parish_Cube_2" type="bool">True</Setting>
+      <Setting id="Misc_Parish_Cube_3" type="bool">True</Setting>
+      <Setting id="Boss_Church" type="bool">True</Setting>
+      <Setting id="Misc_Station_Bell_B" type="bool">True</Setting>
+      <Setting id="Misc_Park_Tong" type="bool">True</Setting>
+      <Setting id="Key_Park_Townhall_Office" type="bool">False</Setting>
+      <Setting id="Misc_Park_Mold" type="bool">True</Setting>
+      <Setting id="Misc_Park_Mask2" type="bool">True</Setting>
+      <Setting id="Misc_Plaster" type="bool">False</Setting>
+      <Setting id="Misc_Manhole_Cover_Key" type="bool">True</Setting>
+      <Setting id="Misc_Park_Mask1" type="bool">True</Setting>
+      <Setting id="Misc_Park_Mask4" type="bool">True</Setting>
+      <Setting id="Boss_Pursuer" type="bool">True</Setting>
+      <Setting id="Misc_Station_Bell_F" type="bool">True</Setting>
+      <Setting id="Misc_Cog_Medium" type="bool">True</Setting>
+      <Setting id="Sewer_Flow_A" type="bool">True</Setting>
+      <Setting id="Sewer_Flow_B" type="bool">True</Setting>
+      <Setting id="Sewer_Flow_C" type="bool">True</Setting>
+      <Setting id="Boss_Fogshambler" type="bool">True</Setting>
+      <Setting id="Misc_Station_Bell_E" type="bool">True</Setting>
+      <Setting id="CableCar_Mountain" type="bool">True</Setting>
+      <Setting id="Misc_Fuses_40A_2" type="bool">True</Setting>
+      <Setting id="Misc_Fuses_40A_3" type="bool">True</Setting>
+      <Setting id="Key_Studio_Backdoor" type="bool">True</Setting>
+      <Setting id="Misc_Studio_Lens_Cyan" type="bool">True</Setting>
+      <Setting id="Key_Studio_Staff" type="bool">False</Setting>
+      <Setting id="Misc_Studio_Lens_Magenta" type="bool">True</Setting>
+      <Setting id="Key_Studio_Tower" type="bool">True</Setting>
+      <Setting id="Misc_Studio_Lens_Yellow" type="bool">True</Setting>
+      <Setting id="Misc_Studio_Red_Tape" type="bool">True</Setting>
+      <Setting id="Misc_Nightmare_Studio_Spike_1" type="bool">True</Setting>
+      <Setting id="Misc_Wire_Cutter" type="bool">True</Setting>
+      <Setting id="Misc_Nightmare_Studio_Spike_2" type="bool">True</Setting>
+      <Setting id="Misc_Studio_Dial" type="bool">True</Setting>
+      <Setting id="Misc_Nightmare_Studio_Spike_3" type="bool">True</Setting>
+      <Setting id="Boss_Pursuer2" type="bool">True</Setting>
+      <Setting id="Boss_Madam" type="bool">True</Setting>
+      <Setting id="EndingsSplits" type="bool">True</Setting>
+      <Setting id="Choice_Leave" type="bool">True</Setting>
+      <Setting id="Shoot_Eddie" type="bool">True</Setting>
+      <Setting id="Ending_Leave" type="bool">True</Setting>
+    </CustomSettings>
+  </AutoSplitterSettings>
+</Run>
