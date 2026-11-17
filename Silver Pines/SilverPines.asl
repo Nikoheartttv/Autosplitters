@@ -137,6 +137,7 @@ init
     current.EddieExam = IntPtr.Zero;
     current.EddieNear = IntPtr.Zero;
     current.EddieClosedAt = DateTime.MinValue;
+    current.EddieNearClosedAt = DateTime.MinValue;
     vars.TotalTime = 0.0f;
     vars.LastPlaytime = 0.0f;
     vars.SheriffSeen = false;
@@ -163,6 +164,7 @@ onStart
     current.EddieExam = IntPtr.Zero;
     current.EddieNear = IntPtr.Zero;
     current.EddieClosedAt = DateTime.MinValue;
+    current.EddieNearClosedAt = DateTime.MinValue;
     current.InvSize = -1;
     current.SpecialSize = -1;
     current.MementoSize = -1;
@@ -194,6 +196,7 @@ update
             current.EddieExam = IntPtr.Zero;
             current.EddieNear = IntPtr.Zero;
             current.EddieClosedAt = DateTime.MinValue;
+            current.EddieNearClosedAt = DateTime.MinValue;
             current.InvSize = -1;
             current.SpecialSize = -1;
             current.MementoSize = -1;
@@ -448,36 +451,57 @@ split
             return true;
         }
 
-        // Eddie finale. Kill: the examine prompt closes and the shoot target clears ~500ms later.
-        // Leave: both clear in the same frame, so use the time gap
+        // Eddie finale. Shoot: the examine prompt closes, then the shoot target clears
+        // ~475ms later (measured 17/11). Leave: both clear in the same frame. Both close
+        // times are latched so the gap is judged after the target is already gone.
         if (current.ActiveScene == "Nightmare_Studio_Alice_Exterior")
         {
             IntPtr exam = current.ExaminableAnchor != IntPtr.Zero ? vars.Resolver.Read<IntPtr>(current.ExaminableAnchor + 0x18) : IntPtr.Zero;
             IntPtr near = current.NearbyInteractableAnchor != IntPtr.Zero ? vars.Resolver.Read<IntPtr>(current.NearbyInteractableAnchor + 0x18) : IntPtr.Zero;
 
-            if (exam != IntPtr.Zero && old.EddieExam == IntPtr.Zero) current.EddieClosedAt = DateTime.MinValue;
-            if (exam == IntPtr.Zero && old.EddieExam != IntPtr.Zero) current.EddieClosedAt = DateTime.UtcNow;
-
-            if (near == IntPtr.Zero && old.EddieNear != IntPtr.Zero && current.EddieClosedAt != DateTime.MinValue 
-                && (DateTime.UtcNow - current.EddieClosedAt).TotalMilliseconds >= 500 && !vars.CompletedSplits.Contains("Shoot_Eddie"))
+            if (exam != IntPtr.Zero && old.EddieExam == IntPtr.Zero)
             {
-                vars.CompletedSplits.Add("Shoot_Eddie");
-                if (settings.ContainsKey("Shoot_Eddie") && settings["Shoot_Eddie"] && settings["Choice_Leave"] 
-                    && settings["EndingsSplits"]) 
-                { 
-                    vars.Uhara.Log("Split fired: Shoot_Eddie"); 
-                    return true;
-                }
+                current.EddieClosedAt = DateTime.MinValue;
+                current.EddieNearClosedAt = DateTime.MinValue;
             }
+
+            bool examClosed = exam == IntPtr.Zero && old.EddieExam != IntPtr.Zero;
+            bool nearClosed = near == IntPtr.Zero && old.EddieNear != IntPtr.Zero;
 
             current.EddieExam = exam;
             current.EddieNear = near;
+
+            if (examClosed) current.EddieClosedAt = DateTime.UtcNow;
+            if (nearClosed) current.EddieNearClosedAt = DateTime.UtcNow;
+
+            if (current.EddieClosedAt != DateTime.MinValue && current.EddieNearClosedAt != DateTime.MinValue
+                && !vars.CompletedSplits.Contains("Shoot_Eddie"))
+            {
+                double gap = (current.EddieNearClosedAt - current.EddieClosedAt).TotalMilliseconds;
+
+                if (gap >= 250 && gap <= 5000)
+                {
+                    vars.CompletedSplits.Add("Shoot_Eddie");
+                    if (settings.ContainsKey("Shoot_Eddie") && settings["Shoot_Eddie"] && settings["Choice_Leave"]
+                        && settings["EndingsSplits"])
+                    {
+                        vars.Uhara.Log("Split fired: Shoot_Eddie");
+                        return true;
+                    }
+                }
+                else
+                {
+                    current.EddieClosedAt = DateTime.MinValue;
+                    current.EddieNearClosedAt = DateTime.MinValue;
+                }
+            }
         }
         else
         {
             current.EddieExam = IntPtr.Zero;
             current.EddieNear = IntPtr.Zero;
             current.EddieClosedAt = DateTime.MinValue;
+            current.EddieNearClosedAt = DateTime.MinValue;
         }
 
         // Enemy tracking via GlobalReferences -> Sets.Generic.EnemyPresenceSet.m_items
@@ -622,22 +646,22 @@ split
             }
         }
 
+        // Leave ending
+        if (current.EndingState == 1 && !vars.CompletedSplits.Contains("Ending_Leave"))
+        {
+            vars.CompletedSplits.Add("Ending_Leave");
+
+            if (settings.ContainsKey("Ending_Leave") && settings["Ending_Leave"] && settings["Choice_Leave"] && settings["EndingsSplits"]) 
+            {
+                vars.Uhara.Log("Split fired: Ending_Leave");
+                return true; 
+            }
+        }
+
         // Sluice gate flows
         if (current.SewerFlowAOpen && settings.ContainsKey("Sewer_Flow_A") && settings["Sewer_Flow_A"] && !vars.CompletedSplits.Contains("Sewer_Flow_A")) { vars.CompletedSplits.Add("Sewer_Flow_A"); vars.Uhara.Log("Split fired: Sewer_Flow_A"); return true; }
         if (current.SewerFlowBOpen && settings.ContainsKey("Sewer_Flow_B") && settings["Sewer_Flow_B"] && !vars.CompletedSplits.Contains("Sewer_Flow_B")) { vars.CompletedSplits.Add("Sewer_Flow_B"); vars.Uhara.Log("Split fired: Sewer_Flow_B"); return true; }
         if (current.SewerFlowCOpen && settings.ContainsKey("Sewer_Flow_C") && settings["Sewer_Flow_C"] && !vars.CompletedSplits.Contains("Sewer_Flow_C")) { vars.CompletedSplits.Add("Sewer_Flow_C"); vars.Uhara.Log("Split fired: Sewer_Flow_C"); return true; }
-    }
-
-    // Leave ending
-    if (old.EndingState != 1 && current.EndingState == 1 && !vars.CompletedSplits.Contains("Ending_Leave"))
-    {
-        vars.CompletedSplits.Add("Ending_Leave");
-
-        if (settings.ContainsKey("Ending_Leave") && settings["Ending_Leave"] && settings["Choice_Leave"] && settings["EndingsSplits"])
-        {
-            vars.Uhara.Log("Split fired: Ending_Leave");
-            return true;
-        }
     }
 }
 
