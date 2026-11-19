@@ -5,7 +5,8 @@ startup
 	Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
 	vars.Uhara.AlertLoadless();
 	vars.CompletedSplits = new HashSet<string>();
-	vars.CompletedSteles = new HashSet<string>();
+	vars.CompletedSteleInstances = new HashSet<IntPtr>();
+	vars.FinalSteleName = "LoreAncientStele_BP_C_6";
 	vars.LastSteleInstance = IntPtr.Zero;
 	vars.LastSteleName = "";
 	vars.ShellSplitArmed = true;
@@ -148,14 +149,14 @@ onStart
 {
 	timer.IsGameTimePaused = true;
 	vars.CompletedSplits.Clear();
-	vars.CompletedSteles.Clear();
+	vars.CompletedSteleInstances.Clear();
 	vars.SteleArmed = false;
 }
 
 onReset
 {
 	vars.CompletedSplits.Clear();
-	vars.CompletedSteles.Clear();
+	vars.CompletedSteleInstances.Clear();
 }
 
 update
@@ -185,7 +186,7 @@ update
 		ulong baseIndex = nameValue & 0xFFFFFFFF;
 		uint nameNumber = (uint)((nameValue >> 32) & 0xFFFFFFFF);
 		string baseName = baseIndex != 0 ? (vars.Utils.FNameToString(baseIndex) ?? "") : "";
-		current.SteleName = nameNumber != 0 ? baseName + "_" + nameNumber : baseName;
+		current.SteleName = baseName != "" ? baseName + "_" + nameNumber : "";
 	}
 	else
 	{
@@ -256,41 +257,44 @@ split
 		wantSplit = true;
 	}
 
-	// All Steles Splits
+	// Steles
 	if (!vars.SteleArmed)
 	{
 		vars.SteleArmed = true;
 		vars.SteleSplitPrev = current.SteleInstance;
 	}
 
-	bool steleActivated = current.SteleInstance != IntPtr.Zero
-		&& current.SteleInstance != vars.SteleSplitPrev
-		&& old.World == current.World
-		&& !current.LoadingScreen;
+	bool steleChanged = current.SteleInstance != IntPtr.Zero && current.SteleInstance != vars.SteleSplitPrev;
+	bool steleActivated = steleChanged && old.World == current.World && !current.LoadingScreen;
+
+	if (steleChanged && !steleActivated)
+	{
+		vars.Uhara.Log("Stele ignored: " + current.World + "/" + current.SteleName
+			+ " @" + current.SteleInstance.ToString("X")
+			+ " world " + old.World + "->" + current.World
+			+ " loading=" + current.LoadingScreen);
+	}
 
 	// Final Stele Split
-	if (!wantSplit && steleActivated && current.SteleName == "LoreAncientStele_BP_C_6" && current.World == "BoilingCavern"
+	if (!wantSplit && steleActivated && vars.FinalSteleName != "" && current.SteleName == vars.FinalSteleName
+		&& current.World == "BoilingCavern"
 		&& !vars.CompletedSplits.Contains("AllSteles") && settings.ContainsKey("AllSteles") && settings["AllSteles"])
 	{
 		vars.CompletedSplits.Add("AllSteles");
-		vars.CompletedSteles.Add(current.World + "/" + current.SteleName);
+		vars.CompletedSteleInstances.Add(current.SteleInstance);
 		vars.Uhara.Log("Split (all steles): " + current.World + "/" + current.SteleName);
 		wantSplit = true;
 	}
 
 	// Split on every Stele
-	if (!wantSplit && steleActivated && current.SteleName != "" && !string.IsNullOrEmpty(current.World)
-		&& settings.ContainsKey("SteleSplits") && settings["SteleSplits"])
+	if (!wantSplit && steleActivated && !string.IsNullOrEmpty(current.World)
+		&& settings.ContainsKey("SteleSplits") && settings["SteleSplits"]
+		&& !vars.CompletedSteleInstances.Contains(current.SteleInstance))
 	{
-		string steleKey = current.World + "/" + current.SteleName;
-		bool ownedByAllSteles = settings.ContainsKey("AllSteles") && settings["AllSteles"]
-			&& steleKey == "BoilingCavern/LoreAncientStele_BP_C_6";
-		if (!ownedByAllSteles && !vars.CompletedSteles.Contains(steleKey))
-		{
-			vars.CompletedSteles.Add(steleKey);
-			vars.Uhara.Log("Split (stele): " + steleKey);
-			wantSplit = true;
-		}
+		vars.CompletedSteleInstances.Add(current.SteleInstance);
+		vars.Uhara.Log("Split (stele): " + current.World + "/" + current.SteleName
+			+ " @" + current.SteleInstance.ToString("X"));
+		wantSplit = true;
 	}
 
 	vars.SteleSplitPrev = current.SteleInstance;
