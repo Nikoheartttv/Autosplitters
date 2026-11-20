@@ -132,6 +132,9 @@ init
 		case "1FB07E641661052BD0082FE2DEAF2E87":
 			version = "Demo v1.5.3.5 (18.06.26)";
 			break;
+		case "EFA8AC2F404F1EC2D376B85E2EC800FA":
+			version = "Demo v1.5.9.2 (20.11.26)"
+			break;
 		// Full Game
 		case "2D6CD096F55F8236D567DCD3BB125F90":
 			version = "Full Game v1.0";
@@ -173,6 +176,9 @@ init
 			break;
 		case "E03AC6DEFF2A00820D7E317DEE68B405":
 			version = "Full Game (Preview 2) v1.0.9.2";
+			break;
+		case "6B9062B5D579E37CFD6A0ADBFA6A982A":
+			version= "Full Game v1.0.9.2"
 			break;
 		default:
 			version = "Full Game v1.0";
@@ -234,6 +240,10 @@ init
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x899);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x12C8, 0x1E0, 0x8A9);
 			break;
+		case "Demo v1.5.9.2 (20.11.26)":
+			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x13D8, 0x1E8, 0x8D1);
+			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x13D8, 0x1E8, 0x8E1);
+			break;
 		
 		case "Full Game v1.0":
 		case "Full Game v1.0.1":
@@ -258,6 +268,7 @@ init
 			break;
 		case "Full Game (Preview) v1.0.9.2":
 		case "Full Game (Preview 2) v1.0.9.2":
+		case "Full Game v1.0.9.2":
 			vars.Resolver.Watch<bool>("CanMove", vars.Utils.GEngine, 0x13D8, 0x1D8, 0x8D1);
 			vars.Resolver.Watch<bool>("IsAlive", vars.Utils.GEngine, 0x13D8, 0x1D8, 0x8E1);
 			vars.Resolver.Watch<bool>("Paused", vars.Utils.GEngine, 0x13D8, 0x1D8, 0xAF0);
